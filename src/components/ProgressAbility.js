@@ -3,15 +3,12 @@ import "./ProgressAbility.css"
 
 const ProgressAbility = (props) => {
 
-    //each ability needs its own separate timer
-
-    const {name, radius, stroke, cooldown, icon, casttime, maxCharges, keybind, subscribe, unsubscribe, onExecute, onAbilityUpdate, id} = props
+    const {name, radius, stroke, cooldown, startTime, icon, casttime, maxCharges, keybind, subscribe, unsubscribe, onExecute, onAbilityUpdate, id} = props
     const interval = 50
     const normalizedRadius = radius - (stroke/2)
     const circumference = normalizedRadius * 2 * Math.PI
 
     const [charges, setCharges] = useState(maxCharges || 1)
-    //let [progress, setProgress] = useState(cooldown)
     const [strokeDashoffset, setStrokeDashoffset] = useState(circumference)
 
     const calculateStrokeDashoffset = (progress, onCooldown, cooldown) => circumference + (!onCooldown ? 0 : (progress / cooldown)) * circumference
@@ -27,29 +24,15 @@ const ProgressAbility = (props) => {
         return (id) => unsubscribe(id)
     })
 
-    //start cooldown is the notify function for observer pattern
-    //need to subscribe start cooldown to the ability bar
-
     const startCooldown = (cooldown, source = id) => {
 
-        //if source is id then this ability triggered the gcd event
+        console.log("Inside start cooldown")
 
-        console.log(id + " is" + (props.startTime ? " " : " not ") + "on cooldown")
-
-        console.log("Ability start time: " + props.startTime)
-
-        if(props.startTime) return
-
-        let d = new Date()
-        let time = d.getTime()
-
-        console.log("Start time for " + id + " is " + time)
-
-        //progress is the gcd or the cooldown
+        if(startTime) return
 
         let progress = cooldown
 
-        if(source == id) setCharges(charges => charges-1)
+        if(source === id) setCharges(charges => charges-1)
 
         let timer = setInterval(() => {
             if(progress <= interval) {
@@ -88,20 +71,11 @@ const ProgressAbility = (props) => {
         })
     }
 
-    //casting a spell uses its cooldown
-    //triggers global
-
-    //the ability bar is the subject
-    //each ability calls the ability bar's gcd function
-    //ability bar notifies a spell when it is cast by keyboard
-
     const useAbility = () => {
-        if(props.startTime) return
-        //if no cast time and has charges then trigger global
-        //if cast time start cast
-
+        console.log("Preparing to use ability: " + id)
+        if(startTime) return
         casttime ? startCast() : startCooldown(cooldown)
-        onExecute(id)
+        //onExecute(id)
     }
 
     return (
@@ -136,7 +110,6 @@ const ProgressAbility = (props) => {
         <div>{keybind.match(/[a-zA-Z]/) ? keybind.toUpperCase() : keybind}</div>
         </div>
     )
-
 }
 
 export default ProgressAbility;
