@@ -13,7 +13,7 @@ function App() {
           //let ability = abilities[k]
           return <ProgressAbility radius={100} stroke={100} progress={progress} icon={k} />
         }) */}
-        <AbilityBar />
+        <AbilityBar haste={1}/>
          {/* <StaticProgressAbility /> */}
       </header>
     </div>
