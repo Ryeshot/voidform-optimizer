@@ -1,16 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import "./ProgressAbility.css"
 
-const ProgressAbility = function (props) {
+const ProgressAbility = (props) => {
 
     //each ability needs its own separate timer
 
-    const {name, radius, stroke, cooldown, startTime, icon, casttime, maxCharges, keybind, subscribe, unsubscribe, onExecute, onAbilityUpdate, id} = props
+    const {name, radius, stroke, cooldown, icon, casttime, maxCharges, keybind, subscribe, unsubscribe, onExecute, onAbilityUpdate, id} = props
     const interval = 50
     const normalizedRadius = radius - (stroke/2)
     const circumference = normalizedRadius * 2 * Math.PI
 
-    const [onCooldown, setOnCooldown] = useState(false)
     const [charges, setCharges] = useState(maxCharges || 1)
     //let [progress, setProgress] = useState(cooldown)
     const [strokeDashoffset, setStrokeDashoffset] = useState(circumference)
@@ -35,9 +34,11 @@ const ProgressAbility = function (props) {
 
         //if source is id then this ability triggered the gcd event
 
-        console.log(id + " is" + (startTime ? " " : " not ") + "on cooldown")
+        console.log(id + " is" + (props.startTime ? " " : " not ") + "on cooldown")
 
-        if(startTime) return
+        console.log("Ability start time: " + props.startTime)
+
+        if(props.startTime) return
 
         let d = new Date()
         let time = d.getTime()
@@ -54,7 +55,7 @@ const ProgressAbility = function (props) {
             if(progress <= interval) {
                 clearInterval(timer)
                 onAbilityUpdate({
-                    type: "ABILITY_OFF_COOLDOWN",
+                    type: "ABILITY_COOLDOWN_END",
                     payload: name
                 })
                 if(source == id) setCharges(charges => charges+1)
@@ -65,16 +66,15 @@ const ProgressAbility = function (props) {
         }, interval)
 
         onAbilityUpdate({
-            type: "ABILITY_ON_COOLDOWN",
+            type: "ABILITY_COOLDOWN_START",
             payload: name
         })  
     }
 
     const startCast = () => {
-        if(startTime) return
         setTimeout(() => {
             onAbilityUpdate({
-                type: "ABILITY_END_CAST",
+                type: "ABILITY_CAST_END",
                 payload: name
             })
             startCooldown(cooldown)
@@ -83,7 +83,7 @@ const ProgressAbility = function (props) {
         console.log("A cast is triggering the gcd: " + id)
 
         onAbilityUpdate({
-            type: "ABILITY_START_CAST",
+            type: "ABILITY_CAST_START",
             payload: name
         })
     }
@@ -96,7 +96,7 @@ const ProgressAbility = function (props) {
     //ability bar notifies a spell when it is cast by keyboard
 
     const useAbility = () => {
-        if(startTime) return
+        if(props.startTime) return
         //if no cast time and has charges then trigger global
         //if cast time start cast
 

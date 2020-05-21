@@ -13,29 +13,41 @@ const AbilityBar = (props) => {
         const name = action.payload
         const ability = abilities[name]
 
-        console.log("Ability triggered an event: " + name, action.type)
+        let now = Date.now()
+        console.log(now)
+
+        console.log("Old state")
+        console.log(state)
 
         switch(action.type) {
-            case "ABILITY_COOLDOWN":
+            case "ABILITY_COOLDOWN_START":
+                console.log("Ability triggered an event: " + name, action.type)
                 state[name] = {
-                    startTime: Date.now()
+                    startTime: now
                 }
-            
-            case "ABILITY_OFF_COOLDOWN":
-                state[name] = {
-                    startTime: 0
-                }
-
-            case "ABILITY_START_CAST":
-                state[name] = {
-                    startTime: Date.now()
-                }
-
-            case "ABILITY_END_CAST":
+                break
+            case "ABILITY_COOLDOWN_END":
+                console.log("Ability triggered an event: " + name, action.type)
                 state[name] = {
                     startTime: 0
                 }
+                break
+            case "ABILITY_CAST_START":
+                console.log("Ability triggered an event: " + name, action.type)
+                state[name] = {
+                    startTime: now
+                }
+                break
+            case "ABILITY_CAST_END":
+                console.log("Ability triggered an event: " + name, action.type)
+                state[name] = {
+                    startTime: 0
+                }
+                break
         }
+
+        console.log("New state")
+        console.log(state)
 
         return state
     }, {})
@@ -84,7 +96,7 @@ const AbilityBar = (props) => {
             radius={100} 
             stroke={100} 
             cooldown={abilities[k].hasted ? calculateCooldown(abilities[k].cooldown) : abilities[k].cooldown}
-            startTime={cooldowns[abilities[k]] || 0}
+            startTime={(cooldowns[abilities[k]] && cooldowns[abilities[k]].startTime) || 0}
             maxCharges={abilities[k].charges} 
             keybind={abilities[k].keybind}
             icon = {abilities[k].icon}
