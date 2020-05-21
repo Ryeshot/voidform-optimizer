@@ -6,7 +6,7 @@ import "./AbilityBar.css"
 const AbilityBar = (props) => {
 
     const gcdLength = 1500
-    const haste = .5
+    const haste = 1
     let observers = []
     let [globalCooldown, setGlobalCooldown] = useState(gcdLength)
 
@@ -54,7 +54,7 @@ const AbilityBar = (props) => {
             key={i}
             radius={100} 
             stroke={100} 
-            cooldown={calculateCooldown(abilities[k].cooldown)}
+            cooldown={abilities[k].hasted ? calculateCooldown(abilities[k].cooldown) : abilities[k].cooldown}
             maxCharges={abilities[k].charges} 
             keybind={abilities[k].keybind}
             icon = {abilities[k].icon}
