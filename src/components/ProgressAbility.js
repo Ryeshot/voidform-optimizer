@@ -1,17 +1,18 @@
 import React, {useState, useEffect} from 'react';
 import "./ProgressAbility.css"
 
-const ProgressAbility = (props) => {
+const ProgressAbility = function (props) {
 
     //each ability needs its own separate timer
 
-    const {radius, stroke, cooldown, icon, casttime, keybind, subscribe, unsubscribe, onCast, id} = props
+    const {radius, stroke, cooldown, icon, casttime, maxCharges, keybind, subscribe, unsubscribe, onExecute, id} = props
     const interval = 50
     const normalizedRadius = radius - (stroke/2)
     const circumference = normalizedRadius * 2 * Math.PI
 
     const [casting, setCasting] = useState(false)
     const [onCooldown, setOnCooldown] = useState(false)
+    const [charges, setCharges] = useState(maxCharges || 1)
     //let [progress, setProgress] = useState(cooldown)
     const [strokeDashoffset, setStrokeDashoffset] = useState(circumference)
 
@@ -31,7 +32,7 @@ const ProgressAbility = (props) => {
     //start cooldown is the notify function for observer pattern
     //need to subscribe start cooldown to the ability bar
 
-    const startCooldown = (source, progress) => {
+    const startCooldown = (progress, source = id) => {
 
         //start time means the spell itself is on cooldown
 
@@ -46,13 +47,16 @@ const ProgressAbility = (props) => {
         console.log("Start time for " + id + " is " + time)
 
         //progress is the gcd or the cooldown
+        
+        setOnCooldown(onCooldown => true)
 
-        setOnCooldown(true)
+        if(source == id) setCharges(charges => charges-1)
 
         let timer = setInterval(() => {
             if(progress <= interval) {
                 clearInterval(timer)
-                setOnCooldown(false)
+                setOnCooldown(onCooldown => false)
+                if(source == id) setCharges(charges => charges+1)
                 setStrokeDashoffset(circumference)
             }
             progress = progress-interval
@@ -60,24 +64,19 @@ const ProgressAbility = (props) => {
         }, interval)
 
         //if the spell that triggered the global cooldown was this one and it is instant
-        if(source === id && !casttime) {
-            console.log("An insant ability triggered the gcd: " + source)
+        //console.log("An insant ability triggered the gcd: " + source)
             
-            onCast(source)
-        }
     }
 
     const startCast = () => {
-        if(casting || onCooldown) return
-        setCasting(true)
+        setCasting(casting => true)
         setTimeout(() => {
-            startCooldown(id, cooldown)
-            setCasting(false)
+            startCooldown(cooldown)
+            setCasting(casting => false)
         }, casttime)
 
         console.log("A cast is triggering the gcd: " + id)
 
-        onCast(id)
     }
 
     //casting a spell uses its cooldown
@@ -88,17 +87,33 @@ const ProgressAbility = (props) => {
     //ability bar notifies a spell when it is cast by keyboard
 
     const useAbility = () => {
-        casttime ? startCast() : startCooldown(id, cooldown)
+        if(casting || onCooldown) return
+
+        //if no cast time and has charges then trigger global
+        //if cast time start cast
+
+        casttime ? startCast() : startCooldown(cooldown)
+        onExecute(id)
     }
 
     return (
         <div className="progress-ability" onClick={useAbility}>
         <svg width={radius/2} height={radius/2}>
             <image
+                className={charges > 0 ? "full" : "desaturated"}
                 href={icon}
                 width={radius/2}
                 height={radius/2}
             />
+            <text
+                className="charge-text"
+                x="35"
+                y="45"
+                fill="white"
+            >
+                {maxCharges > 1 ? charges : ""}
+            </text>
+            {/* <div className="charge-text"></div> */}
             <circle 
                 fill="transparent"
                 strokeWidth={stroke}
