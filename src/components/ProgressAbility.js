@@ -1,65 +1,83 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import "./ProgressAbility.css"
 
 const ProgressAbility = (props) => {
 
     //each ability needs its own separate timer
 
-    const {radius, stroke, cooldown, icon, casttime, keybind} = props
+    const {radius, stroke, cooldown, icon, casttime, keybind, subscribe, unsubscribe, onCast, id} = props
     const interval = 50
     const normalizedRadius = radius - (stroke/2)
     const circumference = normalizedRadius * 2 * Math.PI
 
-    let casting = false
-    let [startTime, setStartTime] = useState(0)
+    const [casting, setCasting] = useState(false)
+    const [onCooldown, setOnCooldown] = useState(false)
     //let [progress, setProgress] = useState(cooldown)
-    let [strokeDashoffset, setStrokeDashoffset] = useState(circumference)
+    const [strokeDashoffset, setStrokeDashoffset] = useState(circumference)
 
-    const calculateStrokeDashoffset = (progress, time) => circumference + (time === 0 ? 0 : (progress / cooldown)) * circumference
+    const calculateStrokeDashoffset = (progress, onCooldown, cooldown) => circumference + (!onCooldown ? 0 : (progress / cooldown)) * circumference
+
+    useEffect(() => {
+        subscribe({
+            source: id,
+            keybind,
+            notify: startCooldown,
+            execute: useAbility
+        })
+
+        return (id) => unsubscribe(id)
+    })
 
     //start cooldown is the notify function for observer pattern
     //need to subscribe start cooldown to the ability bar
 
-    const handleKeyPress = (e) => {
-        console.log("Key pressed!")
-
-        e.preventDefault()
-
-        console.log(e)
-    }
-
-    const startCooldown = () => {
+    const startCooldown = (source, progress) => {
 
         //start time means the spell itself is on cooldown
-        if(startTime !== 0 ) return
+
+        console.log(id + " is" + (onCooldown ? " " : " not ") + "on cooldown")
+
+        if(onCooldown) return
 
         let d = new Date()
         let time = d.getTime()
+        let cooldown = progress
+
+        console.log("Start time for " + id + " is " + time)
 
         //progress is the gcd or the cooldown
 
-        let progress = cooldown
-
-        setStartTime(time)
+        setOnCooldown(true)
 
         let timer = setInterval(() => {
             if(progress <= interval) {
                 clearInterval(timer)
-                setStartTime(0)
+                setOnCooldown(false)
                 setStrokeDashoffset(circumference)
             }
             progress = progress-interval
-            setStrokeDashoffset(calculateStrokeDashoffset(progress, time))
+            setStrokeDashoffset(calculateStrokeDashoffset(progress, true, cooldown))
         }, interval)
+
+        //if the spell that triggered the global cooldown was this one and it is instant
+        if(source === id && !casttime) {
+            console.log("An insant ability triggered the gcd: " + source)
+            
+            onCast(source)
+        }
     }
 
     const startCast = () => {
-        if(casting || startTime !== 0) return
-        casting = true
+        if(casting || onCooldown) return
+        setCasting(true)
         setTimeout(() => {
-            startCooldown()
-            casting = false
+            startCooldown(id, cooldown)
+            setCasting(false)
         }, casttime)
+
+        console.log("A cast is triggering the gcd: " + id)
+
+        onCast(id)
     }
 
     //casting a spell uses its cooldown
@@ -70,7 +88,7 @@ const ProgressAbility = (props) => {
     //ability bar notifies a spell when it is cast by keyboard
 
     const useAbility = () => {
-        casttime ? startCast() : startCooldown()
+        casttime ? startCast() : startCooldown(id, cooldown)
     }
 
     return (
