@@ -1,0 +1,8 @@
+circle {
+    transform: rotate(-90deg);
+    transform-origin: center;
+}
+
+.progress-ability {
+    display: flex;
+}
