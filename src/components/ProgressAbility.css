@@ -5,6 +5,7 @@ circle {
 
 .progress-ability {
     display: flex;
+    flex-direction: column;
 }
 
 .charge-text {

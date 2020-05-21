@@ -17,8 +17,6 @@ const AbilityBar = (props) => {
     const triggerGlobalCooldown = (source) => {
         //calculate haste
 
-        console.log(observers)
-
         let gcd = calculateCooldown(gcdLength)
 
         observers.forEach(o => {

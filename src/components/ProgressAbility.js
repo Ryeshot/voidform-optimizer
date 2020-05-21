@@ -125,6 +125,7 @@ const ProgressAbility = function (props) {
                 cy={radius/4}
                 r={normalizedRadius} />
         </svg>
+        <div>{keybind.match(/[a-zA-Z]/) ? keybind.toUpperCase() : keybind}</div>
         </div>
     )
 
