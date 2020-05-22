@@ -9,7 +9,8 @@ const App = () => {
   const defaultState = {
     inVoidform: false,
     resource: 100,
-    haste: 0
+    haste: 0,
+    stacks: 0
   }
 
   const [state, updateState] = useReducer((state, action) => {
@@ -21,6 +22,9 @@ const App = () => {
       case "HASTE_UPDATE":
         newState.haste = newState.haste + action.payload
         break
+      case "VOIDFORM_UPDATE":
+        newState.stacks++
+        newState.haste = newState.haste + action.payload
       case "VOIDFORM_START":
         newState.inVoidform = true
         break;
@@ -41,6 +45,7 @@ const App = () => {
   const drainStart = 10
   const stackHaste = .02
   const baseHaste = 1
+  const maximumVoidformStacks = 10
 
   const enterVoidform = () => {
     updateState({
@@ -64,10 +69,11 @@ const App = () => {
           //let ability = abilities[k]
           return <ProgressAbility radius={100} stroke={100} progress={progress} icon={k} />
         }) */}
-        {state.inVoidform ? <Voidform drainRate={drainRate} drainStart={drainStart} haste={state.haste} stackHaste={stackHaste} baseHaste={baseHaste} triggerEvent={updateState}/> : null}
+        {state.inVoidform ? <Voidform drainRate={drainRate} drainStart={drainStart} haste={state.haste} stackHaste={stackHaste} baseHaste={baseHaste} maxStacks={maximumVoidformStacks} triggerEvent={updateState}/> : null}
         <ResourceBar current={state.resource} max={100}/>
         <button onClick={enterVoidform}>Enter Voidform!</button>
         <button onClick={gainInsanity}>+10 Insanity</button>
+        <div>{state.inVoidform ? "Voidform Stacks: " + state.stacks : ""}</div>
         <AbilityBar haste={state.haste} triggerEvent={updateState}/>
          {/* <StaticProgressAbility /> */}
       </header>

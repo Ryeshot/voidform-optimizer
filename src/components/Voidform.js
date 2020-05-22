@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 
 const Voidform = (props) => {
 
-    const {drainRate, drainStart, haste, stackHaste, baseHaste, triggerEvent} = props
+    const {drainRate, drainStart, haste, stackHaste, baseHaste, maxStacks, triggerEvent} = props
     const interval = 100
 
     const start = () => {
@@ -28,12 +28,11 @@ const Voidform = (props) => {
             payload: drain*-1
           })
 
-          if(i % frequency == 0) {
+          if(i % frequency === 0 && i/frequency <= maxStacks) {
               //gain a stack of vf
-              //let stack = Math.round(i/frequency)
 
               triggerEvent({
-                  type: "HASTE_UPDATE",
+                  type: "VOIDFORM_UPDATE",
                   payload: stackHaste
               })
           }

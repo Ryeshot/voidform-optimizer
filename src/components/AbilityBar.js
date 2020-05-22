@@ -10,8 +10,8 @@ const AbilityBar = (props) => {
     let observers = []
 
     useEffect(() => {
-        document.addEventListener('keypress', handleKeyPress, {once: true})
-        return () => document.removeEventListener('keypress', handleKeyPress)
+        document.addEventListener("keypress", handleKeyPress, {once: true})
+        return () => document.removeEventListener("keypress", handleKeyPress)
     }, [])
 
     const [cooldowns, triggerCooldown] = useReducer((oldState, action) => {
