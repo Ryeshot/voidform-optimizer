@@ -59,7 +59,7 @@ const AbilityBar = (props) => {
 
         setTimeout(() => {
             document.addEventListener("keypress", handleKeyPress, {once: true})
-        }, 1000)
+        }, 200)
     }
 
     const calculateCooldown = (cooldown) => {
@@ -90,7 +90,7 @@ const AbilityBar = (props) => {
 
         let time = (cooldowns[k] && cooldowns[k].startTime) || 0
 
-        console.log(`Start time for ${k} is ${time}`)
+        //console.log(`Start time for ${k} is ${time}`)
 
         return time
     }

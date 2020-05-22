@@ -7,6 +7,7 @@ const abilities = {
     },
     "void-bolt": {
         cooldown: 4500,
+        resource: 20,
         hasted: true,
         charges: 1,
         keybind: "1",
@@ -14,6 +15,7 @@ const abilities = {
     },
     "mind-blast": {
         cooldown: 7500,
+        resource: 12,
         hasted: true,
         casttime: 1500,
         charges: 1,
@@ -22,6 +24,7 @@ const abilities = {
     },
     "shadow-word-death": {
         cooldown: 9000,
+        resource: 15,
         charges: 2,
         keybind: "2",
         icon: "images/shadow-word-death.jpg"

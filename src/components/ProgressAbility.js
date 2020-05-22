@@ -22,11 +22,13 @@ const ProgressAbility = (props) => {
         })
 
         return (id) => unsubscribe(id)
-    })
+    }, [startTime])
 
     const startCooldown = (cooldown, source = id) => {
 
-        console.log("Inside start cooldown")
+        //console.log("Inside start cooldown")
+
+        console.log(`Start time for ${name} is ${startTime}`)
 
         if(startTime) return
 
@@ -41,7 +43,7 @@ const ProgressAbility = (props) => {
                     type: "ABILITY_COOLDOWN_END",
                     payload: name
                 })
-                if(source == id) setCharges(charges => charges+1)
+                if(source === id) setCharges(charges => charges+1)
                 setStrokeDashoffset(circumference)
             }
             progress = progress-interval
@@ -75,7 +77,7 @@ const ProgressAbility = (props) => {
         console.log("Preparing to use ability: " + id)
         if(startTime) return
         casttime ? startCast() : startCooldown(cooldown)
-        //onExecute(id)
+        onExecute(id)
     }
 
     return (

@@ -8,9 +8,12 @@ const Voidform = (props) => {
     const start = () => {
         let n = 0
 
-        let timer = setInterval(() => {    
+        const timer = setInterval(() => {
+
           let sec = interval/1000
           let drain = (drainStart + drainRate*n)*sec
+
+          console.log(drain)
     
           n += sec
     
@@ -21,8 +24,6 @@ const Voidform = (props) => {
     
         }, interval)
 
-        console.log(timer)
-
         return timer
     }
 
@@ -30,7 +31,7 @@ const Voidform = (props) => {
         let timer = start()
 
         return () => clearInterval(timer)
-    })
+    }, [])
     
     return null
 }

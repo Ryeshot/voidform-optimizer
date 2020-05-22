@@ -8,7 +8,8 @@ const App = () => {
 
   const defaultState = {
     inVoidform: false,
-    resource: 100
+    resource: 100,
+    haste: 1
   }
 
   const [state, updateState] = useReducer((state, action) => {
