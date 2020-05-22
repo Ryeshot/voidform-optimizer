@@ -3,7 +3,7 @@ import "./ProgressAbility.css"
 
 const ProgressAbility = (props) => {
 
-    const {name, radius, stroke, cooldown, startTime, icon, casttime, maxCharges, keybind, subscribe, unsubscribe, onExecute, onAbilityUpdate, id} = props
+    const {name, radius, stroke, cooldown, resource, startTime, icon, casttime, maxCharges, keybind, subscribe, unsubscribe, onExecute, onAbilityUpdate, triggerEvent, id} = props
     const interval = 50
     const normalizedRadius = radius - (stroke/2)
     const circumference = normalizedRadius * 2 * Math.PI
@@ -28,7 +28,7 @@ const ProgressAbility = (props) => {
 
         //console.log("Inside start cooldown")
 
-        console.log(`Start time for ${name} is ${startTime}`)
+        //console.log(`Start time for ${name} is ${startTime}`)
 
         if(startTime) return
 
@@ -53,7 +53,12 @@ const ProgressAbility = (props) => {
         onAbilityUpdate({
             type: "ABILITY_COOLDOWN_START",
             payload: name
-        })  
+        }) 
+
+        if(resource && source === id) triggerEvent({
+            type: "RESOURCE_UPDATE",
+            payload: resource
+        })
     }
 
     const startCast = () => {
@@ -65,7 +70,7 @@ const ProgressAbility = (props) => {
             startCooldown(cooldown)
         }, casttime)
 
-        console.log("A cast is triggering the gcd: " + id)
+        //console.log("A cast is triggering the gcd: " + id)
 
         onAbilityUpdate({
             type: "ABILITY_CAST_START",
@@ -74,7 +79,7 @@ const ProgressAbility = (props) => {
     }
 
     const useAbility = () => {
-        console.log("Preparing to use ability: " + id)
+        //console.log("Preparing to use ability: " + id)
         if(startTime) return
         casttime ? startCast() : startCooldown(cooldown)
         onExecute(id)

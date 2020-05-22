@@ -6,7 +6,7 @@ import "./AbilityBar.css"
 const AbilityBar = (props) => {
 
     const gcdLength = 1500
-    const {haste} = props
+    const {haste, triggerEvent} = props
     let observers = []
 
     useEffect(() => {
@@ -48,11 +48,11 @@ const AbilityBar = (props) => {
 
     const handleKeyPress = (e) => {
 
-        console.log("Key pressed: " + e.key)
+        //console.log("Key pressed: " + e.key)
 
         observers.forEach(o => {
             if(o.keybind === e.key) {
-                console.log("Pressing ability: " + o.source)
+                //console.log("Pressing ability: " + o.source)
                 o.execute()
             }
         })
@@ -104,6 +104,7 @@ const AbilityBar = (props) => {
             radius={100} 
             stroke={100} 
             cooldown={abilities[k].hasted ? calculateCooldown(abilities[k].cooldown) : abilities[k].cooldown}
+            resource={abilities[k].resource}
             startTime={getStartTime(k)}
             maxCharges={abilities[k].charges} 
             keybind={abilities[k].keybind}
@@ -113,6 +114,7 @@ const AbilityBar = (props) => {
             unsubscribe={unsubscribe}
             onExecute={triggerGlobalCooldown}
             onAbilityUpdate={triggerCooldown}
+            triggerEvent={triggerEvent}
             id={i}
             />)}
         </div>

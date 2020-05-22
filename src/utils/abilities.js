@@ -1,6 +1,7 @@
 const abilities = {
     "mind-flay": {
         cooldown: 1500,
+        resource: 6,
         hasted: true,
         keybind: "e",
         icon: "images/mind-flay.jpg"

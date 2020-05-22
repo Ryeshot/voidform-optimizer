@@ -12,8 +12,6 @@ const Voidform = (props) => {
 
           let sec = interval/1000
           let drain = (drainStart + drainRate*n)*sec
-
-          console.log(drain)
     
           n += sec
     

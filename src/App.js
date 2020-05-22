@@ -9,7 +9,7 @@ const App = () => {
   const defaultState = {
     inVoidform: false,
     resource: 100,
-    haste: 1
+    haste: 0
   }
 
   const [state, updateState] = useReducer((state, action) => {
@@ -37,12 +37,19 @@ const App = () => {
     return newState
   }, defaultState)
 
-  const drainRate = .7
-  const drainStart = 6
+  const drainRate = 1
+  const drainStart = 10
 
   const enterVoidform = () => {
     updateState({
       type: "VOIDFORM_START"
+    })
+  }
+
+  const gainInsanity = () => {
+    updateState({
+      type: "RESOURCE_UPDATE",
+      payload: 10
     })
   }
 
@@ -57,7 +64,8 @@ const App = () => {
         }) */}
         {state.inVoidform ? <Voidform drainRate={drainRate} drainStart={drainStart} triggerEvent={updateState}/> : null}
         <ResourceBar current={state.resource} max={100}/>
-        <button onClick={enterVoidform}>Click Me!</button>
+        <button onClick={enterVoidform}>Enter Voidform!</button>
+        <button onClick={gainInsanity}>+10 Insanity</button>
         <AbilityBar haste={state.haste} triggerEvent={updateState}/>
          {/* <StaticProgressAbility /> */}
       </header>
