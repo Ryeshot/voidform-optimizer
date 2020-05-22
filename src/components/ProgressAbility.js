@@ -17,6 +17,8 @@ const ProgressAbility = function (props) {
 
     const calculateStrokeDashoffset = (progress, onCooldown, cooldown) => circumference + (!onCooldown ? 0 : (progress / cooldown)) * circumference
 
+    let timer
+
     useEffect(() => {
         subscribe({
             source: id,
@@ -25,11 +27,20 @@ const ProgressAbility = function (props) {
             execute: useAbility
         })
 
+<<<<<<< Updated upstream
         return (id) => unsubscribe(id)
     })
 
     //start cooldown is the notify function for observer pattern
     //need to subscribe start cooldown to the ability bar
+=======
+        return (id) => {
+            console.log("Inside rerender for: " + name)
+            clearInterval(timer)
+            unsubscribe(id)
+        }
+    }, [startTime])
+>>>>>>> Stashed changes
 
     const startCooldown = (cooldown, source = id) => {
 
@@ -39,6 +50,7 @@ const ProgressAbility = function (props) {
 
         if(startTime) return
 
+<<<<<<< Updated upstream
         let d = new Date()
         let time = d.getTime()
 
@@ -47,10 +59,17 @@ const ProgressAbility = function (props) {
         //progress is the gcd or the cooldown
 
         let progress = cooldown
+=======
+        //let progress = cooldown
+>>>>>>> Stashed changes
 
         if(source == id) setCharges(charges => charges-1)
 
         let timer = setInterval(() => {
+            let progress = (startTime + cooldown) - Date.now()
+            console.log(startTime)
+            console.log(progress)
+            console.log(timer)
             if(progress <= interval) {
                 clearInterval(timer)
                 onAbilityUpdate({
@@ -60,7 +79,6 @@ const ProgressAbility = function (props) {
                 if(source == id) setCharges(charges => charges+1)
                 setStrokeDashoffset(circumference)
             }
-            progress = progress-interval
             setStrokeDashoffset(calculateStrokeDashoffset(progress, true, cooldown))
         }, interval)
 
