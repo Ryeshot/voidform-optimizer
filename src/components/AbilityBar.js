@@ -63,6 +63,7 @@ const AbilityBar = (props) => {
     }
 
     const calculateCooldown = (cooldown) => {
+        //console.log(haste)
         return cooldown/(1+haste)
     }
 
