@@ -39,7 +39,8 @@ const App = () => {
 
   const drainRate = 1
   const drainStart = 10
-  const stackHaste = .25
+  const stackHaste = .02
+  const baseHaste = 1
 
   const enterVoidform = () => {
     updateState({
@@ -63,7 +64,7 @@ const App = () => {
           //let ability = abilities[k]
           return <ProgressAbility radius={100} stroke={100} progress={progress} icon={k} />
         }) */}
-        {state.inVoidform ? <Voidform drainRate={drainRate} drainStart={drainStart} haste={state.haste} stackHaste={stackHaste} triggerEvent={updateState}/> : null}
+        {state.inVoidform ? <Voidform drainRate={drainRate} drainStart={drainStart} haste={state.haste} stackHaste={stackHaste} baseHaste={baseHaste} triggerEvent={updateState}/> : null}
         <ResourceBar current={state.resource} max={100}/>
         <button onClick={enterVoidform}>Enter Voidform!</button>
         <button onClick={gainInsanity}>+10 Insanity</button>
