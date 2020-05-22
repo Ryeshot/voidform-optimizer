@@ -1,10 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useReducer} from 'react';
 import './App.css';
 import AbilityBar from "./components/AbilityBar"
-<<<<<<< Updated upstream
-
-function App() {
-=======
 import Voidform from "./components/Voidform"
 import Timer from "./components/Timer"
 import Increment from "./components/Increment"
@@ -66,7 +62,6 @@ const App = () => {
       payload: 10
     })
   }
->>>>>>> Stashed changes
 
   const handleIncrement = () => {
     setSpeed(speed+1)
@@ -85,10 +80,6 @@ const App = () => {
           //let ability = abilities[k]
           return <ProgressAbility radius={100} stroke={100} progress={progress} icon={k} />
         }) */}
-<<<<<<< Updated upstream
-        <AbilityBar haste={1}/>
-         {/* <StaticProgressAbility /> */}
-=======
         {/* {state.inVoidform ? <Voidform drainRate={drainRate} drainStart={drainStart} haste={state.haste} stackHaste={stackHaste} baseHaste={baseHaste} maxStacks={maximumVoidformStacks} triggerEvent={updateState}/> : null}
         <ResourceBar current={state.resource} max={100}/>
         <button onClick={enterVoidform}>Enter Voidform!</button>
@@ -98,7 +89,6 @@ const App = () => {
          <StaticProgressAbility /> */}
          <Timer speed={speed} duration={10}/>
          <Increment speed={speed} increaseSpeed={handleIncrement} decreaseSpeed={handleDecrement} />
->>>>>>> Stashed changes
       </header>
     </div>
   );
