@@ -4,7 +4,7 @@ import CooldownSweep from "./CooldownSweep"
 
 const ProgressAbility = (props) => {
 
-    const {name, radius, stroke, cooldown, resource, startTime, icon, casttime, maxCharges, keybind, subscribe, unsubscribe, onExecute, onAbilityUpdate, triggerEvent, id} = props
+    const {name, radius, stroke, cooldown, type, resource, startTime, icon, casttime, maxCharges, keybind, subscribe, unsubscribe, onExecute, onAbilityUpdate, triggerEvent, id} = props
     const interval = 50
 
     const [charges, setCharges] = useState(maxCharges || 1)
@@ -95,6 +95,27 @@ const ProgressAbility = (props) => {
             type: "ABILITY_CAST_START",
             payload: {
                 name,
+                duration: casttimeRef.current,
+                time: Date.now()
+            }
+        })
+    }
+
+    const startChannel = () => {
+        setTimeout(() => {
+            onAbilityUpdate({
+                type: "ABILITY_CHANNEL_END",
+                payload: {
+                    name
+                }
+            })
+        }, casttimeRef.current)
+
+        onAbilityUpdate({
+            type: "ABILITY_CHANNEL_START",
+            payload: {
+                name,
+                duration: casttimeRef.current,
                 time: Date.now()
             }
         })
@@ -103,6 +124,7 @@ const ProgressAbility = (props) => {
     const useAbility = () => {
         if(startTimeRef.current) return
         //channels immediately start cooldown
+        console.log(type)
         if(type === "channel") {
             startChannel()
             startCooldown()
@@ -111,7 +133,7 @@ const ProgressAbility = (props) => {
         }
 
         casttime ? startCast() : startCooldown()
-        onExecute(id, cooldownRef.current)
+        onExecute(id, cooldownRef.current, type)
     }
 
     return (
