@@ -1,19 +1,43 @@
-import React, {useState, useReducer} from 'react';
+import React, {useState, useEffect, useReducer, useRef} from 'react';
 import ProgressAbility from "./ProgressAbility"
+import GlobalCooldown from "./GlobalCooldown"
 import abilities from "../utils/abilities"
 import "./AbilityBar.css"
 
 const AbilityBar = (props) => {
 
     const gcdLength = 1500
-    const {haste} = props
+    const {haste, triggerEvent} = props
     let observers = []
 
-    const [cooldowns, triggerCooldown] = useReducer((state, action) => {
-        const name = action.payload
-        const ability = abilities[name]
+    const hasteRef = useRef(haste)
+    hasteRef.current = haste
 
-        console.log("Ability triggered an event: " + name, action.type)
+    const defaultCooldowns = () => {
+        const cooldowns = {}
+        Object.keys(abilities).forEach(k => {
+            cooldowns[k] = {
+                startTime: 0,
+                onGlobalCooldown: false
+            }
+        })
+
+        return cooldowns
+    }
+
+    const defaultState = {
+        globalCooldown: 0,
+        cooldowns: defaultCooldowns()
+    }
+
+    useEffect(() => {
+        document.addEventListener("keypress", handleKeyPress, {once: true})
+        return () => document.removeEventListener("keypress", handleKeyPress)
+    }, [])
+
+    const [state, triggerCooldown] = useReducer((oldState, action) => {
+        const newState = JSON.parse(JSON.stringify(oldState))
+        const payload = action.payload
 
         switch(action.type) {
             case "ABILITY_COOLDOWN_START":
@@ -67,38 +91,46 @@ const AbilityBar = (props) => {
                 console.error(`Invalid action provided: ${action.type}`)
         }
 
-        return state
-    }, {})
+        return newState
 
-    const calculateCooldown = (cooldown) => {
-        return cooldown/(1+haste)
-    }
+    }, defaultState)
 
-    const triggerGlobalCooldown = (source) => {
-        //calculate haste
-
-        let gcd = calculateCooldown(gcdLength)
+    const handleKeyPress = (e) => {
 
         observers.forEach(o => {
-            //console.log("Ability source is: " + source)
-            //an ability can't trigger global cooldown while it's on cooldown
-            if(o.source === source) return
-            //console.log("Notifying child gcd triggered: " + o.source)
-            o.notify(gcd, source)
+            if(o.keybind === e.key) {
+                o.execute()
+            }
+        })
+
+        setTimeout(() => {
+            document.addEventListener("keypress", handleKeyPress, {once: true})
+        }, 200)
+    }
+
+    const calculateCooldown = (cooldown) => {
+        return cooldown/hasteRef.current
+    }
+
+    const triggerGlobalCooldown = (source, cooldown) => {
+        let gcd = Math.max(calculateCooldown(gcdLength), gcdLength/2)
+
+        observers.forEach(o => o.notify())
+
+        triggerCooldown({
+            type: "GLOBAL_COOLDOWN_START",
+            payload: {
+                source,
+                gcd,
+                cooldown,
+                time: Date.now()
+            }
         })
     }
 
     const subscribe = (observer) => {
         if(observers.find(o => o.source === observer.source)) return
-        //console.log("Subscribing " + observer.source)
         observers.push(observer)
-
-        //set up key press
-        document.onkeypress = (e) => {
-            observers.forEach(o => {
-                if(o.keybind === e.key) o.execute()
-            })
-        }
     }
 
     const unsubscribe = (source) => {
@@ -121,8 +153,9 @@ const AbilityBar = (props) => {
             key={i}
             radius={100} 
             stroke={100} 
-            cooldown={abilities[k].hasted ? calculateCooldown(abilities[k].cooldown) : abilities[k].cooldown}
-            startTime={cooldowns[abilities[k]] || 0}
+            cooldown={getAbilityCooldown(k)}
+            resource={abilities[k].resource}
+            startTime={state.cooldowns[k].startTime}
             maxCharges={abilities[k].charges} 
             keybind={abilities[k].keybind}
             icon = {abilities[k].icon}
@@ -131,8 +164,10 @@ const AbilityBar = (props) => {
             unsubscribe={unsubscribe}
             onExecute={triggerGlobalCooldown}
             onAbilityUpdate={triggerCooldown}
-            id={i}
-            />)}
+            triggerEvent={triggerEvent}
+            id={k}
+        />)}
+        {state.globalCooldown? <GlobalCooldown duration={state.globalCooldown} triggerEvent={triggerCooldown}/> : null}
         </div>
     )
 }

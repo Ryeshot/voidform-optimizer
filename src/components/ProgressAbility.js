@@ -1,106 +1,121 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import "./ProgressAbility.css"
 
-const ProgressAbility = function (props) {
+const ProgressAbility = (props) => {
 
-    //each ability needs its own separate timer
-
-    const {name, radius, stroke, cooldown, startTime, icon, casttime, maxCharges, keybind, subscribe, unsubscribe, onExecute, onAbilityUpdate, id} = props
+    const {name, radius, stroke, cooldown, resource, startTime, icon, casttime, maxCharges, keybind, subscribe, unsubscribe, onExecute, onAbilityUpdate, triggerEvent, id} = props
     const interval = 50
     const normalizedRadius = radius - (stroke/2)
     const circumference = normalizedRadius * 2 * Math.PI
 
-    const [onCooldown, setOnCooldown] = useState(false)
     const [charges, setCharges] = useState(maxCharges || 1)
-    //let [progress, setProgress] = useState(cooldown)
     const [strokeDashoffset, setStrokeDashoffset] = useState(circumference)
 
     const calculateStrokeDashoffset = (progress, onCooldown, cooldown) => circumference + (!onCooldown ? 0 : (progress / cooldown)) * circumference
 
-    let timer
+    const startTimeRef = useRef(startTime)
+    const cooldownRef = useRef(cooldown)
+    const casttimeRef = useRef(casttime)
+
+    startTimeRef.current = startTime
+    cooldownRef.current = cooldown
+    casttimeRef.current = casttime
 
     useEffect(() => {
         subscribe({
             source: id,
             keybind,
-            notify: startCooldown,
+            notify: () => startCooldown(true),
             execute: useAbility
         })
 
-        return (id) => {
-            console.log("Inside rerender for: " + name)
-            clearInterval(timer)
-            unsubscribe(id)
-        }
-    }, [startTime])
+        return (id) => unsubscribe(id)
+    })
 
-    const startCooldown = (cooldown, source = id) => {
+    const startCooldown = (gcd) => {
 
-        //if source is id then this ability triggered the gcd event
+        if(startTimeRef.current) return
 
-        if(!gcd && cooldownRef.current) setCharges(charges => charges-1)
-
-        if(startTime) return
-
-        //let progress = cooldown
-
-        if(source == id) setCharges(charges => charges-1)
+        if(!gcd) setCharges(charges => charges-1)
 
         let timer = setInterval(() => {
-            let progress = (startTime + cooldown) - Date.now()
-            console.log(startTime)
-            console.log(progress)
-            console.log(timer)
+            let now = Date.now()
+            let progress = ((startTimeRef.current || now) + cooldownRef.current) - now
+
             if(progress <= interval) {
                 clearInterval(timer)
-                onAbilityUpdate({
-                    type: "ABILITY_OFF_COOLDOWN",
-                    payload: name
-                })
-                if(source == id) setCharges(charges => charges+1)
+                
+                if(!gcd) {
+                    onAbilityUpdate({
+                        type: "ABILITY_COOLDOWN_END",
+                        payload: {
+                            name
+                        }
+                    })
+                    setCharges(charges => charges+1)
+                }
                 setStrokeDashoffset(circumference)
+                return
             }
-            setStrokeDashoffset(calculateStrokeDashoffset(progress, true, cooldown))
+            setStrokeDashoffset(calculateStrokeDashoffset(progress, true, cooldownRef.current))
         }, interval)
 
-        onAbilityUpdate({
-            type: "ABILITY_ON_COOLDOWN",
-            payload: name
-        })  
+        if(!gcd) {
+            onAbilityUpdate({
+                type: "ABILITY_COOLDOWN_START",
+                payload: {
+                    name,
+                    time: Date.now()
+                }
+            })
+            triggerEvent({
+                type: "RESOURCE_UPDATE",
+                payload: resource
+            })
+        }
+       
+        // if(!gcd) {
+        //     //only do cooldown actions if it has a cooldown
+        //     if(cooldownRef.current) {
+        //         onAbilityUpdate({
+        //             type: "ABILITY_COOLDOWN_START",
+        //             payload: {
+        //                 name,
+        //                 time: Date.now()
+        //             }
+        //         })
+        //     }
+        //     triggerEvent({
+        //         type: "RESOURCE_UPDATE",
+        //         payload: resource
+        //     })
+        // } 
     }
 
     const startCast = () => {
-        if(startTime) return
         setTimeout(() => {
             onAbilityUpdate({
-                type: "ABILITY_END_CAST",
-                payload: name
+                type: "ABILITY_CAST_END",
+                payload: {
+                    name
+                }
             })
-            startCooldown(cooldown)
-        }, casttime)
-
-        console.log("A cast is triggering the gcd: " + id)
+            startCooldown()
+        }, casttimeRef.current)
 
         onAbilityUpdate({
-            type: "ABILITY_START_CAST",
-            payload: name
+            type: "ABILITY_CAST_START",
+            payload: {
+                name,
+                time: Date.now()
+            }
         })
     }
 
-    //casting a spell uses its cooldown
-    //triggers global
-
-    //the ability bar is the subject
-    //each ability calls the ability bar's gcd function
-    //ability bar notifies a spell when it is cast by keyboard
-
     const useAbility = () => {
-        if(startTime) return
-        //if no cast time and has charges then trigger global
-        //if cast time start cast
-
-        casttime ? startCast() : startCooldown(cooldown)
-        onExecute(id)
+        if(startTimeRef.current) return
+        casttime ? startCast() : startCooldown()
+        onExecute(id, cooldownRef.current)
     }
 
     return (
@@ -135,7 +150,6 @@ const ProgressAbility = function (props) {
         <div>{keybind.match(/[a-zA-Z]/) ? keybind.toUpperCase() : keybind}</div>
         </div>
     )
-
 }
 
 export default ProgressAbility;
