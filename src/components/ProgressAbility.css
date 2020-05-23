@@ -1,11 +1,13 @@
-circle {
-    transform: rotate(-90deg);
-    transform-origin: center;
+.progress-ability-container {
+    display: flex;
+    flex-direction: column;
 }
 
 .progress-ability {
+    position: relative;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .charge-text {
