@@ -8,15 +8,19 @@ import "./AbilityBar.css"
 const AbilityBar = (props) => {
 
     const gcdLength = 1500
-    const {haste, triggerEvent} = props
+    const {abilitySettings, haste, triggerEvent} = props
     let observers = []
 
     const hasteRef = useRef(haste)
     hasteRef.current = haste
 
+    const abilitySettingsRef = useRef(abilitySettings)
+    abilitySettingsRef.current = abilitySettings
+
     const defaultCooldowns = () => {
         const cooldowns = {}
         Object.keys(abilities).forEach(k => {
+            if(abilitySettingsRef.current[k].disabled) return
             cooldowns[k] = {
                 startTime: 0,
                 onGlobalCooldown: false
@@ -26,6 +30,27 @@ const AbilityBar = (props) => {
         return cooldowns
     }
 
+    const defaultAbilities = () => {
+        const defaultAbilities = {}
+
+        Object.keys(abilities).forEach(k => {
+            if(abilitySettingsRef.current[k].disabled) return
+
+            defaultAbilities[k] = {
+                ...abilitySettings[k],
+                ...abilities[k]
+            }
+        })
+
+        //console.log("Inside default abilities")
+
+       // console.log(defaultAbilities)
+
+        return defaultAbilities
+    }
+
+    const [currentAbilities, setCurrentAbilities] = useState(defaultAbilities())
+
     const defaultState = {
         globalCooldown: 0,
         cooldowns: defaultCooldowns()
@@ -33,6 +58,9 @@ const AbilityBar = (props) => {
 
     useEffect(() => {
         document.addEventListener("keypress", handleKeyPress, {once: true})
+
+        setCurrentAbilities(_ => defaultAbilities())
+
         return () => document.removeEventListener("keypress", handleKeyPress)
     }, [])
 
@@ -149,6 +177,8 @@ const AbilityBar = (props) => {
 
         observers.forEach(o => o.notify())
 
+        console.log(currentAbilities)
+
         triggerCooldown({
             type: "GLOBAL_COOLDOWN_START",
             payload: {
@@ -171,7 +201,7 @@ const AbilityBar = (props) => {
     }
 
     const getAbilityCooldown = (k) => {
-        const ability = abilities[k]
+        const ability = currentAbilities[k]
         
         if(state.cooldowns[k].onGlobalCooldown) return state.globalCooldown
 
@@ -190,7 +220,7 @@ const AbilityBar = (props) => {
     return (
         <div className="ability-bar">
         {state.casting ? <CastBar {...state.casting}/> : null}
-        {Object.keys(abilities)
+        {Object.keys(currentAbilities)
         .map((k,i) => <ProgressAbility
             name={k}
             key={i}
@@ -198,13 +228,13 @@ const AbilityBar = (props) => {
             stroke={100} 
             cooldown={getAbilityCooldown(k)}
             onGlobalCooldown={state.cooldowns[k].onGlobalCooldown}
-            type={abilities[k].type}
-            resource={abilities[k].resource}
+            type={currentAbilities[k].type}
+            resource={currentAbilities[k].resource}
             startTime={state.cooldowns[k].startTime}
-            maxCharges={abilities[k].charges} 
-            keybind={abilities[k].keybind}
-            icon = {abilities[k].icon}
-            casttime = {calculateCooldown(abilities[k].casttime)}
+            maxCharges={currentAbilities[k].charges} 
+            keybind={currentAbilities[k].keybind}
+            icon = {currentAbilities[k].icon}
+            casttime = {calculateCooldown(currentAbilities[k].casttime)}
             subscribe={subscribe}
             unsubscribe={unsubscribe}
             onExecute={triggerGlobalCooldown}

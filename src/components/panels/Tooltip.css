@@ -1,0 +1,14 @@
+.tooltip {
+    display: inline;
+}
+
+.tooltip .tooltip-text {
+    position: absolute;
+    background-color: black;
+    color: white;
+    text-align: center;
+    font-size: 15px;
+    border-radius: 5px;
+    padding: 5px 0px;
+    z-index: 1;
+}

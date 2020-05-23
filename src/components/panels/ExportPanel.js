@@ -12,7 +12,7 @@ const ExportPanel = (props) => {
 
     return (
         <div>
-            <div className="panel-header" onClick={() => onClick(panel)}>Export Custom Settings |</div>
+            <div className="panel-header hover-pointer" onClick={() => onClick(panel)}>Export Custom Settings |</div>
             <div className="panel left-panel" style={{
                 width: currentPanel === panel ? "250px": "0px"
             }}>

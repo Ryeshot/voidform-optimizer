@@ -16,7 +16,7 @@ const SettingsPanel = (props) => {
 
     return (
         <div>
-            <div className="panel-header" onClick={() => onClick(panel)}>Custom Settings</div>
+            <div className="panel-header hover-pointer" onClick={() => onClick(panel)}>Custom Settings</div>
             <div className="panel right-panel" style={{
                 width: currentPanel === panel ? "250px": "0px"
             }}>

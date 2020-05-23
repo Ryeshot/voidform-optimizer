@@ -37,4 +37,4 @@ const abilities = {
     }
 }
 
-module.exports = abilities
+export default abilities

@@ -7,6 +7,7 @@ import Timer from './components/Timer';
 import ExportPanel from "./components/panels/ExportPanel"
 import SettingsPanel from "./components/panels/SettingsPanel"
 import AbilityKeybindsPanel from "./components/panels/AbilityKeybindsPanel"
+import abilities from "./utils/abilityConfig"
 
 const App = () => {
 
@@ -17,8 +18,7 @@ const App = () => {
       voidform: 0,
       lingeringInsanity: 0
     },
-    stacks: 0,
-    abilities: {}
+    stacks: 0
   }
 
   const [state, updateState] = useReducer((state, action) => {
@@ -62,6 +62,7 @@ const App = () => {
   const [showTimer, setShowTimer] = useState(false)
   const [exportData, setExportData] = useState("")
   const [panel, setPanel] = useState()
+  const [abilitySettings, setAbilitySettings] = useState(abilities)
 
   const enterVoidform = () => {
     updateState({
@@ -98,6 +99,16 @@ const App = () => {
     setPanel(null)
   }
 
+  const handleAbilityToggle = (ability) => {
+    let newSettings = JSON.parse(JSON.stringify(abilitySettings))
+
+    newSettings[ability].disabled = !newSettings[ability].disabled
+
+    setAbilitySettings(newSettings)
+
+    console.log(newSettings)
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -105,7 +116,7 @@ const App = () => {
         {/* <div panel="abilitykeybinds" onClick={handlePanelHeaderClick}>Click to open panel!</div> */}
         <div className="panel-container">
           <ExportPanel onExport={handleExport} currentPanel={panel} exportData={exportData} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
-          <AbilityKeybindsPanel abilities={state.abilities} currentPanel={panel} onKeybind={() => {}} onToggle={() => {}} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
+          <AbilityKeybindsPanel abilities={abilitySettings} currentPanel={panel} onKeybind={() => {}} onToggle={handleAbilityToggle} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
           <SettingsPanel onImport={() => {}} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
           </div>
         {/* {/* <button onClick={handleClick}>Show Timer!</button> */}
@@ -120,7 +131,7 @@ const App = () => {
         <button onClick={enterVoidform}>Enter Voidform!</button>
         <button onClick={gainInsanity}>+10 Insanity</button>
         <div>{state.inVoidform ? "Voidform Stacks: " + state.stacks : ""}</div>
-        <AbilityBar haste={calculateHaste()} triggerEvent={updateState}/>
+        <AbilityBar abilitySettings={abilitySettings} haste={calculateHaste()} triggerEvent={updateState}/>
          {/* <StaticProgressAbility /> */}
       </header>
     </div>

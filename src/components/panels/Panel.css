@@ -1,4 +1,6 @@
 .panel {
+    display: flex;
+    justify-content: center;
     position: fixed;
     z-index: 1;
     background-color: #111;
@@ -8,10 +10,6 @@
 
 .panel-header {
     padding: 5px
-}
-
-.panel-header:hover {
-    cursor: pointer;
 }
 
 .panel-button {
@@ -44,4 +42,15 @@
     width: 0px;
     top: 0px;
     right: 0px;
+}
+
+.horizontal-panel-content {
+    position: relative;
+    top: 30%;
+    display: flex;
+    flex-direction: row;
+}
+
+.hover-pointer:hover {
+    cursor: pointer;
 }
