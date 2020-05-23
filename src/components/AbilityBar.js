@@ -42,8 +42,8 @@ const AbilityBar = (props) => {
 
         switch(action.type) {
             case "ABILITY_COOLDOWN_START":
-                console.log(action.type)
-                console.log(action.payload)
+                // console.log(action.type)
+                // console.log(action.payload)
                 var {name, time} = payload
                 newState.cooldowns[name].startTime = time
                 if(newState.casting && name !== newState.casting.name) delete newState.casting
@@ -57,8 +57,8 @@ const AbilityBar = (props) => {
                 newState.cooldowns[name].cooldown = cooldown
                 break
             case "ABILITY_CAST_START":
-                console.log(action.type)
-                console.log(action.payload)
+                // console.log(action.type)
+                // console.log(action.payload)
                 var {name, time, duration} = payload
                 //newState.cooldowns[name].startTime = time
                 newState.casting = {
@@ -70,13 +70,13 @@ const AbilityBar = (props) => {
                 break
             case "ABILITY_CAST_END":
                 var {name} = payload
-                console.log(action.type)
-                console.log(action.payload)
+                // console.log(action.type)
+                // console.log(action.payload)
                 if(newState.casting && name === newState.casting.name) delete newState.casting
                 break
             case "ABILITY_CHANNEL_START":
-                console.log(action.type)
-                console.log(action.payload)
+                // console.log(action.type)
+                // console.log(action.payload)
                 var {name, time, duration} = payload
                 newState.casting = {
                     duration,
@@ -87,8 +87,8 @@ const AbilityBar = (props) => {
                 break
             case "ABILITY_CHANNEL_END":
                 var {name} = payload
-                console.log(action.type)
-                console.log(action.payload)
+                // console.log(action.type)
+                // console.log(action.payload)
                 if(newState.casting && name === newState.casting.name) delete newState.casting
                 break
             case "GLOBAL_COOLDOWN_START":
@@ -104,7 +104,6 @@ const AbilityBar = (props) => {
                     //source which triggered the global has a cooldown
                     if(isSource && payload.cooldown && payload.type === "instant") return
                     if(!isSource && cooldownMoreThanGcd) return                
-                    console.log(k)
                     newState.cooldowns[k].onGlobalCooldown = true
                     newState.cooldowns[k].startTime = payload.time
                 })
@@ -148,8 +147,6 @@ const AbilityBar = (props) => {
     const triggerGlobalCooldown = (source, cooldown, type) => {
         let gcd = Math.max(calculateCooldown(gcdLength), gcdLength/2)
 
-        observers.forEach(o => o.notify())
-
         triggerCooldown({
             type: "GLOBAL_COOLDOWN_START",
             payload: {
@@ -160,6 +157,8 @@ const AbilityBar = (props) => {
                 time: Date.now()
             }
         })
+
+        observers.forEach(o => o.notify())
     }
 
     const subscribe = (observer) => {

@@ -81,23 +81,6 @@ const ProgressAbility = (props) => {
                 payload: resource
             })
         }
-       
-        // if(!gcd) {
-        //     //only do cooldown actions if it has a cooldown
-        //     if(cooldownRef.current) {
-        //         onAbilityUpdate({
-        //             type: "ABILITY_COOLDOWN_START",
-        //             payload: {
-        //                 name,
-        //                 time: Date.now()
-        //             }
-        //         })
-        //     }
-        //     triggerEvent({
-        //         type: "RESOURCE_UPDATE",
-        //         payload: resource
-        //     })
-        // } 
     }
 
     const startCast = () => {
@@ -144,7 +127,6 @@ const ProgressAbility = (props) => {
     const useAbility = () => {
         if(startTimeRef.current) return
         //channels immediately start cooldown
-        console.log(type)
         if(type === "channel") {
             startChannel()
             startCooldown()
