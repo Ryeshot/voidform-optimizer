@@ -145,14 +145,7 @@ const ProgressAbility = (props) => {
                 width={radius/2}
                 height={radius/2}
             />
-            <div
-                className="charge-text"
-                x="35"
-                y="45"
-                fill="white"
-            >
-                {maxCharges > 1 ? charges : ""}
-            </div>
+            <div className="charge-text">{maxCharges > 1 ? charges : ""}</div>
             {startTimeRef.current ? 
             <CooldownSweep size={radius/2} radius={radius} stroke={stroke} progress={progress}/>
             : null}
