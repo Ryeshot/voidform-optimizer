@@ -3,6 +3,7 @@ const abilities = {
         cooldown: 0,
         resource: 6,
         hasted: true,
+        casttime: 3000,
         type: "channel",
         keybind: "e",
         icon: "images/mind-flay.jpg"

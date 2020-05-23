@@ -3,6 +3,7 @@ import './App.css';
 import ResourceBar from "./components/ResourceBar"
 import AbilityBar from "./components/AbilityBar"
 import Voidform from "./components/Voidform"
+import Timer from './components/Timer';
 
 const App = () => {
 
@@ -54,6 +55,8 @@ const App = () => {
   const baseHaste = .5
   const maximumVoidformStacks = 10
 
+  const [showTimer, setShowTimer] = useState(false)
+
   const enterVoidform = () => {
     updateState({
       type: "VOIDFORM_START"
@@ -73,10 +76,16 @@ const App = () => {
     }, 1)
   }
 
+  const handleClick = () => {
+    setShowTimer(!showTimer)
+  }
+
   return (
     <div className="App">
       <header className="App-header">
         <p>Hello</p>
+        {/* <button onClick={handleClick}>Show Timer!</button>
+        {showTimer ? <Timer /> : null} */}
         {/* <input type="image" src="images/void-bolt.jpg" /> */}
         {/* {Object.keys(abilities).map(k => {
           //let ability = abilities[k]
