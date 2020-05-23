@@ -13,7 +13,7 @@ circle {
     font-size: 20px;
 }
 
-image.full {
+image.colored {
     filter: none;
     -webkit-filter: grayscale(0%);
     -moz-filter:    grayscale(0%);

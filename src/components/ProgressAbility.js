@@ -38,7 +38,7 @@ const ProgressAbility = function (props) {
 
         //if source is id then this ability triggered the gcd event
 
-        console.log(id + " is" + (startTime ? " " : " not ") + "on cooldown")
+        if(!gcd && cooldownRef.current) setCharges(charges => charges-1)
 
         if(startTime) return
 
@@ -107,7 +107,7 @@ const ProgressAbility = function (props) {
         <div className="progress-ability" onClick={useAbility}>
         <svg width={radius/2} height={radius/2}>
             <image
-                className={charges > 0 ? "full" : "desaturated"}
+                className={charges > 0 ? "colored" : "desaturated"}
                 href={icon}
                 width={radius/2}
                 height={radius/2}
