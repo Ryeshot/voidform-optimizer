@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import "./ProgressAbility.css"
 
 const ProgressAbility = (props) => {
@@ -13,76 +13,109 @@ const ProgressAbility = (props) => {
 
     const calculateStrokeDashoffset = (progress, onCooldown, cooldown) => circumference + (!onCooldown ? 0 : (progress / cooldown)) * circumference
 
+    const startTimeRef = useRef(startTime)
+    const cooldownRef = useRef(cooldown)
+    const casttimeRef = useRef(casttime)
+
+    startTimeRef.current = startTime
+    cooldownRef.current = cooldown
+    casttimeRef.current = casttime
+
     useEffect(() => {
         subscribe({
             source: id,
             keybind,
-            notify: startCooldown,
+            notify: () => startCooldown(true),
             execute: useAbility
         })
 
         return (id) => unsubscribe(id)
-    }, [startTime])
+    })
 
-    const startCooldown = (cooldown, source = id) => {
+    const startCooldown = (gcd) => {
 
-        //console.log("Inside start cooldown")
+        if(startTimeRef.current) return
 
-        //console.log(`Start time for ${name} is ${startTime}`)
-
-        if(startTime) return
-
-        let progress = cooldown
-
-        if(source === id) setCharges(charges => charges-1)
+        if(!gcd) setCharges(charges => charges-1)
 
         let timer = setInterval(() => {
+            let now = Date.now()
+            let progress = ((startTimeRef.current || now) + cooldownRef.current) - now
+
             if(progress <= interval) {
                 clearInterval(timer)
-                onAbilityUpdate({
-                    type: "ABILITY_COOLDOWN_END",
-                    payload: name
-                })
-                if(source === id) setCharges(charges => charges+1)
+                
+                if(!gcd) {
+                    onAbilityUpdate({
+                        type: "ABILITY_COOLDOWN_END",
+                        payload: {
+                            name
+                        }
+                    })
+                    setCharges(charges => charges+1)
+                }
                 setStrokeDashoffset(circumference)
+                return
             }
-            progress = progress-interval
-            setStrokeDashoffset(calculateStrokeDashoffset(progress, true, cooldown))
+            setStrokeDashoffset(calculateStrokeDashoffset(progress, true, cooldownRef.current))
         }, interval)
 
-        onAbilityUpdate({
-            type: "ABILITY_COOLDOWN_START",
-            payload: name
-        }) 
-
-        if(resource && source === id) triggerEvent({
-            type: "RESOURCE_UPDATE",
-            payload: resource
-        })
+        if(!gcd) {
+            onAbilityUpdate({
+                type: "ABILITY_COOLDOWN_START",
+                payload: {
+                    name,
+                    time: Date.now()
+                }
+            })
+            triggerEvent({
+                type: "RESOURCE_UPDATE",
+                payload: resource
+            })
+        }
+       
+        // if(!gcd) {
+        //     //only do cooldown actions if it has a cooldown
+        //     if(cooldownRef.current) {
+        //         onAbilityUpdate({
+        //             type: "ABILITY_COOLDOWN_START",
+        //             payload: {
+        //                 name,
+        //                 time: Date.now()
+        //             }
+        //         })
+        //     }
+        //     triggerEvent({
+        //         type: "RESOURCE_UPDATE",
+        //         payload: resource
+        //     })
+        // } 
     }
 
     const startCast = () => {
         setTimeout(() => {
             onAbilityUpdate({
                 type: "ABILITY_CAST_END",
-                payload: name
+                payload: {
+                    name
+                }
             })
-            startCooldown(cooldown)
-        }, casttime)
-
-        //console.log("A cast is triggering the gcd: " + id)
+            startCooldown()
+        }, casttimeRef.current)
 
         onAbilityUpdate({
             type: "ABILITY_CAST_START",
-            payload: name
+            payload: {
+                name,
+                time: Date.now()
+            }
         })
     }
 
     const useAbility = () => {
-        //console.log("Preparing to use ability: " + id)
-        if(startTime) return
-        casttime ? startCast() : startCooldown(cooldown)
-        onExecute(id)
+        if(startTimeRef.current) return
+        casttime ? startCast() : startCooldown()
+        onExecute(id, cooldownRef.current)
     }
 
     return (

@@ -1,8 +1,9 @@
 const abilities = {
     "mind-flay": {
-        cooldown: 1500,
+        cooldown: 0,
         resource: 6,
         hasted: true,
+        type: "channel",
         keybind: "e",
         icon: "images/mind-flay.jpg"
     },
@@ -10,6 +11,7 @@ const abilities = {
         cooldown: 4500,
         resource: 20,
         hasted: true,
+        type: "instant",
         charges: 1,
         keybind: "1",
         icon: "images/void-bolt.jpg"
@@ -18,6 +20,7 @@ const abilities = {
         cooldown: 7500,
         resource: 12,
         hasted: true,
+        type: "cast",
         casttime: 1500,
         charges: 1,
         keybind: "r",
@@ -26,6 +29,7 @@ const abilities = {
     "shadow-word-death": {
         cooldown: 9000,
         resource: 15,
+        type: "instant",
         charges: 2,
         keybind: "2",
         icon: "images/shadow-word-death.jpg"

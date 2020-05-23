@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 
 const Voidform = (props) => {
 
-    const {drainRate, drainStart, haste, stackHaste, baseHaste, maxStacks, triggerEvent} = props
+    const {drainRate, drainStart, stackHaste, baseHaste, maxStacks, triggerEvent} = props
     const interval = 100
 
     const start = () => {
@@ -12,7 +12,10 @@ const Voidform = (props) => {
 
         if(baseHaste) triggerEvent({
             type: "HASTE_UPDATE",
-            payload: baseHaste
+            payload: {
+                source: "voidform",
+                haste: baseHaste
+            }
         })
 
         const timer = setInterval(() => {
@@ -30,7 +33,6 @@ const Voidform = (props) => {
 
           if(i % frequency === 0 && i/frequency <= maxStacks) {
               //gain a stack of vf
-
               triggerEvent({
                   type: "VOIDFORM_UPDATE",
                   payload: stackHaste
@@ -47,7 +49,13 @@ const Voidform = (props) => {
     useEffect(() => {
         let timer = start()
 
-        return () => clearInterval(timer)
+        return () => {
+            clearInterval(timer)
+
+            triggerEvent({
+                type: "VOIDFORM_END"
+            })
+        }
     }, [])
     
     return null

@@ -1,5 +1,6 @@
-import React, {useState, useEffect, useReducer} from 'react';
+import React, {useState, useEffect, useReducer, useRef} from 'react';
 import ProgressAbility from "./ProgressAbility"
+import GlobalCooldown from "./GlobalCooldown"
 import abilities from "../utils/abilities"
 import "./AbilityBar.css"
 
@@ -9,50 +10,91 @@ const AbilityBar = (props) => {
     const {haste, triggerEvent} = props
     let observers = []
 
+    const hasteRef = useRef(haste)
+    hasteRef.current = haste
+
+    const defaultCooldowns = () => {
+        const cooldowns = {}
+        Object.keys(abilities).forEach(k => {
+            cooldowns[k] = {
+                startTime: 0,
+                onGlobalCooldown: false
+            }
+        })
+
+        return cooldowns
+    }
+
+    const defaultState = {
+        globalCooldown: 0,
+        cooldowns: defaultCooldowns()
+    }
+
     useEffect(() => {
         document.addEventListener("keypress", handleKeyPress, {once: true})
         return () => document.removeEventListener("keypress", handleKeyPress)
     }, [])
 
-    const [cooldowns, triggerCooldown] = useReducer((oldState, action) => {
-        const name = action.payload
-        const state = JSON.parse(JSON.stringify(oldState))
-
-        let now = Date.now()
+    const [state, triggerCooldown] = useReducer((oldState, action) => {
+        const newState = JSON.parse(JSON.stringify(oldState))
+        const payload = action.payload
 
         switch(action.type) {
             case "ABILITY_COOLDOWN_START":
-                state[name] = {
-                    startTime: now
-                }
+                var {name, time} = payload
+                newState.cooldowns[name].startTime = time
                 break
             case "ABILITY_COOLDOWN_END":
-                state[name] = {
-                    startTime: 0
-                }
+                var {name, time} = payload
+                newState.cooldowns[name].startTime = 0
                 break
             case "ABILITY_CAST_START":
-                state[name] = {
-                    startTime: now
-                }
+                var {name, time} = payload
+                newState.cooldowns[name].startTime = time
                 break
             case "ABILITY_CAST_END":
-                state[name] = {
-                    startTime: 0
-                }
+                var {name, time} = payload
+                newState.cooldowns[name].startTime = 0
                 break
+            case "GLOBAL_COOLDOWN_START":
+                newState.globalCooldown = payload.gcd
+                Object.keys(newState.cooldowns).forEach(k => {
+                    //ability is source or currently on cooldown
+                    //does not skip source abilities with no cooldown
+
+                    //if a no cooldown ability is the source do not skip
+                    //if a cooldown ability is the source skip
+                    //if a cooldown ability has a start time skip
+
+                    if(k === payload.source && payload.cooldown) return
+                    if(k !== payload.source && newState.cooldowns[k].startTime) return
+                    newState.cooldowns[k].onGlobalCooldown = true
+                    newState.cooldowns[k].startTime = payload.time
+                })
+                console.log("Old state")
+                console.log(oldState)
+                console.log("New state")
+                console.log(newState.cooldowns)
+                break
+            case "GLOBAL_COOLDOWN_END":
+                newState.globalCooldown = 0
+                Object.keys(newState.cooldowns).filter(k => newState.cooldowns[k].onGlobalCooldown).forEach(k => {
+                    newState.cooldowns[k].onGlobalCooldown = false
+                    newState.cooldowns[k].startTime = 0
+                })
+                break
+            default:
+                console.error(`Invalid action provided: ${action.type}`)
         }
 
-        return state
-    }, {})
+        return newState
+
+    }, defaultState)
 
     const handleKeyPress = (e) => {
 
-        //console.log("Key pressed: " + e.key)
-
         observers.forEach(o => {
             if(o.keybind === e.key) {
-                //console.log("Pressing ability: " + o.source)
                 o.execute()
             }
         })
@@ -63,18 +105,22 @@ const AbilityBar = (props) => {
     }
 
     const calculateCooldown = (cooldown) => {
-        //console.log(haste)
-        return cooldown/(1+haste)
+        return cooldown/hasteRef.current
     }
 
-    const triggerGlobalCooldown = (source) => {
-        //calculate haste
+    const triggerGlobalCooldown = (source, cooldown) => {
+        let gcd = Math.max(calculateCooldown(gcdLength), gcdLength/2)
 
-        let gcd = calculateCooldown(gcdLength)
+        observers.forEach(o => o.notify())
 
-        observers.forEach(o => {
-            if(o.source === source) return
-            o.notify(gcd, source)
+        triggerCooldown({
+            type: "GLOBAL_COOLDOWN_START",
+            payload: {
+                source,
+                gcd,
+                cooldown,
+                time: Date.now()
+            }
         })
     }
 
@@ -87,13 +133,12 @@ const AbilityBar = (props) => {
         observers = observers.filter(o => o.source !== source)
     }
 
-    const getStartTime = (k) => {
+    const getAbilityCooldown = (k) => {
+        const ability = abilities[k]
+        
+        if(state.cooldowns[k].onGlobalCooldown) return state.globalCooldown
 
-        let time = (cooldowns[k] && cooldowns[k].startTime) || 0
-
-        //console.log(`Start time for ${k} is ${time}`)
-
-        return time
+        return ability.hasted ? calculateCooldown(ability.cooldown) : ability.cooldown
     }
 
     return (
@@ -104,9 +149,9 @@ const AbilityBar = (props) => {
             key={i}
             radius={100} 
             stroke={100} 
-            cooldown={abilities[k].hasted ? calculateCooldown(abilities[k].cooldown) : abilities[k].cooldown}
+            cooldown={getAbilityCooldown(k)}
             resource={abilities[k].resource}
-            startTime={getStartTime(k)}
+            startTime={state.cooldowns[k].startTime}
             maxCharges={abilities[k].charges} 
             keybind={abilities[k].keybind}
             icon = {abilities[k].icon}
@@ -116,8 +161,9 @@ const AbilityBar = (props) => {
             onExecute={triggerGlobalCooldown}
             onAbilityUpdate={triggerCooldown}
             triggerEvent={triggerEvent}
-            id={i}
-            />)}
+            id={k}
+        />)}
+        {state.globalCooldown? <GlobalCooldown duration={state.globalCooldown} triggerEvent={triggerCooldown}/> : null}
         </div>
     )
 }
