@@ -1,0 +1,43 @@
+.panel {
+    position: fixed;
+    z-index: 1;
+    background-color: #111;
+    transition: 0.5s;
+    overflow: hidden;
+}
+
+.panel-header:hover {
+    cursor: pointer;
+}
+
+.panel-button {
+    color: gray;
+    font-size: 25px;
+    background: none;
+    border: none;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    cursor: pointer;
+}
+ 
+.left-panel {
+    height: 100%;
+    width: 0px;
+    top: 0px;
+    left: 0px;
+}
+
+.bottom-panel {
+    height: 0px;
+    width: 100%;
+    left: 0px;
+    bottom: 0px;
+}
+
+.right-panel {
+    height: 100%;
+    width: 0px;
+    top: 0px;
+    right: 0px;
+}

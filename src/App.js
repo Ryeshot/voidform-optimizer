@@ -4,6 +4,9 @@ import ResourceBar from "./components/ResourceBar"
 import AbilityBar from "./components/AbilityBar"
 import Voidform from "./components/Voidform"
 import Timer from './components/Timer';
+import ExportPanel from "./components/panels/ExportPanel"
+import SettingsPanel from "./components/panels/SettingsPanel"
+import AbilityKeybindsPanel from "./components/panels/AbilityKeybindsPanel"
 
 const App = () => {
 
@@ -14,7 +17,8 @@ const App = () => {
       voidform: 0,
       lingeringInsanity: 0
     },
-    stacks: 0
+    stacks: 0,
+    abilities: {}
   }
 
   const [state, updateState] = useReducer((state, action) => {
@@ -56,6 +60,8 @@ const App = () => {
   const maximumVoidformStacks = 10
 
   const [showTimer, setShowTimer] = useState(false)
+  const [exportData, setExportData] = useState("")
+  const [panel, setPanel] = useState()
 
   const enterVoidform = () => {
     updateState({
@@ -80,12 +86,30 @@ const App = () => {
     setShowTimer(!showTimer)
   }
 
+  const handleExport = () => {
+    setExportData("Hello")
+  }
+
+  const handlePanelHeaderClick = (panel) => {
+    setPanel(panel)
+  }
+
+  const handlePanelClose = () => {
+    setPanel(null)
+  }
+
   return (
     <div className="App">
       <header className="App-header">
         <p>Hello</p>
-        {/* <button onClick={handleClick}>Show Timer!</button>
-        {showTimer ? <Timer /> : null} */}
+        {/* <div panel="abilitykeybinds" onClick={handlePanelHeaderClick}>Click to open panel!</div> */}
+        <div className="panel-container">
+          <ExportPanel onExport={handleExport} currentPanel={panel} exportData={exportData} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
+          <AbilityKeybindsPanel abilities={state.abilities} currentPanel={panel} onKeybind={() => {}} onToggle={() => {}} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
+          <SettingsPanel onImport={() => {}} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
+          </div>
+        {/* {/* <button onClick={handleClick}>Show Timer!</button> */}
+        {/* {showTimer ? <Timer /> : null} */}
         {/* <input type="image" src="images/void-bolt.jpg" /> */}
         {/* {Object.keys(abilities).map(k => {
           //let ability = abilities[k]
