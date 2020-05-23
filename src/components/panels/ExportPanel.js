@@ -12,11 +12,11 @@ const ExportPanel = (props) => {
 
     return (
         <div>
-            <div className="panel-header" onClick={() => onClick(panel)}>Export Custom Settings</div>
+            <div className="panel-header" onClick={() => onClick(panel)}>Export Custom Settings |</div>
             <div className="panel left-panel" style={{
                 width: currentPanel === panel ? "250px": "0px"
             }}>
-                <button className="panel-button" onClick={closePanel}>X</button>
+                <button className="panel-button" onClick={closePanel}>x</button>
                 <button onClick={onExport}>Export</button>
                 <div>{exportData}</div>
             </div>

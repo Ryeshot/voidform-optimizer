@@ -6,13 +6,17 @@
     overflow: hidden;
 }
 
+.panel-header {
+    padding: 5px
+}
+
 .panel-header:hover {
     cursor: pointer;
 }
 
 .panel-button {
     color: gray;
-    font-size: 25px;
+    font-size: 30px;
     background: none;
     border: none;
     position: absolute;

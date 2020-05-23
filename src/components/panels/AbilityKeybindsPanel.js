@@ -10,11 +10,11 @@ const AbilityKeybindsPanel = (props) => {
 
     return (
         <div>
-            <div className="panel-header" onClick={() => onClick(panel)}>Abilties and Keybinds</div>
+            <div className="panel-header" onClick={() => onClick(panel)}>Abilties and Keybinds |</div>
             <div className="panel bottom-panel" style={{
                 height: currentPanel === panel ? "250px": "0px"
             }}>
-                <button className="panel-button" onClick={closePanel}>X</button>
+                <button className="panel-button" onClick={closePanel}>x</button>
             </div>
         </div>
     )

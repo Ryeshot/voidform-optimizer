@@ -20,7 +20,7 @@ const SettingsPanel = (props) => {
             <div className="panel right-panel" style={{
                 width: currentPanel === panel ? "250px": "0px"
             }}>
-                <button className="panel-button" onClick={closePanel}>X</button>
+                <button className="panel-button" onClick={closePanel}>x</button>
                 <button onClick={handleOnClick}>Import</button>
                 <div placeholder="Import custom settings here..."></div>
             </div>
