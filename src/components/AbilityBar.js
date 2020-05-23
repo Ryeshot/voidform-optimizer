@@ -197,6 +197,7 @@ const AbilityBar = (props) => {
             radius={100} 
             stroke={100} 
             cooldown={getAbilityCooldown(k)}
+            onGlobalCooldown={state.cooldowns[k].onGlobalCooldown}
             type={abilities[k].type}
             resource={abilities[k].resource}
             startTime={state.cooldowns[k].startTime}

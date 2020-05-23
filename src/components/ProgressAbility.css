@@ -10,6 +10,10 @@
     justify-content: center;
 }
 
+.progress-ability:hover {
+    cursor: pointer;
+}
+
 .charge-text {
     position: absolute;
     left: 35px;
