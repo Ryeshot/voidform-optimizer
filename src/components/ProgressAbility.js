@@ -39,7 +39,7 @@ const ProgressAbility = (props) => {
             let now = Date.now()
             let remaining = ((startTimeRef.current || now) + cooldownRef.current) - now
 
-            if(remaining <= 0) {
+            if(remaining <= interval) {
                 clearInterval(timer)
                 
                 if(!gcd) {
