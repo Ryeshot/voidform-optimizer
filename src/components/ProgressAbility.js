@@ -1,17 +1,14 @@
 import React, {useState, useEffect, useRef} from 'react';
 import "./ProgressAbility.css"
+import CooldownSweep from "./CooldownSweep"
 
 const ProgressAbility = (props) => {
 
     const {name, radius, stroke, cooldown, type, resource, startTime, icon, casttime, maxCharges, keybind, subscribe, unsubscribe, onExecute, onAbilityUpdate, triggerEvent, id} = props
     const interval = 50
-    const normalizedRadius = radius - (stroke/2)
-    const circumference = normalizedRadius * 2 * Math.PI
 
     const [charges, setCharges] = useState(maxCharges || 1)
-    const [strokeDashoffset, setStrokeDashoffset] = useState(circumference)
-
-    const calculateStrokeDashoffset = (progress, onCooldown, cooldown) => circumference + (!onCooldown ? 0 : (progress / cooldown)) * circumference
+    const [progress, setProgress] = useState(0)
 
     const startTimeRef = useRef(startTime)
     const cooldownRef = useRef(cooldown)
@@ -40,9 +37,9 @@ const ProgressAbility = (props) => {
 
         let timer = setInterval(() => {
             let now = Date.now()
-            let progress = ((startTimeRef.current || now) + cooldownRef.current) - now
+            let remaining = ((startTimeRef.current || now) + cooldownRef.current) - now
 
-            if(progress <= interval) {
+            if(remaining <= interval) {
                 clearInterval(timer)
                 
                 if(!gcd) {
@@ -54,10 +51,10 @@ const ProgressAbility = (props) => {
                     })
                     setCharges(charges => charges+1)
                 }
-                setStrokeDashoffset(circumference)
+                setProgress(0)
                 return
             }
-            setStrokeDashoffset(calculateStrokeDashoffset(progress, true, cooldownRef.current))
+            setProgress(progress => remaining/cooldownRef.current)
 
             onAbilityUpdate({
                 type: "ABILITY_COOLDOWN_UPDATE",
@@ -139,34 +136,19 @@ const ProgressAbility = (props) => {
     }
 
     return (
+        <div className="progress-ability-container">
         <div className="progress-ability" onClick={useAbility}>
-        <svg width={radius/2} height={radius/2}>
-            <image
+            <img 
                 className={charges > 0 ? "colored" : "desaturated"}
-                href={icon}
+                src={icon}
                 width={radius/2}
                 height={radius/2}
             />
-            <text
-                className="charge-text"
-                x="35"
-                y="45"
-                fill="white"
-            >
-                {maxCharges > 1 ? charges : ""}
-            </text>
-            {/* <div className="charge-text"></div> */}
-            <circle 
-                fill="transparent"
-                strokeWidth={stroke}
-                strokeOpacity={.7}
-                strokeDasharray={circumference + " " + circumference}
-                strokeDashoffset={strokeDashoffset}
-                stroke={"rgb(0,0,0)"}
-                cx={radius/4}
-                cy={radius/4}
-                r={normalizedRadius} />
-        </svg>
+            <div className="charge-text">{maxCharges > 1 ? charges : ""}</div>
+            {startTimeRef.current ? 
+            <CooldownSweep size={radius/2} radius={radius} stroke={stroke} progress={progress}/>
+            : null}
+        </div>
         <div>{keybind.match(/[a-zA-Z]/) ? keybind.toUpperCase() : keybind}</div>
         </div>
     )

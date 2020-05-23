@@ -147,6 +147,8 @@ const AbilityBar = (props) => {
     const triggerGlobalCooldown = (source, cooldown, type) => {
         let gcd = Math.max(calculateCooldown(gcdLength), gcdLength/2)
 
+        observers.forEach(o => o.notify())
+
         triggerCooldown({
             type: "GLOBAL_COOLDOWN_START",
             payload: {
@@ -157,8 +159,6 @@ const AbilityBar = (props) => {
                 time: Date.now()
             }
         })
-
-        observers.forEach(o => o.notify())
     }
 
     const subscribe = (observer) => {
