@@ -25,6 +25,14 @@ const AbilityBar = (props) => {
         return cooldowns
     }
 
+    const getAbilityCooldown = (k) => {
+        const ability = abilities[k]
+        
+        if(state.cooldowns[k].onGlobalCooldown) return state.globalCooldown
+
+        return ability.hasted ? calculateCooldown(ability.cooldown) : ability.cooldown
+    }
+
     const defaultState = {
         globalCooldown: 0,
         cooldowns: defaultCooldowns()
@@ -48,10 +56,10 @@ const AbilityBar = (props) => {
                 var {name, time} = payload
                 newState.cooldowns[name].startTime = 0
                 break
-            // case "ABILITY_COOLDOWN_UPDATE":
-            //     var {name, cooldown} = payload
-            //     newState.cooldowns[name].cooldown = cooldown
-            //     break
+            case "ABILITY_COOLDOWN_UPDATE":
+                var {name, cooldown} = payload
+                newState.cooldowns[name].cooldown = cooldown
+                break
             case "ABILITY_CAST_START":
                 var {name, time} = payload
                 newState.cooldowns[name].startTime = time
@@ -61,11 +69,12 @@ const AbilityBar = (props) => {
                 newState.cooldowns[name].startTime = 0
                 break
             case "GLOBAL_COOLDOWN_START":
+                //console.log(newState)
                 newState.globalCooldown = payload.gcd
                 Object.keys(newState.cooldowns).forEach(k => {
                     //need to determine if any abilities currently on cooldown have a cooldown less than the global
-                    let cooldown = getAbilityCooldown(k)
-                    let startTime = newState.cooldowns[k]
+                    let cooldown = newState.cooldowns[k].cooldown
+                    let startTime = newState.cooldowns[k].startTime
                     let isSource = k === payload.source
                     let cooldownMoreThanGcd = (startTime + cooldown) > payload.time + payload.gcd
                   
@@ -75,10 +84,10 @@ const AbilityBar = (props) => {
                     newState.cooldowns[k].onGlobalCooldown = true
                     newState.cooldowns[k].startTime = payload.time
                 })
-                console.log("Old state")
-                console.log(oldState)
-                console.log("New state")
-                console.log(newState.cooldowns)
+                // console.log("Old state")
+                // console.log(oldState)
+                // console.log("New state")
+                // console.log(newState.cooldowns)
                 break
             case "GLOBAL_COOLDOWN_END":
                 newState.globalCooldown = 0
@@ -135,14 +144,6 @@ const AbilityBar = (props) => {
 
     const unsubscribe = (source) => {
         observers = observers.filter(o => o.source !== source)
-    }
-
-    var getAbilityCooldown = (k) => {
-        const ability = abilities[k]
-        
-        if(state.cooldowns[k].onGlobalCooldown) return state.globalCooldown
-
-        return ability.hasted ? calculateCooldown(ability.cooldown) : ability.cooldown
     }
 
     return (

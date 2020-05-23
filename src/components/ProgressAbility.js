@@ -36,7 +36,7 @@ const ProgressAbility = (props) => {
 
         if(startTimeRef.current) return
 
-        if(!gcd) setCharges(charges => charges-1)
+        if(!gcd && cooldownRef.current) setCharges(charges => charges-1)
 
         let timer = setInterval(() => {
             let now = Date.now()
@@ -58,6 +58,14 @@ const ProgressAbility = (props) => {
                 return
             }
             setStrokeDashoffset(calculateStrokeDashoffset(progress, true, cooldownRef.current))
+
+            onAbilityUpdate({
+                type: "ABILITY_COOLDOWN_UPDATE",
+                payload: {
+                    name,
+                    cooldown: cooldownRef.current
+                }
+            })
         }, interval)
 
         if(!gcd) {
