@@ -4,8 +4,11 @@ import CooldownSweep from "./CooldownSweep"
 
 const ProgressAbility = (props) => {
 
-    const {name, radius, stroke, cooldown, type, resource, startTime, icon, casttime, maxCharges, keybind, subscribe, unsubscribe, onExecute, onAbilityUpdate, triggerEvent, id} = props
+    const {name, cooldown, onGlobalCooldown, type, resource, startTime, icon, casttime, maxCharges, keybind, subscribe, unsubscribe, onExecute, onAbilityUpdate, triggerEvent, id} = props
     const interval = 50
+
+    const radius = 100
+    const stroke = 100
 
     const [charges, setCharges] = useState(maxCharges || 1)
     const [progress, setProgress] = useState(0)
@@ -28,6 +31,8 @@ const ProgressAbility = (props) => {
 
         return (id) => unsubscribe(id)
     })
+
+    //two separate timers, one for gcd one for the actual cooldown?
 
     const startCooldown = (gcd) => {
 
@@ -124,7 +129,6 @@ const ProgressAbility = (props) => {
     const useAbility = () => {
         if(startTimeRef.current) return
         //channels immediately start cooldown
-        console.log(type)
         if(type === "channel") {
             startChannel()
             startCooldown()
@@ -140,7 +144,7 @@ const ProgressAbility = (props) => {
         <div className="progress-ability-container">
         <div className="progress-ability" onClick={useAbility}>
             <img 
-                className={charges > 0 ? "colored" : "desaturated"}
+                className={(charges > 0 || onGlobalCooldown) ? "colored" : "desaturated"}
                 src={icon}
                 width={radius/2}
                 height={radius/2}
