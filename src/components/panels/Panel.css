@@ -43,6 +43,11 @@
     bottom: 0px;
 }
 
+.middle-panel {
+    height: 0px;
+    width: 0px;
+}
+
 .right-panel {
     height: 100%;
     width: 0px;

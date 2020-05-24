@@ -7,6 +7,7 @@ import Timer from './components/Timer';
 import ExportPanel from "./components/panels/ExportPanel"
 import SettingsPanel from "./components/panels/SettingsPanel"
 import AbilityKeybindsPanel from "./components/panels/AbilityKeybindsPanel"
+import AboutPanel from "./components/panels/AboutPanel"
 import abilities from "./utils/abilityConfig"
 
 const App = () => {
@@ -118,6 +119,7 @@ const App = () => {
           <SettingsPanel onImport={() => {}} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
           <AbilityKeybindsPanel abilities={abilitySettings} currentPanel={panel} onKeybind={() => {}} onToggle={handleAbilityToggle} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
           <ExportPanel onExport={handleExport} currentPanel={panel} exportData={exportData} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
+          <AboutPanel currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
           {/* add about panel that triggers modal*/}
           </div>
         {/* {/* <button onClick={handleClick}>Show Timer!</button> */}
