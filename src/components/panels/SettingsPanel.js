@@ -12,15 +12,19 @@ const SettingsPanel = (props) => {
     const panel = "settings"
     const header= "Custom Settings"
     const panelClass = "right-panel"
+    const placeholderText = "Import custom settings here..."
 
     const handleOnClick = () => {
         onImport(importData)
     }
 
     return (
-        <Panel panel={panel} onClick={onClick} handleClose={closePanel} header={header} panelClass={panelClass} style={{width: currentPanel === panel ? "250px": "0px"}}>
-            <button onClick={handleOnClick}>Import</button>
-            <div placeholder="Import custom settings here..."></div>
+        <Panel panel={panel} onClick={onClick} handleClose={closePanel} header={header} panelClass={panelClass} style={{width: currentPanel === panel ? "350px": "0px"}}>
+            <div className="panel-input-area">
+                <textarea className="panel-text-area" rows={10} col={50} placeholder={placeholderText}>
+                </textarea>
+                <button className="panel-button panel-input-button" onClick={handleOnClick}>Import</button>
+            </div>
         </Panel>      
     )
 }

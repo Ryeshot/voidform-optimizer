@@ -10,7 +10,7 @@ const Panel = (props) => {
         <div>
             <div className="panel-header hover-pointer" onClick={() => onClick(panel)}>{header}</div>
             <div className={`panel ${panelClass}`} style={style}>
-                <button className="panel-button" onClick={handleClose}>x</button>
+                <button className="panel-button panel-exit-button" onClick={handleClose}>x</button>
                 {props.children}
             </div>
         </div>

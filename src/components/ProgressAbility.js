@@ -143,7 +143,7 @@ const ProgressAbility = (props) => {
     return (
         <div className="progress-ability-container">
         <div className="progress-ability" onClick={useAbility}>
-            <img 
+            <img className="ability-icon"
                 className={(charges > 0 || onGlobalCooldown) ? "colored" : "desaturated"}
                 src={icon}
                 width={radius/2}

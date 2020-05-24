@@ -5,7 +5,7 @@ const ResourceBar = (props) => {
     const {max, current, voidform} = props
 
     return (
-        <div className="container">
+        <div className="progress-bar-container">
             <div className="progress-text">{(current/max*100).toFixed(0)}</div> 
             <div className="progress-bar" 
                 style={{
@@ -13,11 +13,6 @@ const ResourceBar = (props) => {
             }}>
             </div>
         </div>
-        
-        // <div>
-        //     Resource Bar
-        //     <div height="24px" width="50%"></div>
-        // </div> 
     )
 }
 

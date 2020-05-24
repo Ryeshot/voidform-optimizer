@@ -19,7 +19,7 @@ const CastBar = (props) => {
     }, [name])
 
     return (
-        <div className="container">
+        <div id="cast-bar">
             <div className="left-progress-text">{name}</div>
             <div className="right-progress-text">{direction 
             ? `${(current/sec).toFixed(1)}/${((duration/sec).toFixed(1))}`
