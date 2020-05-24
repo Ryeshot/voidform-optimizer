@@ -224,8 +224,6 @@ const AbilityBar = (props) => {
         .map((k,i) => <ProgressAbility
             name={k}
             key={i}
-            radius={100} 
-            stroke={100} 
             cooldown={getAbilityCooldown(k)}
             onGlobalCooldown={state.cooldowns[k].onGlobalCooldown}
             type={currentAbilities[k].type}
@@ -233,7 +231,7 @@ const AbilityBar = (props) => {
             startTime={state.cooldowns[k].startTime}
             maxCharges={currentAbilities[k].charges} 
             keybind={currentAbilities[k].keybind}
-            icon = {currentAbilities[k].icon}
+            icon={currentAbilities[k].icon}
             casttime = {calculateCooldown(currentAbilities[k].casttime)}
             subscribe={subscribe}
             unsubscribe={unsubscribe}

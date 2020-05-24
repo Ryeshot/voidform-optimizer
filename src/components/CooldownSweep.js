@@ -4,7 +4,10 @@ import "./CooldownSweep.css"
 
 const CooldownSweep = (props) => {
 
-    const {size, radius, image, desaturated, stroke, progress, inverse} = props
+    const {size, progress, inverse} = props
+
+    const radius = size * 2
+    const stroke = size * 2
 
     const normalizedRadius = radius - (stroke/2)
     const circumference = normalizedRadius * 2 * Math.PI

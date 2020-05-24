@@ -20,7 +20,7 @@ const AbilityKeybindsPanel = (props) => {
 
     const [tooltip, setTooltip] = useState(defaultState.tooltip)
     const [keybindText, setKeybindText] = useState(defaultState.keybindText)
-    const [currentAbility, setCurrentAbility] = useState("")
+    const [currentAbility, setCurrentAbility] = useState(defaultState.currentAbility)
 
     const handleClose = () => {
         setTooltip(defaultState.tooltip)
@@ -34,11 +34,15 @@ const AbilityKeybindsPanel = (props) => {
         setTooltip(e.target.alt)
     }
 
+    const hideToolTip = () => {
+        setTooltip("")
+    }
+
     const prepareToBindAbility = (e) => {
         let ability = e.target.getAttribute("ability")
-        setCurrentAbility(ability)
+        setCurrentAbility(ability => ability)
 
-        setKeybindText(`Press any key to bind to ${ability}`)
+        setKeybindText(`Press any key to bind to ${abilities[ability].displayName}`)
 
         document.addEventListener("keyup", bindAbility, {once: true})
     }
@@ -49,7 +53,7 @@ const AbilityKeybindsPanel = (props) => {
         let key = event.key.match(/[a-zA-Z]/) ? event.key.toUpperCase() : event.key 
 
         onKeybind(key)
-        setKeybindText(`${currentAbility} successfuly bound to ${key}`)
+        setKeybindText(`Ability successfuly bound to ${key}`)
     }
 
     return (
@@ -62,12 +66,13 @@ const AbilityKeybindsPanel = (props) => {
                             alt={abilities[k].displayName}
                             ability={k} 
                             onMouseOver={showToolTip}
+                            onMouseOut={hideToolTip}
                             onClick={prepareToBindAbility}
                             src={abilities[k].icon}
                             height={50}
                             width={50}
                         />
-                    <button onClick={() => onToggle(k)}>{abilities[k].disabled ? "Enable" : "Disable"}</button>
+                    <button className="panel-button" onClick={() => onToggle(k)}>{abilities[k].disabled ? "Enable" : "Disable"}</button>
                     </div>
                 )}
                 <div className="tooltip">

@@ -7,8 +7,7 @@ const ProgressAbility = (props) => {
     const {name, cooldown, onGlobalCooldown, type, resource, startTime, icon, casttime, maxCharges, keybind, subscribe, unsubscribe, onExecute, onAbilityUpdate, triggerEvent, id} = props
     const interval = 50
 
-    const radius = 100
-    const stroke = 100
+    const size = 50
 
     const [charges, setCharges] = useState(maxCharges || 1)
     const [progress, setProgress] = useState(0)
@@ -146,12 +145,12 @@ const ProgressAbility = (props) => {
             <img className="ability-icon"
                 className={(charges > 0 || onGlobalCooldown) ? "colored" : "desaturated"}
                 src={icon}
-                width={radius/2}
-                height={radius/2}
+                width={size}
+                height={size}
             />
             <div className="charge-text">{maxCharges > 1 ? charges : ""}</div>
             {startTimeRef.current ? 
-            <CooldownSweep size={radius/2} radius={radius} stroke={stroke} progress={progress}/>
+            <CooldownSweep size={size} progress={progress}/>
             : null}
         </div>
         <div>{keybind.match(/[a-zA-Z]/) ? keybind.toUpperCase() : keybind}</div>
