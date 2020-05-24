@@ -115,9 +115,9 @@ const App = () => {
         <p>Hello</p>
         {/* <div panel="abilitykeybinds" onClick={handlePanelHeaderClick}>Click to open panel!</div> */}
         <div className="panel-container">
-          <ExportPanel onExport={handleExport} currentPanel={panel} exportData={exportData} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
-          <AbilityKeybindsPanel abilities={abilitySettings} currentPanel={panel} onKeybind={() => {}} onToggle={handleAbilityToggle} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
           <SettingsPanel onImport={() => {}} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
+          <AbilityKeybindsPanel abilities={abilitySettings} currentPanel={panel} onKeybind={() => {}} onToggle={handleAbilityToggle} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
+          <ExportPanel onExport={handleExport} currentPanel={panel} exportData={exportData} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
           {/* add about panel that triggers modal*/}
           </div>
         {/* {/* <button onClick={handleClick}>Show Timer!</button> */}
