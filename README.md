@@ -33,23 +33,32 @@ store : {
             void-bolt: {
                 cooldown: <number>,
                 rankTwo: <boolean>,
-                charges: <number>
+                charges: <number>,
+                hasted: <boolean>,
+                resource: <number>
             },
             void-eruption: {
                 threshold: <number>,
                 castTime: <number>
             }
             mind-flay: {
-                duration: <number>
+                duration: <number>,
+                ticks: <number>,
+                resource: <number>
             },
             mind-blast: {
                 cooldown: <number>,
                 charges: <number>,
-                castTime: <number>
+                castTime: <number>,
+                hasted: <boolean>,
+                resource: <number>
             },
             shadow-word-death: {
                 cooldown: <number>,
-                charges: <number>
+                charges: <number>,
+                hasted: <boolean>,
+                hasted: <boolean>,
+                resource: <number>
             }
         },
         auraSettings: {
