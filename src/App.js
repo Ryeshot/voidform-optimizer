@@ -115,6 +115,7 @@ const App = () => {
       <header className="App-header">
         <p>Hello</p>
         {/* <div panel="abilitykeybinds" onClick={handlePanelHeaderClick}>Click to open panel!</div> */}
+        <div className ="header-panel"></div>
         <div className="panel-container">
           <SettingsPanel onImport={() => {}} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
           <AbilityKeybindsPanel abilities={abilitySettings} currentPanel={panel} onKeybind={() => {}} onToggle={handleAbilityToggle} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
