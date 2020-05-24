@@ -1,8 +1,11 @@
+const editableField = (value) => ({editable: true, value})
+const uneditableField = (value) => ({editable: false, value})
+
 const abilitySettings = {
     "mind-flay": {
-        cooldown: 0,
+        cooldown: uneditableField(0),
         resource: editableField(12),
-        hasted: uneditableFIeld(true),
+        hasted: uneditableField(true),
         castTime: editableField(3000),
         type: uneditableField("channel")
     },
@@ -34,8 +37,5 @@ const abilitySettings = {
         charges: editableField(2)
     }
 }
-
-const editableField = (value) => {editable: true, value}
-const uneditableField = (value) => {editable: false, value}
 
 export default abilitySettings

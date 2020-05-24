@@ -7,17 +7,29 @@ const parseAbility = (ability, key) => {
         let userSetting = ability[k]
         let setting = abilitySetting[k]
 
-        if(!userSetting) throw new Error("Missing ability setting in input")
-        if(setting.editable) throw new Error("Invalid setting provided")
-        if(typeof userSetting !== typeof setting[k].value) throw new Error("Ability setting has invalid format")
+        if(!setting.editable) {
+            if(userSetting) throw new Error("Invalid setting provided")
+            obj[k] = setting
+            return obj
+        }
+
+        if((userSetting === null || userSetting === undefined) && setting.editable) throw new Error("Missing ability setting in input " + k)
+
+        console.log(key)
+        console.log(userSetting)
+        console.log(setting.value)
+
+        if(typeof userSetting !== typeof setting.value) throw new Error("Ability setting has invalid format")
         
         obj[k] = {
             value: userSetting,
             editable: true
         }
+
+        return obj
     }, {})
 
-    return {...result, ...setting}
+    return result
 }
 
 const parseAbilitySettings = (abilities) => {
@@ -42,14 +54,18 @@ const parseAura = (aura, key) => {
         let userSetting = aura[k]
         let setting = auraSetting[k]
 
-        if(!userSetting) throw new Error("Missing aura setting in input")
+        if(userSetting === null || auraSetting === undefined) throw new Error("Missing aura setting in input " + k)
         if(typeof userSetting !== typeof setting) throw new Error("Aura setting has invalid format")
+
+        obj[k] = userSetting
+
+        return obj
     }, {})
 
     return result
 }
 
-const parseAuraSettings = (auraa) => {
+const parseAuraSettings = (auras) => {
     let result = {}
     Object.keys(auraSettings).forEach(a => {
         let aura = auras[a]
@@ -62,7 +78,7 @@ const parseAuraSettings = (auraa) => {
     return result
 }
 
-const importSettings = (settings) => {
+export const importSettings = (settings) => {
 
     try {
         let parsedSettings = JSON.parse(settings)
@@ -77,14 +93,17 @@ const importSettings = (settings) => {
     }
 
     catch(e) {
-        throw new Error("An error occurred while parsing input data.")
+        throw new Error("An error occurred while parsing input data.\nReason: " + e.message)
     }
 }
 
 const formatSingleAbilitySetting = (setting) => {
     let result = Object.keys(setting).reduce((obj, k) => {
-        if(!setting[k].editable) return
+        console.log(k)
+        console.log(setting[k])
+        if(!setting[k].editable) return obj
         obj[k] = setting[k].value
+        return obj
     }, {})
 
     return result
@@ -95,12 +114,13 @@ const formatAbilitySettingsForExport = (settings) => {
         let ability = settings[k]
         let formattedAbility = formatSingleAbilitySetting(ability)
         obj[k] = formattedAbility
+        return obj
     }, {})
 
     return result
 }
 
-const exportSettings = (currentSettings) => {
+export const exportSettings = (currentSettings) => {
     let formattedAbilitySettings = formatAbilitySettingsForExport(currentSettings.abilitySettings)
 
     let combined =  {
