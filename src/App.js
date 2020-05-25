@@ -2,15 +2,12 @@ import React, {useState, useReducer} from 'react';
 import './App.css';
 import ResourceBar from "./components/ResourceBar"
 import AbilityBar from "./components/AbilityBar"
-import Voidform from "./components/auras/Voidform"
-import lingeringInsanity from "./components/auras/LingeringInsanity" 
-import Timer from './components/Timer';
+import AuraBar from "./components/auras/AuraBar"
 import ExportPanel from "./components/panels/ExportPanel"
 import SettingsPanel from "./components/panels/SettingsPanel"
 import AbilityKeybindsPanel from "./components/panels/AbilityKeybindsPanel"
 import AboutPanel from "./components/panels/AboutPanel"
 import abilities from "./utils/abilityConfig"
-import LingeringInsanity from './components/auras/LingeringInsanity';
 
 const App = () => {
 
@@ -106,6 +103,8 @@ const App = () => {
   const calculateHaste = () => {
     const auras = state.auras
     return Object.keys(auras).reduce((haste, aura) => {
+      console.log(aura)
+      console.log(auras[aura])
       return haste * (1+auras[aura].haste)
     }, 1)
   }
@@ -132,60 +131,34 @@ const App = () => {
     newSettings[ability].disabled = !newSettings[ability].disabled
 
     setAbilitySettings(newSettings)
-
-    console.log(newSettings)
   }
 
   const lingeringInsanitySettings = {
     duration: 10000,
-    hastRetention: 1,
+    hasteRetention: 1,
     afterVoidformEntry: true
+  }
+
+  const auraSettings = {
+    lingeringInsanitySettings
   }
 
   return (
     <div className="App">
       <header className="App-header">
         <p>Hello</p>
-        {/* <div panel="abilitykeybinds" onClick={handlePanelHeaderClick}>Click to open panel!</div> */}
         <div className ="header-panel"></div>
         <div className="panel-container">
           <SettingsPanel onImport={() => {}} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
           <AbilityKeybindsPanel abilities={abilitySettings} currentPanel={panel} onKeybind={() => {}} onToggle={handleAbilityToggle} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
           <ExportPanel onExport={handleExport} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
           <AboutPanel currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
-          {/* add about panel that triggers modal*/}
-          </div>
-        {/* {/* <button onClick={handleClick}>Show Timer!</button> */}
-        {/* {showTimer ? <Timer /> : null} */}
-        {/* <input type="image" src="images/void-bolt.jpg" /> */}
-        {/* {Object.keys(abilities).map(k => {
-          //let ability = abilities[k]
-          return <ProgressAbility radius={100} stroke={100} progress={progress} icon={k} />
-        }) */}
-        {state.auras.lingeringInsanity.active 
-        ? <LingeringInsanity 
-          type={"static"} 
-          settings={lingeringInsanitySettings} 
-          haste={state.auras.lingeringInsanity.haste} 
-          stacks={state.auras.lingeringInsanity.stacks} 
-          inVoidform={state.auras.voidform.active} 
-          triggerEvent={updateState}/>
-        : null}
-        {state.auras.voidform.active 
-        ? <Voidform 
-          drainRate={drainRate} 
-          drainStart={drainStart}  
-          stackHaste={stackHaste} 
-          baseHaste={baseHaste} 
-          maxStacks={maximumVoidformStacks} 
-          triggerEvent={updateState}/> 
-        : null}
+        </div>
+        <AuraBar auras={state.auras} settings={auraSettings} triggerEvent={updateState} />
         <ResourceBar current={state.resource} max={100}/>
         <button onClick={enterVoidform}>Enter Voidform!</button>
         <button onClick={gainInsanity}>+10 Insanity</button>
-        <div>{state.auras.voidform.active ? "Voidform Stacks: " + state.auras.voidform.stacks : ""}</div>
         <AbilityBar abilitySettings={abilitySettings} haste={calculateHaste()} triggerEvent={updateState}/>
-         {/* <StaticProgressAbility /> */}
       </header>
     </div>
   );
