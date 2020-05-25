@@ -3,23 +3,31 @@ import './App.css';
 import ResourceBar from "./components/ResourceBar"
 import AbilityBar from "./components/AbilityBar"
 import Voidform from "./components/auras/Voidform"
+import lingeringInsanity from "./components/auras/LingeringInsanity" 
 import Timer from './components/Timer';
 import ExportPanel from "./components/panels/ExportPanel"
 import SettingsPanel from "./components/panels/SettingsPanel"
 import AbilityKeybindsPanel from "./components/panels/AbilityKeybindsPanel"
 import AboutPanel from "./components/panels/AboutPanel"
 import abilities from "./utils/abilityConfig"
+import LingeringInsanity from './components/auras/LingeringInsanity';
 
 const App = () => {
 
   const defaultState = {
-    inVoidform: false,
     resource: 100,
-    hasteSources: {
-      voidform: 0,
-      lingeringInsanity: 0
-    },
-    stacks: 0
+    auras: {
+      voidform: {
+        active: false,
+        stacks: 0,
+        haste: 0
+      },
+      lingeringInsanity: {
+        active: false,
+        stacks: 0,
+        haste: 0
+      }
+    }
   }
 
   const [state, updateState] = useReducer((state, action) => {
@@ -27,26 +35,43 @@ const App = () => {
     let event = action.type
     let newState = JSON.parse(JSON.stringify(state))
 
+    const voidform = newState.auras.voidform
+    const lingeringInsanity = newState.auras.lingeringInsanity
+
     switch(event) {
       case "HASTE_UPDATE":
         const {source, haste} = action.payload
-        newState.hasteSources[source] += haste
+        newState.auras[source].haste += haste
         break
       case "VOIDFORM_UPDATE":
-        newState.stacks++
-        newState.hasteSources["voidform"] += action.payload
+        voidform.stacks++
+        voidform.haste += action.payload
+        break;
       case "VOIDFORM_START":
-        newState.inVoidform = true
+        voidform.active = true
         break;
       case "VOIDFORM_END":
-        newState.stacks = 0
-        newState.hasteSources["voidform"] = 0
+        lingeringInsanity.active = true
+        lingeringInsanity.stacks = voidform.stacks
+        lingeringInsanity.haste = voidform.haste
+        voidform.stacks = 0
+        voidform.haste = 0
+        break;
+      case "LINGERING_INSANITY_START":
+        lingeringInsanity.haste = action.payload
+        break;
+      case "LINGERING_INSANITY_UPDATE":
+        lingeringInsanity.haste += action.payload
+        lingeringInsanity.stacks--
+        break;
+      case "LINGERING_INSANITY_END":
+        lingeringInsanity.active = false
         break;
       case "RESOURCE_UPDATE":
         let resource = Math.max(Math.min(newState.resource + action.payload, 100), 0)
         newState.resource = resource
-        if(resource <= 0 && newState.inVoidform) {
-          newState.inVoidform = false
+        if(resource <= 0 && voidform.active) {
+          voidform.active = false
         }
         break;
     }
@@ -79,8 +104,9 @@ const App = () => {
   }
 
   const calculateHaste = () => {
-    return Object.keys(state.hasteSources).reduce((haste, source) => {
-      return haste * (1+state.hasteSources[source])
+    const auras = state.auras
+    return Object.keys(auras).reduce((haste, aura) => {
+      return haste * (1+auras[aura].haste)
     }, 1)
   }
 
@@ -110,6 +136,12 @@ const App = () => {
     console.log(newSettings)
   }
 
+  const lingeringInsanitySettings = {
+    duration: 10000,
+    hastRetention: 1,
+    afterVoidformEntry: true
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -130,11 +162,28 @@ const App = () => {
           //let ability = abilities[k]
           return <ProgressAbility radius={100} stroke={100} progress={progress} icon={k} />
         }) */}
-        {state.inVoidform ? <Voidform drainRate={drainRate} drainStart={drainStart} stackHaste={stackHaste} baseHaste={baseHaste} maxStacks={maximumVoidformStacks} triggerEvent={updateState}/> : null}
+        {state.auras.lingeringInsanity.active 
+        ? <LingeringInsanity 
+          type={"static"} 
+          settings={lingeringInsanitySettings} 
+          haste={state.auras.lingeringInsanity.haste} 
+          stacks={state.auras.lingeringInsanity.stacks} 
+          inVoidform={state.auras.voidform.active} 
+          triggerEvent={updateState}/>
+        : null}
+        {state.auras.voidform.active 
+        ? <Voidform 
+          drainRate={drainRate} 
+          drainStart={drainStart}  
+          stackHaste={stackHaste} 
+          baseHaste={baseHaste} 
+          maxStacks={maximumVoidformStacks} 
+          triggerEvent={updateState}/> 
+        : null}
         <ResourceBar current={state.resource} max={100}/>
         <button onClick={enterVoidform}>Enter Voidform!</button>
         <button onClick={gainInsanity}>+10 Insanity</button>
-        <div>{state.inVoidform ? "Voidform Stacks: " + state.stacks : ""}</div>
+        <div>{state.auras.voidform.active ? "Voidform Stacks: " + state.auras.voidform.stacks : ""}</div>
         <AbilityBar abilitySettings={abilitySettings} haste={calculateHaste()} triggerEvent={updateState}/>
          {/* <StaticProgressAbility /> */}
       </header>
