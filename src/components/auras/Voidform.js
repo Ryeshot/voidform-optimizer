@@ -8,7 +8,7 @@ const Voidform = (props) => {
     const displayName = "Voidform"
     const icon = "images/voidform.jpg"
 
-    const [stacks, setStacks] = useState(0)
+    const [stacks, setStacks] = useState(1)
 
     const start = () => {
         let n = 0
@@ -44,8 +44,6 @@ const Voidform = (props) => {
               })
               setStacks(stacks => stacks+1)
           }
-
-          //console.log(n)
     
         }, interval)
 

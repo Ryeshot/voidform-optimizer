@@ -72,11 +72,9 @@ const LingeringInsanity = (props) => {
         const { rate, hasteDecay } = settings
 
         const frequency = Math.round(rate/interval)
-        let i = 0
-
         const startTime = Date.now()
 
-        console.log("Starting stacks: " + stacks)
+        let i = 0
 
         const timer = setInterval(() => {
 
