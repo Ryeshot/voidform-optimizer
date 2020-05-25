@@ -17,7 +17,7 @@ const App = () => {
       voidform: {
         active: false,
         stacks: 0,
-        haste: 0
+        haste: 0,
       },
       lingeringInsanity: {
         active: false,
@@ -46,11 +46,14 @@ const App = () => {
         break;
       case "VOIDFORM_START":
         voidform.active = true
+        voidform.stacks = 1
         break;
       case "VOIDFORM_END":
+        //console.log(event)
         lingeringInsanity.active = true
         lingeringInsanity.stacks = voidform.stacks
         lingeringInsanity.haste = voidform.haste
+        lingeringInsanity.startTime = action.payload
         voidform.stacks = 0
         voidform.haste = 0
         break;
@@ -61,7 +64,9 @@ const App = () => {
         lingeringInsanity.haste += action.payload
         lingeringInsanity.stacks--
         break;
+      case "LINGERING_INSANITY_REFRESH":
       case "LINGERING_INSANITY_END":
+        console.log(event)
         lingeringInsanity.active = false
         break;
       case "RESOURCE_UPDATE":
@@ -103,8 +108,6 @@ const App = () => {
   const calculateHaste = () => {
     const auras = state.auras
     return Object.keys(auras).reduce((haste, aura) => {
-      console.log(aura)
-      console.log(auras[aura])
       return haste * (1+auras[aura].haste)
     }, 1)
   }
@@ -134,9 +137,9 @@ const App = () => {
   }
 
   const lingeringInsanitySettings = {
-    duration: 10000,
-    hasteRetention: 1,
-    afterVoidformEntry: true
+    type: "decay",
+    rate: 3000,
+    hasteDecay: .01,
   }
 
   const auraSettings = {

@@ -17,10 +17,11 @@ const AuraBar = (props) => {
 
     return (
         <div className="aura-container">
-             {auras.lingeringInsanity.active 
+             {auras.lingeringInsanity.active
             ? <LingeringInsanity 
-              type={"static"} 
+              type={lingeringInsanitySettings.type} 
               settings={lingeringInsanitySettings} 
+              startTime={auras.lingeringInsanity.startTime}
               haste={auras.lingeringInsanity.haste} 
               stacks={auras.lingeringInsanity.stacks} 
               inVoidform={auras.voidform.active} 

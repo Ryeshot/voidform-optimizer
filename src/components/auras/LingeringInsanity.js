@@ -3,7 +3,7 @@ import Aura from "./Aura"
 
 const LingeringInsanity = (props) => {
 
-    const { type , settings, haste, stacks, inVoidform, triggerEvent} = props
+    const { type , settings, startTime, haste, stacks, inVoidform, triggerEvent} = props
 
     const interval = 100
     const displayName = "Lingering Insanity"
@@ -19,30 +19,49 @@ const LingeringInsanity = (props) => {
     const inVoidformRef = useRef(inVoidform)
     inVoidformRef.current = inVoidform
 
+    const startTimeRef = useRef(startTime)
+    startTimeRef.current = startTime
+
+    const hasteRef = useRef(haste)
+    hasteRef.current = haste
+
+    const initialize = (afterVoidformEntry, hasteRetention) => {
+        let currentMaxDuration = afterVoidformEntry ? defaultMaxDuration : duration
+        let voidformEntered = false
+
+        setMaxDuration(maxDuration => currentMaxDuration)
+
+        triggerEvent({
+            type: "LINGERING_INSANITY_START",
+            payload: hasteRef.current * hasteRetention
+        })
+
+        return {
+            currentMaxDuration,
+            voidformEntered
+        }
+
+    }
+
     const startStatic = () => {
 
         const { duration, afterVoidformEntry, hasteRetention } = settings
 
-        let startTime = Date.now()
-        let currentMaxDuration = maxDuration
-        let voidformEntered = false
-
-        triggerEvent({
-            type: "LINGERING_INSANITY_START",
-            payload: haste * hasteRetention
-        })
-
-        if(!afterVoidformEntry) {
-            setMaxDuration(maxDuration => duration)
-            currentMaxDuration = duration
-        }
+        let state = initialize(afterVoidformEntry, hasteRetention)
 
         const timer = setInterval(() => {
 
             const now = Date.now()
 
-            if(now >= startTime + currentMaxDuration) {
+            //just left voidform
+            if(state.voidformEntered && !inVoidformRef.current) {
+                state = initialize(afterVoidformEntry, hasteRetention)
 
+                return
+            }
+
+            //timed out
+            if(now >= startTimeRef.current + state.currentMaxDuration) {
                 clearInterval(timer)
                 triggerEvent({
                     type: "LINGERING_INSANITY_END"
@@ -51,66 +70,81 @@ const LingeringInsanity = (props) => {
                 return
             }
 
-            if(afterVoidformEntry && !voidformEntered && inVoidformRef.current) {
-                voidformEntered = true
-                setMaxDuration(maxDuration => duration)
-                currentMaxDuration = duration
-                setDuration(duration => 0)
-                startTime = Date.now()
+            if(!state.voidformEntered && inVoidformRef.current) 
+            {
+                state.voidformEntered = true
 
-                return
-            }
+                if(afterVoidformEntry) {
+                    setMaxDuration(maxDuration => duration)
+                    state.currentMaxDuration = duration
+                    setDuration(duration => 0)
+                    return
+                }
+           }            
 
-            setDuration(duration => now - startTime)
+            setDuration(duration => now - startTimeRef.current)
 
         }, interval)
 
+        return timer
     }
 
     const startDecay = () => {
 
         const { rate, hasteDecay } = settings
 
-        const frequency = Math.round(rate/interval)
-        const startTime = Date.now()
-
         let i = 0
+
+        let state = initialize(true, 1)
 
         const timer = setInterval(() => {
 
-            i++
+            i += interval
 
             const now = Date.now()
+
+            if(state.voidformEntered && !inVoidformRef.current) {
+                state = initialize(true, 1)
+                i = 0
+
+                return
+            }
 
             if(stacksRef.current === 0) {
                 clearInterval(timer)
                 triggerEvent({
                     type: "LINGERING_INSANITY_END"
                 })
+
                 return
             }
 
             //lose stack
-            if(i % frequency === 0) {
+            if(i % rate === 0) {
                 triggerEvent({
                     type: "LINGERING_INSANITY_UPDATE",
                     payload: hasteDecay * -1
                 })
             }
 
-            setDuration(duration => now - startTime)
+            if(!state.voidformEntered && inVoidformRef.current) state.voidformEntered = true
+
+            setDuration(duration => now - startTimeRef.current)
 
         }, interval)
 
+        return timer
     }
 
     useEffect(() => {
+        let timer
+
         switch(type) {
             case "static":
-                startStatic()
+                timer = startStatic()
                 break
             case "decay":
-                startDecay()
+                timer = startDecay()
                 break
         }
     }, [])
