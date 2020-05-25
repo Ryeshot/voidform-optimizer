@@ -25,7 +25,7 @@ const LingeringInsanity = (props) => {
     const hasteRef = useRef(haste)
     hasteRef.current = haste
 
-    const initialize = (afterVoidformEntry, hasteRetention) => {
+    const initialize = (afterVoidformEntry, hasteRetention, stacks) => {
         let currentMaxDuration = afterVoidformEntry ? defaultMaxDuration : duration
         let voidformEntered = false
 
@@ -33,7 +33,10 @@ const LingeringInsanity = (props) => {
 
         triggerEvent({
             type: "LINGERING_INSANITY_START",
-            payload: hasteRef.current * hasteRetention
+            payload: {
+                haste: hasteRef.current * hasteRetention,
+                stacks
+            }
         })
 
         return {
@@ -47,7 +50,7 @@ const LingeringInsanity = (props) => {
 
         const { duration, afterVoidformEntry, hasteRetention } = settings
 
-        let state = initialize(afterVoidformEntry, hasteRetention)
+        let state = initialize(afterVoidformEntry, hasteRetention, stacksRef.current)
 
         const timer = setInterval(() => {
 
@@ -55,7 +58,7 @@ const LingeringInsanity = (props) => {
 
             //just left voidform
             if(state.voidformEntered && !inVoidformRef.current) {
-                state = initialize(afterVoidformEntry, hasteRetention)
+                state = initialize(afterVoidformEntry, hasteRetention, stacksRef.current)
 
                 return
             }
@@ -89,13 +92,17 @@ const LingeringInsanity = (props) => {
         return timer
     }
 
+    const calculateDecayStacks = (voidformHaste, hasteDecay) => {
+        return Math.round(voidformHaste/hasteDecay)
+    }
+
     const startDecay = () => {
 
         const { rate, hasteDecay } = settings
 
         let i = 0
 
-        let state = initialize(true, 1)
+        let state = initialize(true, 1, calculateDecayStacks(hasteRef.current, hasteDecay))
 
         const timer = setInterval(() => {
 
@@ -104,7 +111,7 @@ const LingeringInsanity = (props) => {
             const now = Date.now()
 
             if(state.voidformEntered && !inVoidformRef.current) {
-                state = initialize(true, 1)
+                state = initialize(true, 1, calculateDecayStacks(stacksRef.current, hasteDecay))
                 i = 0
 
                 return
@@ -147,6 +154,7 @@ const LingeringInsanity = (props) => {
                 timer = startDecay()
                 break
         }
+
     }, [])
 
     return <Aura icon={icon} displayName={displayName} duration={duration} maxDuration={maxDuration} stacks={stacks}/>

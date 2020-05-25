@@ -18,7 +18,7 @@ const Aura = (props) => {
                 height={size}
             >
             </img>
-            <div className="aura-text">{stacks}</div>
+            <div className="aura-text">{stacks || ""}</div>
             {duration ? <CooldownSweep size={30} progress={progress} inverse={true}/> : null}
             {props.children}
         </div>

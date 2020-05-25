@@ -8,6 +8,7 @@ import SettingsPanel from "./components/panels/SettingsPanel"
 import AbilityKeybindsPanel from "./components/panels/AbilityKeybindsPanel"
 import AboutPanel from "./components/panels/AboutPanel"
 import abilities from "./utils/abilityConfig"
+import LingeringInsanity from './components/auras/LingeringInsanity';
 
 const App = () => {
 
@@ -37,7 +38,7 @@ const App = () => {
 
     switch(event) {
       case "HASTE_UPDATE":
-        const {source, haste} = action.payload
+        var {source, haste} = action.payload
         newState.auras[source].haste += haste
         break
       case "VOIDFORM_UPDATE":
@@ -58,16 +59,19 @@ const App = () => {
         voidform.haste = 0
         break;
       case "LINGERING_INSANITY_START":
-        lingeringInsanity.haste = action.payload
+        var {haste, stacks} = action.payload
+        lingeringInsanity.haste = haste
+        lingeringInsanity.stacks = stacks
         break;
       case "LINGERING_INSANITY_UPDATE":
         lingeringInsanity.haste += action.payload
         lingeringInsanity.stacks--
         break;
-      case "LINGERING_INSANITY_REFRESH":
       case "LINGERING_INSANITY_END":
-        console.log(event)
         lingeringInsanity.active = false
+        lingeringInsanity.stacks = 0
+        lingeringInsanity.haste = 0
+        lingeringInsanity.startTime = 0
         break;
       case "RESOURCE_UPDATE":
         let resource = Math.max(Math.min(newState.resource + action.payload, 100), 0)
@@ -80,12 +84,6 @@ const App = () => {
 
     return newState
   }, defaultState)
-
-  const drainRate = 1
-  const drainStart = 10
-  const stackHaste = .02
-  const baseHaste = .5
-  const maximumVoidformStacks = 10
 
   const [showTimer, setShowTimer] = useState(false)
   const [exportData, setExportData] = useState("")
@@ -157,11 +155,15 @@ const App = () => {
           <ExportPanel onExport={handleExport} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
           <AboutPanel currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
         </div>
-        <AuraBar auras={state.auras} settings={auraSettings} triggerEvent={updateState} />
-        <ResourceBar current={state.resource} max={100}/>
-        <button onClick={enterVoidform}>Enter Voidform!</button>
-        <button onClick={gainInsanity}>+10 Insanity</button>
-        <AbilityBar abilitySettings={abilitySettings} haste={calculateHaste()} triggerEvent={updateState}/>
+        <div id="main-bar-container">
+          <AuraBar auras={state.auras} settings={auraSettings} triggerEvent={updateState} />
+          <ResourceBar current={state.resource} max={100}/>
+          <button onClick={enterVoidform}>Enter Voidform!</button>
+          <button onClick={gainInsanity}>+10 Insanity</button>
+          <AbilityBar abilitySettings={abilitySettings} haste={calculateHaste()} triggerEvent={updateState}/>
+          <div>Haste: {((calculateHaste()-1)*100).toFixed(2)}%</div>
+        </div>
+        
       </header>
     </div>
   );
