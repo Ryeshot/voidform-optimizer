@@ -2,7 +2,7 @@ import React, {useState, useReducer} from 'react';
 import './App.css';
 import ResourceBar from "./components/ResourceBar"
 import AbilityBar from "./components/AbilityBar"
-import Voidform from "./components/Voidform"
+import Voidform from "./components/auras/Voidform"
 import Timer from './components/Timer';
 import ExportPanel from "./components/panels/ExportPanel"
 import SettingsPanel from "./components/panels/SettingsPanel"

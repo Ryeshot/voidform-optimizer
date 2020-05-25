@@ -1,9 +1,14 @@
 import React, {useState, useEffect} from 'react';
+import Aura from "./Aura"
 
 const Voidform = (props) => {
 
     const {drainRate, drainStart, stackHaste, baseHaste, maxStacks, triggerEvent} = props
     const interval = 100
+    const displayName = "Voidform"
+    const icon = "images/voidform.jpg"
+
+    const [stacks, setStacks] = useState(0)
 
     const start = () => {
         let n = 0
@@ -37,6 +42,7 @@ const Voidform = (props) => {
                   type: "VOIDFORM_UPDATE",
                   payload: stackHaste
               })
+              setStacks(stacks => stacks+1)
           }
 
           //console.log(n)
@@ -57,7 +63,7 @@ const Voidform = (props) => {
         }
     }, [])
     
-    return null
+    return <Aura icon={icon} displayName={displayName} stacks={stacks}/>
 }
 
 export default Voidform
