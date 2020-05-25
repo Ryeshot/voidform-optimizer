@@ -53,11 +53,11 @@ const ExportPanel = (props) => {
     }
 
     return (
-        <Panel panel={panel} onClick={onClick} handleClose={closePanel} header={header} panelClass={panelClass} style={{width: currentPanel === panel ? "350px": "0px"}}>
+        <Panel panel={panel} onClick={onClick} handleClose={closePanel} header={header} panelClass={panelClass} style={{transform: `translateX(${currentPanel === panel ? "0px": "-350px"})`}}>
             <div className="vertical-panel-content">
                 <div className="panel-input-area">
                     <div className="panel-content-header">Import Settings</div>
-                    <textarea className="panel-text-area" rows={20} col={20} placeholder={placeholderText} onChange={handleInputChange}></textarea>
+                    <textarea className="panel-text-area" rows={20} col={40} placeholder={placeholderText} onChange={handleInputChange}></textarea>
                     <button className="panel-button panel-input-button" onClick={handleImport} disabled={!inputData}>Import</button>
                 </div>
                 <div className="panel-input-area">

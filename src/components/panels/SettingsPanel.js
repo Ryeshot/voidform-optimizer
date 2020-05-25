@@ -18,7 +18,7 @@ const SettingsPanel = (props) => {
     }
 
     return (
-        <Panel panel={panel} onClick={onClick} handleClose={closePanel} header={header} panelClass={panelClass} style={{width: currentPanel === panel ? "350px": "0px"}}>
+        <Panel panel={panel} onClick={onClick} handleClose={closePanel} header={header} panelClass={panelClass} style={{transform: `translateX(${currentPanel === panel ? "0px": "350px"}`}}>
         </Panel>      
     )
 }

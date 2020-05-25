@@ -31,7 +31,7 @@
  
 .left-panel {
     height: 100%;
-    width: 0px;
+    width: 350px;
     top: 0px;
     left: 0px;
 }
@@ -45,7 +45,7 @@
 }
 
 .bottom-panel {
-    height: 0px;
+    height: 250px;
     width: 100%;
     left: 0px;
     bottom: 0px;
@@ -58,7 +58,7 @@
 
 .right-panel {
     height: 100%;
-    width: 0px;
+    width: 350px;
     top: 0px;
     right: 0px;
 }
@@ -72,8 +72,9 @@
 
 .vertical-panel-content {
     display: flex;
+    height: 100%;
     flex-direction: column;
-    align-content: space-around;
+    justify-content: space-around;
 }
 
 .hover-pointer:hover {
@@ -99,6 +100,6 @@
 }
 
 .panel-input-button:disabled {
-    cursor: default;
+    cursor: not-allowed;
     background-color: #404040;
 }

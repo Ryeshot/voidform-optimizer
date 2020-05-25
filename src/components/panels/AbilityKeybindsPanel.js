@@ -57,7 +57,7 @@ const AbilityKeybindsPanel = (props) => {
     }
 
     return (
-        <Panel panel={panel} onClick={onClick} header={header} style={{height: currentPanel === panel ? "250px": "0px"}} panelClass={panelClass} handleClose={handleClose}>
+        <Panel panel={panel} onClick={onClick} header={header} style={{transform: `translateY(${currentPanel === panel ? "0px": "250px"}`}} panelClass={panelClass} handleClose={handleClose}>
             <div className="horizontal-panel-content">
                 {Object.keys(abilities).map(k =>
                     <div key={k}>
