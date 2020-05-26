@@ -4,10 +4,11 @@ import CooldownSweep from "./CooldownSweep"
 
 const ProgressAbility = (props) => {
 
-    const {name, cooldown, globalCooldown, globalCooldownStartTime, type, resource, startTime, castStartTime, castEndTime, icon, casttime, maxCharges, keybind, subscribe, unsubscribe, onExecute, onAbilityUpdate, triggerEvent, id} = props
-    const interval = 50
+    const {name, cooldown, globalCooldown, globalCooldownStartTime, type, resource, startTime, castStartTime, castEndTime, icon, casttime, ticks, baseChannelTime, maxCharges, keybind, subscribe, unsubscribe, onExecute, onAbilityUpdate, triggerEvent, id} = props
+    const interval = 20
 
     const size = 50
+    const lag = 50
 
     const [charges, setCharges] = useState(maxCharges || 1)
     const [progress, setProgress] = useState(0)
@@ -23,6 +24,8 @@ const ProgressAbility = (props) => {
     const channelTimer = useRef()
     const cooldownTimer = useRef()
     const globalCooldownTimer = useRef()
+    const ticksRef = useRef(ticks)
+    const baseChannelTimeRef = useRef(baseChannelTime)
 
     startTimeRef.current = startTime
     castStartTimeRef.current = castStartTime
@@ -32,13 +35,15 @@ const ProgressAbility = (props) => {
     globalCooldownRef.current = globalCooldown
     globalCooldownStartTimeRef.current = globalCooldownStartTime
     chargesRef.current = charges
+    ticksRef.current = ticks
+    baseChannelTimeRef.current = baseChannelTime
 
     useEffect(() => {
         subscribe({
             source: id,
             keybind,
             notify: () => startGlobalCooldown(),
-            execute: useAbility
+            execute: executeAbility
         })
 
         return (id) => {
@@ -57,8 +62,6 @@ const ProgressAbility = (props) => {
             if(remaining > globalCooldownRef.current) return
         }
 
-        console.log("Starting global cooldown for " + name)
-
         globalCooldownTimer.current = setInterval(() => {
             if(startTimeRef.current) return
 
@@ -69,7 +72,7 @@ const ProgressAbility = (props) => {
             }
             let remaining = (cooldownState.startTime + cooldownState.cooldown) - now
 
-            if(remaining <= interval) {
+            if(remaining <= interval + lag) {
                 clearInterval(globalCooldownTimer.current)               
                 //setProgress(0)
                 return
@@ -88,22 +91,24 @@ const ProgressAbility = (props) => {
             }
             let remaining = (cooldownState.startTime + cooldownState.cooldown) - now
 
-            if(remaining <= interval) {
+            if(remaining <= interval + lag) {
                 setCharges(charges => charges+1)
 
+                clearInterval(cooldownTimer.current)
                 if(maxCharges && chargesRef.current < maxCharges) {
-                    setProgress(1)
-                    onAbilityUpdate({
-                        type: "ABILITY_COOLDOWN_START",
-                        payload: {
-                            name,
-                            time: Date.now()
-                        }
-                    })
-                    //startCooldown()
+                    startCooldown()
+                    // setProgress(1)
+                    // onAbilityUpdate({
+                    //     type: "ABILITY_COOLDOWN_START",
+                    //     payload: {
+                    //         name,
+                    //         time: Date.now()
+                    //     }
+                    // })
+
                     return
                 }
-                clearInterval(cooldownTimer.current)
+                //clearInterval(cooldownTimer.current)
                 
                 onAbilityUpdate({
                     type: "ABILITY_COOLDOWN_END",
@@ -126,10 +131,6 @@ const ProgressAbility = (props) => {
                 name,
                 time: Date.now()
             }
-        })
-        triggerEvent({
-            type: "RESOURCE_UPDATE",
-            payload: resource
         })
     }
 
@@ -155,39 +156,59 @@ const ProgressAbility = (props) => {
     }
 
     const startChannel = () => {
-        //need to be able to clear this timeout (is that possible?)
-        //if start time clear with 30% of remaining duration + castTImeref.current
         let channelTime = casttimeRef.current
         let now = Date.now()
-        //let castEndTime = now + channelTime
+        let currentTicks = ticksRef.current
+        let pandemicTime = 0
         if(castStartTimeRef.current) {
-            clearTimeout(channelTimer.current)
+            clearInterval(channelTimer.current)
             let previousChannelTime = castEndTimeRef.current - castStartTimeRef.current
             let previousChannelRemaining = previousChannelTime - (now - castStartTimeRef.current)
-            channelTime += Math.min(previousChannelRemaining, previousChannelTime * .3)
+            let previousChannelFrequency = (baseChannelTimeRef.current/currentTicks)        
+            pandemicTime = Math.min(previousChannelRemaining, baseChannelTimeRef.current * .3)
+            let remainingTicks = Math.floor(pandemicTime/previousChannelFrequency)
+            console.log(remainingTicks)
+            currentTicks += remainingTicks
         }
 
-        channelTimer.current = setTimeout(() => {
-            onAbilityUpdate({
-                type: "ABILITY_CHANNEL_END",
-                payload: {
-                    name
-                }
+        let channelFrequency = Math.round((channelTime+pandemicTime)/currentTicks)
+
+        channelTimer.current = setInterval(() => {
+
+            let now = Date.now()
+
+            triggerEvent({
+                type: "RESOURCE_UPDATE",
+                payload: resource/currentTicks
             })
-        }, channelTime)
+
+            if(now >= castEndTimeRef.current) {
+                clearInterval(channelTimer.current)
+
+                onAbilityUpdate({
+                    type: "ABILITY_CHANNEL_END",
+                    payload: {
+                        name
+                    }
+                })
+                return
+            }
+
+        }, channelFrequency)
 
         onAbilityUpdate({
             type: "ABILITY_CHANNEL_START",
             payload: {
                 name,
-                duration: channelTime,
-                time: now
+                duration: channelTime + pandemicTime,
+                time: now,
+                baseChannelTime: channelTime
             }
         })
 
     }
 
-    const useAbility = () => {
+    const executeAbility = () => {
         if(globalCooldownRef.current) return
 
         switch(type) {
@@ -201,30 +222,43 @@ const ProgressAbility = (props) => {
                 executeChannel()
                 break;
         }
-
-        onExecute(id, cooldownRef.current, type)
     }
 
     const executeInstant = () => {
-        if(startTimeRef.current && charges === 0) return      
+        console.log(chargesRef.current)
+        if(startTimeRef.current && chargesRef.current === 0) return      
         setCharges(charges => charges-1)
+        onAbilityUpdate({
+            type: "ABILITY_CAST_SUCCESS",
+            payload: {
+                name
+            }
+        })
+        triggerEvent({
+            type: "RESOURCE_UPDATE",
+            payload: resource
+        })
+        onExecute(id, cooldownRef.current, type)
         if(maxCharges && chargesRef.current < maxCharges - 1) return
         startCooldown()
     }
 
     const executeCast = () => {
-        if(castStartTimeRef.current || charges === 0) return
+        if(castStartTimeRef.current || chargesRef.current === 0) return
         startCast()
+        onExecute(id, cooldownRef.current, type)
     }
 
     const executeChannel = () => {
+        if(cooldownRef.current) return
         startChannel()
-        executeInstant()
+        startCooldown()
+        onExecute(id, cooldownRef.current, type)
     }
 
     return (
         <div className="progress-ability-container">
-        <div className="progress-ability" onClick={useAbility}>
+        <div className="progress-ability" onClick={executeAbility}>
             <img className="ability-icon"
                 className={charges > 0 ? "colored" : "desaturated"}
                 src={icon}

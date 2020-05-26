@@ -10,13 +10,18 @@ const AuraBar = (props) => {
     const voidformSettings = {
         drainRate: 1,
         drainStart: 10,
-        stackHaste: .02,
+        stackHaste: .00,
         baseHaste: 0,
         maxStacks: 10
     }
 
     return (
         <div className="aura-container">
+              {auras.voidform.active 
+              ? <Voidform 
+                {...voidformSettings}
+                triggerEvent={triggerEvent}/> 
+              : null}
              {auras.lingeringInsanity.active
             ? <LingeringInsanity 
               type={lingeringInsanitySettings.type} 
@@ -26,11 +31,6 @@ const AuraBar = (props) => {
               stacks={auras.lingeringInsanity.stacks} 
               inVoidform={auras.voidform.active} 
               triggerEvent={triggerEvent}/>
-            : null}
-            {auras.voidform.active 
-            ? <Voidform 
-              {...voidformSettings}
-              triggerEvent={triggerEvent}/> 
             : null}
         </div>       
     )

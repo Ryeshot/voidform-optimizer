@@ -7,7 +7,8 @@ const abilitySettings = {
         resource: editableField(12),
         hasted: uneditableField(true),
         castTime: editableField(3000),
-        type: uneditableField("channel")
+        type: uneditableField("channel"),
+        frequency: editableField(4)
     },
     "void-bolt": {
         cooldown: editableField(4500),

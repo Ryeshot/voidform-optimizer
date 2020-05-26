@@ -111,7 +111,7 @@ const LingeringInsanity = (props) => {
             const now = Date.now()
 
             if(state.voidformEntered && !inVoidformRef.current) {
-                state = initialize(true, 1, calculateDecayStacks(stacksRef.current, hasteDecay))
+                state = initialize(true, 1, calculateDecayStacks(hasteRef.current, hasteDecay))
                 i = 0
 
                 return

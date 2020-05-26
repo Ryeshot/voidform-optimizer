@@ -56,7 +56,6 @@ const AbilityBar = (props) => {
     }
 
     useEffect(() => {
-        console.log("Inside use effect")
         document.addEventListener("keypress", handleKeyPress, {once: true})
 
         return () => document.removeEventListener("keypress", handleKeyPress)
@@ -67,16 +66,14 @@ const AbilityBar = (props) => {
         const payload = action.payload
 
         switch(action.type) {
-            case "ABILITY_COOLDOWN_START":
+            case "ABILITY_CAST_SUCCESS":
                 // console.log(action.type)
-                // console.log(action.payload)
-                var {name, time} = payload
-                newState.cooldowns[name].startTime = time
-                //mind blast is causing this to cancel mind flay during charge refresh
+                // console.log(payload)
+                var {name} = payload
                 if(newState.casting && name === "void-bolt" && newState.casting.name === "mind-flay") {
-                    // console.log("Mind flay currently being channeled")
-                    // console.log("Void bolt cast")
-                    // console.log("Void bolt rank 2 engage!")
+                    console.log("Mind flay currently being channeled")
+                    console.log("Void bolt cast")
+                    console.log("Void bolt rank 2 engage!")
                     break
                 }
                 if(newState.casting && name !== newState.casting.name) {
@@ -84,6 +81,13 @@ const AbilityBar = (props) => {
                     newState.cooldowns[newState.casting.name].castEndTime = 0
                     delete newState.casting
                 }
+                break
+            case "ABILITY_COOLDOWN_START":
+                // console.log(action.type)
+                // console.log(action.payload)
+                var {name, time} = payload
+                newState.cooldowns[name].startTime = time
+                //mind blast is causing this to cancel mind flay during charge refresh
                 break
             case "ABILITY_COOLDOWN_END":
                 var {name} = payload
@@ -117,9 +121,12 @@ const AbilityBar = (props) => {
             case "ABILITY_CHANNEL_START":
                 // console.log(action.type)
                 // console.log(action.payload)
-                var {name, time, duration} = payload
+                var {name, time, duration, ticks, baseChannelTime} = payload
                 newState.cooldowns[name].castStartTime = time
                 newState.cooldowns[name].castEndTime = time + duration
+                // newState.cooldowns[name].ticks = ticks
+                newState.cooldowns[name].baseChannelTime = baseChannelTime
+                //console.log(ticks)
                 newState.casting = {
                     duration,
                     name,
@@ -127,12 +134,17 @@ const AbilityBar = (props) => {
                     time
                 }
                 break
+            case "ABILITY_CHANNEL_UPDATE":
+                var {name} = payload
+                newState.cooldowns[name].ticks--
+                break
             case "ABILITY_CHANNEL_END":
                 var {name} = payload
-                // console.log(action.type)
-                // console.log(action.payload)
+                console.log(action.type)
+                console.log(action.payload)
                 newState.cooldowns[name].castStartTime = 0
                 newState.cooldowns[name].castEndTime = 0
+                newState.cooldowns[name].ticks = 0
                 if(newState.casting && name === newState.casting.name) delete newState.casting
                 break
             case "GLOBAL_COOLDOWN_START":
@@ -152,17 +164,24 @@ const AbilityBar = (props) => {
 
     }, defaultState)
 
+    const globalCooldownRef = useRef(state.globalCooldown)
+    globalCooldownRef.current = state.globalCooldown
+
     const handleKeyPress = (e) => {
+
+        if(globalCooldownRef.current) return
+
+        console.log("Handing key press!")
+
+        setTimeout(() => {
+            document.addEventListener("keypress", handleKeyPress)
+        }, 500)
 
         observersRef.current.forEach(o => {
             if(o.keybind === e.key) {
                 o.execute()
             }
         })
-
-        setTimeout(() => {
-            document.addEventListener("keypress", handleKeyPress, {once: true})
-        }, 200)
     }
 
     const calculateCooldown = (cooldown) => {
@@ -218,7 +237,9 @@ const AbilityBar = (props) => {
             maxCharges={currentAbilities[k].charges} 
             keybind={currentAbilities[k].keybind}
             icon={currentAbilities[k].icon}
-            casttime = {calculateCooldown(currentAbilities[k].casttime)}
+            casttime ={calculateCooldown(currentAbilities[k].casttime)}
+            ticks={currentAbilities[k].ticks}
+            baseChannelTime={state.cooldowns[k].baseChannelTime}
             subscribe={subscribe}
             unsubscribe={unsubscribe}
             onExecute={triggerGlobalCooldown}

@@ -135,9 +135,9 @@ const App = () => {
   }
 
   const lingeringInsanitySettings = {
-    type: "decay",
-    rate: 3000,
-    hasteDecay: .01,
+    type: "static"
+    // rate: 3000,
+    // hasteDecay: 0,
   }
 
   const auraSettings = {
