@@ -4,7 +4,7 @@ import CooldownSweep from "./CooldownSweep"
 
 const ProgressAbility = (props) => {
 
-    const {name, cooldown, globalCooldown, globalCooldownStartTime, type, resource, startTime, castStartTime, icon, casttime, maxCharges, keybind, subscribe, unsubscribe, onExecute, onAbilityUpdate, triggerEvent, id} = props
+    const {name, cooldown, globalCooldown, globalCooldownStartTime, type, resource, startTime, castStartTime, castEndTime, icon, casttime, maxCharges, keybind, subscribe, unsubscribe, onExecute, onAbilityUpdate, triggerEvent, id} = props
     const interval = 50
 
     const size = 50
@@ -14,6 +14,7 @@ const ProgressAbility = (props) => {
 
     const startTimeRef = useRef(startTime)
     const castStartTimeRef = useRef(castStartTime)
+    const castEndTimeRef = useRef(castEndTime)
     const cooldownRef = useRef(cooldown)
     const casttimeRef = useRef(casttime)
     const globalCooldownRef = useRef(globalCooldown)
@@ -22,6 +23,7 @@ const ProgressAbility = (props) => {
 
     startTimeRef.current = startTime
     castStartTimeRef.current = castStartTime
+    castEndTimeRef.current = castEndTime
     cooldownRef.current = cooldown
     casttimeRef.current = casttime
     globalCooldownRef.current = globalCooldown
@@ -30,6 +32,7 @@ const ProgressAbility = (props) => {
 
     let cooldownTimer
     let globalCooldownTimer
+    let channelTimer
 
     useEffect(() => {
         subscribe({
@@ -51,7 +54,7 @@ const ProgressAbility = (props) => {
         globalCooldownTimer = setInterval(() => {
             let now = Date.now()
             let cooldownState = {
-                startTime: globalCooldownStartTimeRef.current,
+                startTime: globalCooldownStartTimeRef.current || now,
                 cooldown: globalCooldownRef.current
             }
             let remaining = (cooldownState.startTime + cooldownState.cooldown) - now
@@ -147,21 +150,33 @@ const ProgressAbility = (props) => {
     const startChannel = () => {
         //need to be able to clear this timeout (is that possible?)
         //if start time clear with 30% of remaining duration + castTImeref.current
-        setTimeout(() => {
+        let channelTime = casttimeRef.current
+        let now = Date.now()
+        //let castEndTime = now + channelTime
+        if(castStartTimeRef.current) {
+            clearTimeout(channelTimer)
+            let previousChannelTime = castEndTimeRef.current - castStartTimeRef.current
+            let previousChannelRemaining = previousChannelTime - (now - castStartTimeRef.current)
+            channelTime += Math.min(previousChannelRemaining, previousChannelTime * .3)
+        }
+
+        channelTimer = setTimeout(() => {
+            console.log("Ending channel...")
             onAbilityUpdate({
                 type: "ABILITY_CHANNEL_END",
                 payload: {
                     name
                 }
             })
-        }, casttimeRef.current)
+        }, channelTime)
 
         onAbilityUpdate({
             type: "ABILITY_CHANNEL_START",
             payload: {
                 name,
-                duration: casttimeRef.current,
-                time: Date.now()
+                duration: channelTime,
+                time: now,
+                //castEndTime
             }
         })
     }

@@ -9,10 +9,16 @@ const CastBar = (props) => {
 
     const [current, setCurrent] = useState(0)
 
+    const timeRef = useRef(time)
+    const durationRef = useRef(time)
+
+    timeRef.current = time
+    durationRef.current = duration
+
     useEffect(() => {
         const timer = setInterval(() => {
             let now = Date.now()
-            setCurrent(current => now - time)
+            setCurrent(current => now - timeRef.current)
         }, interval)
 
         return () => clearInterval(timer)
@@ -23,12 +29,12 @@ const CastBar = (props) => {
             <div className="left-progress-text">{name}</div>
             <div className="right-progress-text">{direction 
             ? `${(current/sec).toFixed(1)}/${((duration/sec).toFixed(1))}`
-            : `${((duration-current)/sec).toFixed(1)}/${((duration/sec).toFixed(1))}`}sec</div> 
+            : `${((durationRef.current-current)/sec).toFixed(1)}/${((durationRef.current/sec).toFixed(1))}`}sec</div> 
             <div className="progress-bar" 
                 style={{
                     width: direction 
-                    ? `${(current/duration*100).toFixed(2)}%`
-                    : `${((duration-current)/duration*100).toFixed(2)}%`
+                    ? `${(current/durationRef.current*100).toFixed(2)}%`
+                    : `${((durationRef.current-current)/durationRef.current*100).toFixed(2)}%`
             }}>
             </div>
         </div>

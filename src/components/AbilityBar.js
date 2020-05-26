@@ -41,15 +41,14 @@ const AbilityBar = (props) => {
             }
         })
 
-        //console.log("Inside default abilities")
-
-       // console.log(defaultAbilities)
-
         return defaultAbilities
     }
 
     const [currentAbilities, setCurrentAbilities] = useState(defaultAbilities())
     const [observers, setObservers] = useState([])
+
+    const observersRef = useRef(observers)
+    observersRef.current = observers
 
     const defaultState = {
         globalCooldown: 0,
@@ -57,12 +56,11 @@ const AbilityBar = (props) => {
     }
 
     useEffect(() => {
+        console.log("Inside use effect")
         document.addEventListener("keypress", handleKeyPress, {once: true})
 
-        setCurrentAbilities(_ => defaultAbilities())
-
         return () => document.removeEventListener("keypress", handleKeyPress)
-    }, [])
+    }, [abilitySettings])
 
     const [state, triggerCooldown] = useReducer((oldState, action) => {
         const newState = JSON.parse(JSON.stringify(oldState))
@@ -89,6 +87,7 @@ const AbilityBar = (props) => {
                 // console.log(action.payload)
                 var {name, time, duration} = payload
                 newState.cooldowns[name].castStartTime = time
+                newState.cooldowns[name].castEndTime = time + duration
                 newState.casting = {
                     duration,
                     name,
@@ -101,12 +100,15 @@ const AbilityBar = (props) => {
                 // console.log(action.type)
                 // console.log(action.payload)
                 newState.cooldowns[name].castStartTime = 0
+                newState.cooldowns[name].castEndTime = 0
                 if(newState.casting && name === newState.casting.name) delete newState.casting
                 break
             case "ABILITY_CHANNEL_START":
-                // console.log(action.type)
-                // console.log(action.payload)
-                var {name, time, duration} = payload
+                console.log(action.type)
+                console.log(action.payload)
+                var {name, time, duration, castEndTime} = payload
+                newState.cooldowns[name].castStartTime = time
+                newState.cooldowns[name].castEndTime = time + duration
                 newState.casting = {
                     duration,
                     name,
@@ -118,6 +120,8 @@ const AbilityBar = (props) => {
                 var {name} = payload
                 // console.log(action.type)
                 // console.log(action.payload)
+                newState.cooldowns[name].castStartTime = 0
+                newState.cooldowns[name].castEndTime = 0
                 if(newState.casting && name === newState.casting.name) delete newState.casting
                 break
             case "GLOBAL_COOLDOWN_START":
@@ -139,7 +143,7 @@ const AbilityBar = (props) => {
 
     const handleKeyPress = (e) => {
 
-        observers.forEach(o => {
+        observersRef.current.forEach(o => {
             if(o.keybind === e.key) {
                 o.execute()
             }
@@ -168,7 +172,7 @@ const AbilityBar = (props) => {
             }
         })
 
-        observers.forEach(o => o.notify())
+        observersRef.current.forEach(o => o.notify())
     }
 
     const subscribe = (observer) => {
@@ -199,6 +203,7 @@ const AbilityBar = (props) => {
             resource={currentAbilities[k].resource}
             startTime={state.cooldowns[k].startTime}
             castStartTime={state.cooldowns[k].castStartTime}
+            castEndTime={state.cooldowns[k].castEndTime}
             maxCharges={currentAbilities[k].charges} 
             keybind={currentAbilities[k].keybind}
             icon={currentAbilities[k].icon}
