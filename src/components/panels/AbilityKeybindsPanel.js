@@ -76,7 +76,7 @@ const AbilityKeybindsPanel = (props) => {
                     </div>
                 )}
                 <div className="tooltip">
-                    <span className="tooltip-text" visibility={!!tooltip}>
+                    <span className="tooltip-text" visibility={(!!tooltip).toString()}>
                         {tooltip}
                     </span>
                 </div>

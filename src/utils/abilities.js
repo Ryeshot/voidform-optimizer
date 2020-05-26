@@ -23,7 +23,7 @@ const abilities = {
         hasted: true,
         type: "cast",
         casttime: 1500,
-        charges: 1,
+        charges: 3,
         keybind: "r",
         icon: "images/mind-blast.jpg"
     },

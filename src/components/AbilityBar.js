@@ -9,7 +9,6 @@ const AbilityBar = (props) => {
 
     const gcdLength = 1500
     const {abilitySettings, haste, triggerEvent} = props
-    let observers = []
 
     const hasteRef = useRef(haste)
     hasteRef.current = haste
@@ -50,6 +49,7 @@ const AbilityBar = (props) => {
     }
 
     const [currentAbilities, setCurrentAbilities] = useState(defaultAbilities())
+    const [observers, setObservers] = useState([])
 
     const defaultState = {
         globalCooldown: 0,
@@ -80,15 +80,15 @@ const AbilityBar = (props) => {
                 var {name, time} = payload
                 newState.cooldowns[name].startTime = 0
                 break
-            case "ABILITY_COOLDOWN_UPDATE":
-                var {name, cooldown} = payload
-                newState.cooldowns[name].cooldown = cooldown
-                break
+            // case "ABILITY_COOLDOWN_UPDATE":
+            //     var {name, cooldown} = payload
+            //     newState.cooldowns[name].cooldown = cooldown
+            //     break
             case "ABILITY_CAST_START":
                 // console.log(action.type)
                 // console.log(action.payload)
                 var {name, time, duration} = payload
-                //newState.cooldowns[name].startTime = time
+                newState.cooldowns[name].castStartTime = time
                 newState.casting = {
                     duration,
                     name,
@@ -100,6 +100,7 @@ const AbilityBar = (props) => {
                 var {name} = payload
                 // console.log(action.type)
                 // console.log(action.payload)
+                newState.cooldowns[name].castStartTime = 0
                 if(newState.casting && name === newState.casting.name) delete newState.casting
                 break
             case "ABILITY_CHANNEL_START":
@@ -122,30 +123,11 @@ const AbilityBar = (props) => {
             case "GLOBAL_COOLDOWN_START":
                 //console.log(newState)
                 newState.globalCooldown = payload.gcd
-                Object.keys(newState.cooldowns).forEach(k => {
-                    //need to determine if any abilities currently on cooldown have a cooldown less than the global
-                    let cooldown = newState.cooldowns[k].cooldown
-                    let startTime = newState.cooldowns[k].startTime
-                    let isSource = k === payload.source
-                    let cooldownMoreThanGcd = (startTime + cooldown) > payload.time + payload.gcd
-                  
-                    //source which triggered the global has a cooldown
-                    if(isSource && payload.cooldown && payload.type === "instant") return
-                    if(!isSource && cooldownMoreThanGcd) return                
-                    newState.cooldowns[k].onGlobalCooldown = true
-                    newState.cooldowns[k].startTime = payload.time
-                })
-                // console.log("Old state")
-                // console.log(oldState)
-                // console.log("New state")
-                // console.log(newState.cooldowns)
+                newState.globalCooldownStartTime = payload.time
                 break
             case "GLOBAL_COOLDOWN_END":
                 newState.globalCooldown = 0
-                Object.keys(newState.cooldowns).filter(k => newState.cooldowns[k].onGlobalCooldown).forEach(k => {
-                    newState.cooldowns[k].onGlobalCooldown = false
-                    newState.cooldowns[k].startTime = 0
-                })
+                newState.globalCooldownStartTime = 0
                 break
             default:
                 console.error(`Invalid action provided: ${action.type}`)
@@ -175,10 +157,6 @@ const AbilityBar = (props) => {
     const triggerGlobalCooldown = (source, cooldown, type) => {
         let gcd = Math.max(calculateCooldown(gcdLength), gcdLength/2)
 
-        observers.forEach(o => o.notify())
-
-        console.log(currentAbilities)
-
         triggerCooldown({
             type: "GLOBAL_COOLDOWN_START",
             payload: {
@@ -189,32 +167,22 @@ const AbilityBar = (props) => {
                 time: Date.now()
             }
         })
+
+        observers.forEach(o => o.notify())
     }
 
     const subscribe = (observer) => {
-        if(observers.find(o => o.source === observer.source)) return
-        observers.push(observer)
+        setObservers(o => [...o, observer])
     }
 
     const unsubscribe = (source) => {
-        observers = observers.filter(o => o.source !== source)
+        setObservers(obs => obs.filter(o => o.source !== source))
     }
 
     const getAbilityCooldown = (k) => {
         const ability = currentAbilities[k]
-        
-        if(state.cooldowns[k].onGlobalCooldown) return state.globalCooldown
 
         return ability.hasted ? calculateCooldown(ability.cooldown) : ability.cooldown
-    }
-
-    const getCastingDuration = () => {
-        console.log("Inside casting duration")
-        let now = Date.now()
-
-        console.log(now-state.casting.time)
-
-        return now - state.casting.time
     }
 
     return (
@@ -225,10 +193,12 @@ const AbilityBar = (props) => {
             name={k}
             key={i}
             cooldown={getAbilityCooldown(k)}
-            onGlobalCooldown={state.cooldowns[k].onGlobalCooldown}
+            globalCooldown={state.globalCooldown}
+            globalCooldownStartTime={state.globalCooldownStartTime}
             type={currentAbilities[k].type}
             resource={currentAbilities[k].resource}
             startTime={state.cooldowns[k].startTime}
+            castStartTime={state.cooldowns[k].castStartTime}
             maxCharges={currentAbilities[k].charges} 
             keybind={currentAbilities[k].keybind}
             icon={currentAbilities[k].icon}

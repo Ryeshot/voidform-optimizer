@@ -62,7 +62,7 @@ const ExportPanel = (props) => {
                 </div>
                 <div className="panel-input-area">
                     <div className="panel-content-header">Export Settings</div>
-                    <textarea id={exportTextAreaId} className="panel-text-area" rows={20} col={20} value={exportData}></textarea>
+                    <textarea id={exportTextAreaId} className="panel-text-area" rows={20} col={20} value={exportData} readOnly={true}></textarea>
                     <button className="panel-button panel-input-button" onClick={handleExport}>Export</button>
                     <button className="panel-button panel-input-button" onClick={copyToClipBoard} disabled={!exportData}>Copy</button>
                 </div>      

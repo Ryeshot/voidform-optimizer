@@ -1,3 +1,4 @@
+import {Base64} from "js-base64"
 import abilitySettings from "./abilitySettings"
 import auraSettings from "./auraSettings"
 
@@ -81,7 +82,7 @@ const parseAuraSettings = (auras) => {
 export const importSettings = (settings) => {
 
     try {
-        let parsedSettings = JSON.parse(settings)
+        let parsedSettings = JSON.parse(Base64.decode(settings))
 
         let parsedAbilitySettings = parseAbilitySettings(parsedSettings.abilitySettings)
         let parsedAuraSettings = parseAuraSettings(parsedSettings.auraSettings)
@@ -128,7 +129,7 @@ export const exportSettings = (currentSettings) => {
         auraSettings: currentSettings.auraSettings
     }
 
-    let result = JSON.stringify(combined)
+    let result = Base64.encode(JSON.stringify(combined))
 
     return result
 }
