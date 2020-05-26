@@ -50,37 +50,24 @@ const ProgressAbility = (props) => {
 
     const startGlobalCooldown = () => {
 
+        if(startTimeRef.current) {
+            let start = Date.now()
+            let remaining = (startTimeRef.current + cooldownRef.current) - start
+
+            if(remaining > globalCooldownRef.current) return
+        }
+
         console.log("Starting global cooldown for " + name)
 
         globalCooldownTimer.current = setInterval(() => {
+            if(startTimeRef.current) return
+
             let now = Date.now()
             let cooldownState = {
                 startTime: globalCooldownStartTimeRef.current || now,
                 cooldown: globalCooldownRef.current
             }
             let remaining = (cooldownState.startTime + cooldownState.cooldown) - now
-
-            if(cooldownState.startTime && startTimeRef.current) 
-            {
-                console.log(`${name} is already on cooldown and invoking the gcd`)
-                let cooldownRemaining = (startTimeRef.current + cooldownRef.current) - now
-
-                if(remaining > cooldownRemaining && (!maxCharges || (maxCharges && chargesRef.current === maxCharges - 1))) {
-                    console.log(`${name} has a shorter cooldown than the gcd`)
-                    clearInterval(cooldownTimer.current)
-                    setCharges(charges => charges+1)
-                    onAbilityUpdate({
-                        type: "ABILITY_COOLDOWN_END",
-                        payload: {
-                            name
-                        }
-                    })
-                    return
-                }
-                clearInterval(globalCooldownTimer.current)
-
-                return
-            }
 
             if(remaining <= interval) {
                 clearInterval(globalCooldownTimer.current)               
