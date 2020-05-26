@@ -72,10 +72,21 @@ const AbilityBar = (props) => {
                 // console.log(action.payload)
                 var {name, time} = payload
                 newState.cooldowns[name].startTime = time
-                if(newState.casting && name !== newState.casting.name) delete newState.casting
+                //mind blast is causing this to cancel mind flay during charge refresh
+                if(newState.casting && name === "void-bolt" && newState.casting.name === "mind-flay") {
+                    // console.log("Mind flay currently being channeled")
+                    // console.log("Void bolt cast")
+                    // console.log("Void bolt rank 2 engage!")
+                    break
+                }
+                if(newState.casting && name !== newState.casting.name) {
+                    newState.cooldowns[newState.casting.name].castStartTime = 0
+                    newState.cooldowns[newState.casting.name].castEndTime = 0
+                    delete newState.casting
+                }
                 break
             case "ABILITY_COOLDOWN_END":
-                var {name, time} = payload
+                var {name} = payload
                 newState.cooldowns[name].startTime = 0
                 break
             // case "ABILITY_COOLDOWN_UPDATE":
@@ -104,9 +115,9 @@ const AbilityBar = (props) => {
                 if(newState.casting && name === newState.casting.name) delete newState.casting
                 break
             case "ABILITY_CHANNEL_START":
-                console.log(action.type)
-                console.log(action.payload)
-                var {name, time, duration, castEndTime} = payload
+                // console.log(action.type)
+                // console.log(action.payload)
+                var {name, time, duration} = payload
                 newState.cooldowns[name].castStartTime = time
                 newState.cooldowns[name].castEndTime = time + duration
                 newState.casting = {

@@ -20,6 +20,9 @@ const ProgressAbility = (props) => {
     const globalCooldownRef = useRef(globalCooldown)
     const globalCooldownStartTimeRef = useRef(globalCooldownStartTime)
     const chargesRef = useRef(maxCharges || 1)
+    const channelTimer = useRef()
+    const cooldownTimer = useRef()
+    const globalCooldownTimer = useRef()
 
     startTimeRef.current = startTime
     castStartTimeRef.current = castStartTime
@@ -30,10 +33,6 @@ const ProgressAbility = (props) => {
     globalCooldownStartTimeRef.current = globalCooldownStartTime
     chargesRef.current = charges
 
-    let cooldownTimer
-    let globalCooldownTimer
-    let channelTimer
-
     useEffect(() => {
         subscribe({
             source: id,
@@ -43,15 +42,17 @@ const ProgressAbility = (props) => {
         })
 
         return (id) => {
-            clearInterval(globalCooldownTimer)
-            clearInterval(cooldownTimer)
+            clearInterval(globalCooldownTimer.current)
+            clearInterval(cooldownTimer.current)
             unsubscribe(id)
         }
     }, [])
 
     const startGlobalCooldown = () => {
 
-        globalCooldownTimer = setInterval(() => {
+        console.log("Starting global cooldown for " + name)
+
+        globalCooldownTimer.current = setInterval(() => {
             let now = Date.now()
             let cooldownState = {
                 startTime: globalCooldownStartTimeRef.current || now,
@@ -61,14 +62,28 @@ const ProgressAbility = (props) => {
 
             if(cooldownState.startTime && startTimeRef.current) 
             {
+                console.log(`${name} is already on cooldown and invoking the gcd`)
                 let cooldownRemaining = (startTimeRef.current + cooldownRef.current) - now
 
-                clearInterval(remaining > cooldownRemaining ? cooldownTimer : globalCooldownTimer)
+                if(remaining > cooldownRemaining && (!maxCharges || (maxCharges && chargesRef.current === maxCharges - 1))) {
+                    console.log(`${name} has a shorter cooldown than the gcd`)
+                    clearInterval(cooldownTimer.current)
+                    setCharges(charges => charges+1)
+                    onAbilityUpdate({
+                        type: "ABILITY_COOLDOWN_END",
+                        payload: {
+                            name
+                        }
+                    })
+                    return
+                }
+                clearInterval(globalCooldownTimer.current)
+
                 return
             }
 
             if(remaining <= interval) {
-                clearInterval(globalCooldownTimer)               
+                clearInterval(globalCooldownTimer.current)               
                 //setProgress(0)
                 return
             }
@@ -78,7 +93,7 @@ const ProgressAbility = (props) => {
 
     const startCooldown = () => {
 
-        cooldownTimer = setInterval(() => {
+        cooldownTimer.current = setInterval(() => {
             let now = Date.now()
             let cooldownState = {
                 startTime: (startTimeRef.current || now),
@@ -86,17 +101,22 @@ const ProgressAbility = (props) => {
             }
             let remaining = (cooldownState.startTime + cooldownState.cooldown) - now
 
-            //if a charge then set new start time to now (ABILITY_COOLDOWN_START)
             if(remaining <= interval) {
-                clearInterval(cooldownTimer)
-
                 setCharges(charges => charges+1)
 
                 if(maxCharges && chargesRef.current < maxCharges) {
                     setProgress(1)
-                    startCooldown()
+                    onAbilityUpdate({
+                        type: "ABILITY_COOLDOWN_START",
+                        payload: {
+                            name,
+                            time: Date.now()
+                        }
+                    })
+                    //startCooldown()
                     return
                 }
+                clearInterval(cooldownTimer.current)
                 
                 onAbilityUpdate({
                     type: "ABILITY_COOLDOWN_END",
@@ -154,14 +174,13 @@ const ProgressAbility = (props) => {
         let now = Date.now()
         //let castEndTime = now + channelTime
         if(castStartTimeRef.current) {
-            clearTimeout(channelTimer)
+            clearTimeout(channelTimer.current)
             let previousChannelTime = castEndTimeRef.current - castStartTimeRef.current
             let previousChannelRemaining = previousChannelTime - (now - castStartTimeRef.current)
             channelTime += Math.min(previousChannelRemaining, previousChannelTime * .3)
         }
 
-        channelTimer = setTimeout(() => {
-            console.log("Ending channel...")
+        channelTimer.current = setTimeout(() => {
             onAbilityUpdate({
                 type: "ABILITY_CHANNEL_END",
                 payload: {
@@ -175,10 +194,10 @@ const ProgressAbility = (props) => {
             payload: {
                 name,
                 duration: channelTime,
-                time: now,
-                //castEndTime
+                time: now
             }
         })
+
     }
 
     const useAbility = () => {
