@@ -19,7 +19,7 @@ const AbilityBar = (props) => {
     const defaultCooldowns = () => {
         const cooldowns = {}
         Object.keys(abilities).forEach(k => {
-            if(abilitySettingsRef.current[k].disabled) return
+            if(abilitySettingsRef.current[k] && abilitySettingsRef.current[k].disabled) return
             cooldowns[k] = {
                 startTime: 0,
                 onGlobalCooldown: false
@@ -33,7 +33,7 @@ const AbilityBar = (props) => {
         const defaultAbilities = {}
 
         Object.keys(abilities).forEach(k => {
-            if(abilitySettingsRef.current[k].disabled) return
+            if(abilitySettingsRef.current[k] && abilitySettingsRef.current[k].disabled) return
 
             defaultAbilities[k] = {
                 ...abilitySettings[k],
@@ -179,6 +179,7 @@ const AbilityBar = (props) => {
 
         observersRef.current.forEach(o => {
             if(o.keybind === e.key) {
+                console.log("Casting ability: " + o.source)
                 o.execute()
             }
         })

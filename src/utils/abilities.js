@@ -35,6 +35,15 @@ const abilities = {
         charges: 2,
         keybind: "2",
         icon: "images/shadow-word-death.jpg"
+    },
+    "void-torrent": {
+        cooldown: 45000,
+        resource: 30,
+        type: "channel",
+        keybind: "3",
+        casttime: 4000,
+        ticks: 10,
+        icon: "images/void-torrent.jpg"
     }
 }
 

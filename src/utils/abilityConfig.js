@@ -18,6 +18,11 @@ const abilities = {
         displayName: "Shadow Word: Death",
         keybind: "4",
         icon: "images/shadow-word-death.jpg"
+    },
+    "void-torrent": {
+        displayName: "Void Torrent",
+        keybind: "5",
+        icon: "images/void-torrent.jpg"
     }
 }
 

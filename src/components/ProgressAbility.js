@@ -211,6 +211,7 @@ const ProgressAbility = (props) => {
     const executeAbility = () => {
         if(globalCooldownRef.current) return
 
+        console.log(type)
         switch(type) {
             case "instant":
                 executeInstant()
@@ -250,9 +251,12 @@ const ProgressAbility = (props) => {
     }
 
     const executeChannel = () => {
-        if(cooldownRef.current) return
+        if(startTimeRef.current) return
         startChannel()
-        startCooldown()
+        //ability has a cooldown
+        if(cooldownRef.current) {
+            startCooldown()
+        }
         onExecute(id, cooldownRef.current, type)
     }
 
@@ -260,7 +264,7 @@ const ProgressAbility = (props) => {
         <div className="progress-ability-container">
         <div className="progress-ability" onClick={executeAbility}>
             <img className="ability-icon"
-                className={charges > 0 ? "colored" : "desaturated"}
+                className={(charges > 0 && maxCharges) || (!startTimeRef.current)? "colored" : "desaturated"}
                 src={icon}
                 width={size}
                 height={size}
