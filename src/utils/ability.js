@@ -102,16 +102,14 @@ class Ability {
             })
 
             let cooldown = this.state.cooldown.duration.current
+            let currentlyOnCooldown = this.state.cooldown.startTime.current
             let charges = this.state.charges.current.current
-
-            console.log("Ending cast...")
-            console.log(charges)
 
             if(cooldown) {
                 this.updateState(state => {
                     return {...state, charges: charges-1}
                 })
-                
+                if(currentlyOnCooldown) return               
                 this.startCooldown()
             }
 
@@ -225,8 +223,7 @@ class InstantAbility extends Ability {
         })
 
         this.onExecute()
-        //if has charges and current charges < max - 1
-        if(maxCharges && current < maxCharges - 1) return
+        if(maxCharges && current < maxCharges) return
         this.startCooldown()
     }
 }
