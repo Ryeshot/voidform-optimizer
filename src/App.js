@@ -7,8 +7,8 @@ import ExportPanel from "./components/panels/ExportPanel"
 import SettingsPanel from "./components/panels/SettingsPanel"
 import AbilityKeybindsPanel from "./components/panels/AbilityKeybindsPanel"
 import AboutPanel from "./components/panels/AboutPanel"
-import abilities from "./utils/abilityConfig"
-import LingeringInsanity from './components/auras/LingeringInsanity';
+import defaultAbilities from "./utils/abilityConfig"
+import defaultAbilitySettings from "./utils/abilities"
 
 const App = () => {
 
@@ -26,6 +26,11 @@ const App = () => {
         active: false,
         stacks: 0,
         haste: 0
+      }
+    },
+    abilities: {
+      "void-eruption": {
+        unusable: true
       }
     }
   }
@@ -52,14 +57,12 @@ const App = () => {
         voidform.stacks = 1
         break;
       case "VOIDFORM_END":
-        //console.log(event)
         lingeringInsanity.active = true
         lingeringInsanity.stacks = voidform.stacks
         lingeringInsanity.haste = voidform.haste
         lingeringInsanity.startTime = action.payload
         voidform.stacks = 0
         voidform.haste = 0
-        newState.canEnterVoidform = false
         break;
       case "LINGERING_INSANITY_START":
         var {haste, stacks} = action.payload
@@ -82,8 +85,8 @@ const App = () => {
         if(resource <= 0 && voidform.active) {
           voidform.active = false
         }
-        if(voidform.active && resource >= 90) {
-          newState.canEnterVoidform = true
+        if(!voidform.active && resource >= 90) {
+          newState.abilities["void-eruption"].unusable = false
         }
         break;
       case "INSANITY_DRAIN_PAUSE_START":
@@ -100,7 +103,8 @@ const App = () => {
   const [showTimer, setShowTimer] = useState(false)
   const [exportData, setExportData] = useState("")
   const [panel, setPanel] = useState()
-  const [abilitySettings, setAbilitySettings] = useState(abilities)
+  const [abilitySettings, setAbilitySettings] = useState(defaultAbilitySettings)
+  const [abilities, setAbilities] = useState(defaultAbilities)
 
   const enterVoidform = () => {
     updateState({
@@ -131,11 +135,12 @@ const App = () => {
   }
 
   const handleAbilityToggle = (ability) => {
-    let newSettings = JSON.parse(JSON.stringify(abilitySettings))
+    let newSettings = JSON.parse(JSON.stringify(abilities))
 
     newSettings[ability].disabled = !newSettings[ability].disabled
+    if(ability === "void-bolt") newSettings["void-eruption"].disabled = newSettings[ability].disabled
 
-    setAbilitySettings(newSettings)
+    setAbilities(newSettings)
   }
 
   const handleExport = () => {
@@ -152,6 +157,13 @@ const App = () => {
     lingeringInsanitySettings
   }
 
+  const merge = () => {
+    return Object.keys(abilities).reduce((merged, a) => {
+      merged[a] = {...abilities[a], ...state.abilities[a]}
+      return merged
+    }, {})
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -159,7 +171,7 @@ const App = () => {
         <div className ="header-panel"></div>
         <div className="panel-container">
           <SettingsPanel onImport={() => {}} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
-          <AbilityKeybindsPanel abilities={abilitySettings} currentPanel={panel} onKeybind={() => {}} onToggle={handleAbilityToggle} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
+          <AbilityKeybindsPanel abilities={abilities} currentPanel={panel} onKeybind={() => {}} onToggle={handleAbilityToggle} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
           <ExportPanel onExport={handleExport} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
           <AboutPanel currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
         </div>
@@ -168,7 +180,7 @@ const App = () => {
           <ResourceBar current={state.resource} max={100}/>
           <button onClick={enterVoidform}>Enter Voidform!</button>
           <button onClick={gainInsanity}>+10 Insanity</button>
-          <AbilityBar abilitySettings={abilitySettings} haste={calculateHaste()} inVoidform={state.auras.voidform.active} canEnterVoidform={state.canEnterVoidform} triggerEvent={updateState}/>
+          <AbilityBar abilitySettings={abilitySettings} abilities={merge()} haste={calculateHaste()} inVoidform={state.auras.voidform.active} triggerEvent={updateState}/>
           <div>Haste: {((calculateHaste()-1)*100).toFixed(2)}%</div>
         </div>
         

@@ -207,6 +207,7 @@ class InstantAbility extends Ability {
 
     execute() {
         if(this.state.globalCooldown.duration.current) return
+        if(this.state.unusable) return
         let state = this.getCurrentState()
         const {name, resource} = state
         const {startTime} = state.cooldown
@@ -232,6 +233,7 @@ class CastAbility extends Ability {
 
     execute() {
         if(this.state.globalCooldown.duration.current) return
+        if(this.state.unusable) return
         let state = this.getCurrentState()
         const {startTime} = state.cast
         const {current} = state.charges
@@ -247,6 +249,7 @@ class ChannelAbility extends Ability {
 
     execute() {
         if(this.state.globalCooldown.duration.current) return
+        if(this.state.unusable) return
         let state = this.getCurrentState()
         const {duration, startTime} = state.cooldown
 

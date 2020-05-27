@@ -1,4 +1,4 @@
-const abilities = {
+const defaultAbilities = {
     "mind-flay": {
         displayName: "Mind Flay",
         keybind: "1",
@@ -23,7 +23,12 @@ const abilities = {
         displayName: "Void Torrent",
         keybind: "5",
         icon: "images/void-torrent.jpg"
+    },
+    "void-eruption": {
+        displayName: "Void Eruption",
+        keybind: "6",
+        icon: "images/void-eruption.jpg"
     }
 }
 
-export default abilities
+export default defaultAbilities

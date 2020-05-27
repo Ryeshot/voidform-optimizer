@@ -8,7 +8,7 @@ import "./AbilityBar.css"
 const AbilityBar = (props) => {
 
     const gcdLength = 1500
-    const {abilitySettings, haste, canEnterVoidform, inVoidform, triggerEvent} = props
+    const {abilitySettings, abilities, haste, canEnterVoidform, inVoidform, triggerEvent} = props
 
     const hasteRef = useRef(haste)
     hasteRef.current = haste
@@ -211,35 +211,30 @@ const AbilityBar = (props) => {
     return (
         <div className="ability-bar">
         <div className="progress-bar-container">{state.casting ? <CastBar {...state.casting}/> : null}</div>        
-        {Object.keys(abilitySettings)
+        {Object.keys(abilities)
         .map((k,i) => {
-            console.log("Inside map")
-            if(abilitySettings[k].disabled) return
+            if(abilities[k].disabled) return
             if(k === "void-bolt" && !inVoidformRef.current) return
             if(k === "void-eruption" && inVoidformRef.current) return
             return <ProgressAbility
             name={k}
             key={i}
-            // cooldown={getAbilityCooldown(k)}
-            // globalCooldown={state.globalCooldown}
-            // globalCooldownStartTime={state.globalCooldownStartTime}
-            type={abilities[k].type}
-            // resource={currentAbilities[k].resource}
-            // startTime={state.cooldowns[k].startTime}
-            // castStartTime={state.cooldowns[k].castStartTime}
-            // castEndTime={state.cooldowns[k].castEndTime}
-            // maxCharges={currentAbilities[k].charges} 
-            keybind={abilitySettings[k].keybind}
-            icon={abilitySettings[k].icon}
-            // casttime ={calculateCooldown(currentAbilities[k].casttime)}
-            // ticks={currentAbilities[k].ticks}
-            // baseChannelTime={state.cooldowns[k].baseChannelTime}
+            {...abilities[k]}
+            {...state.cooldowns[k]}
+            type={abilitySettings[k].type}
+            cooldown={getAbilityCooldown(k)}
+            globalCooldown={state.globalCooldown}
+            globalCooldownStartTime={state.globalCooldownStartTime}
+            resource={abilitySettings[k].resource}
+            maxCharges={abilitySettings[k].charges} 
+            casttime ={calculateCooldown(abilitySettings[k].casttime)}
+            ticks={abilitySettings[k].ticks}
             subscribe={subscribe}
             unsubscribe={unsubscribe}
             onExecute={triggerGlobalCooldown}
             onAbilityUpdate={triggerCooldown}
             triggerEvent={triggerEvent}
-            // id={k}
+            id={k}
         />})}
         {state.globalCooldown? <GlobalCooldown duration={state.globalCooldown} triggerEvent={triggerCooldown}/> : null}
         </div>

@@ -6,7 +6,7 @@ import abilitySettings from '../utils/abilitySettings';
 
 const ProgressAbility = (props) => {
 
-    const {name, cooldown, globalCooldown, globalCooldownStartTime, type, resource, startTime, castStartTime, castEndTime, icon, casttime, ticks, baseChannelTime, maxCharges, keybind, subscribe, unsubscribe, onExecute, onAbilityUpdate, triggerEvent, id} = props
+    const {name, cooldown, globalCooldown, globalCooldownStartTime, unusable, type, resource, startTime, castStartTime, castEndTime, icon, casttime, ticks, baseChannelTime, maxCharges, keybind, subscribe, unsubscribe, onExecute, onAbilityUpdate, triggerEvent, id} = props
 
     const size = 50
 
@@ -66,6 +66,7 @@ const ProgressAbility = (props) => {
         const initialState = {
             name,
             resource,
+            unusable,
             cooldown: {
                 duration: cooldownRef,
                 startTime: startTimeRef
@@ -101,13 +102,13 @@ const ProgressAbility = (props) => {
             ability.current.remove()
             unsubscribe(id)
         }
-    }, [])
+    }, [unusable])
 
     return (
         <div className="progress-ability-container">
         <div className="progress-ability" onClick={() => ability.current.execute()}>
             <img className="ability-icon"
-                className={(state.charges > 0 && maxCharges) || (!startTimeRef.current) ? "colored" : "desaturated"}
+                className={!unusable && ((state.charges > 0 && maxCharges) || (!startTimeRef.current)) ? "colored" : "desaturated"}
                 src={icon}
                 width={size}
                 height={size}
