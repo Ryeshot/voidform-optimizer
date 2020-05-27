@@ -8,10 +8,16 @@ import "./AbilityBar.css"
 const AbilityBar = (props) => {
 
     const gcdLength = 1500
-    const {abilitySettings, haste, triggerEvent} = props
+    const {abilitySettings, haste, canEnterVoidform, inVoidform, triggerEvent} = props
 
     const hasteRef = useRef(haste)
     hasteRef.current = haste
+
+    const canEnterVoidformRef = useRef(canEnterVoidform)
+    canEnterVoidformRef.current = canEnterVoidform
+
+    const inVoidformRef = useRef(inVoidform)
+    inVoidformRef.current = inVoidform 
 
     const abilitySettingsRef = useRef(abilitySettings)
     abilitySettingsRef.current = abilitySettings
@@ -21,7 +27,7 @@ const AbilityBar = (props) => {
         Object.keys(abilities).forEach(k => {
             if(abilitySettingsRef.current[k] && abilitySettingsRef.current[k].disabled) return
             cooldowns[k] = {
-                startTime: 1,
+                startTime: 0,
                 onGlobalCooldown: false
             }
         })
@@ -56,7 +62,7 @@ const AbilityBar = (props) => {
     }
 
     useEffect(() => {
-        document.addEventListener("keypress", handleKeyPress, {once: true})
+        document.addEventListener("keypress", handleKeyPress)
 
         return () => document.removeEventListener("keypress", handleKeyPress)
     }, [abilitySettings])
@@ -171,18 +177,17 @@ const AbilityBar = (props) => {
 
         if(globalCooldownRef.current) return
 
-        console.log("Handing key press!")
-
-        setTimeout(() => {
-            document.addEventListener("keypress", handleKeyPress)
-        }, 500)
+        // document.removeEventListener("keypress", handleKeyPress)
 
         observersRef.current.forEach(o => {
             if(o.keybind === e.key) {
-                console.log("Casting ability: " + o.source)
                 o.execute()
             }
         })
+
+        // setTimeout(() => {
+        //     document.addEventListener("keypress", handleKeyPress)
+        // }, 500)
     }
 
     const calculateCooldown = (cooldown) => {
@@ -224,7 +229,10 @@ const AbilityBar = (props) => {
         <div className="ability-bar">
         <div className="progress-bar-container">{state.casting ? <CastBar {...state.casting}/> : null}</div>        
         {Object.keys(currentAbilities)
-        .map((k,i) => <ProgressAbility
+        .map((k,i) => {
+            if(k === "void-bolt" && !inVoidformRef.current) return
+            if(k === "void-eruption" && inVoidformRef.current) return
+            return <ProgressAbility
             name={k}
             key={i}
             cooldown={getAbilityCooldown(k)}
@@ -247,7 +255,7 @@ const AbilityBar = (props) => {
             onAbilityUpdate={triggerCooldown}
             triggerEvent={triggerEvent}
             id={k}
-        />)}
+        />})}
         {state.globalCooldown? <GlobalCooldown duration={state.globalCooldown} triggerEvent={triggerCooldown}/> : null}
         </div>
     )

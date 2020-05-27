@@ -18,6 +18,13 @@ const abilities = {
         keybind: "1",
         icon: "images/void-bolt.jpg"
     },
+    "void-eruption": {
+        cooldown: 0,
+        type: "cast",
+        keybind: "1",
+        casttime: 2000,
+        icon: "images/void-eruption.jpg"
+    },
     "mind-blast": {
         cooldown: 7500,
         resource: 12,
@@ -44,13 +51,6 @@ const abilities = {
         casttime: 4000,
         ticks: 10,
         icon: "images/void-torrent.jpg"
-    },
-    "void-eruption": {
-        cooldown: 0,
-        type: "cast",
-        keybind: "4",
-        casttime: 2000,
-        icon: "images/void-eruption.jpg"
     }
 }
 

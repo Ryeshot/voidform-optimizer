@@ -14,6 +14,7 @@ const App = () => {
 
   const defaultState = {
     resource: 100,
+    canEnterVoidform: false,
     auras: {
       voidform: {
         active: false,
@@ -58,6 +59,7 @@ const App = () => {
         lingeringInsanity.startTime = action.payload
         voidform.stacks = 0
         voidform.haste = 0
+        newState.canEnterVoidform = false
         break;
       case "LINGERING_INSANITY_START":
         var {haste, stacks} = action.payload
@@ -79,6 +81,9 @@ const App = () => {
         newState.resource = resource
         if(resource <= 0 && voidform.active) {
           voidform.active = false
+        }
+        if(voidform.active && resource >= 90) {
+          newState.canEnterVoidform = true
         }
         break;
       case "INSANITY_DRAIN_PAUSE_START":
@@ -117,14 +122,6 @@ const App = () => {
     }, 1)
   }
 
-  const handleClick = () => {
-    setShowTimer(!showTimer)
-  }
-
-  const handleExport = () => {
-    setExportData("Hello")
-  }
-
   const handlePanelHeaderClick = (panel) => {
     setPanel(panel)
   }
@@ -139,6 +136,10 @@ const App = () => {
     newSettings[ability].disabled = !newSettings[ability].disabled
 
     setAbilitySettings(newSettings)
+  }
+
+  const handleExport = () => {
+    setExportData("Hello")
   }
 
   const lingeringInsanitySettings = {
@@ -167,7 +168,7 @@ const App = () => {
           <ResourceBar current={state.resource} max={100}/>
           <button onClick={enterVoidform}>Enter Voidform!</button>
           <button onClick={gainInsanity}>+10 Insanity</button>
-          <AbilityBar abilitySettings={abilitySettings} haste={calculateHaste()} triggerEvent={updateState}/>
+          <AbilityBar abilitySettings={abilitySettings} haste={calculateHaste()} inVoidform={state.auras.voidform.active} canEnterVoidform={state.canEnterVoidform} triggerEvent={updateState}/>
           <div>Haste: {((calculateHaste()-1)*100).toFixed(2)}%</div>
         </div>
         

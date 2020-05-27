@@ -46,7 +46,7 @@ const ProgressAbility = (props) => {
             execute: executeAbility
         })
 
-        return (id) => {
+        return () => {
             clearInterval(globalCooldownTimer.current)
             clearInterval(cooldownTimer.current)
             unsubscribe(id)
