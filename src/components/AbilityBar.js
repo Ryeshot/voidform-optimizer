@@ -200,10 +200,7 @@ const AbilityBar = (props) => {
         triggerCooldown({
             type: "GLOBAL_COOLDOWN_START",
             payload: {
-                source,
                 gcd,
-                cooldown,
-                type,
                 time: Date.now()
             }
         })

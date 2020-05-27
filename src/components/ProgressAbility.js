@@ -97,18 +97,8 @@ const ProgressAbility = (props) => {
                 clearInterval(cooldownTimer.current)
                 if(maxCharges && chargesRef.current < maxCharges) {
                     startCooldown()
-                    // setProgress(1)
-                    // onAbilityUpdate({
-                    //     type: "ABILITY_COOLDOWN_START",
-                    //     payload: {
-                    //         name,
-                    //         time: Date.now()
-                    //     }
-                    // })
-
                     return
                 }
-                //clearInterval(cooldownTimer.current)
                 
                 onAbilityUpdate({
                     type: "ABILITY_COOLDOWN_END",
@@ -302,6 +292,8 @@ const ProgressAbility = (props) => {
         }
         onExecute(id, cooldownRef.current, type)
     }
+
+    {console.log("Inside ability render")}
 
     return (
         <div className="progress-ability-container">
