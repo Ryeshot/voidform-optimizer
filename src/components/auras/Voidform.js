@@ -37,7 +37,9 @@ const Voidform = (props) => {
           if(!pausedRef.current)
           triggerEvent({
             type: "RESOURCE_UPDATE",
-            payload: drain*-1
+            payload: {
+                resource: drain*-1
+            }
           })
 
           if(i % frequency === 0 && i/frequency <= maxStacks) {

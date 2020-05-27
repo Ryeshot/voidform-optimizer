@@ -77,7 +77,7 @@ const App = () => {
         lingeringInsanity.startTime = 0
         break;
       case "RESOURCE_UPDATE":
-        let resource = Math.max(Math.min(newState.resource + action.payload, 100), 0)
+        let resource = Math.max(Math.min(newState.resource + action.payload.resource, 100), 0)
         newState.resource = resource
         if(resource <= 0 && voidform.active) {
           voidform.active = false

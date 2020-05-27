@@ -89,8 +89,8 @@ const AbilityBar = (props) => {
                 }
                 break
             case "ABILITY_COOLDOWN_START":
-                // console.log(action.type)
-                // console.log(action.payload)
+                console.log(action.type)
+                console.log(action.payload)
                 var {name, time} = payload
                 newState.cooldowns[name].startTime = time
                 //mind blast is causing this to cancel mind flay during charge refresh
@@ -154,7 +154,7 @@ const AbilityBar = (props) => {
                 if(newState.casting && name === newState.casting.name) delete newState.casting
                 break
             case "GLOBAL_COOLDOWN_START":
-                //console.log(newState)
+                console.log(action.type)
                 newState.globalCooldown = payload.gcd
                 newState.globalCooldownStartTime = payload.time
                 break
@@ -177,25 +177,21 @@ const AbilityBar = (props) => {
 
         if(globalCooldownRef.current) return
 
-        // document.removeEventListener("keypress", handleKeyPress)
-
         observersRef.current.forEach(o => {
             if(o.keybind === e.key) {
                 o.execute()
             }
         })
-
-        // setTimeout(() => {
-        //     document.addEventListener("keypress", handleKeyPress)
-        // }, 500)
     }
 
     const calculateCooldown = (cooldown) => {
         return cooldown/hasteRef.current
     }
 
-    const triggerGlobalCooldown = (source, cooldown, type) => {
+    const triggerGlobalCooldown = () => {
         let gcd = Math.max(calculateCooldown(gcdLength), gcdLength/2)
+
+        console.log("Before gcd trigger")
 
         triggerCooldown({
             type: "GLOBAL_COOLDOWN_START",
@@ -205,7 +201,14 @@ const AbilityBar = (props) => {
             }
         })
 
-        observersRef.current.forEach(o => o.notify())
+        console.log("After gcd trigger")
+
+        observersRef.current.forEach(o => {
+            //console.log(o.notify)
+            o.notify()
+        })
+
+        console.log("After notify")
     }
 
     const subscribe = (observer) => {

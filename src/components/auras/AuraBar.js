@@ -11,7 +11,7 @@ const AuraBar = (props) => {
         drainRate: 1,
         drainStart: 10,
         stackHaste: .00,
-        baseHaste: 0,
+        baseHaste: .1,
         maxStacks: 10
     }
 

@@ -19,7 +19,7 @@ const CooldownSweep = (props) => {
                 strokeWidth={stroke}
                 strokeOpacity={.7}
                 strokeDasharray={circumference + " " + circumference}
-                strokeDashoffset={inverse ? ((progress === 0 ? circumference : 0) + progress * circumference) : (circumference + progress * circumference)}
+                strokeDashoffset={inverse ? ((!progress ? circumference : 0) + (progress || 0) * circumference) : (circumference + (progress || 0) * circumference)}
                 stroke={"rgb(0,0,0)"}
                 cx={size/2}
                 cy={size/2}
