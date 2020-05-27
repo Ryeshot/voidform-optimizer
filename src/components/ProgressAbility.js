@@ -97,18 +97,11 @@ const ProgressAbility = (props) => {
             execute: () => ability.current.execute()
         })
 
-        console.log(`Rendering ${name}`)
-
         return () => {
-            console.log(`Removing ${name}`)
             ability.current.remove()
             unsubscribe(id)
         }
     }, [])
-
-    // const executeAbility = () => {
-    //     ability.current.execute()
-    // }
 
     return (
         <div className="progress-ability-container">

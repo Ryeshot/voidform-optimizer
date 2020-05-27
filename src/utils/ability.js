@@ -28,7 +28,6 @@ class Ability {
         let state = this.state
 
         Object.keys(state).forEach(k => {
-            //console.log(k)
             let value = state[k]
             if(typeof value !== "object") {
                 currentState[k] = value
@@ -36,7 +35,6 @@ class Ability {
             }
 
             const subState = {}
-            //console.log(value)
             Object.keys(value).forEach(k2 => {
                 let value2 = value[k2]
                 subState[k2] =  value2.current
@@ -44,15 +42,12 @@ class Ability {
             currentState[k] = subState
         })
 
-        //console.log(currentState)
-
         return currentState
     }
 
     startCooldown() {
         let state = this.getCurrentState()
         const {name} = state
-        //const {startTime} = state.cooldown
         const {maxCharges} = state.charges
 
         this.cooldownTimer = setInterval(() => {
@@ -99,8 +94,6 @@ class Ability {
         let state = this.getCurrentState()
         const {name, resource} = state
         const {duration} = state.cast
-
-        //console.log("Beginning cast...")
 
         this.castTimer = setTimeout(() => {
             this.eventHandler.handleEvent("CAST_SUCCESS", {
@@ -184,21 +177,15 @@ class Ability {
         let state = this.getCurrentState()
         const {duration, startTime} = state.globalCooldown
 
-        //console.log(duration)
-
-        //console.log("Inside gcd for " + state.name)
-
-        let start = Date.now()
-
         if(state.cooldown.startTime) {
-            let remaining = (state.cooldown.startTime + state.cooldown.duration) - start
+            let remaining = (state.cooldown.startTime + state.cooldown.duration) - startTime
             if(remaining > duration) return
         }
 
         this.globalCooldownTimer = setInterval(() => {
             let now = Date.now()
-            let remaining = ((startTime || start) + duration) - now
-            if(remaining <= interval + lag) {
+            let remaining = (startTime + duration) - now
+            if(remaining <= interval) {
                 clearInterval(this.globalCooldownTimer)               
                 return
             }
@@ -221,12 +208,12 @@ class Ability {
 class InstantAbility extends Ability {
 
     execute() {
-        console.log("Preparing to execute ability...")
+        if(this.state.globalCooldown.duration.current) return
         let state = this.getCurrentState()
         const {name, resource} = state
         const {startTime} = state.cooldown
         const {maxCharges, current} = state.charges
-        //console.log(this.state)
+
         if(startTime && current === 0) return      
         this.updateState(state => {
             return {...state, charges: current-1}
@@ -236,9 +223,6 @@ class InstantAbility extends Ability {
             name,
             resource
         })
-
-        console.log("Cast success!")
-        console.log(resource)
 
         this.onExecute()
         //if has charges and current charges < max - 1
@@ -250,15 +234,14 @@ class InstantAbility extends Ability {
 class CastAbility extends Ability {
 
     execute() {
-        console.log("Preparing to execute ability...")
+        if(this.state.globalCooldown.duration.current) return
         let state = this.getCurrentState()
         const {startTime} = state.cast
         const {current} = state.charges
-        //console.log(current)
+
         if(startTime || current === 0) return
         console.log("Preparing to start cast...")
         this.startCast()
-        //console.log(this.onExecute)
         this.onExecute()
     }
 }
@@ -266,12 +249,12 @@ class CastAbility extends Ability {
 class ChannelAbility extends Ability {
 
     execute() {
-        console.log("Preparing to execute ability...")
+        if(this.state.globalCooldown.duration.current) return
         let state = this.getCurrentState()
         const {duration, startTime} = state.cooldown
+
         if(startTime) return
         this.startChannel()
-        //ability has a cooldown
         if(duration) {
             this.startCooldown()
         }

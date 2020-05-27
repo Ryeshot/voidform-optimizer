@@ -89,8 +89,8 @@ const AbilityBar = (props) => {
                 }
                 break
             case "ABILITY_COOLDOWN_START":
-                console.log(action.type)
-                console.log(action.payload)
+                // console.log(action.type)
+                // console.log(action.payload)
                 var {name, time} = payload
                 newState.cooldowns[name].startTime = time
                 //mind blast is causing this to cancel mind flay during charge refresh
@@ -154,7 +154,7 @@ const AbilityBar = (props) => {
                 if(newState.casting && name === newState.casting.name) delete newState.casting
                 break
             case "GLOBAL_COOLDOWN_START":
-                console.log(action.type)
+                // console.log(action.type)
                 newState.globalCooldown = payload.gcd
                 newState.globalCooldownStartTime = payload.time
                 break
@@ -191,8 +191,6 @@ const AbilityBar = (props) => {
     const triggerGlobalCooldown = () => {
         let gcd = Math.max(calculateCooldown(gcdLength), gcdLength/2)
 
-        console.log("Before gcd trigger")
-
         triggerCooldown({
             type: "GLOBAL_COOLDOWN_START",
             payload: {
@@ -201,14 +199,9 @@ const AbilityBar = (props) => {
             }
         })
 
-        console.log("After gcd trigger")
-
-        observersRef.current.forEach(o => {
-            //console.log(o.notify)
-            o.notify()
-        })
-
-        console.log("After notify")
+        setTimeout(() => {
+            observersRef.current.forEach(o => o.notify())
+        }, 0)
     }
 
     const subscribe = (observer) => {
