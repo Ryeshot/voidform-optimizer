@@ -19,13 +19,13 @@ const AbilityBar = (props) => {
     const inVoidformRef = useRef(inVoidform)
     inVoidformRef.current = inVoidform 
 
-    const abilitySettingsRef = useRef(abilitySettings)
-    abilitySettingsRef.current = abilitySettings
+    // const abilitySettingsRef = useRef(abilitySettings)
+    // abilitySettingsRef.current = abilitySettings
 
     const defaultCooldowns = () => {
         const cooldowns = {}
         Object.keys(abilities).forEach(k => {
-            if(abilitySettingsRef.current[k] && abilitySettingsRef.current[k].disabled) return
+            if(abilitySettings[k] && abilitySettings[k].disabled) return
             cooldowns[k] = {
                 startTime: 0,
                 onGlobalCooldown: false
@@ -35,22 +35,22 @@ const AbilityBar = (props) => {
         return cooldowns
     }
 
-    const defaultAbilities = () => {
-        const defaultAbilities = {}
+    // const defaultAbilities = () => {
+    //     const defaultAbilities = {}
 
-        Object.keys(abilities).forEach(k => {
-            if(abilitySettingsRef.current[k] && abilitySettingsRef.current[k].disabled) return
+    //     Object.keys(abilities).forEach(k => {
+    //         if(abilitySettingsRef.current[k] && abilitySettingsRef.current[k].disabled) return
 
-            defaultAbilities[k] = {
-                ...abilitySettings[k],
-                ...abilities[k]
-            }
-        })
+    //         defaultAbilities[k] = {
+    //             ...abilitySettings[k],
+    //             ...abilities[k]
+    //         }
+    //     })
 
-        return defaultAbilities
-    }
+    //     return defaultAbilities
+    // }
 
-    const [currentAbilities, setCurrentAbilities] = useState(defaultAbilities())
+    //const [currentAbilities, setCurrentAbilities] = useState(defaultAbilities())
     const [observers, setObservers] = useState([])
 
     const observersRef = useRef(observers)
@@ -64,6 +64,9 @@ const AbilityBar = (props) => {
     useEffect(() => {
         document.addEventListener("keypress", handleKeyPress)
 
+        console.log("Inside ability bar render")
+        console.log(state.cooldowns)
+
         return () => document.removeEventListener("keypress", handleKeyPress)
     }, [abilitySettings])
 
@@ -73,8 +76,6 @@ const AbilityBar = (props) => {
 
         switch(action.type) {
             case "ABILITY_CAST_SUCCESS":
-                // console.log(action.type)
-                // console.log(payload)
                 var {name} = payload
                 if(newState.casting && name === "void-bolt" && newState.casting.name === "mind-flay") {
                     console.log("Mind flay currently being channeled")
@@ -89,23 +90,14 @@ const AbilityBar = (props) => {
                 }
                 break
             case "ABILITY_COOLDOWN_START":
-                // console.log(action.type)
-                // console.log(action.payload)
                 var {name, time} = payload
                 newState.cooldowns[name].startTime = time
-                //mind blast is causing this to cancel mind flay during charge refresh
                 break
             case "ABILITY_COOLDOWN_END":
                 var {name} = payload
                 newState.cooldowns[name].startTime = 0
                 break
-            // case "ABILITY_COOLDOWN_UPDATE":
-            //     var {name, cooldown} = payload
-            //     newState.cooldowns[name].cooldown = cooldown
-            //     break
             case "ABILITY_CAST_START":
-                // console.log(action.type)
-                // console.log(action.payload)
                 var {name, time, duration} = payload
                 newState.cooldowns[name].castStartTime = time
                 newState.cooldowns[name].castEndTime = time + duration
@@ -118,21 +110,15 @@ const AbilityBar = (props) => {
                 break
             case "ABILITY_CAST_END":
                 var {name} = payload
-                // console.log(action.type)
-                // console.log(action.payload)
                 newState.cooldowns[name].castStartTime = 0
                 newState.cooldowns[name].castEndTime = 0
                 if(newState.casting && name === newState.casting.name) delete newState.casting
                 break
             case "ABILITY_CHANNEL_START":
-                // console.log(action.type)
-                // console.log(action.payload)
-                var {name, time, duration, ticks, baseChannelTime} = payload
+                var {name, time, duration, baseChannelTime} = payload
                 newState.cooldowns[name].castStartTime = time
                 newState.cooldowns[name].castEndTime = time + duration
-                // newState.cooldowns[name].ticks = ticks
                 newState.cooldowns[name].baseChannelTime = baseChannelTime
-                //console.log(ticks)
                 newState.casting = {
                     duration,
                     name,
@@ -154,7 +140,6 @@ const AbilityBar = (props) => {
                 if(newState.casting && name === newState.casting.name) delete newState.casting
                 break
             case "GLOBAL_COOLDOWN_START":
-                // console.log(action.type)
                 newState.globalCooldown = payload.gcd
                 newState.globalCooldownStartTime = payload.time
                 break
@@ -213,41 +198,48 @@ const AbilityBar = (props) => {
     }
 
     const getAbilityCooldown = (k) => {
-        const ability = currentAbilities[k]
+        const ability = abilitySettings[k]
 
         return ability.hasted ? calculateCooldown(ability.cooldown) : ability.cooldown
+    }
+
+    const keyMap = () => {
+        console.log("Inside key map")
+        return Object.keys(abilitySettings)
     }
 
     return (
         <div className="ability-bar">
         <div className="progress-bar-container">{state.casting ? <CastBar {...state.casting}/> : null}</div>        
-        {Object.keys(currentAbilities)
+        {Object.keys(abilitySettings)
         .map((k,i) => {
+            console.log("Inside map")
+            if(abilitySettings[k].disabled) return
             if(k === "void-bolt" && !inVoidformRef.current) return
             if(k === "void-eruption" && inVoidformRef.current) return
             return <ProgressAbility
             name={k}
             key={i}
-            cooldown={getAbilityCooldown(k)}
-            globalCooldown={state.globalCooldown}
-            globalCooldownStartTime={state.globalCooldownStartTime}
-            type={currentAbilities[k].type}
-            resource={currentAbilities[k].resource}
-            startTime={state.cooldowns[k].startTime}
-            castStartTime={state.cooldowns[k].castStartTime}
-            castEndTime={state.cooldowns[k].castEndTime}
-            maxCharges={currentAbilities[k].charges} 
-            keybind={currentAbilities[k].keybind}
-            icon={currentAbilities[k].icon}
-            casttime ={calculateCooldown(currentAbilities[k].casttime)}
-            ticks={currentAbilities[k].ticks}
-            baseChannelTime={state.cooldowns[k].baseChannelTime}
+            // cooldown={getAbilityCooldown(k)}
+            // globalCooldown={state.globalCooldown}
+            // globalCooldownStartTime={state.globalCooldownStartTime}
+            type={abilities[k].type}
+            // resource={currentAbilities[k].resource}
+            // startTime={state.cooldowns[k].startTime}
+            // castStartTime={state.cooldowns[k].castStartTime}
+            // castEndTime={state.cooldowns[k].castEndTime}
+            // maxCharges={currentAbilities[k].charges} 
+            keybind={abilitySettings[k].keybind}
+            icon={abilitySettings[k].icon}
+            // casttime ={calculateCooldown(currentAbilities[k].casttime)}
+            // ticks={currentAbilities[k].ticks}
+            // baseChannelTime={state.cooldowns[k].baseChannelTime}
             subscribe={subscribe}
             unsubscribe={unsubscribe}
             onExecute={triggerGlobalCooldown}
             onAbilityUpdate={triggerCooldown}
             triggerEvent={triggerEvent}
-            id={k}
+            // id={k}
         />})}
         {state.globalCooldown? <GlobalCooldown duration={state.globalCooldown} triggerEvent={triggerCooldown}/> : null}
         </div>

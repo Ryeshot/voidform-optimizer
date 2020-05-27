@@ -23,11 +23,6 @@ const abilities = {
         displayName: "Void Torrent",
         keybind: "5",
         icon: "images/void-torrent.jpg"
-    },
-    "void-eruption": {
-        displayName: "Void Eruption",
-        keybind: "6",
-        icon: "images/void-eruption.jpg"
     }
 }
 
