@@ -21,7 +21,7 @@ const AbilityBar = (props) => {
         Object.keys(abilities).forEach(k => {
             if(abilitySettingsRef.current[k] && abilitySettingsRef.current[k].disabled) return
             cooldowns[k] = {
-                startTime: 0,
+                startTime: 1,
                 onGlobalCooldown: false
             }
         })

@@ -142,7 +142,32 @@ const ProgressAbility = (props) => {
                     name
                 }
             })
-            executeInstant()
+            
+            onAbilityUpdate({
+                type: "ABILITY_CAST_SUCCESS",
+                payload: {
+                    name
+                }
+            })
+    
+            if(resource) {
+                triggerEvent({
+                    type: "RESOURCE_UPDATE",
+                    payload: resource
+                })
+            }
+
+            if(name === "void-eruption") {
+                triggerEvent({
+                    type: "VOIDFORM_START"
+                })
+            }
+
+            if(cooldownRef.current) {
+                setCharges(charges => charges-1)
+                startCooldown()
+            }
+
         }, casttimeRef.current)
 
         onAbilityUpdate({
@@ -177,10 +202,12 @@ const ProgressAbility = (props) => {
 
             let now = Date.now()
 
-            triggerEvent({
-                type: "RESOURCE_UPDATE",
-                payload: resource/currentTicks
-            })
+            if(resource){
+                triggerEvent({
+                    type: "RESOURCE_UPDATE",
+                    payload: resource/currentTicks
+                })
+            }
 
             if(now >= castEndTimeRef.current) {
                 clearInterval(channelTimer.current)
@@ -191,6 +218,12 @@ const ProgressAbility = (props) => {
                         name
                     }
                 })
+
+                if(name === "void-torrent") {
+                    triggerEvent({
+                        type: "INSANITY_DRAIN_PAUSE_END"
+                    })
+                }
                 return
             }
 
@@ -205,6 +238,12 @@ const ProgressAbility = (props) => {
                 baseChannelTime: channelTime
             }
         })
+
+        if(name === "void-torrent") {
+            triggerEvent({
+                type: "INSANITY_DRAIN_PAUSE_START"
+            })
+        }
 
     }
 
@@ -235,10 +274,14 @@ const ProgressAbility = (props) => {
                 name
             }
         })
-        triggerEvent({
-            type: "RESOURCE_UPDATE",
-            payload: resource
-        })
+
+        if(resource) {
+            triggerEvent({
+                type: "RESOURCE_UPDATE",
+                payload: resource
+            })
+        }
+
         onExecute(id, cooldownRef.current, type)
         if(maxCharges && chargesRef.current < maxCharges - 1) return
         startCooldown()

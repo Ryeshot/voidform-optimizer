@@ -44,6 +44,13 @@ const abilities = {
         casttime: 4000,
         ticks: 10,
         icon: "images/void-torrent.jpg"
+    },
+    "void-eruption": {
+        cooldown: 0,
+        type: "cast",
+        keybind: "4",
+        casttime: 2000,
+        icon: "images/void-eruption.jpg"
     }
 }
 

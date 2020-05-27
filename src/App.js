@@ -19,6 +19,7 @@ const App = () => {
         active: false,
         stacks: 0,
         haste: 0,
+        paused: false,
       },
       lingeringInsanity: {
         active: false,
@@ -80,6 +81,12 @@ const App = () => {
           voidform.active = false
         }
         break;
+      case "INSANITY_DRAIN_PAUSE_START":
+        voidform.paused = true
+        break
+      case "INSANITY_DRAIN_PAUSE_END":
+        voidform.paused = false
+        break
     }
 
     return newState

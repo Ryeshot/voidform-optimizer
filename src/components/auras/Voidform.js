@@ -1,14 +1,17 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import Aura from "./Aura"
 
 const Voidform = (props) => {
 
-    const {drainRate, drainStart, stackHaste, baseHaste, maxStacks, triggerEvent} = props
+    const {drainRate, drainStart, stackHaste, baseHaste, maxStacks, paused, triggerEvent} = props
     const interval = 100
     const displayName = "Voidform"
     const icon = "images/voidform.jpg"
 
     const [stacks, setStacks] = useState(1)
+
+    const pausedRef = useRef(paused)
+    pausedRef.current = paused
 
     const start = () => {
         let n = 0
@@ -31,6 +34,7 @@ const Voidform = (props) => {
           n += sec
           i++
     
+          if(!pausedRef.current)
           triggerEvent({
             type: "RESOURCE_UPDATE",
             payload: drain*-1

@@ -20,6 +20,7 @@ const AuraBar = (props) => {
               {auras.voidform.active 
               ? <Voidform 
                 {...voidformSettings}
+                paused={auras.voidform.paused}
                 triggerEvent={triggerEvent}/> 
               : null}
              {auras.lingeringInsanity.active
