@@ -93,7 +93,7 @@ const LingeringInsanity = (props) => {
     }
 
     const calculateDecayStacks = (voidformHaste, hasteDecay) => {
-        return Math.round(voidformHaste/hasteDecay)
+        return Math.ceil(voidformHaste/hasteDecay)
     }
 
     const startDecay = () => {
