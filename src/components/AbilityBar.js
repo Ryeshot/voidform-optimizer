@@ -86,6 +86,10 @@ const AbilityBar = (props) => {
                 var {name, time, duration} = payload
                 newState.cooldowns[name].castStartTime = time
                 newState.cooldowns[name].castEndTime = time + duration
+                if(newState.casting) {
+                    newState.cooldowns[newState.casting.name].castStartTime = 0
+                    newState.cooldowns[newState.casting.name].castEndTime = 0
+                }
                 newState.casting = {
                     duration,
                     name,

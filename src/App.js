@@ -16,6 +16,9 @@ const App = () => {
   const defaultState = {
     resource: 0,
     auras: {
+      base: {
+        haste: .25
+      },
       voidform: {
         active: false,
         stacks: 0,
