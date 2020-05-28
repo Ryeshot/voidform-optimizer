@@ -1,32 +1,50 @@
 const defaultAbilities = {
     "mind-flay": {
         displayName: "Mind Flay",
-        keybind: "1",
+        keybind: {
+            key: "1",
+            keybindText: "1"
+        },
         icon: "images/mind-flay.jpg"
     },
     "mind-blast": {
         displayName: "Mind Blast",
-        keybind: "2",
+        keybind: {
+            key: "2",
+            keybindText: "2"
+        },
         icon: "images/mind-blast.jpg"
     },
     "void-bolt": {
         displayName: "Void Bolt",
-        keybind: "3",
+        keybind: {
+            key: "3",
+            keybindText: "3"
+        },
         icon: "images/void-bolt.jpg"
     },
     "void-eruption": {
         displayName: "Void Eruption",
-        keybind: "3",
+        keybind: {
+            key: "3",
+            keybindText: "3"
+        },
         icon: "images/void-eruption.jpg"
     },
     "shadow-word-death": {
         displayName: "Shadow Word: Death",
-        keybind: "4",
+        keybind: {
+            key: "4",
+            keybindText: "4"
+        },
         icon: "images/shadow-word-death.jpg"
     },
     "void-torrent": {
         displayName: "Void Torrent",
-        keybind: "5",
+        keybind: {
+            key: "5",
+            keybindText: "5"
+        },
         icon: "images/void-torrent.jpg"
     }
 }

@@ -159,19 +159,20 @@ const App = () => {
     }, {})
   }
 
-  const setKeyBind = (key, ability) => {
+  const setKeyBind = (keybind, ability) => {
     let state = JSON.parse(JSON.stringify(abilities))
+    let key = keybind.key
     let voidBoltOrEruption = ability === "void-bolt" || ability === "void-eruption"
     Object.keys(state).forEach(k => {
-      let ability = state[k]
-      if(ability.keybind === key) ability.keybind = "--"
+      let abilityKeybind = state[k].keybind
+      if(abilityKeybind.key === key) abilityKeybind = { keybindText: "--"}
     })
     if(voidBoltOrEruption) {
-      state["void-bolt"] = {...state["void-bolt"], keybind: key}
-      state["void-eruption"] = {...state["void-eruption"], keybind: key}
+      state["void-bolt"].keybind = {...keybind}
+      state["void-eruption"].keybind = {...keybind}
     }
     else {
-      state[ability] = {...state[ability], keybind: key}
+      state[ability].keybind = {...keybind}
     }
 
     setAbilities(state)

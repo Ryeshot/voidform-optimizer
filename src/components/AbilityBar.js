@@ -117,8 +117,6 @@ const AbilityBar = (props) => {
                 break
             case "ABILITY_CHANNEL_END":
                 var {name} = payload
-                // console.log(action.type)
-                // console.log(action.payload)
                 newState.cooldowns[name].castStartTime = 0
                 newState.cooldowns[name].castEndTime = 0
                 newState.cooldowns[name].ticks = 0

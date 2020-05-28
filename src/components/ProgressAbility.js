@@ -15,6 +15,8 @@ const ProgressAbility = (props) => {
         charges: maxCharges || 1
     })
 
+    const {key, keybindText} = keybind
+
     //cooldown states
     const startTimeRef = useRef(startTime)
     const cooldownRef = useRef(cooldown)
@@ -93,7 +95,7 @@ const ProgressAbility = (props) => {
         ability.current = Ability.create(type, initialState, setState, onExecute, triggers)
         subscribe({
             source: id,
-            keybind,
+            keybind: key,
             notify: () => ability.current.beginGlobalCooldown(),
             execute: () => ability.current.execute()
         })
@@ -118,7 +120,7 @@ const ProgressAbility = (props) => {
             <CooldownSweep size={size} progress={state.progress}/>
             : null}
         </div>
-        <div>{keybind.match(/[a-zA-Z]/) ? keybind.toUpperCase() : keybind}</div>
+        <div>{keybindText}</div>
         </div>
     )
 }

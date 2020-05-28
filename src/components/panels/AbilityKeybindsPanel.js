@@ -85,15 +85,19 @@ const AbilityKeybindsPanel = (props) => {
     const bindAbility = (event) => {
         document.removeEventListener("keypress", bindAbility)
         onPause(false)
-        let eventKey = event.key
+        let keybind = {
+            key: event.key,
+            keybindText: event.key
+        }
 
-        if(keybinds[event.key]) eventKey = keybinds[event.key]
-
-        let key = eventKey.match(/[a-zA-Z]/) ? eventKey.toUpperCase() : eventKey
+        if(keybinds[keybind.key]) keybind.keybindText = keybinds[keybind.key]
+        if(keybind.key.match(/[a-z]/)) keybind.keybindText = keybind.key.toUpperCase()
+        if(keybind.key.match(/[A-Z]/)) keybind.keybindText = "S-" + keybind.key
+        
         let ability = currentAbilityRef.current 
 
-        onKeybind(eventKey, ability)
-        setKeybindText(`${abilities[ability].displayName} successfuly bound to ${key}`)
+        onKeybind(keybind, ability)
+        setKeybindText(`${abilities[ability].displayName} successfuly bound to ${keybind.keybindText}`)
     }
 
     return (
