@@ -3,7 +3,7 @@ import Aura from "./Aura"
 
 const LingeringInsanity = (props) => {
 
-    const { type , settings, startTime, haste, stacks, inVoidform, triggerEvent} = props
+    const { type, startTime, haste, stacks, inVoidform, triggerEvent, ...settings} = props
 
     const interval = 100
     const displayName = "Lingering Insanity"
@@ -48,8 +48,8 @@ const LingeringInsanity = (props) => {
 
     const startStatic = () => {
 
-        const { duration, afterVoidformEntry, hasteRetention } = settings
-
+        const { duration, afterVoidformEntry, hasteRetention } = settings.static
+        
         let state = initialize(afterVoidformEntry, hasteRetention, stacksRef.current)
 
         const timer = setInterval(() => {
@@ -98,11 +98,12 @@ const LingeringInsanity = (props) => {
 
     const startDecay = () => {
 
-        const { rate, hasteDecay } = settings
+        const { rate, haste } = settings.decay
+
 
         let i = 0
 
-        let state = initialize(true, 1, calculateDecayStacks(hasteRef.current, hasteDecay))
+        let state = initialize(true, 1, calculateDecayStacks(hasteRef.current, haste))
 
         const timer = setInterval(() => {
 
@@ -111,7 +112,7 @@ const LingeringInsanity = (props) => {
             const now = Date.now()
 
             if(state.voidformEntered && !inVoidformRef.current) {
-                state = initialize(true, 1, calculateDecayStacks(hasteRef.current, hasteDecay))
+                state = initialize(true, 1, calculateDecayStacks(hasteRef.current, haste))
                 i = 0
 
                 return
@@ -130,7 +131,7 @@ const LingeringInsanity = (props) => {
             if(i % rate === 0) {
                 triggerEvent({
                     type: "LINGERING_INSANITY_UPDATE",
-                    payload: hasteDecay * -1
+                    payload: haste * -1
                 })
             }
 

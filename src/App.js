@@ -9,6 +9,7 @@ import AbilityKeybindsPanel from "./components/panels/AbilityKeybindsPanel"
 import AboutPanel from "./components/panels/AboutPanel"
 import defaultAbilities from "./utils/abilityConfig"
 import defaultAbilitySettings from "./utils/abilities"
+import defaultAuraSettings from "./utils/auraSettings"
 
 const App = () => {
 
@@ -105,6 +106,7 @@ const App = () => {
   const [panel, setPanel] = useState()
   const [abilitySettings, setAbilitySettings] = useState(defaultAbilitySettings)
   const [abilities, setAbilities] = useState(defaultAbilities)
+  const [auraSettings, setAuraSettings] = useState(defaultAuraSettings)
   const [keyEventsPaused, setKeyEventsPaused] = useState(false)
 
   const enterVoidform = () => {
@@ -116,7 +118,9 @@ const App = () => {
   const gainInsanity = () => {
     updateState({
       type: "RESOURCE_UPDATE",
-      payload: 10
+      payload: {
+        resource: 10
+      }
     })
   }
 
@@ -146,16 +150,6 @@ const App = () => {
 
   const handleExport = () => {
     setExportData("Hello")
-  }
-
-  const lingeringInsanitySettings = {
-    type: "static"
-    // rate: 3000,
-    // hasteDecay: 0,
-  }
-
-  const auraSettings = {
-    lingeringInsanitySettings
   }
 
   const merge = () => {

@@ -5,31 +5,20 @@ import Voidform from "./Voidform"
 const AuraBar = (props) => {
 
     const {auras, triggerEvent, settings} = props
-    const {lingeringInsanitySettings} = settings  
-
-    const voidformSettings = {
-        drainRate: 1,
-        drainStart: 10,
-        stackHaste: .00,
-        baseHaste: .1,
-        maxStacks: 10
-    }
+    const {lingeringInsanity, voidform} = settings  
 
     return (
         <div className="aura-container">
               {auras.voidform.active 
               ? <Voidform 
-                {...voidformSettings}
+                {...voidform}
                 paused={auras.voidform.paused}
                 triggerEvent={triggerEvent}/> 
               : null}
              {auras.lingeringInsanity.active
             ? <LingeringInsanity 
-              type={lingeringInsanitySettings.type} 
-              settings={lingeringInsanitySettings} 
-              startTime={auras.lingeringInsanity.startTime}
-              haste={auras.lingeringInsanity.haste} 
-              stacks={auras.lingeringInsanity.stacks} 
+              {...lingeringInsanity}
+              {...auras.lingeringInsanity} 
               inVoidform={auras.voidform.active} 
               triggerEvent={triggerEvent}/>
             : null}

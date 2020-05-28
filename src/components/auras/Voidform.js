@@ -3,12 +3,12 @@ import Aura from "./Aura"
 
 const Voidform = (props) => {
 
-    const {drainRate, drainStart, stackHaste, baseHaste, maxStacks, paused, triggerEvent} = props
+    const {drainRate, drainStart, hasteStack, hasteStart, maxStacks, paused, triggerEvent} = props
     const interval = 100
     const displayName = "Voidform"
     const icon = "images/voidform.jpg"
 
-    const [stacks, setStacks] = useState(1)
+    const [stacks, setStacks] = useState(0)
 
     const pausedRef = useRef(paused)
     pausedRef.current = paused
@@ -18,13 +18,19 @@ const Voidform = (props) => {
         let frequency = Math.round(1000/interval)
         let i = 0
 
-        if(baseHaste) triggerEvent({
+        if(hasteStart) triggerEvent({
             type: "HASTE_UPDATE",
             payload: {
                 source: "voidform",
-                haste: baseHaste
+                haste: hasteStart
             }
         })
+
+        triggerEvent({
+            type: "VOIDFORM_UPDATE",
+            payload: hasteStack
+        })
+        setStacks(stacks => stacks+1)
 
         const timer = setInterval(() => {
 
@@ -42,11 +48,11 @@ const Voidform = (props) => {
             }
           })
 
-          if(i % frequency === 0 && i/frequency <= maxStacks) {
+          if(i % frequency === 0 && (i/frequency <= maxStacks || !maxStacks)) {
               //gain a stack of vf
               triggerEvent({
                   type: "VOIDFORM_UPDATE",
-                  payload: stackHaste
+                  payload: hasteStack
               })
               setStacks(stacks => stacks+1)
           }
