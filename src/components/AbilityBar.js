@@ -49,9 +49,6 @@ const AbilityBar = (props) => {
     useEffect(() => {
         document.addEventListener("keypress", handleKeyPress)
 
-        console.log("Inside ability bar render")
-        console.log(keyEventsPaused)
-
         return () => document.removeEventListener("keypress", handleKeyPress)
     }, [abilities, keyEventsPaused])
 
@@ -86,6 +83,10 @@ const AbilityBar = (props) => {
                 var {name, time, duration} = payload
                 newState.cooldowns[name].castStartTime = time
                 newState.cooldowns[name].castEndTime = time + duration
+                if(newState.casting) {
+                    newState.cooldowns[newState.casting.name].castStartTime = 0
+                    newState.cooldowns[newState.casting.name].castEndTime = 0
+                }
                 newState.casting = {
                     duration,
                     name,
@@ -104,6 +105,10 @@ const AbilityBar = (props) => {
                 newState.cooldowns[name].castStartTime = time
                 newState.cooldowns[name].castEndTime = time + duration
                 newState.cooldowns[name].baseChannelTime = baseChannelTime
+                if(newState.casting && name !== newState.casting.name) {
+                    newState.cooldowns[newState.casting.name].castStartTime = 0
+                    newState.cooldowns[newState.casting.name].castEndTime = 0
+                }
                 newState.casting = {
                     duration,
                     name,
@@ -142,6 +147,8 @@ const AbilityBar = (props) => {
     globalCooldownRef.current = state.globalCooldown
 
     const handleKeyPress = (e) => {
+
+        //console.log(e.key)
 
         if(globalCooldownRef.current || keyEventsPaused) return
 

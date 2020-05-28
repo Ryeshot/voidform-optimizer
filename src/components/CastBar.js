@@ -21,7 +21,10 @@ const CastBar = (props) => {
             setCurrent(current => now - timeRef.current)
         }, interval)
 
-        return () => clearInterval(timer)
+        return () => {
+            clearInterval(timer)
+            setCurrent(current => 0)
+        }
     }, [name])
 
     return (

@@ -146,12 +146,23 @@ class Ability {
         this.channelTimer = setInterval(() => {
 
             let now = Date.now()
+            let endTime = this.state.cast.endTime.current
+
+            //another cast has stopped this channel, don't update
+            if(!endTime) {
+                clearInterval(this.channelTimer)
+
+                this.eventHandler.handleEvent("CHANNEL_END", {
+                    name
+                })
+                return
+            }
 
             this.eventHandler.handleEvent("CHANNEL_UPDATE", {
-                resource: resource/currentTicks
+                resource: resource/ticks
             })
 
-            if(now >= this.state.cast.endTime.current) {
+            if(now >= endTime) {
                 clearInterval(this.channelTimer)
 
                 this.eventHandler.handleEvent("CHANNEL_END", {
