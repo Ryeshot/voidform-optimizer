@@ -4,7 +4,6 @@ import {interval, lag} from "./constants"
 class Ability {
 
     constructor(initialState, updateFn, onExecute, eventHandler) {
-        console.log("Inside ability constructor")
         this.state = initialState
         this.updateState = updateFn
         this.onExecute = onExecute

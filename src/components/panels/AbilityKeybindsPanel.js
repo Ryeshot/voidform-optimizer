@@ -58,7 +58,7 @@ const AbilityKeybindsPanel = (props) => {
         let key = event.key.match(/[a-zA-Z]/) ? event.key.toUpperCase() : event.key
         let ability = currentAbilityRef.current 
 
-        onKeybind(key, ability)
+        onKeybind(event.key, ability)
         setKeybindText(`${abilities[ability].displayName} successfuly bound to ${key}`)
     }
 

@@ -148,7 +148,7 @@ const AbilityBar = (props) => {
         if(globalCooldownRef.current || keyEventsPaused) return
 
         observersRef.current.forEach(o => {
-            console.log(o.source)
+            console.log(o.keybind)
             if(o.keybind === e.key) {
                 o.execute()
             }
@@ -180,7 +180,6 @@ const AbilityBar = (props) => {
     }
 
     const unsubscribe = (source) => {
-        console.log(`Unsubscribing ${source}...`)
         setObservers(obs => obs.filter(o => o.source !== source))
     }
 
@@ -191,33 +190,35 @@ const AbilityBar = (props) => {
     }
 
     return (
+        <div className="ability-bar-container">
+        <div className="progress-bar-container">{state.casting ? <CastBar {...state.casting}/> : null}</div>
         <div className="ability-bar">
-        <div className="progress-bar-container">{state.casting ? <CastBar {...state.casting}/> : null}</div>        
-        {Object.keys(abilities)
-        .map((k,i) => {
-            if(abilities[k].disabled) return
-            if(k === "void-bolt" && !inVoidformRef.current) return
-            if(k === "void-eruption" && inVoidformRef.current) return
-            return <ProgressAbility
-            name={k}
-            key={i}
-            {...abilities[k]}
-            {...state.cooldowns[k]}
-            type={abilitySettings[k].type}
-            cooldown={getAbilityCooldown(k)}
-            globalCooldown={state.globalCooldown}
-            globalCooldownStartTime={state.globalCooldownStartTime}
-            resource={abilitySettings[k].resource}
-            maxCharges={abilitySettings[k].charges} 
-            casttime ={calculateCooldown(abilitySettings[k].casttime)}
-            ticks={abilitySettings[k].ticks}
-            subscribe={subscribe}
-            unsubscribe={unsubscribe}
-            onExecute={triggerGlobalCooldown}
-            onAbilityUpdate={triggerCooldown}
-            triggerEvent={triggerEvent}
-            id={k}
-        />})}
+            {Object.keys(abilities)
+            .map((k,i) => {
+                if(abilities[k].disabled) return
+                if(k === "void-bolt" && !inVoidformRef.current) return
+                if(k === "void-eruption" && inVoidformRef.current) return
+                return <ProgressAbility
+                name={k}
+                key={i}
+                {...abilities[k]}
+                {...state.cooldowns[k]}
+                type={abilitySettings[k].type}
+                cooldown={getAbilityCooldown(k)}
+                globalCooldown={state.globalCooldown}
+                globalCooldownStartTime={state.globalCooldownStartTime}
+                resource={abilitySettings[k].resource}
+                maxCharges={abilitySettings[k].charges} 
+                casttime ={calculateCooldown(abilitySettings[k].casttime)}
+                ticks={abilitySettings[k].ticks}
+                subscribe={subscribe}
+                unsubscribe={unsubscribe}
+                onExecute={triggerGlobalCooldown}
+                onAbilityUpdate={triggerCooldown}
+                triggerEvent={triggerEvent}
+                id={k}
+            />})}
+            </div>        
         {state.globalCooldown? <GlobalCooldown duration={state.globalCooldown} triggerEvent={triggerCooldown}/> : null}
         </div>
     )

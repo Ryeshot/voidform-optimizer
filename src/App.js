@@ -62,6 +62,7 @@ const App = () => {
         lingeringInsanity.startTime = action.payload
         voidform.stacks = 0
         voidform.haste = 0
+        newState.abilities["void-eruption"].unusable = true
         break;
       case "LINGERING_INSANITY_START":
         var {haste, stacks} = action.payload
@@ -166,12 +167,21 @@ const App = () => {
 
   const setKeyBind = (key, ability) => {
     let state = JSON.parse(JSON.stringify(abilities))
+    let voidBoltOrEruption = ability === "void-bolt" || ability === "void-eruption"
     Object.keys(state).forEach(k => {
       let ability = state[k]
       if(ability.keybind === key) ability.keybind = "--"
     })
-    state[ability] = {...state[ability], keybind: key}
+    if(voidBoltOrEruption) {
+      state["void-bolt"] = {...state["void-bolt"], keybind: key}
+      state["void-eruption"] = {...state["void-eruption"], keybind: key}
+    }
+    else {
+      state[ability] = {...state[ability], keybind: key}
+    }
+
     setAbilities(state)
+    console.log(key)
   }
 
   return (
