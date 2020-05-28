@@ -6,7 +6,7 @@ import "./Tooltip.css"
 
 const AbilityKeybindsPanel = (props) => {
 
-    const {abilities, currentPanel, onKeybind, onToggle, onClick, closePanel} = props
+    const {abilities, currentPanel, onKeybind, onToggle, onClick, onPause, closePanel} = props
 
     const panel = "abilitykeybinds"
     const header = "Ability and Keybinds"
@@ -41,6 +41,7 @@ const AbilityKeybindsPanel = (props) => {
     const prepareToBindAbility = (e) => {
         let ability = e.target.getAttribute("ability")
         setCurrentAbility(ability => ability)
+        onPause(true)
 
         setKeybindText(`Press any key to bind to ${abilities[ability].displayName}`)
 
@@ -49,6 +50,7 @@ const AbilityKeybindsPanel = (props) => {
 
     const bindAbility = (event) => {
         document.removeEventListener("keyup", bindAbility)
+        onPause(false)
 
         let key = event.key.match(/[a-zA-Z]/) ? event.key.toUpperCase() : event.key 
 

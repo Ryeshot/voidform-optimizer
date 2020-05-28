@@ -13,8 +13,7 @@ import defaultAbilitySettings from "./utils/abilities"
 const App = () => {
 
   const defaultState = {
-    resource: 100,
-    canEnterVoidform: false,
+    resource: 0,
     auras: {
       voidform: {
         active: false,
@@ -105,6 +104,7 @@ const App = () => {
   const [panel, setPanel] = useState()
   const [abilitySettings, setAbilitySettings] = useState(defaultAbilitySettings)
   const [abilities, setAbilities] = useState(defaultAbilities)
+  const [keyEventsPaused, setKeyEventsPaused] = useState(false)
 
   const enterVoidform = () => {
     updateState({
@@ -171,7 +171,7 @@ const App = () => {
         <div className ="header-panel"></div>
         <div className="panel-container">
           <SettingsPanel onImport={() => {}} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
-          <AbilityKeybindsPanel abilities={abilities} currentPanel={panel} onKeybind={() => {}} onToggle={handleAbilityToggle} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
+          <AbilityKeybindsPanel abilities={abilities} currentPanel={panel} onKeybind={() => {}} onToggle={handleAbilityToggle} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} onPause={setKeyEventsPaused}/>
           <ExportPanel onExport={handleExport} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
           <AboutPanel currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
         </div>
@@ -180,7 +180,7 @@ const App = () => {
           <ResourceBar current={state.resource} max={100}/>
           <button onClick={enterVoidform}>Enter Voidform!</button>
           <button onClick={gainInsanity}>+10 Insanity</button>
-          <AbilityBar abilitySettings={abilitySettings} abilities={merge()} haste={calculateHaste()} inVoidform={state.auras.voidform.active} triggerEvent={updateState}/>
+          <AbilityBar abilitySettings={abilitySettings} abilities={merge()} haste={calculateHaste()} inVoidform={state.auras.voidform.active} triggerEvent={updateState} keyEventsPaused={keyEventsPaused}/>
           <div>Haste: {((calculateHaste()-1)*100).toFixed(2)}%</div>
         </div>
         

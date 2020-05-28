@@ -8,7 +8,7 @@ import "./AbilityBar.css"
 const AbilityBar = (props) => {
 
     const gcdLength = 1500
-    const {abilitySettings, abilities, haste, canEnterVoidform, inVoidform, triggerEvent} = props
+    const {abilitySettings, abilities, haste, canEnterVoidform, inVoidform, triggerEvent, keyEventsPaused} = props
 
     const hasteRef = useRef(haste)
     hasteRef.current = haste
@@ -65,10 +65,10 @@ const AbilityBar = (props) => {
         document.addEventListener("keypress", handleKeyPress)
 
         console.log("Inside ability bar render")
-        console.log(state.cooldowns)
+        console.log(keyEventsPaused)
 
         return () => document.removeEventListener("keypress", handleKeyPress)
-    }, [abilitySettings])
+    }, [abilities, keyEventsPaused])
 
     const [state, triggerCooldown] = useReducer((oldState, action) => {
         const newState = JSON.parse(JSON.stringify(oldState))
@@ -132,8 +132,8 @@ const AbilityBar = (props) => {
                 break
             case "ABILITY_CHANNEL_END":
                 var {name} = payload
-                console.log(action.type)
-                console.log(action.payload)
+                // console.log(action.type)
+                // console.log(action.payload)
                 newState.cooldowns[name].castStartTime = 0
                 newState.cooldowns[name].castEndTime = 0
                 newState.cooldowns[name].ticks = 0
@@ -160,7 +160,7 @@ const AbilityBar = (props) => {
 
     const handleKeyPress = (e) => {
 
-        if(globalCooldownRef.current) return
+        if(globalCooldownRef.current || keyEventsPaused) return
 
         observersRef.current.forEach(o => {
             if(o.keybind === e.key) {
