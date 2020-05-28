@@ -25,7 +25,7 @@ const defaultbilitySettings = {
         hasted: true,
         type: "cast",
         casttime: 1500,
-        charges: 3,
+        charges: 2,
     },
     "shadow-word-death": {
         cooldown: 9000,
