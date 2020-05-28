@@ -17,7 +17,7 @@ const App = () => {
     resource: 0,
     auras: {
       base: {
-        haste: .25
+        haste: 0
       },
       voidform: {
         active: false,
@@ -76,6 +76,7 @@ const App = () => {
       case "LINGERING_INSANITY_UPDATE":
         lingeringInsanity.haste += action.payload
         lingeringInsanity.stacks--
+        if(lingeringInsanity.haste <= 0) lingeringInsanity.haste = 0
         break;
       case "LINGERING_INSANITY_END":
         lingeringInsanity.active = false
