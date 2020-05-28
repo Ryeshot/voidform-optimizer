@@ -35,21 +35,6 @@ const AbilityBar = (props) => {
         return cooldowns
     }
 
-    // const defaultAbilities = () => {
-    //     const defaultAbilities = {}
-
-    //     Object.keys(abilities).forEach(k => {
-    //         if(abilitySettingsRef.current[k] && abilitySettingsRef.current[k].disabled) return
-
-    //         defaultAbilities[k] = {
-    //             ...abilitySettings[k],
-    //             ...abilities[k]
-    //         }
-    //     })
-
-    //     return defaultAbilities
-    // }
-
     //const [currentAbilities, setCurrentAbilities] = useState(defaultAbilities())
     const [observers, setObservers] = useState([])
 
@@ -163,6 +148,7 @@ const AbilityBar = (props) => {
         if(globalCooldownRef.current || keyEventsPaused) return
 
         observersRef.current.forEach(o => {
+            console.log(o.source)
             if(o.keybind === e.key) {
                 o.execute()
             }
@@ -194,6 +180,7 @@ const AbilityBar = (props) => {
     }
 
     const unsubscribe = (source) => {
+        console.log(`Unsubscribing ${source}...`)
         setObservers(obs => obs.filter(o => o.source !== source))
     }
 
@@ -201,11 +188,6 @@ const AbilityBar = (props) => {
         const ability = abilitySettings[k]
 
         return ability.hasted ? calculateCooldown(ability.cooldown) : ability.cooldown
-    }
-
-    const keyMap = () => {
-        console.log("Inside key map")
-        return Object.keys(abilitySettings)
     }
 
     return (

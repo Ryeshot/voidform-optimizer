@@ -164,6 +164,16 @@ const App = () => {
     }, {})
   }
 
+  const setKeyBind = (key, ability) => {
+    let state = JSON.parse(JSON.stringify(abilities))
+    Object.keys(state).forEach(k => {
+      let ability = state[k]
+      if(ability.keybind === key) ability.keybind = "--"
+    })
+    state[ability] = {...state[ability], keybind: key}
+    setAbilities(state)
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -171,7 +181,7 @@ const App = () => {
         <div className ="header-panel"></div>
         <div className="panel-container">
           <SettingsPanel onImport={() => {}} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
-          <AbilityKeybindsPanel abilities={abilities} currentPanel={panel} onKeybind={() => {}} onToggle={handleAbilityToggle} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} onPause={setKeyEventsPaused}/>
+          <AbilityKeybindsPanel abilities={abilities} currentPanel={panel} onKeybind={setKeyBind} onToggle={handleAbilityToggle} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} onPause={setKeyEventsPaused}/>
           <ExportPanel onExport={handleExport} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
           <AboutPanel currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
         </div>

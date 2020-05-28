@@ -102,7 +102,7 @@ const ProgressAbility = (props) => {
             ability.current.remove()
             unsubscribe(id)
         }
-    }, [unusable])
+    }, [unusable, keybind])
 
     return (
         <div className="progress-ability-container">

@@ -30,6 +30,9 @@ const AbilityKeybindsPanel = (props) => {
         closePanel()
     }
 
+    const currentAbilityRef = useRef(currentAbility)
+    currentAbilityRef.current = currentAbility
+
     const showToolTip = (e) => {
         setTooltip(e.target.alt)
     }
@@ -40,7 +43,7 @@ const AbilityKeybindsPanel = (props) => {
 
     const prepareToBindAbility = (e) => {
         let ability = e.target.getAttribute("ability")
-        setCurrentAbility(ability => ability)
+        setCurrentAbility(ability)
         onPause(true)
 
         setKeybindText(`Press any key to bind to ${abilities[ability].displayName}`)
@@ -52,10 +55,11 @@ const AbilityKeybindsPanel = (props) => {
         document.removeEventListener("keyup", bindAbility)
         onPause(false)
 
-        let key = event.key.match(/[a-zA-Z]/) ? event.key.toUpperCase() : event.key 
+        let key = event.key.match(/[a-zA-Z]/) ? event.key.toUpperCase() : event.key
+        let ability = currentAbilityRef.current 
 
-        onKeybind(key)
-        setKeybindText(`Ability successfuly bound to ${key}`)
+        onKeybind(key, ability)
+        setKeybindText(`${abilities[ability].displayName} successfuly bound to ${key}`)
     }
 
     return (
