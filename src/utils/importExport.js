@@ -14,11 +14,14 @@ const parseAbility = (ability, key) => {
             return obj
         }
 
+        // console.log(key)
+        // console.log(k)
+
         if((userSetting === null || userSetting === undefined) && setting.editable) throw new Error("Missing ability setting in input " + k)
 
-        console.log(key)
-        console.log(userSetting)
-        console.log(setting.value)
+        // console.log(key)
+        // console.log(userSetting)
+        // console.log(setting.value)
 
         if(typeof userSetting !== typeof setting.value) throw new Error("Ability setting has invalid format")
         
@@ -35,6 +38,8 @@ const parseAbility = (ability, key) => {
 
 const parseAbilitySettings = (abilities) => {
     let result = {}
+
+    console.log(abilities)
 
     Object.keys(abilitySettings).forEach(a => {
         let ability = abilities[a]
@@ -84,12 +89,14 @@ export const importSettings = (settings) => {
     try {
         let parsedSettings = JSON.parse(Base64.decode(settings))
 
-        let parsedAbilitySettings = parseAbilitySettings(parsedSettings.abilitySettings)
+        let parsedAbilitySettings = {}
         let parsedAuraSettings = parseAuraSettings(parsedSettings.auraSettings)
+        let abilityConfig = parsedSettings.abilityConfig
 
         return {
             abilitySettings: parsedAbilitySettings, 
-            auraSettings: parsedAuraSettings
+            auraSettings: parsedAuraSettings,
+            abilityConfig
         }
     }
 
@@ -100,8 +107,8 @@ export const importSettings = (settings) => {
 
 const formatSingleAbilitySetting = (setting) => {
     let result = Object.keys(setting).reduce((obj, k) => {
-        console.log(k)
-        console.log(setting[k])
+        //console.log(k)
+        //console.log(setting[k])
         if(!setting[k].editable) return obj
         obj[k] = setting[k].value
         return obj
@@ -121,13 +128,28 @@ const formatAbilitySettingsForExport = (settings) => {
     return result
 }
 
+const formatAbilityConfigForExport = (settings) => {
+    let result = Object.keys(settings).reduce((result, k) => {
+        let {keybind, disabled} = settings[k]
+
+        result[k] = {keybind, disabled: !!disabled}
+        return result
+    }, {})
+
+    return result
+}
+
 export const exportSettings = (currentSettings) => {
     let formattedAbilitySettings = formatAbilitySettingsForExport(currentSettings.abilitySettings)
+    let formattedAbilityConfig = formatAbilityConfigForExport(currentSettings.abilities)
 
     let combined =  {
         abilitySettings: formattedAbilitySettings,
-        auraSettings: currentSettings.auraSettings
+        auraSettings: currentSettings.auraSettings,
+        abilityConfig: formattedAbilityConfig
     }
+
+    //console.log(combined)
 
     let result = Base64.encode(JSON.stringify(combined))
 

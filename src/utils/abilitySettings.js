@@ -6,20 +6,20 @@ const abilitySettings = {
         cooldown: uneditableField(0),
         resource: editableField(12),
         hasted: uneditableField(true),
-        castTime: editableField(3000),
-        type: uneditableField("channel"),
-        frequency: editableField(4)
+        casttime: editableField(3000),
+        ticks: editableField(4),
+        type: uneditableField("channel")
     },
     "void-bolt": {
         cooldown: editableField(4500),
         resource: editableField(20),
         rankTwo: editableField(false),
         hasted: editableField(true),
-        type: uneditableField("instant"),
-        charges: editableField(1)
+        charges: editableField(1),
+        type: uneditableField("instant")
     },
     "void-eruption": {
-        castTime: editableField(2000),
+        casttime: editableField(2000),
         threshold: editableField(90),
         type: uneditableField("cast")
     },
@@ -27,15 +27,22 @@ const abilitySettings = {
         cooldown: editableField(7500),
         resource: editableField(12),
         hasted: editableField(true),
-        type: uneditableField("cast"),
         casttime: editableField(1500),
-        charges: editableField(1)
+        charges: editableField(2),
+        type: uneditableField("cast")
     },
     "shadow-word-death": {
         cooldown: editableField(9000),
         resource: editableField(15),
-        type: uneditableField(15),
-        charges: editableField(2)
+        charges: editableField(2),
+        type: uneditableField("instant"),
+    },
+    "void-torrent": {
+        cooldown: editableField(45000),
+        resource: editableField(30),
+        casttime: editableField(4000),
+        ticks: editableField(10),
+        type: uneditableField("channel")
     }
 }
 

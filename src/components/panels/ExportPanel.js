@@ -1,14 +1,12 @@
 import React, {useState, useEffect, useReducer, useRef} from 'react';
 import Panel from "./Panel"
 import { exportSettings, importSettings } from "../../utils/importExport"
-import abilitySettings from "../../utils/abilitySettings"
-import auraSettings from "../../utils/auraSettings"
 
 import "./Panel.css"
 
 const ExportPanel = (props) => {
 
-    const {onExport, currentPanel, onClick, closePanel} = props
+    const {settings, onExport, onImport, currentPanel, onClick, closePanel} = props
 
     const panel = "export"
     const header = "Import/Export Settings"
@@ -23,10 +21,13 @@ const ExportPanel = (props) => {
         const settings = importSettings(inputData)
 
         console.log(settings)
+
+        onImport(settings)
     }
 
     const handleExport = () => {
-        const data = exportSettings({ abilitySettings, auraSettings })
+        console.log(settings)
+        const data = exportSettings(settings)
 
         setExportData(data)
     }

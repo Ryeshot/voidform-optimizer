@@ -182,6 +182,19 @@ const App = () => {
     console.log(key)
   }
 
+  const handleImport = (settings) => {
+    setAllAbilities(settings.abilityConfig)
+  }
+
+  const setAllAbilities = (importedAbilities) => {
+    let state = Object.keys(abilities).reduce((state, ability) => {
+      state[ability] = {...abilities[ability], ...importedAbilities[ability]}
+      return state
+    }, {})
+
+    setAbilities(state)
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -190,7 +203,7 @@ const App = () => {
         <div className="panel-container">
           <SettingsPanel onImport={() => {}} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
           <AbilityKeybindsPanel abilities={abilities} currentPanel={panel} onKeybind={setKeyBind} onToggle={handleAbilityToggle} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} onPause={setKeyEventsPaused}/>
-          <ExportPanel onExport={handleExport} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
+          <ExportPanel settings={{abilitySettings, auraSettings, abilities}} onExport={handleExport} onImport={handleImport} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
           <AboutPanel currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
         </div>
         <div id="main-bar-container">
