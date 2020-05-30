@@ -1,5 +1,6 @@
 const defaultAuraSettings = {
     voidform: {
+        displayName: "Voidform",
         drainStart: 6,
         drainRate: .72,
         hasteStart: 0,
@@ -7,6 +8,7 @@ const defaultAuraSettings = {
         maxStacks: 0
     },
     lingeringInsanity: {
+        displayName: "Lingering Insanity",
         type: "decay",
         static: {
             duration: 60,

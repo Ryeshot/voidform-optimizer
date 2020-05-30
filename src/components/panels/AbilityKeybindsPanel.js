@@ -103,26 +103,30 @@ const AbilityKeybindsPanel = (props) => {
     return (
         <Panel panel={panel} onClick={onClick} header={header} style={{transform: `translateY(${currentPanel === panel ? "0px": "250px"}`}} panelClass={panelClass} handleClose={handleClose}>
             <div className="horizontal-panel-content">
-                {Object.keys(abilities).map(k =>
-                    <div key={k}>
-                        <img  
-                            className="hover-pointer" 
-                            alt={abilities[k].displayName}
-                            ability={k} 
-                            onMouseOver={showToolTip}
-                            onMouseOut={hideToolTip}
-                            onClick={prepareToBindAbility}
-                            src={abilities[k].icon}
-                            height={50}
-                            width={50}
-                        />
-                    <button className="panel-button" onClick={() => onToggle(k)}>{abilities[k].disabled ? "Enable" : "Disable"}</button>
-                    </div>
-                )}
+                <div className="panel-content-header">Change Abilities and Keybinds</div>
                 <div className="tooltip">
                     <span className="tooltip-text" visibility={(!!tooltip).toString()}>
                         {tooltip}
                     </span>
+                </div>
+                <div className="panel-abilities-container">
+                    {Object.keys(abilities).map(k => {
+                        if(k === "void-eruption") return
+                        return <div className="panel-ability-container" key={k}>
+                            <img  
+                                className="hover-pointer" 
+                                alt={abilities[k].displayName}
+                                ability={k} 
+                                onMouseOver={showToolTip}
+                                onMouseOut={hideToolTip}
+                                onClick={prepareToBindAbility}
+                                src={abilities[k].icon}
+                                height={50}
+                                width={50}
+                            />
+                        <button className="panel-button" onClick={() => onToggle(k)}>{abilities[k].disabled ? "Enable" : "Disable"}</button>
+                        </div>
+                })}
                 </div>
                 <div>{keybindText ? keybindText : null}</div>
             </div>

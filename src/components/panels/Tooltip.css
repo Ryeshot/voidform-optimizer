@@ -1,5 +1,6 @@
 .tooltip {
-    display: inline;
+    display: flex;
+    align-self: center;
 }
 
 .tooltip .tooltip-text {
