@@ -13,6 +13,8 @@ const ExportPanel = (props) => {
     const panelClass = "left-panel"
     const placeholderText = "Import custom settings here..."
     const exportTextAreaId = "export-content"
+    const rows = 20
+    const cols = 25
 
     const [exportData, setExportData] = useState("")
     const [inputData, setInputData] = useState("")
@@ -56,16 +58,20 @@ const ExportPanel = (props) => {
     return (
         <Panel panel={panel} onClick={onClick} handleClose={closePanel} header={header} panelClass={panelClass} style={{transform: `translateX(${currentPanel === panel ? "0px": "-350px"})`}}>
             <div className="vertical-panel-content">
-                <div className="panel-input-area">
+                <div className="panel-content-container">
                     <div className="panel-content-header">Import Settings</div>
-                    <textarea className="panel-text-area" rows={20} col={40} placeholder={placeholderText} onChange={handleInputChange}></textarea>
+                    <textarea className="panel-text-area" rows={rows} cols={cols} placeholder={placeholderText} onChange={handleInputChange}></textarea>
+                    <div className="panel-button-container">
                     <button className="panel-button panel-input-button" onClick={handleImport} disabled={!inputData}>Import</button>
+                    </div>
                 </div>
-                <div className="panel-input-area">
+                <div className="panel-content-container">
                     <div className="panel-content-header">Export Settings</div>
-                    <textarea id={exportTextAreaId} className="panel-text-area" rows={20} col={20} value={exportData} readOnly={true}></textarea>
-                    <button className="panel-button panel-input-button" onClick={handleExport}>Export</button>
-                    <button className="panel-button panel-input-button" onClick={copyToClipBoard} disabled={!exportData}>Copy</button>
+                    <textarea id={exportTextAreaId} className="panel-text-area" rows={rows} cols={cols} value={exportData} readOnly={true}></textarea>
+                    <div className="panel-button-container">
+                        <button className="panel-button panel-input-button" onClick={handleExport}>Export</button>
+                        <button className="panel-button panel-input-button" onClick={copyToClipBoard} disabled={!exportData}>Copy</button>
+                    </div>
                 </div>      
             </div> 
         </Panel>

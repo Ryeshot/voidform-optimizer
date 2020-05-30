@@ -74,7 +74,6 @@
     display: flex;
     height: 100%;
     flex-direction: column;
-    justify-content: space-around;
 }
 
 .hover-pointer:hover {
@@ -102,4 +101,18 @@
 .panel-input-button:disabled {
     cursor: not-allowed;
     background-color: #404040;
+}
+
+.panel-content-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.panel-button-container {
+    display: flex;
+    justify-content: space-around;
+    width: 70%;
 }

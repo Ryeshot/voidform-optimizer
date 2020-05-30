@@ -109,7 +109,7 @@ const ProgressAbility = (props) => {
     return (
         <div className="progress-ability-container">
         <div className="progress-ability" onClick={() => ability.current.execute()}>
-            <img className="ability-icon"
+            <img
                 className={!unusable && ((state.charges > 0 && maxCharges) || (!startTimeRef.current)) ? "colored" : "desaturated"}
                 src={icon}
                 width={size}
