@@ -22,6 +22,18 @@ const SettingsPanel = (props) => {
     const [activeAbilitySection, setActiveAbilitySection] = useState("")
     const [activeAuraSection, setActiveAuraSection] = useState("")
 
+    const handleAbilitySettingChange = (setting, key) => {
+        const newAbilities = JSON.parse(JSON.stringify(currentAbilities))
+        newAbilities[key] = setting
+        setCurrentAbilities(newAbilities)
+    }
+
+    const handleAuraSettingChange = (setting, key) => {
+        const newAuras = JSON.parse(JSON.stringify(currentAuras))
+        newAuras[key] = setting
+        setCurrentAuras(newAuras)
+    }
+
     const handleAbilitySet = () => {
         onAbilitySet(currentAbilities)
     }
@@ -40,7 +52,7 @@ const SettingsPanel = (props) => {
                             <div>{k}</div>    
                         )}
                     </div>
-                    {activeAbilitySection ? <CustomizeSection key={activeAbilitySection} ability={currentAbilities[activeAbilitySection]} /> : null}
+                    {activeAbilitySection ? <CustomizeSection key={activeAbilitySection} ability={currentAbilities[activeAbilitySection]} onChange={handleAbilitySettingChange}/> : null}
                     <button className="panel-button" onClick={handleAbilitySet}>Apply</button>
                 </div>
                 <div className="panel-content-container">
@@ -50,7 +62,7 @@ const SettingsPanel = (props) => {
                                 <div>{k}</div>    
                             )}
                         </div>
-                        {activeAuraSection ? <CustomizeSection key={activeAuraSection} ability={currentAuras[activeAuraSection]} /> : null}
+                        {activeAuraSection ? <CustomizeSection key={activeAuraSection} ability={currentAuras[activeAuraSection]} onChange={handleAuraSettingChange}/> : null}
                         <button className="panel-button" onClick={handleAuraSet}>Apply</button>                 
                 </div>
             </div>
