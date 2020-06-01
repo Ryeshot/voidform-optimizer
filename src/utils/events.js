@@ -20,7 +20,9 @@ const events = {
         "VOIDFORM_END",
         "LINGERING_INSANITY_START",
         "LINGERING_INSANITY_UPDATE",
-        "LINGERING_INSANITY_END"
+        "LINGERING_INSANITY_END",
+        "AURA_START",
+        "AURA_END"
     ],
     "STAT": ["HASTE_UPDATE"]
 }

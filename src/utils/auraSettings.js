@@ -4,14 +4,14 @@ const defaultAuraSettings = {
         drainStart: 6,
         drainRate: .72,
         hasteStart: 0,
-        hasteStack: .005,
+        hasteStack: .02,
         maxStacks: 0
     },
     lingeringInsanity: {
         displayName: "Lingering Insanity",
-        type: "decay",
+        type: "static",
         static: {
-            duration: 60,
+            duration: 0,
             afterVoidformEntry: false,
             hasteRetention: 1
         },
@@ -19,6 +19,12 @@ const defaultAuraSettings = {
             rate: 3000,
             haste: .01
         }
+    },
+    shadowWordPain: {
+
+    },
+    vampiricTouch: {
+        
     }
 }
 

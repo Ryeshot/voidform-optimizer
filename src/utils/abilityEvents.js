@@ -44,6 +44,17 @@ const abilityEvents = {
             "CHANNEL_UPDATE": ["RESOURCE_UPDATE"],
             "CHANNEL_END": ["ABILITY_CHANNEL_END", "INSANITY_DRAIN_PAUSE_END"]
         }
+    },
+    "shadow-word-pain": {
+        onEvent: {
+            "CAST_SUCCESS": ["AURA_START", "RESOURCE_UPDATE"]
+        }
+    },
+    "vampiric-touch": {
+        onEvent: {
+            "CAST_START": ["ABILITY_CAST_START"],
+            "CAST_SUCCESS": ["AURA_START", "ABILITY_CAST_END", "RESOURCE_UPDATE"]
+        }
     }
 }
 

@@ -96,13 +96,18 @@ class Ability {
 
     startCast() {
         let state = this.getCurrentState()
-        const {name, resource} = state
+        const {name, displayName, resource} = state
         const {duration} = state.cast
 
+        console.log("Preparing to cast")
+        console.log(state)
+
         this.castTimer = setTimeout(() => {
+            console.log("Cast success!")
             this.eventHandler.handleEvent("CAST_SUCCESS", {
                 name,
-                resource
+                resource,
+                time: Date.now()
             })
 
             let cooldown = this.state.cooldown.duration.current
@@ -121,6 +126,7 @@ class Ability {
 
         this.eventHandler.handleEvent("CAST_START", {
             name,
+            displayName,
             duration,
             time: Date.now()
         })
@@ -130,7 +136,7 @@ class Ability {
         let state = this.getCurrentState()
         const {startTime, endTime, duration} = state.cast
         const {baseDuration, ticks} = state.channel
-        const {resource, name} = state
+        const {name, displayName, resource} = state
 
         let now = Date.now()
         let pandemicTime = 0
@@ -180,6 +186,7 @@ class Ability {
 
         this.eventHandler.handleEvent("CHANNEL_START", {
             name,
+            displayName,
             duration: duration + pandemicTime,
             time: now,
             baseChannelTime: duration
@@ -236,7 +243,8 @@ class InstantAbility extends Ability {
 
         this.eventHandler.handleEvent("CAST_SUCCESS", {
             name,
-            resource
+            resource,
+            time: Date.now()
         })
 
         this.onExecute()
@@ -256,7 +264,6 @@ class CastAbility extends Ability {
         const {current} = state.charges
 
         if(startTime || current === 0) return
-        console.log("Preparing to start cast...")
         this.startCast()
         this.onExecute()
     }

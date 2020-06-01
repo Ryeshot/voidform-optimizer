@@ -46,6 +46,22 @@ const defaultAbilities = {
             keybindText: "5"
         },
         icon: "images/void-torrent.jpg"
+    },
+    "shadow-word-pain": {
+        displayName: "Shadow Word: Pain",
+        keybind: {
+            key: "6",
+            keybindText: "6"
+        },
+        icon: "images/shadow-word-pain.jpg"
+    },
+    "vampiric-touch": {
+        displayName: "Vampiric Touch",
+        keybind: {
+            key: "7",
+            keybindText: "7"
+        },
+        icon: "images/vampiric-touch.jpg"
     }
 }
 

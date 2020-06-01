@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useReducer, useRef} from 'react';
 import CooldownSweep from "../CooldownSweep"
-
 import "./Aura.css"
 
 const Aura = (props) => {

@@ -17,7 +17,7 @@ const App = () => {
     resource: 0,
     auras: {
       base: {
-        haste: .25
+        haste: .15
       },
       voidform: {
         active: false,
@@ -29,6 +29,14 @@ const App = () => {
         active: false,
         stacks: 0,
         haste: 0
+      },
+      "shadow-word-pain": {
+        active: false,
+        maxDuration: 16000
+      },
+      "vampiric-touch": {
+        active: false,
+        maxDuration: 24000
       }
     },
     abilities: {
@@ -99,6 +107,16 @@ const App = () => {
       case "INSANITY_DRAIN_PAUSE_END":
         voidform.paused = false
         break
+      case "AURA_START":
+        var {name, time} = action.payload
+        newState.auras[name].active = true
+        newState.auras[name].startTime = time
+        break
+      case "AURA_END":
+        var {name} = action.payload
+        newState.auras[name].active = false
+        newState.auras[name].startTime = 0
+        break
     }
 
     return newState
@@ -130,6 +148,7 @@ const App = () => {
   const calculateHaste = () => {
     const auras = state.auras
     return Object.keys(auras).reduce((haste, aura) => {
+      if(!auras[aura].haste) return haste
       return haste * (1+auras[aura].haste)
     }, 1)
   }

@@ -18,6 +18,7 @@ const defaultbilitySettings = {
         cooldown: 0,
         type: "cast",
         casttime: 2000,
+        threshold: 90
     },
     "mind-blast": {
         cooldown: 7500,
@@ -39,6 +40,17 @@ const defaultbilitySettings = {
         type: "channel",
         casttime: 4000,
         ticks: 10,
+    },
+    "shadow-word-pain": {
+        cooldown: 0,
+        resource: 4,
+        type: "instant"
+    },
+    "vampiric-touch": {
+        cooldown: 0,
+        resource: 6,
+        type: "cast",
+        casttime: 1500
     }
 }
 
