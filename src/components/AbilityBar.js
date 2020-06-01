@@ -2,7 +2,6 @@ import React, {useState, useEffect, useReducer, useRef} from 'react';
 import ProgressAbility from "./ProgressAbility"
 import GlobalCooldown from "./GlobalCooldown"
 import CastBar from "./CastBar"
-import abilities from "../utils/abilities"
 import "./AbilityBar.css"
 
 const AbilityBar = (props) => {
@@ -19,9 +18,6 @@ const AbilityBar = (props) => {
     const inVoidformRef = useRef(inVoidform)
     inVoidformRef.current = inVoidform 
 
-    // const abilitySettingsRef = useRef(abilitySettings)
-    // abilitySettingsRef.current = abilitySettings
-
     const defaultCooldowns = () => {
         const cooldowns = {}
         Object.keys(abilities).forEach(k => {
@@ -35,7 +31,6 @@ const AbilityBar = (props) => {
         return cooldowns
     }
 
-    //const [currentAbilities, setCurrentAbilities] = useState(defaultAbilities())
     const [observers, setObservers] = useState([])
 
     const observersRef = useRef(observers)
@@ -49,7 +44,10 @@ const AbilityBar = (props) => {
     useEffect(() => {
         document.addEventListener("keypress", handleKeyPress)
 
-        return () => document.removeEventListener("keypress", handleKeyPress)
+        return () => {
+            console.log("Inside ability bar rerender")
+            document.removeEventListener("keypress", handleKeyPress)
+        }
     }, [abilities, keyEventsPaused, abilitySettings])
 
     const [state, triggerCooldown] = useReducer((oldState, action) => {
@@ -204,25 +202,24 @@ const AbilityBar = (props) => {
                 if(k === "void-bolt" && !inVoidformRef.current) return
                 if(k === "void-eruption" && inVoidformRef.current) return
                 return <ProgressAbility
-                name={k}
-                key={i}
-                {...abilities[k]}
-                {...state.cooldowns[k]}
-                type={abilitySettings[k].type}
-                cooldown={getAbilityCooldown(k)}
-                globalCooldown={state.globalCooldown}
-                globalCooldownStartTime={state.globalCooldownStartTime}
-                resource={abilitySettings[k].resource}
-                maxCharges={abilitySettings[k].charges} 
-                casttime ={calculateCooldown(abilitySettings[k].casttime)}
-                ticks={abilitySettings[k].ticks}
-                subscribe={subscribe}
-                unsubscribe={unsubscribe}
-                onExecute={triggerGlobalCooldown}
-                onAbilityUpdate={triggerCooldown}
-                triggerEvent={triggerEvent}
-                id={k}
-            />})}
+                    name={k}
+                    key={i}
+                    {...abilities[k]}
+                    {...state.cooldowns[k]}
+                    settings={abilitySettings[k]}
+                    cooldown={getAbilityCooldown(k)}
+                    globalCooldown={state.globalCooldown}
+                    globalCooldownStartTime={state.globalCooldownStartTime}
+                    casttime ={calculateCooldown(abilitySettings[k].casttime)}
+                    casting={!!(state.casting && state.casting.time && state.casting.direction)}
+                    subscribe={subscribe}
+                    unsubscribe={unsubscribe}
+                    onExecute={triggerGlobalCooldown}
+                    onAbilityUpdate={triggerCooldown}
+                    triggerEvent={triggerEvent}
+                    id={k}
+                />
+            })}
             </div>        
         {state.globalCooldown? <GlobalCooldown duration={state.globalCooldown} triggerEvent={triggerCooldown}/> : null}
         </div>
