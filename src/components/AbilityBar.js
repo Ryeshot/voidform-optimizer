@@ -78,7 +78,7 @@ const AbilityBar = (props) => {
                 newState.cooldowns[name].startTime = 0
                 break
             case "ABILITY_CAST_START":
-                var {name, time, duration} = payload
+                var {name, displayName, time, duration} = payload
                 newState.cooldowns[name].castStartTime = time
                 newState.cooldowns[name].castEndTime = time + duration
                 if(newState.casting) {
@@ -88,6 +88,7 @@ const AbilityBar = (props) => {
                 newState.casting = {
                     duration,
                     name,
+                    displayName,
                     direction: 1,
                     time
                 }
@@ -99,7 +100,7 @@ const AbilityBar = (props) => {
                 if(newState.casting && name === newState.casting.name) delete newState.casting
                 break
             case "ABILITY_CHANNEL_START":
-                var {name, time, duration, baseChannelTime} = payload
+                var {name, displayName, time, duration, baseChannelTime} = payload
                 newState.cooldowns[name].castStartTime = time
                 newState.cooldowns[name].castEndTime = time + duration
                 newState.cooldowns[name].baseChannelTime = baseChannelTime
@@ -110,6 +111,7 @@ const AbilityBar = (props) => {
                 newState.casting = {
                     duration,
                     name,
+                    displayName,
                     direction: 0,
                     time
                 }
@@ -210,7 +212,7 @@ const AbilityBar = (props) => {
                     cooldown={getAbilityCooldown(k)}
                     globalCooldown={state.globalCooldown}
                     globalCooldownStartTime={state.globalCooldownStartTime}
-                    casttime ={calculateCooldown(abilitySettings[k].casttime)}
+                    casttime={calculateCooldown(abilitySettings[k].casttime)}
                     casting={!!(state.casting && state.casting.time && state.casting.direction)}
                     subscribe={subscribe}
                     unsubscribe={unsubscribe}

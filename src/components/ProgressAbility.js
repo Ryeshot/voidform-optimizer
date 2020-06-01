@@ -5,7 +5,7 @@ import Ability from "../utils/ability"
 
 const ProgressAbility = (props) => {
 
-    const {name, settings, cooldown, globalCooldown, globalCooldownStartTime, unusable, startTime, casttime, castStartTime, castEndTime, icon, baseChannelTime, keybind, casting, subscribe, unsubscribe, onExecute, onAbilityUpdate, triggerEvent, id} = props
+    const {name, displayName, settings, cooldown, globalCooldown, globalCooldownStartTime, unusable, startTime, casttime, castStartTime, castEndTime, icon, baseChannelTime, keybind, casting, subscribe, unsubscribe, onExecute, onAbilityUpdate, triggerEvent, id} = props
 
     const size = 50
 
@@ -63,6 +63,7 @@ const ProgressAbility = (props) => {
 
         const initialState = {
             name,
+            displayName,
             resource,
             unusable,
             cooldown: {
@@ -90,7 +91,7 @@ const ProgressAbility = (props) => {
         }
 
         ability.current = Ability.create(type, initialState, setState, onExecute, triggers)
-        console.log("Adding " + name)
+        
         subscribe({
             source: id,
             keybind: key,

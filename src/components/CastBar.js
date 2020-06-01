@@ -1,8 +1,9 @@
-import React, {useState, useEffect, useReducer, useRef} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
+import "./CastBar.css"
 
 const CastBar = (props) => {
 
-    const {time, name, duration, direction} = props
+    const {time, name, displayName, duration, direction} = props
 
     const sec = 1000
     const interval = 50
@@ -29,11 +30,14 @@ const CastBar = (props) => {
 
     return (
         <div id="cast-bar">
-            <div className="left-progress-text">{name}</div>
-            <div className="right-progress-text">{direction 
-            ? `${(current/sec).toFixed(1)}/${((duration/sec).toFixed(1))}`
-            : `${((durationRef.current-current)/sec).toFixed(1)}/${((durationRef.current/sec).toFixed(1))}`}sec</div> 
-            <div className="progress-bar" 
+            <div className="cast-bar-text-container">
+                <div className="progress-text cast-bar-text">{displayName}</div>
+                <div className="progress-text cast-bar-text">{direction 
+                ? `${(current/sec).toFixed(1)}/${((duration/sec).toFixed(1))}`
+                : `${((durationRef.current-current)/sec).toFixed(1)}/${((durationRef.current/sec).toFixed(1))}`}sec
+                </div> 
+            </div>
+            <div className="progress-bar cast-bar" 
                 style={{
                     width: direction 
                     ? `${(current/durationRef.current*100).toFixed(2)}%`
