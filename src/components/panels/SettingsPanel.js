@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useReducer, useRef} from 'react';
 import Panel from "./Panel"
 import CustomizeSection from "./CustomizeSection"
-
+import {abilityOptions, auraOptions} from "../../lib/options"
 import "./Panel.css"
 
 const SettingsPanel = (props) => {
@@ -65,7 +65,7 @@ const SettingsPanel = (props) => {
                             <div className={activeAbilitySection === k ? "settings-header-active" : "settings-header"} setting={k} onClick={showAbilityOptions}>{k}</div>    
                         )}
                     </div>
-                    {activeAbilitySection ? <CustomizeSection name={activeAbilitySection} setting={currentAbilities[activeAbilitySection]} onChange={handleAbilitySettingChange}/> : null}
+                    {activeAbilitySection ? <CustomizeSection name={activeAbilitySection} setting={currentAbilities[activeAbilitySection]} options={abilityOptions[activeAbilitySection]} onChange={handleAbilitySettingChange}/> : null}
                     <button className="panel-button" onClick={handleAbilitySet}>Apply</button>
                 </div>
                 <div className="panel-content-container">
@@ -75,7 +75,7 @@ const SettingsPanel = (props) => {
                                 <div className={activeAuraSection === k ? "settings-header-active" : "settings-header"} setting={k} onClick={showAuraOptions}>{k}</div>    
                             )}
                         </div>
-                        {activeAuraSection ? <CustomizeSection name={activeAuraSection} setting={currentAuras[activeAuraSection]} onChange={handleAuraSettingChange}/> : null}
+                        {activeAuraSection ? <CustomizeSection name={activeAuraSection} setting={currentAuras[activeAuraSection]} options={auraOptions[activeAuraSection]} onChange={handleAuraSettingChange}/> : null}
                         <button className="panel-button" onClick={handleAuraSet}>Apply</button>                 
                 </div>
             </div>

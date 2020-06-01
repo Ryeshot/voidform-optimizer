@@ -49,12 +49,12 @@ const commonOptions = {
         whatIs: whatIs.resourceChannel
     },
     castTime: {
-        key: "castTime",
+        key: "casttime",
         displayName: "Cast Time",
         whatIs: whatIs.castTime
     },
     channelTime: {
-        key: "channelTime",
+        key: "casttime",
         displayName: "Channel Time",
         whatIs: whatIs.channelTime
     },

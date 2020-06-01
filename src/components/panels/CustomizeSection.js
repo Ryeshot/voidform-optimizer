@@ -3,7 +3,7 @@ import SettingOption from "./SettingOption"
 
 const CustomizeSection = (props) => {
 
-    const {name, setting, onChange} = props
+    const {name, setting, options, onChange} = props
 
     const handleChange = (optionKey, option) => {
         const newSetting = {...setting, [optionKey]: option}
@@ -11,12 +11,9 @@ const CustomizeSection = (props) => {
     }
 
     return (
-        Object.keys(setting).map(k => {
-            const option = setting[k]
-            return <SettingOption key={name+k} option={option} name={k} onChange={handleChange} />
-            //if(!option.editable) return
-        })
-        
+        options.map(o => {
+            return <SettingOption key={name+o.key} value={setting[o.key]} name={o.key} {...o} onChange={handleChange}/>
+        })     
     )
 }
 
