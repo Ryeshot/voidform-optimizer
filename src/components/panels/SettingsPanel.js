@@ -6,12 +6,9 @@ import "./Panel.css"
 
 const SettingsPanel = (props) => {
 
-    const {settings, currentPanel, onAbilitySet, onAuraSet, onClick, closePanel} = props
+    const {settings, currentPanel, onAbilitySet, onAuraSet, onClick, closePanel, onPause} = props
 
     const {abilities, auras} = settings
-
-    console.log(abilities)
-    console.log(auras)
 
     const panel = "settings"
     const header= "Custom Settings"
@@ -26,6 +23,7 @@ const SettingsPanel = (props) => {
         const newAbilities = JSON.parse(JSON.stringify(currentAbilities))
         newAbilities[key] = setting
         setCurrentAbilities(newAbilities)
+        //console.log(newAbilities)
     }
 
     const handleAuraSettingChange = (setting, key) => {
@@ -36,10 +34,25 @@ const SettingsPanel = (props) => {
 
     const handleAbilitySet = () => {
         onAbilitySet(currentAbilities)
+        //console.log(currentAbilities)
+        onPause(false)
     }
 
     const handleAuraSet = () => {
         onAuraSet(currentAuras)
+        onPause(false)
+    }
+
+    const showAbilityOptions = (e) => {
+        onPause(true)
+        const settingKey = e.target.getAttribute("setting")
+        setActiveAbilitySection(settingKey)
+    }
+
+    const showAuraOptions = (e) => {
+        onPause(true)
+        const settingKey = e.target.getAttribute("setting")
+        setActiveAuraSection(settingKey)
     }
 
     return (
@@ -47,22 +60,22 @@ const SettingsPanel = (props) => {
             <div className="vertical-panel-content">
                 <div className="panel-content-container">
                     <div className="panel-content-header">Customize Abilities</div>
-                    <div>
+                    <div className="settings-header-container">
                         {Object.keys(abilities).map(k => 
-                            <div>{k}</div>    
+                            <div className={activeAbilitySection === k ? "settings-header-active" : "settings-header"} setting={k} onClick={showAbilityOptions}>{k}</div>    
                         )}
                     </div>
-                    {activeAbilitySection ? <CustomizeSection key={activeAbilitySection} ability={currentAbilities[activeAbilitySection]} onChange={handleAbilitySettingChange}/> : null}
+                    {activeAbilitySection ? <CustomizeSection name={activeAbilitySection} setting={currentAbilities[activeAbilitySection]} onChange={handleAbilitySettingChange}/> : null}
                     <button className="panel-button" onClick={handleAbilitySet}>Apply</button>
                 </div>
                 <div className="panel-content-container">
                     <div className="panel-content-header">Customize Auras</div>
-                        <div>
+                        <div className="settings-header-container">
                             {Object.keys(auras).map(k => 
-                                <div>{k}</div>    
+                                <div className={activeAuraSection === k ? "settings-header-active" : "settings-header"} setting={k} onClick={showAuraOptions}>{k}</div>    
                             )}
                         </div>
-                        {activeAuraSection ? <CustomizeSection key={activeAuraSection} ability={currentAuras[activeAuraSection]} onChange={handleAuraSettingChange}/> : null}
+                        {activeAuraSection ? <CustomizeSection name={activeAuraSection} setting={currentAuras[activeAuraSection]} onChange={handleAuraSettingChange}/> : null}
                         <button className="panel-button" onClick={handleAuraSet}>Apply</button>                 
                 </div>
             </div>

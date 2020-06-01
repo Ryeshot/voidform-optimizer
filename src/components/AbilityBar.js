@@ -50,7 +50,7 @@ const AbilityBar = (props) => {
         document.addEventListener("keypress", handleKeyPress)
 
         return () => document.removeEventListener("keypress", handleKeyPress)
-    }, [abilities, keyEventsPaused])
+    }, [abilities, keyEventsPaused, abilitySettings])
 
     const [state, triggerCooldown] = useReducer((oldState, action) => {
         const newState = JSON.parse(JSON.stringify(oldState))

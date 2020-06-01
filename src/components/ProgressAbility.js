@@ -10,10 +10,7 @@ const ProgressAbility = (props) => {
 
     const size = 50
 
-    const [state, setState] = useState({
-        progress: 0,
-        charges: maxCharges || 1
-    })
+    const [state, setState] = useState({})
 
     const {key, keybindText} = keybind
 
@@ -44,6 +41,7 @@ const ProgressAbility = (props) => {
     const chargesRef = useRef(maxCharges || 1)
     const maxChargesRef = useRef(maxCharges)
 
+    maxChargesRef.current = maxCharges
     chargesRef.current = state.charges
 
     //gcd states
@@ -93,6 +91,10 @@ const ProgressAbility = (props) => {
         }
 
         ability.current = Ability.create(type, initialState, setState, onExecute, triggers)
+        console.log("Adding " + name)
+        //console.log(maxCharges)
+        //console.log(state.charges)
+        console.log(cooldownRef.current)
         subscribe({
             source: id,
             keybind: key,
@@ -101,6 +103,7 @@ const ProgressAbility = (props) => {
         })
 
         return () => {
+            console.log("Removing " + name)
             ability.current.remove()
             unsubscribe(id)
         }

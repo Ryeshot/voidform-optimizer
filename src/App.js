@@ -201,7 +201,7 @@ const App = () => {
         <p>Hello</p>
         <div className ="header-panel"></div>
         <div className="panel-container">
-          <SettingsPanel settings={{abilities: abilitySettings, auras: auraSettings}} onAbilitySet={setAbilitySettings} onAuraSet={setAuraSettings} onClick={handlePanelHeaderClick} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
+          <SettingsPanel settings={{abilities: abilitySettings, auras: auraSettings}} onAbilitySet={setAbilitySettings} onAuraSet={setAuraSettings} onClick={handlePanelHeaderClick} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} onPause={setKeyEventsPaused}/>
           <AbilityKeybindsPanel abilities={abilities} currentPanel={panel} onKeybind={setKeyBind} onToggle={handleAbilityToggle} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} onPause={setKeyEventsPaused}/>
           <ExportPanel settings={{abilitySettings, auraSettings, abilities}} onExport={handleExport} onImport={handleImport} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
           <AboutPanel currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />

@@ -8,6 +8,11 @@ class Ability {
         this.updateState = updateFn
         this.onExecute = onExecute
         this.eventHandler = eventHandler
+        console.log(initialState.charges.maxCharges.current)
+        this.updateState({
+            progress: 0,
+            charges: initialState.charges.maxCharges.current || 1
+        })       
     }
 
     static create(type, initialState, updateFn, onExecute, triggers) {

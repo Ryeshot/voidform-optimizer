@@ -52,8 +52,11 @@
 }
 
 .middle-panel {
-    height: 0px;
-    width: 0px;
+    height: 300px;
+    width: 300px;
+    top: 50%;
+    left: 50%;
+    margin: -150px 0 0 -150px;
 }
 
 .right-panel {
@@ -132,4 +135,51 @@
     align-items: center;
     height: 125%;
     align-self: flex-start;
+}
+
+.settings-header-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.settings-header {
+    font-size: 15px;
+    background-color: #404040;
+    border-radius: 4px;
+    border: .5px solid white;
+    color: white;
+    padding: 3px;
+    cursor: pointer;
+}
+
+.settings-header:hover {
+    background-color: #202020;
+}
+
+.settings-header-active {
+    font-size: 15px;
+    border-radius: 4px;
+    border: .5px solid white;
+    color: white;
+    padding: 3px;
+    background-color: #202020;
+    cursor: pointer;
+}
+
+.setting-option {
+    display: flex;
+    justify-content: left;
+    font-size: 18px;
+    width: 80%;
+}
+
+.what-is {
+    font-size: 15px;
+    color: white;
+    cursor: pointer;
+}
+
+.what-is:hover {
+    color: #404040;
 }
