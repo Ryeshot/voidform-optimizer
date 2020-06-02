@@ -52,11 +52,11 @@
 }
 
 .middle-panel {
-    height: 300px;
-    width: 300px;
+    height: 350px;
+    width: 450px;
     top: 50%;
     left: 50%;
-    margin: -150px 0 0 -150px;
+    margin: -225px 0 0 -225px;
 }
 
 .right-panel {
@@ -167,19 +167,22 @@
     cursor: pointer;
 }
 
+.customize-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+}
+
 .setting-option {
     display: flex;
     justify-content: left;
     font-size: 18px;
-    width: 80%;
+    white-space: pre-line;
+    width: 100%;
 }
-
-.what-is {
-    font-size: 15px;
-    color: white;
-    cursor: pointer;
-}
-
-.what-is:hover {
-    color: #404040;
+.setting-option-header {
+    display: inline-block;
+    text-align: left;
+    margin: 0px;
 }

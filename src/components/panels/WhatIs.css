@@ -1,0 +1,32 @@
+.what-is-icon {
+    font-size: 15px;
+    color: white;
+    cursor: pointer;
+    padding-right: 5px;
+}
+
+.what-is-icon:hover {
+    color: #404040;
+}
+
+.what-is {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    background-color: #404040;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 3px;
+    width: 220px;
+    z-index: 2;
+}
+
+.what-is-header {
+    font-size: 15px;
+}
+
+.what-is-description {
+    font-size: 12px;
+    text-align: left;
+    white-space: pre-line;
+}
