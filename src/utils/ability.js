@@ -1,5 +1,5 @@
 import {constructEventHandler} from "./eventHandler"
-import {interval, lag} from "./constants"
+import {interval, lag} from "../lib/constants"
 
 class Ability {
 

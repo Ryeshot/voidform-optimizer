@@ -1,6 +1,6 @@
 import {Base64} from "js-base64"
-import abilitySettings from "./abilitySettings"
-import auraSettings from "./auraSettings"
+import abilitySettings from "../lib/abilitySettings"
+import auraSettings from "../lib/auraSettings"
 
 const parseAbility = (ability, key) => {
     let abilitySetting = abilitySettings[key]
@@ -107,9 +107,7 @@ export const importSettings = (settings) => {
 
 const formatSingleAbilitySetting = (setting) => {
     let result = Object.keys(setting).reduce((obj, k) => {
-        //console.log(k)
-        //console.log(setting[k])
-        if(!setting[k].editable) return obj
+        //if(!setting[k].editable) return obj
         obj[k] = setting[k].value
         return obj
     }, {})
@@ -148,8 +146,6 @@ export const exportSettings = (currentSettings) => {
         auraSettings: currentSettings.auraSettings,
         abilityConfig: formattedAbilityConfig
     }
-
-    //console.log(combined)
 
     let result = Base64.encode(JSON.stringify(combined))
 

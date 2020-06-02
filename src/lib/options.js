@@ -26,11 +26,13 @@ const commonOptions = {
     cooldown: {
         key: "cooldown",
         displayName: "Cooldown",
+        type: "time",
         whatIs: whatIs.cooldown
     },
     charges: {
         key: "charges",
         displayName: "Charges",
+        type: "number",
         whatIs: whatIs.charges
     },
     hasted: {
@@ -41,26 +43,31 @@ const commonOptions = {
     resourceCast: {
         key: "resource",
         displayName: "Resource",
+        type: "number",
         whatIs: whatIs.resourceCast
     },
     resourceChannel: {
         key: "resource",
         displayName: "Resource",
+        type: "number",
         whatIs: whatIs.resourceChannel
     },
     castTime: {
         key: "casttime",
         displayName: "Cast Time",
+        type: "time",
         whatIs: whatIs.castTime
     },
     channelTime: {
         key: "casttime",
         displayName: "Channel Time",
+        type: "time",
         whatIs: whatIs.channelTime
     },
     ticks: {
         key: "ticks",
         displayName: "Ticks",
+        type: "number",
         whatIs: whatIs.ticks
     }
 }

@@ -1,5 +1,5 @@
-import events from "./events"
-import abilityEvents from "./abilityEvents"
+import events from "../lib/events"
+import abilityEvents from "../lib/abilityEvents"
 
 class EventHandler {
 
