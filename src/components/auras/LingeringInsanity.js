@@ -6,6 +6,7 @@ const LingeringInsanity = (props) => {
     const { type, startTime, haste, stacks, inVoidform, triggerEvent, ...settings} = props
 
     const interval = 100
+    const name = "lingeringInsanity"
     const displayName = "Lingering Insanity"
     const icon = "images/lingering-insanity.jpg"
     const defaultMaxDuration = 60000
@@ -65,6 +66,7 @@ const LingeringInsanity = (props) => {
 
             //timed out
             if(now >= startTimeRef.current + state.currentMaxDuration) {
+                console.log("Ending LI")
                 clearInterval(timer)
                 triggerEvent({
                     type: "LINGERING_INSANITY_END"
@@ -78,6 +80,14 @@ const LingeringInsanity = (props) => {
                 state.voidformEntered = true
 
                 if(afterVoidformEntry) {
+                    console.log("Just entered Voidform!")
+                    triggerEvent({
+                        type: "AURA_REFRESH",
+                        payload: {
+                            name,
+                            time: now
+                        }
+                    })
                     setMaxDuration(maxDuration => duration)
                     state.currentMaxDuration = duration
                     setDuration(duration => 0)
