@@ -29,7 +29,7 @@ const CastBar = (props) => {
     }, [name])
 
     return (
-        <div id="cast-bar">
+        <div className="progress-bar-container">
             <div className="cast-bar-text-container">
                 <div className="progress-text cast-bar-text">{displayName}</div>
                 <div className="progress-text cast-bar-text">{direction 

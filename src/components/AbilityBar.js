@@ -196,7 +196,7 @@ const AbilityBar = (props) => {
 
     return (
         <div className="ability-bar-container">
-        <div className="progress-bar-container">{state.casting ? <CastBar {...state.casting}/> : null}</div>
+        {state.casting ? <CastBar {...state.casting}/> : null}
         <div className="ability-bar">
             {Object.keys(abilities)
             .map((k,i) => {

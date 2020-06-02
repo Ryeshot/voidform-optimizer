@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useReducer, useRef} from 'react';
 import Panel from "./Panel"
-import {keybinds} from "../../utils/constants"
-
+import {keybinds} from "../../lib/constants"
 import "./Panel.css"
 import "./Tooltip.css"
 
