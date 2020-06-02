@@ -30,6 +30,7 @@
   flex-direction: row;
   justify-content: space-between;
   top: 0px;
+  z-index: 2;
 }
 
 #main-bar-container {

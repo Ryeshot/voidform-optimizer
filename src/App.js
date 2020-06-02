@@ -7,9 +7,9 @@ import ExportPanel from "./components/panels/ExportPanel"
 import SettingsPanel from "./components/panels/SettingsPanel"
 import AbilityKeybindsPanel from "./components/panels/AbilityKeybindsPanel"
 import AboutPanel from "./components/panels/AboutPanel"
-import defaultAbilities from "./utils/abilityConfig"
-import defaultAbilitySettings from "./utils/abilities"
-import defaultAuraSettings from "./utils/auraSettings"
+import defaultAbilities from "./lib/abilities"
+import defaultAbilitySettings from "./lib/abilitySettings"
+import defaultAuraSettings from "./lib/auraSettings"
 
 const App = () => {
 
@@ -212,6 +212,17 @@ const App = () => {
     }, {})
 
     setAbilities(state)
+  }
+
+  const mergeAbilities = () => {
+    return Object.keys(abilities).reduce((merged, a) => {
+      merged[a] = {...abilities[a], ...state.abilities[a]}
+      return merged
+    }, {})
+  }
+
+  const mergeAuras = () => {
+
   }
 
   return (
