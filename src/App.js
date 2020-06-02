@@ -170,10 +170,6 @@ const App = () => {
     setAbilities(newSettings)
   }
 
-  const handleExport = () => {
-    setExportData("Hello")
-  }
-
   const merge = () => {
     return Object.keys(abilities).reduce((merged, a) => {
       merged[a] = {...abilities[a], ...state.abilities[a]}
@@ -233,7 +229,7 @@ const App = () => {
         <div className="panel-container">
           <SettingsPanel settings={{abilities: abilitySettings, auras: auraSettings}} onAbilitySet={setAbilitySettings} onAuraSet={setAuraSettings} onClick={handlePanelHeaderClick} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} onPause={setKeyEventsPaused}/>
           <AbilityKeybindsPanel abilities={abilities} currentPanel={panel} onKeybind={setKeyBind} onToggle={handleAbilityToggle} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} onPause={setKeyEventsPaused}/>
-          <ExportPanel settings={{abilitySettings, auraSettings, abilities}} onExport={handleExport} onImport={handleImport} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
+          <ExportPanel settings={{abilitySettings, auraSettings, abilities}} onImport={handleImport} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
           <AboutPanel currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
         </div>
         <div id="main-bar-container">

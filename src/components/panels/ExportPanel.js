@@ -6,7 +6,7 @@ import "./Panel.css"
 
 const ExportPanel = (props) => {
 
-    const {settings, onExport, onImport, currentPanel, onClick, closePanel} = props
+    const {settings, onImport, currentPanel, onClick, closePanel} = props
 
     const panel = "export"
     const header = "Import/Export Settings"
@@ -18,9 +18,10 @@ const ExportPanel = (props) => {
 
     const [exportData, setExportData] = useState("")
     const [inputData, setInputData] = useState("")
+    const [includeKeybinds, setIncludeKeybinds] = useState(false)
 
     const handleImport = () => {
-        const settings = importSettings(inputData)
+        const settings = importSettings(inputData, includeKeybinds)
 
         console.log(settings)
 
@@ -61,8 +62,12 @@ const ExportPanel = (props) => {
                 <div className="panel-content-container">
                     <div className="panel-content-header">Import Settings</div>
                     <textarea className="panel-text-area" rows={rows} cols={cols} placeholder={placeholderText} onChange={handleInputChange}></textarea>
+                    <div>
+                        <label>Include keybinds</label>
+                        <input type="checkbox" onChange={() => setIncludeKeybinds(!includeKeybinds)}/>
+                    </div>
                     <div className="panel-button-container">
-                    <button className="panel-button panel-input-button" onClick={handleImport} disabled={!inputData}>Import</button>
+                        <button className="panel-button panel-input-button" onClick={handleImport} disabled={!inputData}>Import</button>
                     </div>
                 </div>
                 <div className="panel-content-container">
