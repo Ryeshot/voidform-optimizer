@@ -8,7 +8,7 @@ const TimeTextOption = (props) => {
         onChange(parseFloat(e.target.value)*1000)
     }
     
-    return <span><input className="setting-option-input" type="number" defaultValue={value/1000} min="0" step=".01" onChange={handleChange} />sec</span>
+    return <span><input className="setting-option-input" type="number" value={value/1000} min="0" step=".01" onChange={handleChange} />sec</span>
 }
 
 const NumberTextOption = (props) => {
@@ -19,7 +19,7 @@ const NumberTextOption = (props) => {
         onChange(parseInt(e.target.value))
     }
     
-    return <span><input className="setting-option-input" type="number" defaultValue={value} min="0" onChange={handleChange} /> {unit}</span>
+    return <span><input className="setting-option-input" type="number" value={value} min="0" onChange={handleChange} /> {unit}</span>
 }
 
 const FloatTextOption = (props) => {
@@ -30,7 +30,7 @@ const FloatTextOption = (props) => {
         onChange(parseInt(e.target.value))
     }
     
-    return <span><input className="setting-option-input" type="number" defaultValue={value} min="0" step=".01" onChange={handleChange} /> {unit}</span>
+    return <span><input className="setting-option-input" type="number" value={value} min="0" step=".01" onChange={handleChange} /> {unit}</span>
 }
 
 const PercentTextOption = (props) => {
@@ -41,7 +41,7 @@ const PercentTextOption = (props) => {
         onChange(parseInt(e.target.value)/100)
     }
 
-    return <span><input className="setting-option-input" type="number" defaultValue={value*100} min="0" step=".5" onChange={handleChange} />%</span>
+    return <span><input className="setting-option-input" type="number" value={value*100} min="0" step=".5" onChange={handleChange} />%</span>
 }
 
 const BooleanOption = (props) => {
