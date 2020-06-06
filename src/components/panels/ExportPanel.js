@@ -23,8 +23,6 @@ const ExportPanel = (props) => {
     const handleImport = () => {
         const settings = importSettings(inputData, includeKeybinds)
 
-        console.log(settings)
-
         onImport(settings)
     }
 

@@ -2,11 +2,10 @@
     font-size: 15px;
     color: white;
     cursor: pointer;
-    padding-right: 5px;
 }
 
 .what-is-icon:hover {
-    color: #404040;
+    color: rgba(102, 0, 204);
 }
 
 .what-is {

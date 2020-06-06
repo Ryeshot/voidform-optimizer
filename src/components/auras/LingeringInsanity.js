@@ -49,7 +49,7 @@ const LingeringInsanity = (props) => {
 
     const startStatic = () => {
 
-        const { duration, afterVoidformEntry, hasteRetention } = settings.static
+        const { duration, afterVoidformEntry, hasteRetention } = settings
         
         let state = initialize(afterVoidformEntry, hasteRetention, stacksRef.current)
 
@@ -108,12 +108,12 @@ const LingeringInsanity = (props) => {
 
     const startDecay = () => {
 
-        const { rate, haste } = settings.decay
+        const { decayRate, hasteDecay } = settings
 
 
         let i = 0
 
-        let state = initialize(true, 1, calculateDecayStacks(hasteRef.current, haste))
+        let state = initialize(true, 1, calculateDecayStacks(hasteRef.current, hasteDecay))
 
         const timer = setInterval(() => {
 
@@ -122,7 +122,7 @@ const LingeringInsanity = (props) => {
             const now = Date.now()
 
             if(state.voidformEntered && !inVoidformRef.current) {
-                state = initialize(true, 1, calculateDecayStacks(hasteRef.current, haste))
+                state = initialize(true, 1, calculateDecayStacks(hasteRef.current, hasteDecay))
                 i = 0
 
                 return
@@ -138,10 +138,10 @@ const LingeringInsanity = (props) => {
             }
 
             //lose stack
-            if(i % rate === 0) {
+            if(i % decayRate === 0) {
                 triggerEvent({
                     type: "LINGERING_INSANITY_UPDATE",
-                    payload: haste * -1
+                    payload: hasteDecay * -1
                 })
             }
 

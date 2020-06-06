@@ -57,10 +57,7 @@ const AbilityBar = (props) => {
         switch(action.type) {
             case "ABILITY_CAST_SUCCESS":
                 var {name} = payload
-                if(newState.casting && name === "void-bolt" && newState.casting.name === "mind-flay") {
-                    console.log("Mind flay currently being channeled")
-                    console.log("Void bolt cast")
-                    console.log("Void bolt rank 2 engage!")
+                if(abilitySettings["void-bolt"].rankTwo && newState.casting && name === "void-bolt" && newState.casting.name === "mind-flay") {
                     break
                 }
                 if(newState.casting && name !== newState.casting.name) {

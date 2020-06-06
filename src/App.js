@@ -126,8 +126,6 @@ const App = () => {
     return newState
   }, defaultState)
 
-  const [showTimer, setShowTimer] = useState(false)
-  const [exportData, setExportData] = useState("")
   const [panel, setPanel] = useState()
   const [abilitySettings, setAbilitySettings] = useState(defaultAbilitySettings)
   const [abilities, setAbilities] = useState(defaultAbilities)
@@ -158,10 +156,12 @@ const App = () => {
   }
 
   const handlePanelHeaderClick = (panel) => {
+    setKeyEventsPaused(true)
     setPanel(panel)
   }
 
   const handlePanelClose = () => {
+    setKeyEventsPaused(false)
     setPanel(null)
   }
 
@@ -172,13 +172,6 @@ const App = () => {
     if(ability === "void-bolt") newSettings["void-eruption"].disabled = newSettings[ability].disabled
 
     setAbilities(newSettings)
-  }
-
-  const merge = () => {
-    return Object.keys(abilities).reduce((merged, a) => {
-      merged[a] = {...abilities[a], ...state.abilities[a]}
-      return merged
-    }, {})
   }
 
   const setKeyBind = (keybind, ability) => {
@@ -225,13 +218,20 @@ const App = () => {
 
   }
 
+  const abilitySettingsWithDisplayName = () => {
+    return Object.keys(abilitySettings).reduce((merged, a) => {
+      merged[a] = {...abilitySettings[a], displayName: defaultAbilities[a].displayName}
+      return merged
+    }, {}) 
+  }
+
   return (
     <div className="App">
       <header className="App-header">
         <p>Hello</p>
         <div className ="header-panel"></div>
         <div className="panel-container">
-          <SettingsPanel settings={{abilities: abilitySettings, auras: auraSettings}} onAbilitySet={setAbilitySettings} onAuraSet={setAuraSettings} onClick={handlePanelHeaderClick} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} onPause={setKeyEventsPaused}/>
+          <SettingsPanel settings={{abilities: abilitySettingsWithDisplayName(), auras: auraSettings}} onAbilitySet={setAbilitySettings} onAuraSet={setAuraSettings} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} onPause={setKeyEventsPaused}/>
           <AbilityKeybindsPanel abilities={abilities} currentPanel={panel} onKeybind={setKeyBind} onToggle={handleAbilityToggle} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} onPause={setKeyEventsPaused}/>
           <ExportPanel settings={{abilitySettings, auraSettings, abilities}} onImport={handleImport} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
           <AboutPanel currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
@@ -241,7 +241,7 @@ const App = () => {
           <ResourceBar current={state.resource} max={100}/>
           <button onClick={enterVoidform}>Enter Voidform!</button>
           <button onClick={gainInsanity}>+10 Insanity</button>
-          <AbilityBar abilitySettings={abilitySettings} abilities={merge()} haste={calculateHaste()} inVoidform={state.auras.voidform.active} triggerEvent={updateState} keyEventsPaused={keyEventsPaused}/>
+          <AbilityBar abilitySettings={abilitySettings} abilities={mergeAbilities()} haste={calculateHaste()} inVoidform={state.auras.voidform.active} triggerEvent={updateState} keyEventsPaused={keyEventsPaused}/>
           <div>Haste: {((calculateHaste()-1)*100).toFixed(2)}%</div>
         </div>
         

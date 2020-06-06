@@ -27,7 +27,8 @@ const commonOptions = {
         key: "cooldown",
         displayName: "Cooldown",
         type: "time",
-        whatIs: whatIs.cooldown
+        whatIs: whatIs.cooldown,
+        unit: "sec"
     },
     charges: {
         key: "charges",
@@ -38,31 +39,36 @@ const commonOptions = {
     hasted: {
         key: "hasted",
         displayName: "Hasted",
+        type: "boolean",
         whatIs: whatIs.hasted
     },
     resourceCast: {
         key: "resource",
         displayName: "Resource",
         type: "number",
-        whatIs: whatIs.resourceCast
+        whatIs: whatIs.resourceCast,
+        unit: "insanity"
     },
     resourceChannel: {
         key: "resource",
         displayName: "Resource",
         type: "number",
-        whatIs: whatIs.resourceChannel
+        whatIs: whatIs.resourceChannel,
+        unit: "insanity"
     },
     castTime: {
         key: "casttime",
         displayName: "Cast Time",
         type: "time",
-        whatIs: whatIs.castTime
+        whatIs: whatIs.castTime,
+        unit: "sec"
     },
     channelTime: {
         key: "casttime",
         displayName: "Channel Time",
         type: "time",
-        whatIs: whatIs.channelTime
+        whatIs: whatIs.channelTime,
+        unit: "sec"
     },
     ticks: {
         key: "ticks",
@@ -82,6 +88,7 @@ export const abilityOptions = {
         {
             key: "rankTwo",
             displayName: "Rank 2",
+            type: "boolean",
             whatIs: whatIs.voidBoltRankTwo
         }
     ],
@@ -90,6 +97,7 @@ export const abilityOptions = {
         {
             key: "threshold",
             displayName: "Insanity Threshold",
+            type: "number",
             whatIs: whatIs.voidformThreshold
         }
     ],
@@ -108,7 +116,6 @@ export const abilityOptions = {
     "shadow-word-death": [
         commonOptions.cooldown,
         commonOptions.charges,
-        commonOptions.castTime,
         commonOptions.hasted,
         commonOptions.resourceCast
     ],
@@ -125,26 +132,33 @@ export const auraOptions = {
         {
             key: "drainStart",
             displayName: "Starting Insanity Drain",
+            type: "float",
             whatIs: whatIs.voidformStartingDrain
         },
         {
             key: "drainRate",
             displayName: "Insanity Drain Rate",
+            type: "float",
             whatIs: whatIs.voidformDrainRate
         },
         {
             key: "hasteStart",
             displayName: "Voidform Starting Haste",
+            type: "percent",
+            unit: "%",
             whatIs: whatIs.voidformStartingHaste
         },
         {
             key: "hasteStack",
             displayName: "Voidform Haste Per Stack",
+            type: "percent",
+            unit: "%",
             whatIs: whatIs.voidformHasteStack
         },
         {
             key: "maxStacks",
             displayName: "Maximum Voidform Stacks",
+            type: "number",
             whatIs: whatIs.voidformMaximumStacks
         }
     ],
@@ -152,31 +166,44 @@ export const auraOptions = {
         {
             key: "type",
             displayName: "Aura Type",
+            type: "select",
+            options: [{
+                value: "static",
+                displayName: "Static"
+            },{
+                value: "decay",
+                displayName: "Decay"
+            }],
             whatIs: whatIs.lingeringInsanityType
         },
         {
             key: "duration",
             displayName: "Aura Duration",
+            type: "time",
             whatIs: whatIs.lingeringInsanityDuration
         },
         {
             key: "afterVoidformEntry",
             displayName: "After Voidform Entry",
+            type: "boolean",
             whatIs: whatIs.lingeringInsanityAfterVoidformEntry
         },
         {
             key: "hasteRetention",
             displayName: "Haste Retained",
+            type: "percent",
             whatIs: whatIs.lingeringInsanityHasteRetention
         },
         {
             key: "decayRate",
             displayName: "Stack Decay Rate",
+            type: "time",
             whatIs: whatIs.lingeringInsanityDecayRate
         },
         {
             key: "hasteDecay",
             displayName: "Haste Decay Amount",
+            type: "percent",
             whatIs: whatIs.lingeringInsanityHasteDecay
         }
     ]

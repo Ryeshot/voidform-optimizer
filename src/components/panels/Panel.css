@@ -154,7 +154,7 @@
 }
 
 .settings-header:hover {
-    background-color: #202020;
+    background-color: rgba(102, 0, 204, 0.808);
 }
 
 .settings-header-active {
@@ -163,7 +163,7 @@
     border: .5px solid white;
     color: white;
     padding: 3px;
-    background-color: #202020;
+    background-color: rgba(102, 0, 204, 0.808);
     cursor: pointer;
 }
 
@@ -174,15 +174,6 @@
     width: 80%;
 }
 
-.setting-option {
-    display: flex;
-    justify-content: left;
-    font-size: 18px;
-    white-space: pre-line;
-    width: 100%;
-}
-.setting-option-header {
-    display: inline-block;
-    text-align: left;
-    margin: 0px;
+.customize-section-header {
+    
 }

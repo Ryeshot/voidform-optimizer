@@ -19,6 +19,11 @@ const SettingsPanel = (props) => {
     const [activeAbilitySection, setActiveAbilitySection] = useState("")
     const [activeAuraSection, setActiveAuraSection] = useState("")
 
+    useEffect(() => {
+        setActiveAbilitySection(Object.keys(abilities)[0])
+        setActiveAuraSection(Object.keys(auras)[0])
+    }, [])
+
     const handleAbilitySettingChange = (setting, key) => {
         const newAbilities = JSON.parse(JSON.stringify(currentAbilities))
         newAbilities[key] = setting
@@ -62,7 +67,7 @@ const SettingsPanel = (props) => {
                     <div className="panel-content-header">Customize Abilities</div>
                     <div className="settings-header-container">
                         {Object.keys(abilities).map(k => 
-                            <div className={activeAbilitySection === k ? "settings-header-active" : "settings-header"} setting={k} onClick={showAbilityOptions}>{k}</div>    
+                            <div key={k} className={activeAbilitySection === k ? "settings-header-active" : "settings-header"} setting={k} onClick={showAbilityOptions}>{abilities[k].displayName}</div>    
                         )}
                     </div>
                     {activeAbilitySection ? <CustomizeSection name={activeAbilitySection} setting={currentAbilities[activeAbilitySection]} options={abilityOptions[activeAbilitySection]} onChange={handleAbilitySettingChange}/> : null}
@@ -72,7 +77,7 @@ const SettingsPanel = (props) => {
                     <div className="panel-content-header">Customize Auras</div>
                         <div className="settings-header-container">
                             {Object.keys(auras).map(k => 
-                                <div className={activeAuraSection === k ? "settings-header-active" : "settings-header"} setting={k} onClick={showAuraOptions}>{k}</div>    
+                                <div key={k} className={activeAuraSection === k ? "settings-header-active" : "settings-header"} setting={k} onClick={showAuraOptions}>{auras[k].displayName}</div>    
                             )}
                         </div>
                         {activeAuraSection ? <CustomizeSection name={activeAuraSection} setting={currentAuras[activeAuraSection]} options={auraOptions[activeAuraSection]} onChange={handleAuraSettingChange}/> : null}

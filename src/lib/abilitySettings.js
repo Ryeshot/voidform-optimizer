@@ -32,7 +32,7 @@ const defaultbilitySettings = {
         cooldown: 9000,
         resource: 15,
         type: "instant",
-        charges: 2,
+        charges: 1,
     },
     "void-torrent": {
         cooldown: 45000,

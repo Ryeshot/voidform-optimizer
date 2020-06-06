@@ -2,29 +2,25 @@ const defaultAuraSettings = {
     voidform: {
         displayName: "Voidform",
         drainStart: 6,
-        drainRate: .72,
+        drainRate: 1.44,
         hasteStart: 0,
         hasteStack: .02,
         maxStacks: 0
     },
     lingeringInsanity: {
         displayName: "Lingering Insanity",
-        type: "static",
-        static: {
-            duration: 0,
-            afterVoidformEntry: false,
-            hasteRetention: 1
-        },
-        decay: {
-            rate: 3000,
-            haste: .01
-        }
+        type: "decay",
+        duration: 10000,
+        afterVoidformEntry: true,
+        hasteRetention: 1,
+        decayRate: 3000,
+        hasteDecay: .01
     },
     shadowWordPain: {
-
+        displayName: "Shadow Word: Pain"
     },
     vampiricTouch: {
-        
+        displayName: "Vampiric Touch"
     }
 }
 

@@ -5,13 +5,14 @@ import "./Panel.css"
 
 const CustomizeSection = (props) => {
 
-    const {name, displayName, setting, options, onChange} = props
+    const {name, setting, options, onChange} = props
 
     const [showWhatIs, setShowWhatIs] = useState(false)
     const [whatIs, setWhatIs] = useState({})
 
     const handleChange = (optionKey, option) => {
         const newSetting = {...setting, [optionKey]: option}
+        //console.log(newSetting)
         onChange(newSetting, name)
     }
 
@@ -32,9 +33,9 @@ const CustomizeSection = (props) => {
 
     return (
         <div className="customize-section">
-            <div>{displayName}</div>
+            <div className="customoze-section-header">{setting.displayName}</div>
             {options.map(o => {
-            return <SettingOption key={name+o.key} value={setting[o.key]} name={o.key} {...o} onChange={handleChange} onHelp={handleShowWhatIs} closeHelp={closeWhatIs}/>
+            return <SettingOption {...o} key={`${name}-${o.key}`} value={setting[o.key]} name={o.key} parentKey={`${name}-${o.key}`} onChange={handleChange} onHelp={handleShowWhatIs} closeHelp={closeWhatIs}/>
             })}
             {showWhatIs ? <WhatIs {...whatIs}/> : null}
         </div>
