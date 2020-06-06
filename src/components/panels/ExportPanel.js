@@ -22,8 +22,9 @@ const ExportPanel = (props) => {
 
     const handleImport = () => {
         const settings = importSettings(inputData, includeKeybinds)
-
+        console.log(settings)
         onImport(settings)
+        setInputData("")
     }
 
     const handleExport = () => {
@@ -59,7 +60,7 @@ const ExportPanel = (props) => {
             <div className="vertical-panel-content">
                 <div className="panel-content-container">
                     <div className="panel-content-header">Import Settings</div>
-                    <textarea className="panel-text-area" rows={rows} cols={cols} placeholder={placeholderText} onChange={handleInputChange}></textarea>
+                    <textarea className="panel-text-area" rows={rows} cols={cols} placeholder={placeholderText} value={inputData} onChange={handleInputChange}></textarea>
                     <div>
                         <label>Include keybinds</label>
                         <input type="checkbox" onChange={() => setIncludeKeybinds(!includeKeybinds)}/>

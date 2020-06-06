@@ -196,6 +196,8 @@ const App = () => {
 
   const handleImport = (settings) => {
     setAllAbilities(settings.abilityConfig)
+    setAbilitySettings(settings.abilitySettings)
+    setAuraSettings(settings.auraSettings)
   }
 
   const setAllAbilities = (importedAbilities) => {

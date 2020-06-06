@@ -6,29 +6,21 @@ const parseAbility = (ability, key) => {
     let abilitySetting = abilitySettings[key]
     let result = Object.keys(abilitySetting).reduce((obj, k) => {
         let userSetting = ability[k]
+        //might want to look at options
         let setting = abilitySetting[k]
-
-        if(!setting.editable) {
-            if(userSetting) throw new Error("Invalid setting provided")
-            obj[k] = setting
-            return obj
-        }
 
         // console.log(key)
         // console.log(k)
 
-        if((userSetting === null || userSetting === undefined) && setting.editable) throw new Error("Missing ability setting in input " + k)
+        if(userSetting === null || userSetting === undefined) throw new Error("Missing ability setting in input " + k)
 
         // console.log(key)
         // console.log(userSetting)
         // console.log(setting.value)
 
-        if(typeof userSetting !== typeof setting.value) throw new Error("Ability setting has invalid format")
+        if(typeof userSetting !== typeof setting) throw new Error("Ability setting has invalid format")
         
-        obj[k] = {
-            value: userSetting,
-            editable: true
-        }
+        obj[k] = userSetting
 
         return obj
     }, {})
@@ -89,7 +81,9 @@ export const importSettings = (settings, includeKeybinds) => {
     try {
         let parsedSettings = JSON.parse(Base64.decode(settings))
 
-        let parsedAbilitySettings = {}
+        console.log(parsedSettings)
+
+        let parsedAbilitySettings = parseAbilitySettings(parsedSettings.abilitySettings)
         let parsedAuraSettings = parseAuraSettings(parsedSettings.auraSettings)
         let abilityConfig = formatAbilityConfig(parsedSettings.abilityConfig, includeKeybinds)
 
@@ -107,8 +101,7 @@ export const importSettings = (settings, includeKeybinds) => {
 
 const formatSingleAbilitySetting = (setting) => {
     let result = Object.keys(setting).reduce((obj, k) => {
-        //if(!setting[k].editable) return obj
-        obj[k] = setting[k].value
+        obj[k] = setting[k]
         return obj
     }, {})
 

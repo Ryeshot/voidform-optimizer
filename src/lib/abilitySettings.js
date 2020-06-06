@@ -1,4 +1,4 @@
-const defaultbilitySettings = {
+const defaultAbilitySettings = {
     "mind-flay": {
         cooldown: 0,
         resource: 12,
@@ -54,4 +54,4 @@ const defaultbilitySettings = {
     }
 }
 
-export default defaultbilitySettings
+export default defaultAbilitySettings
