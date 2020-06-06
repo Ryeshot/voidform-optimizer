@@ -99,9 +99,6 @@ class Ability {
         const {name, displayName, resource} = state
         const {duration} = state.cast
 
-        console.log("Preparing to cast")
-        console.log(state)
-
         this.castTimer = setTimeout(() => {
             console.log("Cast success!")
             this.eventHandler.handleEvent("CAST_SUCCESS", {

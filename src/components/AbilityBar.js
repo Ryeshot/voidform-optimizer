@@ -45,7 +45,6 @@ const AbilityBar = (props) => {
         document.addEventListener("keypress", handleKeyPress)
 
         return () => {
-            console.log("Inside ability bar rerender")
             document.removeEventListener("keypress", handleKeyPress)
         }
     }, [abilities, keyEventsPaused, abilitySettings])
@@ -145,12 +144,9 @@ const AbilityBar = (props) => {
 
     const handleKeyPress = (e) => {
 
-        //console.log(e.key)
-
-        if(globalCooldownRef.current || keyEventsPaused) return
+        if(keyEventsPaused || globalCooldownRef.current) return
 
         observersRef.current.forEach(o => {
-            console.log(o.keybind)
             if(o.keybind === e.key) {
                 o.execute()
             }

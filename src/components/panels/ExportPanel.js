@@ -22,13 +22,11 @@ const ExportPanel = (props) => {
 
     const handleImport = () => {
         const settings = importSettings(inputData, includeKeybinds)
-        console.log(settings)
         onImport(settings)
         setInputData("")
     }
 
     const handleExport = () => {
-        console.log(settings)
         const data = exportSettings(settings)
 
         setExportData(data)
@@ -41,7 +39,6 @@ const ExportPanel = (props) => {
 
         try {
             document.execCommand("copy")
-            //set the message
 
         }
         catch (err) {
