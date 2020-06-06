@@ -27,6 +27,7 @@ const defaultAbilitySettings = {
         type: "cast",
         casttime: 1500,
         charges: 2,
+        cdr: 1500
     },
     "shadow-word-death": {
         cooldown: 9000,

@@ -9,6 +9,7 @@ const whatIs = {
     ticks: "The number of times a channel generates resources over its duration.",
     voidBoltRankTwo: "An extra rank coming to Void Bolt in Shadowlands. It allows Void Bolt to be cast during Mind Flay, without canceling it.",
     voidformThreshold: "The amount of Insanity that is required to cast Void Eruption out of Voidform.",
+    voidformCooldownReduction: "The amount of time, in seconds, that Mind Blast's cooldown is reduced while in Voidform.",
     voidformStartingDrain: "The starting amount of Insanity being drained every second while in Voidform.",
     voidformDrainRate: "The amount of increasing Insanity drained every second while in Voidform.",
     voidformStartingHaste: "The amount of haste, in percent, that is granted at the start of Voidform.",
@@ -111,7 +112,13 @@ export const abilityOptions = {
         commonOptions.charges,
         commonOptions.castTime,
         commonOptions.hasted,
-        commonOptions.resourceCast
+        commonOptions.resourceCast,
+        {
+            key: "cdr",
+            displayName: "Voidform Cooldown Reduction",
+            type: "time",
+            whatIs: whatIs.voidformCooldownReduction
+        }
     ],
     "shadow-word-death": [
         commonOptions.cooldown,

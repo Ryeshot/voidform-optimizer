@@ -7,13 +7,10 @@ import "./AbilityBar.css"
 const AbilityBar = (props) => {
 
     const gcdLength = 1500
-    const {abilitySettings, abilities, haste, canEnterVoidform, inVoidform, triggerEvent, keyEventsPaused} = props
+    const {abilitySettings, abilities, haste, inVoidform, triggerEvent, keyEventsPaused} = props
 
     const hasteRef = useRef(haste)
     hasteRef.current = haste
-
-    const canEnterVoidformRef = useRef(canEnterVoidform)
-    canEnterVoidformRef.current = canEnterVoidform
 
     const inVoidformRef = useRef(inVoidform)
     inVoidformRef.current = inVoidform 
@@ -32,6 +29,7 @@ const AbilityBar = (props) => {
     }
 
     const [observers, setObservers] = useState([])
+    const [voidformEntered, setVoidformEntered] = useState(false)
 
     const observersRef = useRef(observers)
     observersRef.current = observers
@@ -183,8 +181,24 @@ const AbilityBar = (props) => {
 
     const getAbilityCooldown = (k) => {
         const ability = abilitySettings[k]
+        let cooldown = ability.cooldown
 
-        return ability.hasted ? calculateCooldown(ability.cooldown) : ability.cooldown
+        if(inVoidformRef.current && k === "mind-blast") {
+            let cdr = ability.cdr 
+            if(!voidformEntered) {
+                setVoidformEntered(true)
+                const now = Date.now()
+                const startTime = state.cooldowns[k].startTime
+                const remaining = startTime ? now - startTime : cooldown
+                cdr *= remaining/cooldown
+            }
+            cooldown -= cdr
+        }
+
+        if(!inVoidformRef.current && voidformEntered)
+            setVoidformEntered(false)
+
+        return ability.hasted ? calculateCooldown(cooldown) : cooldown
     }
 
     return (
