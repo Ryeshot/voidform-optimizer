@@ -4,11 +4,12 @@ const whatIs = {
     hasted: "An ability that is hasted has its cooldown reduced by haste.",
     resourceCast: "The amount of resource an ability will generate upon a successful cast.",
     resourceChannel: "The amount of resource an ability will generate over its complete channel period.",
+    resourceAura: "The amount of resource an aura will generate every time its effect triggers.",
     castTime: "The amount of time, in seconds, it takes for an ability to be executed.",
     channelTime: "The amount of time, in seconds, it takes for an ability's channel to complete.",
     ticks: "The number of times a channel generates resources over its duration.",
     voidBoltRankTwo: "An extra rank coming to Void Bolt in Shadowlands. It allows Void Bolt to be cast during Mind Flay, without canceling it.",
-    voidBoltExtension: "The amount of time, in seconds, that Shadow Word: Pain and Vampiric Touch are extended when Void Bolt is cast",
+    voidBoltExtension: "The amount of time, in seconds, that Shadow Word: Pain and Vampiric Touch are extended when Void Bolt is cast.",
     voidformThreshold: "The amount of Insanity that is required to cast Void Eruption out of Voidform.",
     voidformCooldownReduction: "The amount of time, in seconds, that Mind Blast's cooldown is reduced while in Voidform.",
     haste: "Increases the rate at which spells cast and the global cooldown, and certain spell cooldowns, regenerate.",
@@ -22,7 +23,9 @@ const whatIs = {
     lingeringInsanityAfterVoidformEntry: "An option for type 'Static'. If enabled, then the duration for Lingering Insanity will only start after entering Voidform.",
     lingeringInsanityHasteRetention: "An option for type 'Static. The amount of haste, in percent, that is retained from the final stacks of the previous Voidform.",
     lingeringInsanityDecayRate: "An option for type 'Decay'. The amount of time, in seconds it takes for one stack of the aura to be lost.",
-    lingeringInsanityHasteDecay: "An option for type 'Decay'. The amount of haste, in percent, that is removed every time the aura loses a stack."
+    lingeringInsanityHasteDecay: "An option for type 'Decay'. The amount of haste, in percent, that is removed every time the aura loses a stack.",
+    auraDuration: "The amount of time, in seconds, that an aura's effect will last.",
+    auraTicks: "The number of times an aura will trigger its effect over its duration."
 }
 
 const commonOptions = {
@@ -78,6 +81,24 @@ const commonOptions = {
         displayName: "Ticks",
         type: "number",
         whatIs: whatIs.ticks
+    },
+    auraDuration: {
+        key: "duration",
+        displayName: "Duration",
+        type: "time",
+        whatIs: whatIs.auraDuration
+    },
+    auraTicks: {
+        key: "ticks",
+        displayName: "Ticks",
+        type: "number",
+        whatIs: whatIs.auraTicks
+    },
+    auraResource: {
+        key: "resource",
+        displayName: "Resource",
+        type: "number",
+        whatIs: whatIs.resourceAura
     }
 }
 
@@ -139,6 +160,13 @@ export const abilityOptions = {
         commonOptions.channelTime,
         commonOptions.resourceChannel,
         commonOptions.ticks
+    ],
+    "shadow-word-pain": [
+        commonOptions.resourceCast
+    ],
+    "vampiric-touch": [
+        commonOptions.castTime,
+        commonOptions.resourceCast
     ]
 }
 
@@ -229,5 +257,15 @@ export const auraOptions = {
             type: "percent",
             whatIs: whatIs.lingeringInsanityHasteDecay
         }
+    ],
+    "shadow-word-pain": [
+        commonOptions.auraDuration,
+        commonOptions.auraTicks,
+        commonOptions.auraResource
+    ],
+    "vampiric-touch": [
+        commonOptions.auraDuration,
+        commonOptions.auraTicks,
+        commonOptions.auraResource
     ]
 }

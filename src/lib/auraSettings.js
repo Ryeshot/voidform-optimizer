@@ -20,11 +20,17 @@ const defaultAuraSettings = {
         decayRate: 3000,
         hasteDecay: .01
     },
-    shadowWordPain: {
-        displayName: "Shadow Word: Pain"
+    "shadow-word-pain": {
+        displayName: "Shadow Word: Pain",
+        duration: 16000,
+        ticks: 8,
+        resource: 0
     },
-    vampiricTouch: {
-        displayName: "Vampiric Touch"
+    "vampiric-touch": {
+        displayName: "Vampiric Touch",
+        duration: 21000,
+        ticks: 7,
+        resource: 0
     }
 }
 
