@@ -245,6 +245,7 @@ const App = () => {
   }
 
   const handleAuraSet = (auraSettings) => {
+    handleReset()
     const haste = auraSettings.stats.haste
     updateState({
       type: "HASTE_SET",
@@ -254,7 +255,6 @@ const App = () => {
       }
     })
     setAuraSettings(auraSettings)
-    handleReset()
   }
 
   const handleAbilitySet = (abilitySettings) => {

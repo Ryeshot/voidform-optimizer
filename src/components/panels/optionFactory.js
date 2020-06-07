@@ -8,7 +8,7 @@ const TimeTextOption = (props) => {
         onChange(parseFloat(e.target.value)*1000)
     }
     
-    return <span><input className="setting-option-input" type="number" value={value/1000} min="0" step=".01" onChange={handleChange} />sec</span>
+    return <span><input className="setting-option-input" type="number" value={value/1000} min="0" step=".1" onChange={handleChange} />sec</span>
 }
 
 const NumberTextOption = (props) => {

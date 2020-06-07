@@ -3,7 +3,7 @@ import Aura from "./Aura"
 
 const DamageOverTime = (props) => {
 
-    const {icon, name, displayName, startTime, maxDuration, triggerEvent} = props
+    const {icon, name, displayName, startTime, maxDuration, ticks, resource, triggerEvent} = props
 
     const interval = 100
 

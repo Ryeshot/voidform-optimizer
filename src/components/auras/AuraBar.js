@@ -39,6 +39,7 @@ const AuraBar = (props) => {
             name={swpName}
             displayName={swpDisplayName}
             {...auras[swpName]}
+            {...settings[swpName]}
             triggerEvent={triggerEvent}/>
           : null}
           {auras[vtName].active
@@ -47,6 +48,7 @@ const AuraBar = (props) => {
             name={vtName}
             displayName={vtDisplayName}
             {...auras[vtName]}
+            {...settings[vtName]}
             triggerEvent={triggerEvent}/>
           : null}
         </div>       
