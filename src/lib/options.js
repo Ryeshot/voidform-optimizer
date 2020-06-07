@@ -8,8 +8,10 @@ const whatIs = {
     channelTime: "The amount of time, in seconds, it takes for an ability's channel to complete.",
     ticks: "The number of times a channel generates resources over its duration.",
     voidBoltRankTwo: "An extra rank coming to Void Bolt in Shadowlands. It allows Void Bolt to be cast during Mind Flay, without canceling it.",
+    voidBoltExtension: "The amount of time, in seconds, that Shadow Word: Pain and Vampiric Touch are extended when Void Bolt is cast",
     voidformThreshold: "The amount of Insanity that is required to cast Void Eruption out of Voidform.",
     voidformCooldownReduction: "The amount of time, in seconds, that Mind Blast's cooldown is reduced while in Voidform.",
+    haste: "Increases the rate at which spells cast and the global cooldown, and certain spell cooldowns, regenerate.",
     voidformStartingDrain: "The starting amount of Insanity being drained every second while in Voidform.",
     voidformDrainRate: "The amount of increasing Insanity drained every second while in Voidform.",
     voidformStartingHaste: "The amount of haste, in percent, that is granted at the start of Voidform.",
@@ -91,6 +93,12 @@ export const abilityOptions = {
             displayName: "Rank 2",
             type: "boolean",
             whatIs: whatIs.voidBoltRankTwo
+        },
+        {
+            key: "extension",
+            displayName: "DoT Extension",
+            type: "time",
+            whatIs: whatIs.voidBoltExtension
         }
     ],
     "void-eruption": [
@@ -135,31 +143,39 @@ export const abilityOptions = {
 }
 
 export const auraOptions = {
+    "stats": [
+        {
+            key: "haste",
+            displayName: "Haste",
+            type: "percent",
+            whatIs: whatIs.haste
+        }
+    ],
     "voidform": [
         {
             key: "drainStart",
             displayName: "Starting Insanity Drain",
             type: "float",
-            whatIs: whatIs.voidformStartingDrain
+            unit: "/sec",
+            whatIs: whatIs.voidformStartingDrain,
         },
         {
             key: "drainRate",
             displayName: "Insanity Drain Rate",
             type: "float",
+            unit: "/sec",
             whatIs: whatIs.voidformDrainRate
         },
         {
             key: "hasteStart",
             displayName: "Voidform Starting Haste",
             type: "percent",
-            unit: "%",
             whatIs: whatIs.voidformStartingHaste
         },
         {
             key: "hasteStack",
             displayName: "Voidform Haste Per Stack",
             type: "percent",
-            unit: "%",
             whatIs: whatIs.voidformHasteStack
         },
         {

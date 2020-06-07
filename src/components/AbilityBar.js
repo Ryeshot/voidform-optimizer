@@ -7,7 +7,7 @@ import "./AbilityBar.css"
 const AbilityBar = (props) => {
 
     const gcdLength = 1500
-    const {abilitySettings, abilities, haste, inVoidform, triggerEvent, keyEventsPaused} = props
+    const {abilitySettings, abilities, haste, inVoidform, triggerEvent, keyEventsPaused, reset} = props
 
     const hasteRef = useRef(haste)
     hasteRef.current = haste
@@ -20,8 +20,7 @@ const AbilityBar = (props) => {
         Object.keys(abilities).forEach(k => {
             if(abilitySettings[k] && abilitySettings[k].disabled) return
             cooldowns[k] = {
-                startTime: 0,
-                onGlobalCooldown: false
+                startTime: 0
             }
         })
 
@@ -40,24 +39,35 @@ const AbilityBar = (props) => {
     }
 
     useEffect(() => {
+        triggerCooldown({
+            type: "RESET"
+        })
+    }, [reset])
+
+    useEffect(() => {
         document.addEventListener("keypress", handleKeyPress)
 
         return () => {
             document.removeEventListener("keypress", handleKeyPress)
         }
-    }, [abilities, keyEventsPaused, abilitySettings])
+    }, [keyEventsPaused])
 
     const [state, triggerCooldown] = useReducer((oldState, action) => {
         const newState = JSON.parse(JSON.stringify(oldState))
         const payload = action.payload
 
         switch(action.type) {
+            case "RESET":
+                return defaultState
             case "ABILITY_CAST_SUCCESS":
                 var {name} = payload
                 if(abilitySettings["void-bolt"].rankTwo && newState.casting && name === "void-bolt" && newState.casting.name === "mind-flay") {
                     break
                 }
-                if(newState.casting && name !== newState.casting.name) {
+                newState.cooldowns[name].castStartTime = 0
+                newState.cooldowns[name].castEndTime = 0
+
+                if(newState.casting) {
                     newState.cooldowns[newState.casting.name].castStartTime = 0
                     newState.cooldowns[newState.casting.name].castEndTime = 0
                     delete newState.casting
@@ -87,12 +97,12 @@ const AbilityBar = (props) => {
                     time
                 }
                 break
-            case "ABILITY_CAST_END":
-                var {name} = payload
-                newState.cooldowns[name].castStartTime = 0
-                newState.cooldowns[name].castEndTime = 0
-                if(newState.casting && name === newState.casting.name) delete newState.casting
-                break
+            // case "ABILITY_CAST_END":
+            //     var {name} = payload
+            //     newState.cooldowns[name].castStartTime = 0
+            //     newState.cooldowns[name].castEndTime = 0
+            //     if(newState.casting && name === newState.casting.name) delete newState.casting
+            //     break
             case "ABILITY_CHANNEL_START":
                 var {name, displayName, time, duration, baseChannelTime} = payload
                 newState.cooldowns[name].castStartTime = time
@@ -226,7 +236,7 @@ const AbilityBar = (props) => {
                     onExecute={triggerGlobalCooldown}
                     onAbilityUpdate={triggerCooldown}
                     triggerEvent={triggerEvent}
-                    id={k}
+                    reset={reset}
                 />
             })}
             </div>        

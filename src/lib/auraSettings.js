@@ -1,10 +1,14 @@
 const defaultAuraSettings = {
+    stats: {
+        displayName: "Stats",
+        haste: 0
+    },
     voidform: {
         displayName: "Voidform",
         drainStart: 6,
-        drainRate: 1.44,
+        drainRate: .72,
         hasteStart: 0,
-        hasteStack: .02,
+        hasteStack: .005,
         maxStacks: 0
     },
     lingeringInsanity: {

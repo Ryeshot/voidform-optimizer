@@ -27,7 +27,7 @@ const FloatTextOption = (props) => {
 
     const handleChange = (e) => {
         if(!e.target.value || parseFloat(e.target.value) < 0) return
-        onChange(parseInt(e.target.value))
+        onChange(parseFloat(e.target.value))
     }
     
     return <span><input className="setting-option-input" type="number" value={value} min="0" step=".01" onChange={handleChange} /> {unit}</span>
@@ -38,7 +38,7 @@ const PercentTextOption = (props) => {
 
     const handleChange = (e) => {
         if(!e.target.value || parseFloat(e.target.value) < 0) return
-        onChange(parseInt(e.target.value)/100)
+        onChange(parseFloat(e.target.value)/100)
     }
 
     return <span><input className="setting-option-input" type="number" value={value*100} min="0" step=".5" onChange={handleChange} />%</span>
@@ -78,7 +78,7 @@ export default Option = (type, value, onChange, key, name, rest) => {
         case "number":
             return <NumberTextOption key={key} value={value} onChange={onChange} {...rest} />
         case "float":
-            return <FloatTextOption key={key} value={value} onChange={onChange} />
+            return <FloatTextOption key={key} value={value} onChange={onChange} {...rest} />
         case "percent":
             return <PercentTextOption key={key} value={value} onChange={onChange} />
         case "boolean":

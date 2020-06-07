@@ -66,7 +66,6 @@ const LingeringInsanity = (props) => {
 
             //timed out
             if(now >= startTimeRef.current + state.currentMaxDuration) {
-                console.log("Ending LI")
                 clearInterval(timer)
                 triggerEvent({
                     type: "LINGERING_INSANITY_END"
@@ -80,7 +79,6 @@ const LingeringInsanity = (props) => {
                 state.voidformEntered = true
 
                 if(afterVoidformEntry) {
-                    console.log("Just entered Voidform!")
                     triggerEvent({
                         type: "AURA_REFRESH",
                         payload: {
@@ -109,7 +107,6 @@ const LingeringInsanity = (props) => {
     const startDecay = () => {
 
         const { decayRate, hasteDecay } = settings
-
 
         let i = 0
 
@@ -165,6 +162,8 @@ const LingeringInsanity = (props) => {
                 timer = startDecay()
                 break
         }
+
+        return () => clearInterval(timer)
 
     }, [])
 

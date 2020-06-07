@@ -40,22 +40,18 @@ const SettingsPanel = (props) => {
     const handleAbilitySet = () => {
         onAbilitySet(currentAbilities)
         //console.log(currentAbilities)
-        onPause(false)
     }
 
     const handleAuraSet = () => {
         onAuraSet(currentAuras)
-        onPause(false)
     }
 
     const showAbilityOptions = (e) => {
-        onPause(true)
         const settingKey = e.target.getAttribute("setting")
         setActiveAbilitySection(settingKey)
     }
 
     const showAuraOptions = (e) => {
-        onPause(true)
         const settingKey = e.target.getAttribute("setting")
         setActiveAuraSection(settingKey)
     }

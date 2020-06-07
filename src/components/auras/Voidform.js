@@ -68,13 +68,12 @@ const Voidform = (props) => {
         return () => {
             clearInterval(timer)
 
-            // triggerEvent({
-            //     type: "LINGERING_INSANITY_START"
-            // })
-
             triggerEvent({
                 type: "VOIDFORM_END",
-                payload: Date.now()
+                payload: {
+                    time: Date.now(),
+                    startingHaste: hasteStart
+                }
             })
         }
     }, [])

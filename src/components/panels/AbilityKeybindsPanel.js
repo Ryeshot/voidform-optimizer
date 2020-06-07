@@ -44,7 +44,6 @@ const AbilityKeybindsPanel = (props) => {
     const prepareToBindAbility = (e) => {
         let ability = e.target.getAttribute("ability")
         setCurrentAbility(ability)
-        onPause(true)
 
         setKeybindText(`Press any key to bind to ${abilities[ability].displayName}`)
 
@@ -53,7 +52,6 @@ const AbilityKeybindsPanel = (props) => {
 
     const bindAbility = (event) => {
         document.removeEventListener("keypress", bindAbility)
-        onPause(false)
         let keybind = {
             key: event.key,
             keybindText: event.key

@@ -31,6 +31,8 @@ const DamageOverTime = (props) => {
             setDuration(duration => now - startTimeRef.current)
 
         }, interval)
+
+        return () => clearInterval(timer)
     }, [])
 
     return <Aura icon={icon} displayName={displayName} duration={duration} maxDuration={maxDuration}/>

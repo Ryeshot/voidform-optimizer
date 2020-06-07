@@ -11,8 +11,10 @@ const defaultAbilitySettings = {
         cooldown: 4500,
         resource: 20,
         hasted: true,
+        rankTwo: false,
         type: "instant",
         charges: 1,
+        extension: 10000
     },
     "void-eruption": {
         cooldown: 0,

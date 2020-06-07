@@ -13,11 +13,18 @@ import defaultAuraSettings from "./lib/auraSettings"
 
 const App = () => {
 
+  const [panel, setPanel] = useState()
+  const [abilitySettings, setAbilitySettings] = useState(defaultAbilitySettings)
+  const [abilities, setAbilities] = useState(defaultAbilities)
+  const [auraSettings, setAuraSettings] = useState(defaultAuraSettings)
+  const [keyEventsPaused, setKeyEventsPaused] = useState(false)
+  const [reset, setReset] = useState(false)
+
   const defaultState = {
     resource: 0,
     auras: {
-      base: {
-        haste: .15
+      stats: {
+        haste: 0
       },
       voidform: {
         active: false,
@@ -55,6 +62,12 @@ const App = () => {
     const lingeringInsanity = newState.auras.lingeringInsanity
 
     switch(event) {
+      case "RESET":
+        return defaultState
+      case "HASTE_SET":
+        var {source, haste} = action.payload
+        newState.auras[source].haste = haste
+        break
       case "HASTE_UPDATE":
         var {source, haste} = action.payload
         newState.auras[source].haste += haste
@@ -68,10 +81,12 @@ const App = () => {
         voidform.stacks = 1
         break;
       case "VOIDFORM_END":
+        var {time, startingHaste} = action.payload
         lingeringInsanity.active = true
         lingeringInsanity.stacks = voidform.stacks
-        lingeringInsanity.haste = voidform.haste
-        lingeringInsanity.startTime = action.payload
+        lingeringInsanity.haste = Math.round((voidform.haste - startingHaste)*1000)/1000
+        console.log(lingeringInsanity.haste)
+        lingeringInsanity.startTime = time
         voidform.stacks = 0
         voidform.haste = 0
         newState.abilities["void-eruption"].unusable = true
@@ -121,16 +136,19 @@ const App = () => {
         newState.auras[name].active = false
         newState.auras[name].startTime = 0
         break
+      case "DOT_EXTEND":
+        const extension = abilitySettings["void-bolt"].extension
+        const dots = ["shadow-word-pain", "vampiric-touch"]
+        dots.forEach(d => {
+          const dot = newState.auras[d]
+          if(!dot.active) return
+          dot.startTime += extension
+        })
+        break
     }
 
     return newState
   }, defaultState)
-
-  const [panel, setPanel] = useState()
-  const [abilitySettings, setAbilitySettings] = useState(defaultAbilitySettings)
-  const [abilities, setAbilities] = useState(defaultAbilities)
-  const [auraSettings, setAuraSettings] = useState(defaultAuraSettings)
-  const [keyEventsPaused, setKeyEventsPaused] = useState(false)
 
   const enterVoidform = () => {
     updateState({
@@ -180,7 +198,7 @@ const App = () => {
     let voidBoltOrEruption = ability === "void-bolt" || ability === "void-eruption"
     Object.keys(state).forEach(k => {
       let abilityKeybind = state[k].keybind
-      if(abilityKeybind.key === key) abilityKeybind = { keybindText: "--"}
+      if(abilityKeybind.key === key) state[k].keybind = { keybindText: "--"}
     })
     if(voidBoltOrEruption) {
       state["void-bolt"].keybind = {...keybind}
@@ -191,13 +209,12 @@ const App = () => {
     }
 
     setAbilities(state)
-    console.log(key)
   }
 
   const handleImport = (settings) => {
     setAllAbilities(settings.abilityConfig)
     setAbilitySettings(settings.abilitySettings)
-    setAuraSettings(settings.auraSettings)
+    handleAuraSet(settings.auraSettings)
   }
 
   const setAllAbilities = (importedAbilities) => {
@@ -227,14 +244,39 @@ const App = () => {
     }, {}) 
   }
 
+  const handleAuraSet = (auraSettings) => {
+    const haste = auraSettings.stats.haste
+    updateState({
+      type: "HASTE_SET",
+      payload: {
+        source: "stats",
+        haste
+      }
+    })
+    setAuraSettings(auraSettings)
+    handleReset()
+  }
+
+  const handleAbilitySet = (abilitySettings) => {
+    setAbilitySettings(abilitySettings)
+    handleReset()
+  }
+
+  const handleReset = () => {
+    updateState({
+      type: "RESET"
+    })
+    setReset(!reset)
+  }
+
   return (
     <div className="App">
       <header className="App-header">
         <p>Hello</p>
         <div className ="header-panel"></div>
         <div className="panel-container">
-          <SettingsPanel settings={{abilities: abilitySettingsWithDisplayName(), auras: auraSettings}} onAbilitySet={setAbilitySettings} onAuraSet={setAuraSettings} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} onPause={setKeyEventsPaused}/>
-          <AbilityKeybindsPanel abilities={abilities} currentPanel={panel} onKeybind={setKeyBind} onToggle={handleAbilityToggle} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} onPause={setKeyEventsPaused}/>
+          <SettingsPanel settings={{abilities: abilitySettingsWithDisplayName(), auras: auraSettings}} onAbilitySet={handleAbilitySet} onAuraSet={handleAuraSet} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
+          <AbilityKeybindsPanel abilities={abilities} currentPanel={panel} onKeybind={setKeyBind} onToggle={handleAbilityToggle} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
           <ExportPanel settings={{abilitySettings, auraSettings, abilities}} onImport={handleImport} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
           <AboutPanel currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
         </div>
@@ -243,7 +285,8 @@ const App = () => {
           <ResourceBar current={state.resource} max={100}/>
           <button onClick={enterVoidform}>Enter Voidform!</button>
           <button onClick={gainInsanity}>+10 Insanity</button>
-          <AbilityBar abilitySettings={abilitySettings} abilities={mergeAbilities()} haste={calculateHaste()} inVoidform={state.auras.voidform.active} triggerEvent={updateState} keyEventsPaused={keyEventsPaused}/>
+          <AbilityBar abilitySettings={abilitySettings} abilities={mergeAbilities()} haste={calculateHaste()} inVoidform={state.auras.voidform.active} triggerEvent={updateState} keyEventsPaused={keyEventsPaused} reset={reset} />
+          <button onClick={handleReset}>Reset</button>
           <div>Haste: {((calculateHaste()-1)*100).toFixed(2)}%</div>
         </div>
         

@@ -5,7 +5,7 @@ import Ability from "../utils/ability"
 
 const ProgressAbility = (props) => {
 
-    const {name, displayName, settings, cooldown, globalCooldown, globalCooldownStartTime, unusable, startTime, casttime, castStartTime, castEndTime, icon, baseChannelTime, keybind, casting, subscribe, unsubscribe, onExecute, onAbilityUpdate, triggerEvent, id} = props
+    const {name, displayName, settings, cooldown, globalCooldown, globalCooldownStartTime, unusable, startTime, casttime, castStartTime, castEndTime, icon, baseChannelTime, keybind, casting, subscribe, unsubscribe, onExecute, onAbilityUpdate, triggerEvent, reset} = props
 
     const size = 50
 
@@ -93,7 +93,7 @@ const ProgressAbility = (props) => {
         ability.current = Ability.create(type, initialState, setState, onExecute, triggers)
         
         subscribe({
-            source: id,
+            source: name,
             keybind: key,
             notify: () => ability.current.beginGlobalCooldown(),
             execute: () => ability.current.execute()
@@ -101,9 +101,9 @@ const ProgressAbility = (props) => {
 
         return () => {
             ability.current.remove()
-            unsubscribe(id)
+            unsubscribe(name)
         }
-    }, [unusable, keybind, settings])
+    }, [unusable, settings, reset])
 
     return (
         <div className="progress-ability-container">
