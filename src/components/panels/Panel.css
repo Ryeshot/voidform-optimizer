@@ -34,6 +34,10 @@
     width: 350px;
     top: 0px;
     left: 0px;
+
+    background-image: url("/images/tentacle-left.png");
+    background-repeat: no-repeat;
+    background-position: left bottom;
 }
 
 .header-panel {
@@ -49,6 +53,11 @@
     width: 100%;
     left: 0px;
     bottom: 0px;
+
+    background-image: url("/images/tentacle-bottom.png");
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-size: 100% 100%;
 }
 
 .middle-panel {
@@ -57,6 +66,11 @@
     top: 50%;
     left: 50%;
     margin: -225px 0 0 -225px;
+
+    background-image: url("/images/tentacle-small.png");
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    background-size: 100%;
 }
 
 .right-panel {
@@ -64,6 +78,11 @@
     width: 350px;
     top: 0px;
     right: 0px;
+
+    text-align: center;
+    background-image: url("/images/tentacle-right.png");
+    background-repeat: no-repeat;
+    background-position: right bottom;
 }
 
 .horizontal-panel-content {
