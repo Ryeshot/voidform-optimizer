@@ -57,6 +57,8 @@ const LingeringInsanity = (props) => {
 
             const now = Date.now()
 
+            console.log("here")
+
             //just left voidform
             if(state.voidformEntered && !inVoidformRef.current) {
                 state = initialize(afterVoidformEntry, hasteRetention, stacksRef.current)
@@ -65,6 +67,7 @@ const LingeringInsanity = (props) => {
             }
 
             //timed out
+            console.log("Start time: " + startTimeRef.current)
             if(now >= startTimeRef.current + state.currentMaxDuration) {
                 clearInterval(timer)
                 triggerEvent({
@@ -118,14 +121,18 @@ const LingeringInsanity = (props) => {
 
             const now = Date.now()
 
+            console.log("here")
+
             if(state.voidformEntered && !inVoidformRef.current) {
                 state = initialize(true, 1, calculateDecayStacks(hasteRef.current, hasteDecay))
                 i = 0
 
                 return
             }
+            
+            console.log("here2")
 
-            if(stacksRef.current === 0) {
+            if(stacksRef.current <= 0) {
                 clearInterval(timer)
                 triggerEvent({
                     type: "LINGERING_INSANITY_END"

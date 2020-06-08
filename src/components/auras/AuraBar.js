@@ -5,7 +5,7 @@ import DamageOverTime from './DamageOverTime';
 
 const AuraBar = (props) => {
 
-    const {auras, triggerEvent, settings} = props
+    const {auras, triggerEvent, settings, haste} = props
     const {lingeringInsanity, voidform} = settings 
     
     //TODO: Move to lib
@@ -19,7 +19,7 @@ const AuraBar = (props) => {
     const vtDisplayName = "Vampiric Touch"
 
     const [state, triggerAuraEvent] = useReducer((state, action) => {
-      
+
     })
 
     return (
@@ -44,6 +44,7 @@ const AuraBar = (props) => {
             displayName={swpDisplayName}
             {...auras[swpName]}
             {...settings[swpName]}
+            haste={haste}
             triggerEvent={triggerEvent}/>
           : null}
           {auras[vtName].active
@@ -53,6 +54,7 @@ const AuraBar = (props) => {
             displayName={vtDisplayName}
             {...auras[vtName]}
             {...settings[vtName]}
+            haste={haste}
             triggerEvent={triggerEvent}/>
           : null}
         </div>       

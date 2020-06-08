@@ -83,7 +83,7 @@ const commonOptions = {
         whatIs: whatIs.ticks
     },
     auraDuration: {
-        key: "maxDuration",
+        key: "baseDuration",
         displayName: "Duration",
         type: "time",
         whatIs: whatIs.auraDuration

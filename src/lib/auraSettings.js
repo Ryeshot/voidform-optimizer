@@ -22,13 +22,13 @@ const defaultAuraSettings = {
     },
     "shadow-word-pain": {
         displayName: "Shadow Word: Pain",
-        maxDuration: 16000,
+        baseDuration: 16000,
         ticks: 8,
         resource: 0
     },
     "vampiric-touch": {
         displayName: "Vampiric Touch",
-        maxDuration: 21000,
+        baseDuration: 21000,
         ticks: 7,
         resource: 0
     }
