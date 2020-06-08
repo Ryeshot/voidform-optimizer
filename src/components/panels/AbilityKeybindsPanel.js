@@ -30,11 +30,22 @@ const AbilityKeybindsPanel = (props) => {
         closePanel()
     }
 
+    useEffect(() => {
+        reset()
+    }, [currentPanel])
+
     const currentAbilityRef = useRef(currentAbility)
     currentAbilityRef.current = currentAbility
 
     const showToolTip = (e) => {
         setTooltip(e.target.alt)
+    }
+
+    const reset = () => {
+        document.removeEventListener("keypress", bindAbility)
+        setTooltip(defaultState.tooltip)
+        setKeybindText(defaultState.keybindText)
+        setCurrentAbility(defaultState.currentAbility)
     }
 
     const hideToolTip = () => {

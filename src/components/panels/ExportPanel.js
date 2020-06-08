@@ -20,6 +20,10 @@ const ExportPanel = (props) => {
     const [inputData, setInputData] = useState("")
     const [includeKeybinds, setIncludeKeybinds] = useState(false)
 
+    useEffect(() => {
+        reset()
+    }, [currentPanel])
+
     const handleImport = () => {
         const settings = importSettings(inputData, includeKeybinds)
         onImport(settings)
@@ -52,6 +56,13 @@ const ExportPanel = (props) => {
         setInputData(data)
     }
 
+    const reset = () => {
+        console.log("Inside reset")
+        setExportData("")
+        setInputData("")
+        setIncludeKeybinds(false)
+    }
+
     return (
         <Panel panel={panel} onClick={onClick} handleClose={closePanel} header={header} panelClass={panelClass} style={{transform: `translateX(${currentPanel === panel ? "0px": "-350px"})`}}>
             <div className="vertical-panel-content">
@@ -60,7 +71,7 @@ const ExportPanel = (props) => {
                     <textarea className="panel-text-area" rows={rows} cols={cols} placeholder={placeholderText} value={inputData} onChange={handleInputChange}></textarea>
                     <div>
                         <label>Include keybinds</label>
-                        <input type="checkbox" onChange={() => setIncludeKeybinds(!includeKeybinds)}/>
+                        <input type="checkbox" onChange={() => setIncludeKeybinds(!includeKeybinds)} checked={includeKeybinds} />
                     </div>
                     <div className="panel-button-container">
                         <button className="panel-button panel-input-button" onClick={handleImport} disabled={!inputData}>Import</button>

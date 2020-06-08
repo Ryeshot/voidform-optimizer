@@ -6,7 +6,7 @@ import "./Panel.css"
 
 const SettingsPanel = (props) => {
 
-    const {settings, currentPanel, onAbilitySet, onAuraSet, onClick, closePanel, onPause} = props
+    const {settings, currentPanel, onAbilitySet, onAuraSet, onClick, closePanel} = props
 
     const {abilities, auras} = settings
 
@@ -14,32 +14,31 @@ const SettingsPanel = (props) => {
     const header= "Custom Settings"
     const panelClass = "right-panel"
 
-    const [currentAbilities, setCurrentAbilities] = useState(abilities)
-    const [currentAuras, setCurrentAuras] = useState(auras)
-    const [activeAbilitySection, setActiveAbilitySection] = useState("")
-    const [activeAuraSection, setActiveAuraSection] = useState("")
+    const [currentAbilities, setCurrentAbilities] = useState()
+    const [currentAuras, setCurrentAuras] = useState()
+    const [activeAbilitySection, setActiveAbilitySection] = useState()
+    const [activeAuraSection, setActiveAuraSection] = useState()
 
     useEffect(() => {
-        setActiveAbilitySection(Object.keys(abilities)[0])
-        setActiveAuraSection(Object.keys(auras)[0])
-    }, [])
+        reset()
+    }, [currentPanel])
 
     const handleAbilitySettingChange = (setting, key) => {
-        const newAbilities = JSON.parse(JSON.stringify(currentAbilities))
-        newAbilities[key] = setting
+        //const newAbilities = JSON.parse(JSON.stringify(currentAbilities))
+        //newAbilities[key] = setting
+        const newAbilities = {...currentAbilities, [key]: setting}
         setCurrentAbilities(newAbilities)
-        //console.log(newAbilities)
     }
 
     const handleAuraSettingChange = (setting, key) => {
-        const newAuras = JSON.parse(JSON.stringify(currentAuras))
-        newAuras[key] = setting
+        const newAuras = {...currentAuras, [key]: setting}
+        //const newAuras = JSON.parse(JSON.stringify(currentAuras))
+        //newAuras[key] = setting
         setCurrentAuras(newAuras)
     }
 
     const handleAbilitySet = () => {
         onAbilitySet(currentAbilities)
-        //console.log(currentAbilities)
     }
 
     const handleAuraSet = () => {
@@ -54,6 +53,13 @@ const SettingsPanel = (props) => {
     const showAuraOptions = (e) => {
         const settingKey = e.target.getAttribute("setting")
         setActiveAuraSection(settingKey)
+    }
+
+    const reset = () => {
+        setActiveAbilitySection(Object.keys(abilities)[0])
+        setActiveAuraSection(Object.keys(auras)[0])
+        setCurrentAuras(auras)
+        setCurrentAbilities(abilities)
     }
 
     return (
