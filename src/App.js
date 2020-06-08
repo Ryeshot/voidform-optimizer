@@ -271,26 +271,24 @@ const App = () => {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <p>Hello</p>
-        <div className ="header-panel"></div>
+      <header className="App-header header-panel">
+        <div className="App-title">Voidform Optimizer</div>
         <div className="panel-container">
           <SettingsPanel settings={{abilities: abilitySettingsWithDisplayName(), auras: auraSettings}} onAbilitySet={handleAbilitySet} onAuraSet={handleAuraSet} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
           <AbilityKeybindsPanel abilities={abilities} currentPanel={panel} onKeybind={setKeyBind} onToggle={handleAbilityToggle} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
           <ExportPanel settings={{abilitySettings, auraSettings, abilities}} onImport={handleImport} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
           <AboutPanel currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
         </div>
-        <div id="main-bar-container">
-          <AuraBar auras={state.auras} settings={auraSettings} triggerEvent={updateState} />
-          <ResourceBar current={state.resource} max={100}/>
-          <button onClick={enterVoidform}>Enter Voidform!</button>
-          <button onClick={gainInsanity}>+10 Insanity</button>
-          <AbilityBar abilitySettings={abilitySettings} abilities={mergeAbilities()} haste={calculateHaste()} inVoidform={state.auras.voidform.active} triggerEvent={updateState} keyEventsPaused={keyEventsPaused} reset={reset} />
-          <button onClick={handleReset}>Reset</button>
-          <div>Haste: {((calculateHaste()-1)*100).toFixed(2)}%</div>
-        </div>
-        
       </header>
+      <div className="App-content">
+        <AuraBar auras={state.auras} settings={auraSettings} triggerEvent={updateState} />
+        <ResourceBar current={state.resource} max={100}/>
+        <button onClick={enterVoidform}>Enter Voidform!</button>
+        <button onClick={gainInsanity}>+10 Insanity</button>
+        <AbilityBar abilitySettings={abilitySettings} abilities={mergeAbilities()} haste={calculateHaste()} inVoidform={state.auras.voidform.active} triggerEvent={updateState} keyEventsPaused={keyEventsPaused} reset={reset} />
+        <button onClick={handleReset}>Reset</button>
+        <div>Haste: {((calculateHaste()-1)*100).toFixed(2)}%</div>
+      </div>
     </div>
   );
 }

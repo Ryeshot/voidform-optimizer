@@ -18,6 +18,10 @@ const AuraBar = (props) => {
     const swpDisplayName = "Shadow Word: Pain"
     const vtDisplayName = "Vampiric Touch"
 
+    const [state, triggerAuraEvent] = useReducer((state, action) => {
+      
+    })
+
     return (
         <div className="aura-container">
           {auras.voidform.active 

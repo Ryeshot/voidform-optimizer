@@ -14,10 +14,10 @@ const SettingsPanel = (props) => {
     const header= "Custom Settings"
     const panelClass = "right-panel"
 
-    const [currentAbilities, setCurrentAbilities] = useState()
-    const [currentAuras, setCurrentAuras] = useState()
-    const [activeAbilitySection, setActiveAbilitySection] = useState()
-    const [activeAuraSection, setActiveAuraSection] = useState()
+    const [currentAbilities, setCurrentAbilities] = useState(abilities)
+    const [currentAuras, setCurrentAuras] = useState(auras)
+    const [activeAbilitySection, setActiveAbilitySection] = useState(Object.keys(abilities)[0])
+    const [activeAuraSection, setActiveAuraSection] = useState(Object.keys(auras)[0])
 
     const handleAbilitySettingChange = (setting, key) => {
         //const newAbilities = JSON.parse(JSON.stringify(currentAbilities))
