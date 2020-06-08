@@ -19,10 +19,6 @@ const SettingsPanel = (props) => {
     const [activeAbilitySection, setActiveAbilitySection] = useState()
     const [activeAuraSection, setActiveAuraSection] = useState()
 
-    useEffect(() => {
-        reset()
-    }, [currentPanel])
-
     const handleAbilitySettingChange = (setting, key) => {
         //const newAbilities = JSON.parse(JSON.stringify(currentAbilities))
         //newAbilities[key] = setting
@@ -63,7 +59,7 @@ const SettingsPanel = (props) => {
     }
 
     return (
-        <Panel panel={panel} onClick={onClick} handleClose={closePanel} header={header} panelClass={panelClass} style={{transform: `translateX(${currentPanel === panel ? "0px": "350px"}`}}>
+        <Panel panel={panel} currentPanel={currentPanel} reset={reset} onClick={onClick} handleClose={closePanel} header={header} panelClass={panelClass} style={{transform: `translateX(${currentPanel === panel ? "0px": "350px"}`}}>
             <div className="vertical-panel-content">
                 <div className="panel-content-container">
                     <div className="panel-content-header">Customize Abilities</div>

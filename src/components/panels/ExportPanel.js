@@ -20,10 +20,6 @@ const ExportPanel = (props) => {
     const [inputData, setInputData] = useState("")
     const [includeKeybinds, setIncludeKeybinds] = useState(false)
 
-    useEffect(() => {
-        reset()
-    }, [currentPanel])
-
     const handleImport = () => {
         const settings = importSettings(inputData, includeKeybinds)
         onImport(settings)
@@ -57,14 +53,13 @@ const ExportPanel = (props) => {
     }
 
     const reset = () => {
-        console.log("Inside reset")
         setExportData("")
         setInputData("")
         setIncludeKeybinds(false)
     }
 
     return (
-        <Panel panel={panel} onClick={onClick} handleClose={closePanel} header={header} panelClass={panelClass} style={{transform: `translateX(${currentPanel === panel ? "0px": "-350px"})`}}>
+        <Panel panel={panel} currentPanel={currentPanel} reset={reset} onClick={onClick} handleClose={closePanel} header={header} panelClass={panelClass} style={{transform: `translateX(${currentPanel === panel ? "0px": "-350px"})`}}>
             <div className="vertical-panel-content">
                 <div className="panel-content-container">
                     <div className="panel-content-header">Import Settings</div>

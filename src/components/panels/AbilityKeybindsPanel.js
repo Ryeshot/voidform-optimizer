@@ -30,22 +30,11 @@ const AbilityKeybindsPanel = (props) => {
         closePanel()
     }
 
-    useEffect(() => {
-        reset()
-    }, [currentPanel])
-
     const currentAbilityRef = useRef(currentAbility)
     currentAbilityRef.current = currentAbility
 
     const showToolTip = (e) => {
         setTooltip(e.target.alt)
-    }
-
-    const reset = () => {
-        document.removeEventListener("keypress", bindAbility)
-        setTooltip(defaultState.tooltip)
-        setKeybindText(defaultState.keybindText)
-        setCurrentAbility(defaultState.currentAbility)
     }
 
     const hideToolTip = () => {
@@ -78,8 +67,15 @@ const AbilityKeybindsPanel = (props) => {
         setKeybindText(`${abilities[ability].displayName} successfuly bound to ${keybind.keybindText}`)
     }
 
+    const reset = () => {
+        document.removeEventListener("keypress", bindAbility)
+        setTooltip(defaultState.tooltip)
+        setKeybindText(defaultState.keybindText)
+        setCurrentAbility(defaultState.currentAbility)
+    }
+
     return (
-        <Panel panel={panel} onClick={onClick} header={header} style={{transform: `translateY(${currentPanel === panel ? "0px": "250px"}`}} panelClass={panelClass} handleClose={handleClose}>
+        <Panel panel={panel} currentPanel={currentPanel} reset={reset} onClick={onClick} header={header} style={{transform: `translateY(${currentPanel === panel ? "0px": "250px"}`}} panelClass={panelClass} handleClose={handleClose}>
             <div className="horizontal-panel-content">
                 <div className="panel-content-header">Change Abilities and Keybinds</div>
                 <div className="tooltip">
