@@ -169,10 +169,9 @@ const App = () => {
 
   useEffect(() => {
     setHaste(calculateHaste)
-    console.log("Haste changed!")
   }, [state.auras.stats.haste,
     state.auras.voidform.haste,
-    state.auras.voidform.haste])
+    state.auras.lingeringInsanity.haste])
 
   const enterVoidform = () => {
     updateState({
@@ -309,7 +308,11 @@ const App = () => {
   return (
     <div className="App">
       <header className="App-header header-panel">
-        <div className="App-title">Voidform Optimizer</div>
+        <div className="App-title">
+          <div className="App-title-text">
+            Voidform Optimizer
+          </div>
+        </div>
         <div className="panel-container">
           <SettingsPanel settings={{abilities: abilitySettingsWithDisplayName(), auras: auraSettings}} onAbilitySet={handleAbilitySet} onAuraSet={handleAuraSet} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
           <AbilityKeybindsPanel abilities={abilities} currentPanel={panel} onKeybind={setKeyBind} onToggle={handleAbilityToggle} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />

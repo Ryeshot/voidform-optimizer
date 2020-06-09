@@ -29,6 +29,24 @@
 .App-title {
   position: absolute;
   left: 0%;
+  height: 100%;
+  width: 600px;
+
+  padding-left: 20px;
+  margin-left: -20px;
+  padding-top: 45px;
+  margin-top: -45px;
+  padding-bottom: 130px;
+  margin-bottom: -130px;
+
+  background-image: url("/images/tentacle-heading.png");
+  background-repeat: no-repeat;
+  background-size: 95%;
+  background-position: 0px 0px;
+}
+
+.App-title-text {
+
 }
 
 .panel-container {
