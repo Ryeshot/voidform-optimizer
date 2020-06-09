@@ -45,7 +45,7 @@ export const submitBugReport = async (data, success, fail) => {
         success()
     }
     catch(err){
-        //console.log(err)
+        console.log(err)
         fail()
     }
 }

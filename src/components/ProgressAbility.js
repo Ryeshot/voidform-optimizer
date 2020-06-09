@@ -91,6 +91,10 @@ const ProgressAbility = (props) => {
         }
 
         ability.current = Ability.create(type, initialState, setState, onExecute, triggers)
+
+        console.log("Inside ability use effect")
+        console.log(name)
+        console.log(key)
         
         subscribe({
             source: name,
@@ -103,7 +107,7 @@ const ProgressAbility = (props) => {
             ability.current.remove()
             unsubscribe(name)
         }
-    }, [unusable, settings, reset])
+    }, [unusable, key, reset])
 
     return (
         <div className="progress-ability-container">
