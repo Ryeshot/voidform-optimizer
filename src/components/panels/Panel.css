@@ -36,7 +36,7 @@
     top: 0px;
     left: 0px;
 
-    background-image: url("/images/tentacle-left.png");
+    background-image: url("../../assets/tentacle-left.png");
     background-repeat: no-repeat;
     background-position: left bottom;
 }
@@ -55,7 +55,7 @@
     left: 0px;
     bottom: 0px;
 
-    background-image: url("/images/tentacle-bottom.png");
+    background-image: url("../../assets/tentacle-bottom.png");
     background-repeat: no-repeat;
     background-position: center bottom;
     background-size: 100% 100%;
@@ -68,7 +68,7 @@
     left: 50%;
     margin: -225px 0 0 -225px;
 
-    background-image: url("/images/tentacle-small.png");
+    background-image: url("../../assets/tentacle-small.png");
     background-repeat: no-repeat;
     background-position: right bottom;
     background-size: 110%;
@@ -81,7 +81,7 @@
     right: 0px;
 
     text-align: center;
-    background-image: url("/images/tentacle-right.png");
+    background-image: url("../../assets/tentacle-right.png");
     background-repeat: no-repeat;
     background-position: right bottom;
 }
