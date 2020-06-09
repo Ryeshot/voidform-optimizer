@@ -11,6 +11,8 @@ import defaultAbilities from "./lib/abilities"
 import defaultAbilitySettings from "./lib/abilitySettings"
 import defaultAuraSettings from "./lib/auraSettings"
 
+import {sendBugReport} from "./utils/bugreport"
+
 const App = () => {
 
   const [panel, setPanel] = useState()
@@ -329,6 +331,7 @@ const App = () => {
         <AbilityBar abilitySettings={abilitySettings} abilities={mergeAbilities()} haste={haste} inVoidform={state.auras.voidform.active} triggerEvent={updateState} keyEventsPaused={keyEventsPaused} reset={reset} />
         <button onClick={handleReset}>Reset</button>
         <div>Haste: {((haste-1)*100).toFixed(2)}%</div>
+        <button onClick={sendBugReport}>SEND</button>
       </div>
     </div>
   );
