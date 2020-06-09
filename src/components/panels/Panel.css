@@ -63,15 +63,15 @@
 
 .middle-panel {
     height: 350px;
-    width: 450px;
+    width: 500px;
     top: 50%;
     left: 50%;
-    margin: -225px 0 0 -225px;
+    margin: -175px 0 0 -250px;
 
     background-image: url("../../assets/tentacle-small.png");
     background-repeat: no-repeat;
     background-position: right bottom;
-    background-size: 110%;
+    background-size: 100%;
 }
 
 .right-panel {
@@ -99,6 +99,13 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+}
+
+.middle-panel-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%
 }
 
 .hover-pointer:hover {
@@ -196,4 +203,10 @@
 
 .customize-section-header {
     
+}
+
+.panel-text-content {
+    width: 75%;
+    padding-left: 20px;
+    white-space: pre-line;
 }
