@@ -2,18 +2,17 @@ import React, {useState, useEffect, useRef} from 'react';
 import "./ProgressAbility.css"
 import CooldownSweep from "./CooldownSweep"
 import Ability from "../utils/ability"
-import abilitySettings from '../utils/abilitySettings';
 
 const ProgressAbility = (props) => {
 
-    const {name, cooldown, globalCooldown, globalCooldownStartTime, unusable, type, resource, startTime, castStartTime, castEndTime, icon, casttime, ticks, baseChannelTime, maxCharges, keybind, subscribe, unsubscribe, onExecute, onAbilityUpdate, triggerEvent, id} = props
+    const {name, displayName, settings, cooldown, globalCooldown, globalCooldownStartTime, unusable, startTime, casttime, castStartTime, castEndTime, icon, baseChannelTime, keybind, casting, subscribe, unsubscribe, onExecute, onAbilityUpdate, triggerEvent, reset} = props
 
     const size = 50
 
-    const [state, setState] = useState({
-        progress: 0,
-        charges: maxCharges || 1
-    })
+    const [state, setState] = useState({})
+
+    const {key, keybindText} = keybind
+    const {type, resource, charges, ticks} = settings
 
     //cooldown states
     const startTimeRef = useRef(startTime)
@@ -26,21 +25,20 @@ const ProgressAbility = (props) => {
     const castStartTimeRef = useRef(castStartTime)
     const castEndTimeRef = useRef(castEndTime)
     const casttimeRef = useRef(casttime)
+    const castingRef = useRef(casting)
 
     castStartTimeRef.current = castStartTime
     castEndTimeRef.current = castEndTime
     casttimeRef.current = casttime
+    castingRef.current = casting
 
     //channel states
-    const ticksRef = useRef(ticks)
     const baseChannelTimeRef = useRef(baseChannelTime)
 
-    ticksRef.current = ticks
     baseChannelTimeRef.current = baseChannelTime
 
     //charge states
-    const chargesRef = useRef(maxCharges || 1)
-    const maxChargesRef = useRef(maxCharges)
+    const chargesRef = useRef(charges || 1)
 
     chargesRef.current = state.charges
 
@@ -65,6 +63,7 @@ const ProgressAbility = (props) => {
 
         const initialState = {
             name,
+            displayName,
             resource,
             unusable,
             cooldown: {
@@ -74,14 +73,15 @@ const ProgressAbility = (props) => {
             cast: {
                 duration: casttimeRef,
                 startTime: castStartTimeRef,
-                endTime: castEndTimeRef
+                endTime: castEndTimeRef,
+                casting: castingRef
             },
             channel: {
                 baseDuration: baseChannelTimeRef,
-                ticks: ticksRef
+                ticks
             },
             charges: {
-                maxCharges: maxChargesRef,
+                maxCharges: charges,
                 current: chargesRef
             },
             globalCooldown: {
@@ -91,34 +91,35 @@ const ProgressAbility = (props) => {
         }
 
         ability.current = Ability.create(type, initialState, setState, onExecute, triggers)
+        
         subscribe({
-            source: id,
-            keybind,
+            source: name,
+            keybind: key,
             notify: () => ability.current.beginGlobalCooldown(),
             execute: () => ability.current.execute()
         })
 
         return () => {
             ability.current.remove()
-            unsubscribe(id)
+            unsubscribe(name)
         }
-    }, [unusable, keybind])
+    }, [unusable, settings, reset])
 
     return (
         <div className="progress-ability-container">
         <div className="progress-ability" onClick={() => ability.current.execute()}>
-            <img className="ability-icon"
-                className={!unusable && ((state.charges > 0 && maxCharges) || (!startTimeRef.current)) ? "colored" : "desaturated"}
+            <img
+                className={!unusable && ((state.charges > 0 && charges) || (!startTimeRef.current)) ? "colored" : "desaturated"}
                 src={icon}
                 width={size}
                 height={size}
             />
-            <div className="charge-text">{maxCharges > 1 ? state.charges : ""}</div>
+            <div className="charge-text">{charges > 1 ? state.charges : ""}</div>
             {startTimeRef.current || globalCooldownRef.current ? 
             <CooldownSweep size={size} progress={state.progress}/>
             : null}
         </div>
-        <div>{keybind.match(/[a-zA-Z]/) ? keybind.toUpperCase() : keybind}</div>
+        <div>{keybindText}</div>
         </div>
     )
 }

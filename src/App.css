@@ -1,7 +1,13 @@
 .App {
   text-align: center;
   background-image: url("/theme.png");
-  background-size: cover;
+  background-size: 100% 100%;
+
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-size: calc(10px + 2vmin);
+  color: white;
 }
 
 .App-logo {
@@ -10,17 +16,37 @@
 }
 
 .App-header {
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  top: 0px;
+  z-index: 2;
 }
 
 .App-link {
   color: #61dafb;
+}
+
+.App-title {
+  position: absolute;
+  left: 0%;
+  height: 100%;
+  width: 600px;
+
+  padding-left: 20px;
+  margin-left: -20px;
+  padding-top: 45px;
+  margin-top: -45px;
+  padding-bottom: 130px;
+  margin-bottom: -130px;
+
+  background-image: url("/images/tentacle-heading.png");
+  background-repeat: no-repeat;
+  background-size: 95%;
+  background-position: 0px 0px;
+}
+
+.App-title-text {
+
 }
 
 .panel-container {
@@ -30,9 +56,11 @@
   flex-direction: row;
   justify-content: space-between;
   top: 0px;
+  z-index: 2;
 }
 
-#main-bar-container {
+.App-content {
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

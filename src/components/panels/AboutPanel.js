@@ -11,10 +11,10 @@ const AboutPanel = (props) => {
     const panelClass = "middle-panel"
 
     return (
-        <Panel panel={panel} onClick={onClick} handleClose={closePanel} header={header} panelClass={panelClass} style={{
-            width: currentPanel === panel ? "200px": "0px",
-            height: currentPanel === panel ? "200px": "0px"
-            }}>
+        <Panel panel={panel} onClick={onClick} handleClose={closePanel} header={header} panelClass={panelClass}
+            style={{transform: `translateY(${currentPanel === panel ? "0px": "-685px"}`}}
+        >
+            <div className="panel-content-header">About</div>
         </Panel>      
     )
 }

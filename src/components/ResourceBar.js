@@ -7,7 +7,7 @@ const ResourceBar = (props) => {
     return (
         <div className="progress-bar-container">
             <div className="progress-text">{(current/max*100).toFixed(0)}</div> 
-            <div className="progress-bar" 
+            <div className="progress-bar resource-bar" 
                 style={{
                     width: `${(current/max*100).toFixed(2)}%`
             }}>

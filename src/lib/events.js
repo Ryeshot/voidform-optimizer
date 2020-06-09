@@ -4,7 +4,6 @@ const events = {
         "ABILITY_COOLDOWN_START",
         "ABILITY_COOLDOWN_END",
         "ABILITY_CAST_START",
-        "ABILITY_CAST_END",
         "ABILITY_CHANNEL_START",
         "ABILITY_CHANNEL_UPDATE",
         "ABILITY_CHANNEL_END"
@@ -20,7 +19,10 @@ const events = {
         "VOIDFORM_END",
         "LINGERING_INSANITY_START",
         "LINGERING_INSANITY_UPDATE",
-        "LINGERING_INSANITY_END"
+        "LINGERING_INSANITY_END",
+        "AURA_START",
+        "AURA_END",
+        "DOT_EXTEND"
     ],
     "STAT": ["HASTE_UPDATE"]
 }

@@ -1,13 +1,13 @@
-import {useRef} from "react"
+import {useEffect, useRef} from "react"
 
-export const useInterval = (callback, delay) => {
-    const callbackRef = useRef()
+export const useCleanup = (target, value, cleanup) => {
+    const ref = useRef()
 
-
-
-}
-
-export const useTimeout = (callback, delay) => {
-    const callbackRef = useRef
-
+    useEffect(() => {
+        if(ref.current === target) {
+            console.log("Inside use cleanup for: " + target)
+            cleanup()
+        }       
+        ref.current = value
+    }, [value, target, cleanup])
 }

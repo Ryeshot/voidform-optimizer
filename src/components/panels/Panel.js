@@ -1,10 +1,13 @@
 import React, {useState, useEffect, useReducer, useRef} from 'react';
+import {useCleanup} from "../../utils/hooks"
 
 import "./Panel.css"
 
 const Panel = (props) => {
 
-    const {panel, onClick, handleClose, header, panelClass, style} = props
+    const {panel, currentPanel, reset, onClick, handleClose, header, panelClass, style} = props
+
+    useCleanup(panel, currentPanel, reset)
 
     return (
         <div>

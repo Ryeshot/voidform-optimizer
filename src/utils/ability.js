@@ -1,5 +1,5 @@
 import {constructEventHandler} from "./eventHandler"
-import {interval, lag} from "./constants"
+import {interval, lag} from "../lib/constants"
 
 class Ability {
 
@@ -8,6 +8,10 @@ class Ability {
         this.updateState = updateFn
         this.onExecute = onExecute
         this.eventHandler = eventHandler
+        this.updateState({
+            progress: 0,
+            charges: initialState.charges.maxCharges || 1
+        })       
     }
 
     static create(type, initialState, updateFn, onExecute, triggers) {
@@ -36,7 +40,8 @@ class Ability {
             const subState = {}
             Object.keys(value).forEach(k2 => {
                 let value2 = value[k2]
-                subState[k2] =  value2.current
+                if(value2 === "undefined") return
+                subState[k2] =  typeof value2 !== "object" ? value2 : value2.current
             })
             currentState[k] = subState
         })
@@ -91,13 +96,15 @@ class Ability {
 
     startCast() {
         let state = this.getCurrentState()
-        const {name, resource} = state
+        const {name, displayName, resource} = state
         const {duration} = state.cast
 
         this.castTimer = setTimeout(() => {
+            console.log("Cast success!")
             this.eventHandler.handleEvent("CAST_SUCCESS", {
                 name,
-                resource
+                resource,
+                time: Date.now()
             })
 
             let cooldown = this.state.cooldown.duration.current
@@ -116,6 +123,7 @@ class Ability {
 
         this.eventHandler.handleEvent("CAST_START", {
             name,
+            displayName,
             duration,
             time: Date.now()
         })
@@ -125,7 +133,7 @@ class Ability {
         let state = this.getCurrentState()
         const {startTime, endTime, duration} = state.cast
         const {baseDuration, ticks} = state.channel
-        const {resource, name} = state
+        const {name, displayName, resource} = state
 
         let now = Date.now()
         let pandemicTime = 0
@@ -175,6 +183,7 @@ class Ability {
 
         this.eventHandler.handleEvent("CHANNEL_START", {
             name,
+            displayName,
             duration: duration + pandemicTime,
             time: now,
             baseChannelTime: duration
@@ -218,6 +227,7 @@ class InstantAbility extends Ability {
     execute() {
         if(this.state.globalCooldown.duration.current) return
         if(this.state.unusable) return
+        if(this.state.cast.casting.current) return
         let state = this.getCurrentState()
         const {name, resource} = state
         const {startTime} = state.cooldown
@@ -230,7 +240,8 @@ class InstantAbility extends Ability {
 
         this.eventHandler.handleEvent("CAST_SUCCESS", {
             name,
-            resource
+            resource,
+            time: Date.now()
         })
 
         this.onExecute()
@@ -244,12 +255,12 @@ class CastAbility extends Ability {
     execute() {
         if(this.state.globalCooldown.duration.current) return
         if(this.state.unusable) return
+        if(this.state.cast.casting.current) return
         let state = this.getCurrentState()
         const {startTime} = state.cast
         const {current} = state.charges
 
         if(startTime || current === 0) return
-        console.log("Preparing to start cast...")
         this.startCast()
         this.onExecute()
     }
@@ -260,6 +271,7 @@ class ChannelAbility extends Ability {
     execute() {
         if(this.state.globalCooldown.duration.current) return
         if(this.state.unusable) return
+        if(this.state.cast.casting.current) return
         let state = this.getCurrentState()
         const {duration, startTime} = state.cooldown
 
