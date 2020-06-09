@@ -36,6 +36,7 @@
     ]
   },
   "devDependencies": {
+    "dotenv": "^8.2.0",
     "gh-pages": "^3.0.0"
   }
 }

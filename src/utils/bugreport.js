@@ -4,7 +4,7 @@ const repository = "voidform-optimizer"
 const owner = "ryeshot"
 
 const github = new Github({
-    token: "5f6aa47d9cede9b6bfd22be3ad6c3e8c7d6ae86d"
+    token: process.env.REACT_APP_ACCESS_TOKEN
 })
 const issues = github.getIssues(owner, repository)
 
