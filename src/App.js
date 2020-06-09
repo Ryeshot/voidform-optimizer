@@ -326,11 +326,8 @@ const App = () => {
       <div className="App-content">
         <AuraBar auras={state.auras} settings={auraSettings} haste={haste} triggerEvent={updateState} />
         <ResourceBar current={state.resource} max={100}/>
-        <button onClick={enterVoidform}>Enter Voidform!</button>
-        <button onClick={gainInsanity}>+10 Insanity</button>
         <AbilityBar abilitySettings={abilitySettings} abilities={mergeAbilities()} haste={haste} inVoidform={state.auras.voidform.active} triggerEvent={updateState} keyEventsPaused={keyEventsPaused} reset={reset} />
         <button onClick={handleReset}>Reset</button>
-        <div>Haste: {((haste-1)*100).toFixed(2)}%</div>
       </div>
     </div>
   );
