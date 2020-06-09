@@ -2,6 +2,7 @@ import React, {useState, useEffect, useReducer, useRef} from 'react';
 import LingeringInsanity from "./LingeringInsanity"
 import Voidform from "./Voidform"
 import DamageOverTime from './DamageOverTime';
+import { auraOptions } from '../../lib/options';
 
 const AuraBar = (props) => {
 
@@ -27,7 +28,7 @@ const AuraBar = (props) => {
           {auras.voidform.active 
           ? <Voidform 
             {...voidform}
-            paused={auras.voidform.paused}
+            {...auras.voidform}
             triggerEvent={triggerEvent}/> 
           : null}
           {auras.lingeringInsanity.active

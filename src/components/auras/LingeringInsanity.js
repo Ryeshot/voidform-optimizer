@@ -121,16 +121,12 @@ const LingeringInsanity = (props) => {
 
             const now = Date.now()
 
-            console.log("here")
-
             if(state.voidformEntered && !inVoidformRef.current) {
                 state = initialize(true, 1, calculateDecayStacks(hasteRef.current, hasteDecay))
                 i = 0
 
                 return
             }
-            
-            console.log("here2")
 
             if(stacksRef.current <= 0) {
                 clearInterval(timer)

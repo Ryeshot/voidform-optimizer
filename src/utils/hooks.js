@@ -9,5 +9,5 @@ export const useCleanup = (target, value, cleanup) => {
             cleanup()
         }       
         ref.current = value
-    }, [value])
+    }, [value, target, cleanup])
 }

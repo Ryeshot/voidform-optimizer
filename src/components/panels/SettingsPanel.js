@@ -20,16 +20,12 @@ const SettingsPanel = (props) => {
     const [activeAuraSection, setActiveAuraSection] = useState(Object.keys(auras)[0])
 
     const handleAbilitySettingChange = (setting, key) => {
-        //const newAbilities = JSON.parse(JSON.stringify(currentAbilities))
-        //newAbilities[key] = setting
         const newAbilities = {...currentAbilities, [key]: setting}
         setCurrentAbilities(newAbilities)
     }
 
     const handleAuraSettingChange = (setting, key) => {
         const newAuras = {...currentAuras, [key]: setting}
-        //const newAuras = JSON.parse(JSON.stringify(currentAuras))
-        //newAuras[key] = setting
         setCurrentAuras(newAuras)
     }
 
