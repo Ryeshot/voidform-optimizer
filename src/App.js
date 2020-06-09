@@ -10,8 +10,7 @@ import AboutPanel from "./components/panels/AboutPanel"
 import defaultAbilities from "./lib/abilities"
 import defaultAbilitySettings from "./lib/abilitySettings"
 import defaultAuraSettings from "./lib/auraSettings"
-
-import {sendBugReport} from "./utils/bugreport"
+import Forms from "./components/forms/Forms"
 
 const App = () => {
 
@@ -322,6 +321,7 @@ const App = () => {
           <ExportPanel settings={{abilitySettings, auraSettings, abilities}} onImport={handleImport} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
           <AboutPanel currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
         </div>
+        <Forms />
       </header>
       <div className="App-content">
         <AuraBar auras={state.auras} settings={auraSettings} haste={haste} triggerEvent={updateState} />
@@ -331,7 +331,6 @@ const App = () => {
         <AbilityBar abilitySettings={abilitySettings} abilities={mergeAbilities()} haste={haste} inVoidform={state.auras.voidform.active} triggerEvent={updateState} keyEventsPaused={keyEventsPaused} reset={reset} />
         <button onClick={handleReset}>Reset</button>
         <div>Haste: {((haste-1)*100).toFixed(2)}%</div>
-        <button onClick={sendBugReport}>SEND</button>
       </div>
     </div>
   );
