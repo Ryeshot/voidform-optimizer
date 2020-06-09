@@ -5,9 +5,8 @@ export const useCleanup = (target, value, cleanup) => {
 
     useEffect(() => {
         if(ref.current === target) {
-            console.log("Inside use cleanup for: " + target)
             cleanup()
         }       
         ref.current = value
-    }, [value, target, cleanup])
+    }, [value])
 }
