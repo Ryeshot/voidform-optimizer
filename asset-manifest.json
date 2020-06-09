@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/voidform-optimizer/static/css/main.216d389a.chunk.css",
+    "main.css": "/voidform-optimizer/static/css/main.daf01b5a.chunk.css",
     "main.js": "/voidform-optimizer/static/js/main.5e7ec454.chunk.js",
     "main.js.map": "/voidform-optimizer/static/js/main.5e7ec454.chunk.js.map",
     "runtime-main.js": "/voidform-optimizer/static/js/runtime-main.65aba562.js",
@@ -8,16 +8,17 @@
     "static/js/2.c4a81f09.chunk.js": "/voidform-optimizer/static/js/2.c4a81f09.chunk.js",
     "static/js/2.c4a81f09.chunk.js.map": "/voidform-optimizer/static/js/2.c4a81f09.chunk.js.map",
     "index.html": "/voidform-optimizer/index.html",
-    "precache-manifest.9ac113fabde7ec5b6d3c0d09c230a89d.js": "/voidform-optimizer/precache-manifest.9ac113fabde7ec5b6d3c0d09c230a89d.js",
+    "precache-manifest.675eed10c803500e1a6e11def910cc14.js": "/voidform-optimizer/precache-manifest.675eed10c803500e1a6e11def910cc14.js",
     "service-worker.js": "/voidform-optimizer/service-worker.js",
-    "static/css/main.216d389a.chunk.css.map": "/voidform-optimizer/static/css/main.216d389a.chunk.css.map",
+    "static/css/main.daf01b5a.chunk.css.map": "/voidform-optimizer/static/css/main.daf01b5a.chunk.css.map",
     "static/js/2.c4a81f09.chunk.js.LICENSE.txt": "/voidform-optimizer/static/js/2.c4a81f09.chunk.js.LICENSE.txt",
+    "static/media/Panel.css": "/voidform-optimizer/static/media/tentacle-small.676087a2.png",
     "static/media/App.css": "/voidform-optimizer/static/media/theme.f30c7ee4.png"
   },
   "entrypoints": [
     "static/js/runtime-main.65aba562.js",
     "static/js/2.c4a81f09.chunk.js",
-    "static/css/main.216d389a.chunk.css",
+    "static/css/main.daf01b5a.chunk.css",
     "static/js/main.5e7ec454.chunk.js"
   ]
 }
