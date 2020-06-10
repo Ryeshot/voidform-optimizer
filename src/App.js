@@ -150,6 +150,10 @@ const App = () => {
         newState.auras[name].startTime = time
         newState.auras[name].maxDuration = duration
         break
+      case "AURA_REFRESH":
+        var {name, time} = action.payload
+        newState.auras[name].startTime = time
+        break
       case "AURA_END":
         var {name} = action.payload
         newState.auras[name].active = false
