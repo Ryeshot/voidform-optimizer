@@ -16,7 +16,8 @@ const Voidform = (props) => {
     const start = () => {
         let n = 0
         let frequency = Math.round(1000 / interval)
-        let i = 0
+
+        let i = frequency - 1
 
         if (hasteStart) triggerEvent({
             type: "HASTE_UPDATE",
@@ -48,7 +49,7 @@ const Voidform = (props) => {
                     }
                 })
 
-            if (i % frequency === 0 && (i / frequency <= maxStacks || !maxStacks)) {
+            if (i % frequency === 0 && (i / frequency < maxStacks || !maxStacks)) {
                 //gain a stack of vf
                 triggerEvent({
                     type: "VOIDFORM_UPDATE",
