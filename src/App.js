@@ -281,6 +281,7 @@ const App = () => {
   const handleAbilitySet = (abilitySettings) => {
     handleAbilityReset()
     setAbilitySettings(abilitySettings)
+    setReset(!reset)
   }
 
   const handleAbilityReset = () => {
@@ -304,7 +305,6 @@ const App = () => {
   const handleReset = () => {
     handleAbilityReset()
     handleAuraReset()
-    setReset(!reset)
   }
 
   return (
