@@ -14,7 +14,7 @@ const defaultAbilitySettings = {
         rankTwo: false,
         type: "instant",
         charges: 1,
-        extension: 10000
+        extension: 3000
     },
     "void-eruption": {
         cooldown: 0,
@@ -28,7 +28,7 @@ const defaultAbilitySettings = {
         hasted: true,
         type: "cast",
         casttime: 1500,
-        charges: 2,
+        charges: 1,
         cdr: 1500
     },
     "shadow-word-death": {

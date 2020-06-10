@@ -14,8 +14,8 @@ const defaultAuraSettings = {
     lingeringInsanity: {
         displayName: "Lingering Insanity",
         type: "decay",
-        duration: 10000,
-        afterVoidformEntry: true,
+        duration: 60000,
+        afterVoidformEntry: false,
         hasteRetention: 1,
         decayRate: 3000,
         hasteDecay: .01

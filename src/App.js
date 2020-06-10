@@ -327,7 +327,7 @@ const App = () => {
         <AuraBar auras={state.auras} settings={auraSettings} haste={haste} triggerEvent={updateState} />
         <ResourceBar current={state.resource} max={100}/>
         <AbilityBar abilitySettings={abilitySettings} abilities={mergeAbilities()} haste={haste} inVoidform={state.auras.voidform.active} triggerEvent={updateState} keyEventsPaused={keyEventsPaused} reset={reset} />
-        <button onClick={handleReset}>Reset</button>
+        <button className="panel-button" onClick={handleReset}>Reset</button>
       </div>
     </div>
   );
