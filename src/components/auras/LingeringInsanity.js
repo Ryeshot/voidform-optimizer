@@ -26,7 +26,7 @@ const LingeringInsanity = (props) => {
     const hasteRef = useRef(haste)
     hasteRef.current = haste
 
-    const initialize = (afterVoidformEntry, hasteRetention, stacks) => {
+    const initialize = (afterVoidformEntry, hasteRetention, stacks, duration) => {
         let currentMaxDuration = afterVoidformEntry ? defaultMaxDuration : duration
         let voidformEntered = false
 
@@ -51,7 +51,7 @@ const LingeringInsanity = (props) => {
 
         const { duration, afterVoidformEntry, hasteRetention } = settings
         
-        let state = initialize(afterVoidformEntry, hasteRetention, stacksRef.current)
+        let state = initialize(afterVoidformEntry, hasteRetention, stacksRef.current, duration)
 
         const timer = setInterval(() => {
 
@@ -61,7 +61,7 @@ const LingeringInsanity = (props) => {
 
             //just left voidform
             if(state.voidformEntered && !inVoidformRef.current) {
-                state = initialize(afterVoidformEntry, hasteRetention, stacksRef.current)
+                state = initialize(afterVoidformEntry, hasteRetention, stacksRef.current, duration)
 
                 return
             }
