@@ -2,6 +2,7 @@ import React, {useState, useEffect, useReducer, useRef} from 'react';
 import ProgressAbility from "./ProgressAbility"
 import GlobalCooldown from "./GlobalCooldown"
 import CastBar from "./CastBar"
+import {spellQueueWindow} from "../lib/constants"
 import "./AbilityBar.css"
 
 const AbilityBar = (props) => {
@@ -14,6 +15,8 @@ const AbilityBar = (props) => {
 
     const inVoidformRef = useRef(inVoidform)
     inVoidformRef.current = inVoidform 
+
+    const spellQueueTimer = useRef()
 
     const defaultCooldowns = () => {
         const cooldowns = {}
@@ -35,7 +38,8 @@ const AbilityBar = (props) => {
 
     const defaultState = {
         globalCooldown: 0,
-        cooldowns: defaultCooldowns()
+        cooldowns: defaultCooldowns(),
+        status: {}
     }
 
     useEffect(() => {
@@ -59,6 +63,14 @@ const AbilityBar = (props) => {
         switch(action.type) {
             case "RESET":
                 return defaultState
+            case "EXECUTE_PENDING":
+                var {name} = payload
+                newState.status[name] = "PENDING"
+                break
+            case "EXECUTE_END":
+                var {name} = payload
+                newState.status[name] = ""
+                break
             case "ABILITY_CAST_SUCCESS":
                 var {name} = payload
                 if(abilitySettings["void-bolt"].rankTwo && newState.casting && name === "void-bolt" && newState.casting.name === "mind-flay") {
@@ -97,12 +109,6 @@ const AbilityBar = (props) => {
                     time
                 }
                 break
-            // case "ABILITY_CAST_END":
-            //     var {name} = payload
-            //     newState.cooldowns[name].castStartTime = 0
-            //     newState.cooldowns[name].castEndTime = 0
-            //     if(newState.casting && name === newState.casting.name) delete newState.casting
-            //     break
             case "ABILITY_CHANNEL_START":
                 var {name, displayName, time, duration, baseChannelTime} = payload
                 newState.cooldowns[name].castStartTime = time
@@ -150,13 +156,16 @@ const AbilityBar = (props) => {
     const globalCooldownRef = useRef(state.globalCooldown)
     globalCooldownRef.current = state.globalCooldown
 
+    const globalCooldownStartTimeRef = useRef(state.globalCooldownStartTime)
+    globalCooldownStartTimeRef.current = state.globalCooldownStartTime
+
     const handleKeyPress = (e) => {
 
-        if(keyEventsPaused || globalCooldownRef.current) return
+        if(keyEventsPaused) return
 
         observersRef.current.forEach(o => {
             if(o.keybind === e.key) {
-                o.execute()
+                queueAbility(o.source, o.execute)
             }
         })
     }
@@ -211,6 +220,30 @@ const AbilityBar = (props) => {
         return ability.hasted ? calculateCooldown(cooldown) : cooldown
     }
 
+    const queueAbility = (name, execute) => {
+        const now = Date.now()
+        const remaining = globalCooldownRef.current ? globalCooldownRef.current - (now - globalCooldownStartTimeRef.current) : 0
+
+        if(remaining > spellQueueWindow) return
+
+        clearTimeout(spellQueueTimer.current)
+
+        spellQueueTimer.current = setTimeout(() => {
+            console.log("Timer ended: " + spellQueueTimer.current)
+            // triggerCooldown({
+            //     type: "EXECUTE_PENDING",
+            //     payload: {
+            //         name
+            //     }
+            // })
+            execute()
+        }, remaining)
+
+        console.log(remaining)
+
+        console.log("Queueing timer: " + spellQueueTimer.current)
+    }
+
     return (
         <div className="ability-bar-container">
         {state.casting ? <CastBar {...state.casting}/> : null}
@@ -225,12 +258,13 @@ const AbilityBar = (props) => {
                     key={i}
                     {...abilities[k]}
                     {...state.cooldowns[k]}
+                    executeStatus={state.status[k]}
                     settings={abilitySettings[k]}
                     cooldown={getAbilityCooldown(k)}
                     globalCooldown={state.globalCooldown}
                     globalCooldownStartTime={state.globalCooldownStartTime}
                     casttime={calculateCooldown(abilitySettings[k].casttime)}
-                    casting={!!(state.casting && state.casting.time && state.casting.direction)}
+                    casting={state.casting && state.casting.time && state.casting.direction}
                     subscribe={subscribe}
                     unsubscribe={unsubscribe}
                     onExecute={triggerGlobalCooldown}

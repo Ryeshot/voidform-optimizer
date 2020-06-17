@@ -1,5 +1,6 @@
 export const interval = 20
 export const lag = 50
+export const spellQueueWindow = 500
 export const keybinds = {
     "!": "S-1",
     "@": "S-2",

@@ -5,7 +5,7 @@ import Ability from "../utils/ability"
 
 const ProgressAbility = (props) => {
 
-    const {name, displayName, settings, cooldown, globalCooldown, globalCooldownStartTime, unusable, startTime, casttime, castStartTime, castEndTime, icon, baseChannelTime, keybind, casting, subscribe, unsubscribe, onExecute, onAbilityUpdate, triggerEvent, reset} = props
+    const {name, displayName, executeStatus, settings, cooldown, globalCooldown, globalCooldownStartTime, unusable, startTime, casttime, castStartTime, castEndTime, icon, baseChannelTime, keybind, casting, subscribe, unsubscribe, onExecute, onAbilityUpdate, triggerEvent, reset} = props
 
     const size = 50
 
@@ -91,16 +91,12 @@ const ProgressAbility = (props) => {
         }
 
         ability.current = Ability.create(type, initialState, setState, onExecute, triggers)
-
-        console.log("Inside ability use effect")
-        console.log(name)
-        console.log(key)
         
         subscribe({
             source: name,
             keybind: key,
-            notify: () => ability.current.beginGlobalCooldown(),
-            execute: () => ability.current.execute()
+            execute: () => ability.current.execute(),
+            notify: () => ability.current.beginGlobalCooldown()
         })
 
         return () => {
@@ -108,6 +104,23 @@ const ProgressAbility = (props) => {
             unsubscribe(name)
         }
     }, [unusable, key, reset])
+
+    useEffect(() => {
+        // console.log(executeStatus)
+        // if(executeStatus !== "PENDING") return
+
+        // onAbilityUpdate({
+        //     type: "EXECUTE_END",
+        //     payload: {
+        //         name
+        //     }
+        // })
+
+        // console.log("Casting ability: " + name)
+        // ability.current.execute()
+
+
+    }, [executeStatus])
 
     return (
         <div className="progress-ability-container">

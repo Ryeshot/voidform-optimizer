@@ -12,7 +12,6 @@ const CustomizeSection = (props) => {
 
     const handleChange = (optionKey, option) => {
         const newSetting = {...setting, [optionKey]: option}
-        //console.log(newSetting)
         onChange(newSetting, name)
     }
 

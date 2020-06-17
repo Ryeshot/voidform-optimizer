@@ -19,15 +19,15 @@ const DamageOverTime = (props) => {
     hasteRef.current = haste
 
     const calculateNextTickTime = (now) => {
-        console.log("Haste: " + hasteRef.current)
+        //console.log("Haste: " + hasteRef.current)
         return (baseDuration/ticks)/hasteRef.current + now
 
     }
 
     useEffect(() => {
-        console.log("Inside use effect for: " + name)
-        console.log("Resource: " + resource)
-        console.log("Haste: " + haste)
+        // console.log("Inside use effect for: " + name)
+        // console.log("Resource: " + resource)
+        // console.log("Haste: " + haste)
         let start = Date.now()
         let tickTime = calculateNextTickTime(start)
 
@@ -62,7 +62,7 @@ const DamageOverTime = (props) => {
             }
 
             if(now >= tickTime) {
-                console.log("Tick!")
+                //console.log("Tick!")
                 triggerEvent({
                     type: "RESOURCE_UPDATE",
                     payload: {

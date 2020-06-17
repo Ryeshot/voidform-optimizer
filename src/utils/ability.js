@@ -203,7 +203,10 @@ class Ability {
             let now = Date.now()
             let remaining = (startTime + duration) - now
             if(remaining <= interval) {
-                clearInterval(this.globalCooldownTimer)               
+                clearInterval(this.globalCooldownTimer)
+                // this.updateState(state => {
+                //     return {...state, progress: 0}
+                // })               
                 return
             }
 
@@ -225,7 +228,6 @@ class Ability {
 class InstantAbility extends Ability {
 
     execute() {
-        if(this.state.globalCooldown.duration.current) return
         if(this.state.unusable) return
         if(this.state.cast.casting.current) return
         let state = this.getCurrentState()
@@ -253,7 +255,6 @@ class InstantAbility extends Ability {
 class CastAbility extends Ability {
 
     execute() {
-        if(this.state.globalCooldown.duration.current) return
         if(this.state.unusable) return
         if(this.state.cast.casting.current) return
         let state = this.getCurrentState()
@@ -269,7 +270,6 @@ class CastAbility extends Ability {
 class ChannelAbility extends Ability {
 
     execute() {
-        if(this.state.globalCooldown.duration.current) return
         if(this.state.unusable) return
         if(this.state.cast.casting.current) return
         let state = this.getCurrentState()
