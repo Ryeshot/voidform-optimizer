@@ -138,10 +138,12 @@ const AbilityBar = (props) => {
                 if(newState.casting && name === newState.casting.name) delete newState.casting
                 break
             case "GLOBAL_COOLDOWN_START":
+                console.log("Starting gcd...")
                 newState.globalCooldown = payload.gcd
                 newState.globalCooldownStartTime = payload.time
                 break
             case "GLOBAL_COOLDOWN_END":
+                console.log("Ending gcd...")
                 newState.globalCooldown = 0
                 newState.globalCooldownStartTime = 0
                 break
@@ -162,10 +164,15 @@ const AbilityBar = (props) => {
     const handleKeyPress = (e) => {
 
         if(keyEventsPaused) return
+        
+        const now = Date.now()
+        const remaining = globalCooldownRef.current ? globalCooldownRef.current - (now - globalCooldownStartTimeRef.current) : 0
+
+        if(remaining > spellQueueWindow) return
 
         observersRef.current.forEach(o => {
             if(o.keybind === e.key) {
-                queueAbility(o.source, o.execute)
+                queueAbility(o.source, o.execute, remaining)
             }
         })
     }
@@ -185,9 +192,13 @@ const AbilityBar = (props) => {
             }
         })
 
-        setTimeout(() => {
-            observersRef.current.forEach(o => o.notify())
-        }, 0)
+        // setTimeout(() => {
+        //     observersRef.current.forEach(o => o.notify())
+        // }, 0)
+    }
+
+    const notifyGlobalCooldown = () => {
+        observersRef.current.forEach(o => o.notify())
     }
 
     const subscribe = (observer) => {
@@ -220,13 +231,11 @@ const AbilityBar = (props) => {
         return ability.hasted ? calculateCooldown(cooldown) : cooldown
     }
 
-    const queueAbility = (name, execute) => {
-        const now = Date.now()
-        const remaining = globalCooldownRef.current ? globalCooldownRef.current - (now - globalCooldownStartTimeRef.current) : 0
-
-        if(remaining > spellQueueWindow) return
+    const queueAbility = (name, execute, remaining) => {
 
         clearTimeout(spellQueueTimer.current)
+
+        console.log("End time for ability queue: " + (Date.now() + remaining + 50))
 
         spellQueueTimer.current = setTimeout(() => {
             console.log("Timer ended: " + spellQueueTimer.current)
@@ -237,11 +246,12 @@ const AbilityBar = (props) => {
             //     }
             // })
             execute()
-        }, remaining)
+        }, remaining + 50)
 
-        console.log(remaining)
+        //console.log(remaining)
 
-        console.log("Queueing timer: " + spellQueueTimer.current)
+        //console.log("Queueing timer: " + spellQueueTimer.current)
+        //console.log("For ability: " + name)
     }
 
     return (
@@ -274,7 +284,7 @@ const AbilityBar = (props) => {
                 />
             })}
             </div>        
-        {state.globalCooldown? <GlobalCooldown duration={state.globalCooldown} triggerEvent={triggerCooldown}/> : null}
+        {state.globalCooldown? <GlobalCooldown duration={state.globalCooldown} triggerEvent={triggerCooldown} onBegin={notifyGlobalCooldown}/> : null}
         </div>
     )
 }
