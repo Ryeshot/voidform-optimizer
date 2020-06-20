@@ -5,7 +5,7 @@ import Ability from "../utils/ability"
 
 const ProgressAbility = (props) => {
 
-    const {name, displayName, executeStatus, settings, cooldown, globalCooldown, globalCooldownStartTime, unusable, startTime, casttime, castStartTime, castEndTime, icon, baseChannelTime, keybind, casting, subscribe, unsubscribe, onExecute, onAbilityUpdate, triggerEvent, reset} = props
+    const {name, displayName, settings, cooldown, globalCooldown, globalCooldownStartTime, unusable, startTime, casttime, castStartTime, castEndTime, icon, baseChannelTime, keybind, casting, subscribe, unsubscribe, onExecute, onAbilityUpdate, triggerEvent, reset} = props
 
     const size = 50
 
@@ -105,26 +105,9 @@ const ProgressAbility = (props) => {
         }
     }, [unusable, key, reset])
 
-    useEffect(() => {
-        // console.log(executeStatus)
-        // if(executeStatus !== "PENDING") return
-
-        // onAbilityUpdate({
-        //     type: "EXECUTE_END",
-        //     payload: {
-        //         name
-        //     }
-        // })
-
-        // console.log("Casting ability: " + name)
-        // ability.current.execute()
-
-
-    }, [executeStatus])
-
     return (
         <div className="progress-ability-container">
-        <div className="progress-ability" onClick={() => ability.current.execute()}>
+        <div className="progress-ability" onClick={() => {}}>
             <img
                 className={!unusable && ((state.charges > 0 && charges) || (!startTimeRef.current)) ? "colored" : "desaturated"}
                 src={icon}

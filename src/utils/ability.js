@@ -204,9 +204,7 @@ class Ability {
             let remaining = (startTime + duration) - now
             if(remaining <= interval) {
                 clearInterval(this.globalCooldownTimer)
-                // this.updateState(state => {
-                //     return {...state, progress: 0}
-                // })               
+                             
                 return
             }
 

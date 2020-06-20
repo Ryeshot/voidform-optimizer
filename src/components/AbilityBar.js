@@ -166,7 +166,7 @@ const AbilityBar = (props) => {
         if(keyEventsPaused) return
         
         const now = Date.now()
-        const remaining = globalCooldownRef.current ? globalCooldownRef.current - (now - globalCooldownStartTimeRef.current) : 0
+        const remaining = globalCooldownRef.current ? globalCooldownRef.current - (now - globalCooldownStartTimeRef.current - 15) : 0
 
         if(remaining > spellQueueWindow) return
 
@@ -184,21 +184,11 @@ const AbilityBar = (props) => {
     const triggerGlobalCooldown = () => {
         let gcd = Math.max(calculateCooldown(gcdLength), gcdLength/2)
 
-        triggerCooldown({
-            type: "GLOBAL_COOLDOWN_START",
-            payload: {
-                gcd,
-                time: Date.now()
-            }
-        })
+        GlobalCooldown.start(gcd, triggerCooldown)
 
-        // setTimeout(() => {
-        //     observersRef.current.forEach(o => o.notify())
-        // }, 0)
-    }
-
-    const notifyGlobalCooldown = () => {
-        observersRef.current.forEach(o => o.notify())
+        setTimeout(() => {
+            observersRef.current.forEach(o => o.notify())
+        }, 0)
     }
 
     const subscribe = (observer) => {
@@ -235,23 +225,9 @@ const AbilityBar = (props) => {
 
         clearTimeout(spellQueueTimer.current)
 
-        console.log("End time for ability queue: " + (Date.now() + remaining + 50))
+        console.log("End time for ability queue: " + (Date.now() + remaining))
 
-        spellQueueTimer.current = setTimeout(() => {
-            console.log("Timer ended: " + spellQueueTimer.current)
-            // triggerCooldown({
-            //     type: "EXECUTE_PENDING",
-            //     payload: {
-            //         name
-            //     }
-            // })
-            execute()
-        }, remaining + 50)
-
-        //console.log(remaining)
-
-        //console.log("Queueing timer: " + spellQueueTimer.current)
-        //console.log("For ability: " + name)
+        spellQueueTimer.current = setTimeout(execute, remaining)
     }
 
     return (
@@ -268,7 +244,6 @@ const AbilityBar = (props) => {
                     key={i}
                     {...abilities[k]}
                     {...state.cooldowns[k]}
-                    executeStatus={state.status[k]}
                     settings={abilitySettings[k]}
                     cooldown={getAbilityCooldown(k)}
                     globalCooldown={state.globalCooldown}
@@ -284,7 +259,6 @@ const AbilityBar = (props) => {
                 />
             })}
             </div>        
-        {state.globalCooldown? <GlobalCooldown duration={state.globalCooldown} triggerEvent={triggerCooldown} onBegin={notifyGlobalCooldown}/> : null}
         </div>
     )
 }

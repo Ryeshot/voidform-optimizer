@@ -1,21 +1,24 @@
-import React, {useEffect} from 'react';
+const GlobalCooldown = {
 
-const GlobalCooldown = (props) => {
-
-    const {duration, triggerEvent, onBegin} = props
-
-    useEffect(() => {
+    start: (duration, triggerEvent) => {
         console.log("End time for gcd: " + (Date.now() + duration))
-        onBegin()
+
+        triggerEvent({
+            type: "GLOBAL_COOLDOWN_START",
+            payload: {
+                gcd: duration,
+                time: Date.now()
+
+            }
+        })
+
         setTimeout(() => {
             console.log("Gcd ended")
             triggerEvent({
                 type: "GLOBAL_COOLDOWN_END"
             })    
         }, duration);
-    }, [])
-
-    return null
+    }
 }
 
 export default GlobalCooldown
