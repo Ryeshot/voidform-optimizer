@@ -67,7 +67,6 @@ const LingeringInsanity = (props) => {
             }
 
             //timed out
-            console.log("Start time: " + startTimeRef.current)
             if(now >= startTimeRef.current + state.currentMaxDuration) {
                 clearInterval(timer)
                 triggerEvent({
