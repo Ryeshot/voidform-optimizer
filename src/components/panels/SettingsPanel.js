@@ -14,6 +14,9 @@ const SettingsPanel = (props) => {
     const header= "Custom Settings"
     const panelClass = "right-panel"
 
+    const abilityButtonText = "Update Abilities"
+    const auraButtonText = "Update Auras"
+
     const [currentAbilities, setCurrentAbilities] = useState(abilities)
     const [currentAuras, setCurrentAuras] = useState(auras)
     const [activeAbilitySection, setActiveAbilitySection] = useState(Object.keys(abilities)[0])
@@ -65,7 +68,7 @@ const SettingsPanel = (props) => {
                         )}
                     </div>
                     {activeAbilitySection ? <CustomizeSection name={activeAbilitySection} setting={currentAbilities[activeAbilitySection]} options={abilityOptions[activeAbilitySection]} onChange={handleAbilitySettingChange}/> : null}
-                    <button className="panel-button" onClick={handleAbilitySet}>Apply</button>
+                    <button className="panel-button" onClick={handleAbilitySet}>{abilityButtonText}</button>
                 </div>
                 <div className="panel-content-container">
                     <div className="panel-content-header">Customize Auras</div>
@@ -75,7 +78,7 @@ const SettingsPanel = (props) => {
                             )}
                         </div>
                         {activeAuraSection ? <CustomizeSection name={activeAuraSection} setting={currentAuras[activeAuraSection]} options={auraOptions[activeAuraSection]} onChange={handleAuraSettingChange}/> : null}
-                        <button className="panel-button" onClick={handleAuraSet}>Apply</button>                 
+                        <button className="panel-button" onClick={handleAuraSet}>{auraButtonText}</button>                 
                 </div>
             </div>
         </Panel>      
