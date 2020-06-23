@@ -1,47 +1,43 @@
-import Github from "github-api"
-
-const repository = "voidform-optimizer"
-const owner = "ryeshot"
-
-const github = new Github({
-    token: process.env.REACT_APP_ACCESS_TOKEN
-})
-const issues = github.getIssues(owner, repository)
+const email = window.Email
 
 const formatBugReportContent = (body) => {
-    const descriptionHeader = "### Give a brief description of the issue"
+    const appHeader = "<h1>Bug Report for Voidform Optimizer</h1>\n"
+    const descriptionHeader = "<h3>Give a brief description of the issue</h3>"
     //const reproductionHeader = "### How can this issue be reproduced?"
-    const expectedBehaviorHeader = "### What is the expected behavior?"
-    const actualBehaviorHeader = "### What is the actual behavior?"
+    const expectedBehaviorHeader = "<h3>What is the expected behavior?</h3>"
+    const actualBehaviorHeader = "<h3>What is the actual behavior?</h3>"
 
     const headers = [descriptionHeader, expectedBehaviorHeader, actualBehaviorHeader]
 
-    return Object.keys(body).reduce((content, key, i) => {
+    const userContent = Object.keys(body).reduce((content, key, i) => {
         return content.concat([headers[i], body[key]])
     }, []).join("\n")
+
+    return appHeader + userContent
 }
 
-const sendBugReport = async (report) => {
+const sendBugReport = async (title, content) => {
     const data = {
-        ...report
-      }
+        SecureToken: process.env.REACT_APP_SMTP_ACCESS_TOKEN,
+        From: process.env.REACT_APP_SENDER_GMAIL_USER,
+        To: process.env.REACT_APP_RECEIVER_GMAIL_USER,
+        Subject: title,
+        Body: content
+    }
 
-    await issues.createIssue(data)
+    const result = await email.send(data)
+
+    if(result !== "OK") throw new Error(result)
 }
 
 export const submitBugReport = async (data, success, fail) => {
 
     const {title, ...body} = data
 
-    console.log("About to format content")
-
     const content = formatBugReportContent(body)
 
-    console.log("Formatted content")
-    console.log(content)
-
     try {
-        await sendBugReport({title: `[BUG] ${title}`  , body: content})
+        await sendBugReport(`[BUG] ${title}`, content)
         success()
     }
     catch(err){
