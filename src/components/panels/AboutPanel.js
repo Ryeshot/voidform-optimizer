@@ -24,7 +24,7 @@ const AboutPanel = (props) => {
                     I am convinced that many, although not all, players' grievances with Voidform are caused by the
                     implementations of Voidform they have experienced, and not by the design of Voidform itself. Therefore I have made it my mission to allow others
                     to experience Voidform in a myriad of ways, in hope that they will find what they most enjoy about it, share it with others, and maybe as a
-                    community come to an agreement on the best ways to make Voidform be the best it can be.
+                    community come to an agreement on the best ways to make Voidform be the best it can be. <b>#savevoidform</b>
                     </p>
                     <p>
                     If you have any questions, feedback, or bugs to report, please feel free to DM me on Discord at Shot#1711.
