@@ -1,5 +1,10 @@
 # Voidform Optimizer Changelog
 
+## 0.1.3 - 2020-06-23
+
+### Added
+ * Loading text when submitting bug report form
+
 ## 0.1.2 - 2020-06-23
 
 ### Changed
