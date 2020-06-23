@@ -17,27 +17,37 @@ const SettingsPanel = (props) => {
     const abilityButtonText = "Update Abilities"
     const auraButtonText = "Update Auras"
 
+    const changesPendingText =
+`Changes pending...
+Click the button below to apply your changes`
+
     const [currentAbilities, setCurrentAbilities] = useState(abilities)
     const [currentAuras, setCurrentAuras] = useState(auras)
     const [activeAbilitySection, setActiveAbilitySection] = useState(Object.keys(abilities)[0])
     const [activeAuraSection, setActiveAuraSection] = useState(Object.keys(auras)[0])
+    const [abilityChangesPending, setAbilityChangesPending] = useState(false)
+    const [auraChangesPending, setAuraChangesPending] = useState(false)
 
     const handleAbilitySettingChange = (setting, key) => {
         const newAbilities = {...currentAbilities, [key]: setting}
         setCurrentAbilities(newAbilities)
+        setAbilityChangesPending(true)
     }
 
     const handleAuraSettingChange = (setting, key) => {
         const newAuras = {...currentAuras, [key]: setting}
         setCurrentAuras(newAuras)
+        setAuraChangesPending(true)
     }
 
     const handleAbilitySet = () => {
         onAbilitySet(currentAbilities)
+        setAbilityChangesPending(false)
     }
 
     const handleAuraSet = () => {
         onAuraSet(currentAuras)
+        setAuraChangesPending(false)
     }
 
     const showAbilityOptions = (e) => {
@@ -55,6 +65,8 @@ const SettingsPanel = (props) => {
         setActiveAuraSection(Object.keys(auras)[0])
         setCurrentAuras(auras)
         setCurrentAbilities(abilities)
+        setAbilityChangesPending(false)
+        setAuraChangesPending(false)
     }
 
     return (
@@ -68,7 +80,14 @@ const SettingsPanel = (props) => {
                         )}
                     </div>
                     {activeAbilitySection ? <CustomizeSection name={activeAbilitySection} setting={currentAbilities[activeAbilitySection]} options={abilityOptions[activeAbilitySection]} onChange={handleAbilitySettingChange}/> : null}
-                    <button className="panel-button" onClick={handleAbilitySet}>{abilityButtonText}</button>
+                    <div className="panel-text-button-container">
+                        <div className="panel-info-text-container">
+                            {abilityChangesPending ? changesPendingText : null}
+                        </div>                  
+                        <div>
+                            <button className="panel-button" onClick={handleAbilitySet}>{abilityButtonText}</button>
+                        </div>
+                    </div>
                 </div>
                 <div className="panel-content-container">
                     <div className="panel-content-header">Customize Auras</div>
@@ -78,7 +97,14 @@ const SettingsPanel = (props) => {
                             )}
                         </div>
                         {activeAuraSection ? <CustomizeSection name={activeAuraSection} setting={currentAuras[activeAuraSection]} options={auraOptions[activeAuraSection]} onChange={handleAuraSettingChange}/> : null}
-                        <button className="panel-button" onClick={handleAuraSet}>{auraButtonText}</button>                 
+                        <div className="panel-text-button-container">
+                            <div className="panel-info-text-container">
+                                {auraChangesPending ? changesPendingText : null}    
+                            </div>
+                            <div>
+                                <button className="panel-button" onClick={handleAuraSet}>{auraButtonText}</button>   
+                            </div>  
+                        </div>            
                 </div>
             </div>
         </Panel>      
