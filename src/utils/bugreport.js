@@ -30,7 +30,7 @@ const sendBugReport = async (title, content) => {
     if(result !== "OK") throw new Error(result)
 }
 
-export const submitBugReport = async (data, success, fail) => {
+export const submitBugReport = async (data, onSuccess, onFail) => {
 
     const {title, ...body} = data
 
@@ -38,10 +38,27 @@ export const submitBugReport = async (data, success, fail) => {
 
     try {
         await sendBugReport(`[BUG] ${title}`, content)
-        success()
+        onSuccess()
     }
     catch(err){
         console.log(err)
-        fail()
+        onFail()
     }
+}
+
+export const createPendingTextTimer = (text, setText) => {
+    const dot = "."
+    let i = 1
+
+    setText(text)
+    
+    const timer = setInterval(() => {
+        const count = i % 4
+
+        setText(`${text}${dot.repeat(count)}`)
+
+        i++
+    }, 500);
+
+    return timer
 }
