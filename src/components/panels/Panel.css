@@ -210,3 +210,14 @@
     padding-left: 20px;
     white-space: pre-line;
 }
+
+.panel-text-button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.panel-info-text-container {
+    font-size: 15px;
+    white-space: pre-line; 
+}

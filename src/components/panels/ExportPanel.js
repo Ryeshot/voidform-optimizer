@@ -64,7 +64,7 @@ const ExportPanel = (props) => {
                 <div className="panel-content-container">
                     <div className="panel-content-header">Import Settings</div>
                     <textarea className="panel-text-area" rows={rows} cols={cols} placeholder={placeholderText} value={inputData} onChange={handleInputChange}></textarea>
-                    <div>
+                    <div className="panel-info-text-container">
                         <label>Include keybinds</label>
                         <input type="checkbox" onChange={() => setIncludeKeybinds(!includeKeybinds)} checked={includeKeybinds} />
                     </div>
