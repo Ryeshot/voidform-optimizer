@@ -2,7 +2,7 @@ import React, {useState} from "react"
 import Form from "./Form"
 import FormTextAreaField from "./FormTextAreaField"
 import FormTextField from "./FormTextField"
-import {submitBugReport} from "../../utils/bugreport"
+import {submitBugReport, createPendingTextTimer} from "../../utils/bugreport"
 
 const fields = [{
     id: "bug-report-description",
@@ -30,6 +30,7 @@ const titleField = {
 
 const formTitle = "Bug Report"
 
+const submitPending = "Submitting"
 const submitSuccess = "Bug report successfully submitted!"
 const submitFail = "Failed to submit bug report"
 
@@ -47,10 +48,18 @@ const BugReport = (props) => {
     const onSubmit = (e) => {
         e.preventDefault()
 
-        const success = () => setSubmitMessage(submitSuccess)
-        const fail = () => setSubmitMessage(submitFail)
+        const timer = createPendingTextTimer(submitPending, setSubmitMessage)
 
-        submitBugReport(data, success, fail)
+        const onSuccess = () => {
+            clearInterval(timer)
+            setSubmitMessage(submitSuccess)
+        }
+        const onFail = () => {
+            clearInterval(timer)
+            setSubmitMessage(submitFail)
+        }
+
+        submitBugReport(data, onSuccess, onFail)
         setCanSubmit(false)
     }
 
