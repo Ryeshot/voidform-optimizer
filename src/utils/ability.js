@@ -49,6 +49,16 @@ class Ability {
         return currentState
     }
 
+    getRemainingCooldown() {
+        const now = Date.now()
+        const startTime = this.state.cooldown.startTime.current
+        const duration = startTime ? this.state.cooldown.duration.current : 0
+        const charges = this.state.charges.current.current
+        const remaining = charges === 0 ? ((startTime || now) + duration) - now : 0
+
+        return remaining
+    }
+
     startCooldown() {
         let state = this.getCurrentState()
         const {name} = state
@@ -100,7 +110,6 @@ class Ability {
         const {duration} = state.cast
 
         this.castTimer = setTimeout(() => {
-            console.log("Cast success!")
             this.eventHandler.handleEvent("CAST_SUCCESS", {
                 name,
                 resource,

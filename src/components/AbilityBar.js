@@ -162,17 +162,19 @@ const AbilityBar = (props) => {
     globalCooldownStartTimeRef.current = state.globalCooldownStartTime
 
     const handleKeyPress = (e) => {
-
         if(keyEventsPaused) return
         
         const now = Date.now()
-        const remaining = globalCooldownRef.current ? globalCooldownRef.current - (now - globalCooldownStartTimeRef.current - 15) : 0
-
-        if(remaining > spellQueueWindow) return
 
         observersRef.current.forEach(o => {
             if(o.keybind === e.key) {
-                queueAbility(o.source, o.execute, remaining)
+                const abilityCooldownRemaining = o.getRemainingCooldown()
+                const globalCooldownRemaining = globalCooldownRef.current ? globalCooldownRef.current - (now - globalCooldownStartTimeRef.current) : 0
+                const remaining = Math.max(abilityCooldownRemaining, globalCooldownRemaining)
+
+                if(remaining > spellQueueWindow) return
+
+                queueAbility(o.source, o.execute, remaining + 15)
             }
         })
     }
@@ -224,8 +226,6 @@ const AbilityBar = (props) => {
     const queueAbility = (name, execute, remaining) => {
 
         clearTimeout(spellQueueTimer.current)
-
-        console.log("End time for ability queue: " + (Date.now() + remaining))
 
         spellQueueTimer.current = setTimeout(execute, remaining)
     }

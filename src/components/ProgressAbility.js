@@ -96,7 +96,8 @@ const ProgressAbility = (props) => {
             source: name,
             keybind: key,
             execute: () => ability.current.execute(),
-            notify: () => ability.current.beginGlobalCooldown()
+            notify: () => ability.current.beginGlobalCooldown(),
+            getRemainingCooldown: () => ability.current.getRemainingCooldown()
         })
 
         return () => {
