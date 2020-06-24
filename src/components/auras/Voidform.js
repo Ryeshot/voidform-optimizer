@@ -8,7 +8,7 @@ const Voidform = (props) => {
     const displayName = "Voidform"
     const icon = "images/voidform.jpg"
 
-    const [stacks, setStacks] = useState(0)
+    const [stacks, setStacks] = useState(1)
 
     const pausedRef = useRef(paused)
     pausedRef.current = paused
@@ -17,21 +17,15 @@ const Voidform = (props) => {
         let n = 0
         let frequency = Math.round(1000 / interval)
 
-        let i = frequency - 1
+        let i = 0
 
-        if (hasteStart) triggerEvent({
+        triggerEvent({
             type: "HASTE_UPDATE",
             payload: {
                 source: "voidform",
-                haste: hasteStart
+                haste: hasteStart + hasteStack
             }
         })
-
-        triggerEvent({
-            type: "VOIDFORM_UPDATE",
-            payload: hasteStack
-        })
-        setStacks(stacks => stacks + 1)
 
         const timer = setInterval(() => {
 
@@ -49,7 +43,7 @@ const Voidform = (props) => {
                     }
                 })
 
-            if (i % frequency === 0 && (i / frequency < maxStacks || !maxStacks)) {
+            if (i % frequency === 0 && (!maxStacks || i / frequency < maxStacks)) {
                 //gain a stack of vf
                 triggerEvent({
                     type: "VOIDFORM_UPDATE",
