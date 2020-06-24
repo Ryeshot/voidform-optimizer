@@ -4,7 +4,7 @@
 
 ### Fixed
  * An issue causing Voidform to gain first stack immediately
- * An issue causing abilities on cooldown unable to be queued
+ * An issue causing abilities on cooldown being unable to be queued
 
 ## 0.1.3 - 2020-06-23
 
