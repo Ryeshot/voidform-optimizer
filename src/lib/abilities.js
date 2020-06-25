@@ -7,59 +7,67 @@ const defaultAbilities = {
         },
         icon: "images/mind-flay.jpg"
     },
-    "mind-blast": {
-        displayName: "Mind Blast",
+    "mind-sear": {
+        displayName: "Mind Sear",
         keybind: {
             key: "2",
             keybindText: "2"
+        },
+        icon: "images/mind-sear.jpg"
+    },
+    "mind-blast": {
+        displayName: "Mind Blast",
+        keybind: {
+            key: "3",
+            keybindText: "3"
         },
         icon: "images/mind-blast.jpg"
     },
     "void-bolt": {
         displayName: "Void Bolt",
         keybind: {
-            key: "3",
-            keybindText: "3"
+            key: "4",
+            keybindText: "4"
         },
         icon: "images/void-bolt.jpg"
     },
     "void-eruption": {
         displayName: "Void Eruption",
         keybind: {
-            key: "3",
-            keybindText: "3"
+            key: "4",
+            keybindText: "4"
         },
         icon: "images/void-eruption.jpg"
     },
     "shadow-word-death": {
         displayName: "Shadow Word: Death",
         keybind: {
-            key: "4",
-            keybindText: "4"
+            key: "5",
+            keybindText: "5"
         },
         icon: "images/shadow-word-death.jpg"
     },
     "void-torrent": {
         displayName: "Void Torrent",
         keybind: {
-            key: "5",
-            keybindText: "5"
+            key: "6",
+            keybindText: "6"
         },
         icon: "images/void-torrent.jpg"
     },
     "shadow-word-pain": {
         displayName: "Shadow Word: Pain",
         keybind: {
-            key: "6",
-            keybindText: "6"
+            key: "7",
+            keybindText: "7"
         },
         icon: "images/shadow-word-pain.jpg"
     },
     "vampiric-touch": {
         displayName: "Vampiric Touch",
         keybind: {
-            key: "7",
-            keybindText: "7"
+            key: "8",
+            keybindText: "8"
         },
         icon: "images/vampiric-touch.jpg"
     }

@@ -7,6 +7,15 @@ const defaultAbilitySettings = {
         ticks: 4,
         type: "channel",
     },
+    "mind-sear": {
+        cooldown: 0,
+        resource: 5,
+        hasted: true,
+        casttime: 3000,
+        ticks: 4,
+        targetCount: 1,
+        type: "channel",
+    },
     "void-bolt": {
         cooldown: 4500,
         resource: 20,

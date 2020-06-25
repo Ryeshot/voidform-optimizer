@@ -8,6 +8,7 @@ const whatIs = {
     castTime: "The amount of time, in seconds, it takes for an ability to be executed.",
     channelTime: "The amount of time, in seconds, it takes for an ability's channel to complete.",
     ticks: "The number of times a channel generates resources over its duration.",
+    mindSearTargetCount: "The number of targets Mind Sear will hit. Mind Sear generates more resource per additional target.",
     voidBoltRankTwo: "An extra rank coming to Void Bolt in Shadowlands. It allows Void Bolt to be cast during Mind Flay, without canceling it.",
     voidBoltExtension: "The amount of time, in seconds, that Shadow Word: Pain and Vampiric Touch are extended when Void Bolt is cast.",
     voidformThreshold: "The amount of Insanity that is required to cast Void Eruption out of Voidform.",
@@ -135,6 +136,17 @@ export const abilityOptions = {
         commonOptions.channelTime,
         commonOptions.resourceChannel,
         commonOptions.ticks
+    ],
+    "mind-sear": [
+        commonOptions.channelTime,
+        commonOptions.resourceChannel,
+        commonOptions.ticks,
+        {
+            key: "targetCount",
+            displayName: "Target Count",
+            type: "number",
+            whatIs: whatIs.mindSearTargetCount
+        }
     ],
     "mind-blast": [
         commonOptions.cooldown,

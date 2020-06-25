@@ -176,7 +176,8 @@ class Ability {
             }
 
             this.eventHandler.handleEvent("CHANNEL_UPDATE", {
-                resource: resource/ticks
+                resource: resource/ticks,
+                name
             })
 
             if(now >= endTime) {

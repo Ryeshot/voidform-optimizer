@@ -15,6 +15,15 @@ const abilityEvents = {
             "CHANNEL_END": ["ABILITY_CHANNEL_END"]
         }
     },
+    "mind-sear": {
+        onEvent: {
+            "COOLDOWN_START": [],
+            "COOLDOWN_END": [],
+            "CHANNEL_START": ["ABILITY_CHANNEL_START"],
+            "CHANNEL_UPDATE": ["RESOURCE_UPDATE"],
+            "CHANNEL_END": ["ABILITY_CHANNEL_END"]
+        }
+    },
     "void-eruption": {
         onEvent: {
             "CAST_START": ["ABILITY_CAST_START"],
