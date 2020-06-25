@@ -52,6 +52,10 @@ const App = () => {
       "devouring-plague": {
         active: false,
         maxDuration: 12000
+      },
+      "shadowfiend": {
+        active: false,
+        maxDuration: 15000
       }
     },
     abilities: {

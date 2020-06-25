@@ -19,6 +19,11 @@ const dots = [
     name: "devouring-plague",
     icon: "images/devouring-plague.jpg",
     displayName: "Devouring Plague"
+  },
+  {
+    name: "shadowfiend",
+    icon: "images/shadowfiend.jpg",
+    displayName: "Shadowfiend"
   }
 ]
 

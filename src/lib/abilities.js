@@ -78,6 +78,14 @@ const defaultAbilities = {
             keybindText: "9"
         },
         icon: "images/devouring-plague.jpg"
+    },
+    "shadowfiend": {
+        displayName: "Shadowfiend",
+        keybind: {
+            key: "0",
+            keybindText: "0"
+        },
+        icon: "images/shadowfiend.jpg"
     }
 }
 

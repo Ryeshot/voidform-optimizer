@@ -37,6 +37,12 @@ const defaultAuraSettings = {
         baseDuration: 12000,
         ticks: 4,
         resource: 0
+    },
+    "shadowfiend": {
+        displayName: "Shadowfiend",
+        baseDuration: 15000,
+        ticks: 10,
+        resource: 3
     }
 }
 
