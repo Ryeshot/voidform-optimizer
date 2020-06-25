@@ -29,7 +29,8 @@ const defaultAbilitySettings = {
         cooldown: 0,
         type: "cast",
         casttime: 2000,
-        threshold: 90
+        resource: 90,
+        costsResource: true
     },
     "mind-blast": {
         cooldown: 7500,
@@ -63,6 +64,12 @@ const defaultAbilitySettings = {
         resource: 6,
         type: "cast",
         casttime: 1500
+    },
+    "devouring-plague": {
+        cooldown: 0,
+        resource: 50,
+        costsResource: true,
+        type: "instant"
     }
 }
 

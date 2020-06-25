@@ -7,6 +7,7 @@ import ExportPanel from "./components/panels/ExportPanel"
 import SettingsPanel from "./components/panels/SettingsPanel"
 import AbilityKeybindsPanel from "./components/panels/AbilityKeybindsPanel"
 import AboutPanel from "./components/panels/AboutPanel"
+import WhatsNewPanel from "./components/panels/WhatsNewPanel"
 import defaultAbilities from "./lib/abilities"
 import defaultAbilitySettings from "./lib/abilitySettings"
 import defaultAuraSettings from "./lib/auraSettings"
@@ -41,15 +42,23 @@ const App = () => {
       },
       "shadow-word-pain": {
         active: false,
+        //TODO: Look at max duration being hard coded and not passed from custom settings
         maxDuration: 16000
       },
       "vampiric-touch": {
         active: false,
         maxDuration: 24000
+      },
+      "devouring-plague": {
+        active: false,
+        maxDuration: 12000
       }
     },
     abilities: {
       "void-eruption": {
+        unusable: true
+      },
+      "devouring-plague": {
         unusable: true
       }
     }
@@ -124,16 +133,23 @@ const App = () => {
         lingeringInsanity.startTime = 0
         break;
       case "RESOURCE_UPDATE":
-        var name = action.payload.name
+        var {name, resource, costsResource} = action.payload
+        console.log(costsResource)
         let targetCount = name === "mind-sear" ? abilitySettings[name].targetCount : 1
-        let resource = Math.max(Math.min(newState.resource + action.payload.resource * targetCount, 100), 0)
+        resource = Math.max(Math.min(newState.resource + (resource * (costsResource && -1 || 1)) * targetCount, 100), 0)
         newState.resource = resource
         if(resource <= 0 && voidform.active) {
           voidform.active = false
         }
-        if(!voidform.active && resource >= abilitySettings["void-eruption"].threshold) {
-          newState.abilities["void-eruption"].unusable = false
-        }
+        //whenever we get resource need to calculate if an ability is usable or not
+        Object.keys(abilitySettings).forEach(k => {
+          const ability = abilitySettings[k]
+          if(!ability.costsResource) return
+          newState.abilities[k].unusable = resource < ability.resource
+        })
+        // if(!voidform.active && resource >= abilitySettings["void-eruption"].threshold) {
+        //   newState.abilities["void-eruption"].unusable = false
+        // }
         break;
       case "INSANITY_DRAIN_PAUSE_START":
         voidform.paused = true
@@ -326,6 +342,7 @@ const App = () => {
           <AbilityKeybindsPanel abilities={abilities} currentPanel={panel} onKeybind={setKeyBind} onToggle={handleAbilityToggle} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
           <ExportPanel settings={{abilitySettings, auraSettings, abilities}} onImport={handleImport} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
           <AboutPanel currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
+          <WhatsNewPanel />
         </div>
         <Forms />
       </header>

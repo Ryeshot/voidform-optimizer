@@ -64,6 +64,12 @@ const abilityEvents = {
             "CAST_START": ["ABILITY_CAST_START"],
             "CAST_SUCCESS": ["ABILITY_CAST_SUCCESS", "AURA_START", "RESOURCE_UPDATE"]
         }
+    },
+    "devouring-plague": {
+        onEvent: {
+            "CAST_START": ["ABILITY_CAST_START"],
+            "CAST_SUCCESS": ["ABILITY_CAST_SUCCESS", "AURA_START", "RESOURCE_UPDATE"]
+        }
     }
 }
 
