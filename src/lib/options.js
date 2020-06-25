@@ -5,6 +5,7 @@ const whatIs = {
     resourceCast: "The amount of resource an ability will generate upon a successful cast.",
     resourceChannel: "The amount of resource an ability will generate over its complete channel period.",
     resourceAura: "The amount of resource an aura will generate every time its effect triggers.",
+    cost: "The amount of resource required to cast an ability. Casting the ability will spend the resource cost.",
     castTime: "The amount of time, in seconds, it takes for an ability to be executed.",
     channelTime: "The amount of time, in seconds, it takes for an ability's channel to complete.",
     ticks: "The number of times a channel generates resources over its duration.",
@@ -61,6 +62,13 @@ const commonOptions = {
         displayName: "Resource",
         type: "number",
         whatIs: whatIs.resourceChannel,
+        unit: "insanity"
+    },
+    cost: {
+        key: "resource",
+        displayName: "Cost",
+        type: "number",
+        whatIs: whatIs.cost,
         unit: "insanity"
     },
     castTime: {
@@ -126,7 +134,7 @@ export const abilityOptions = {
     "void-eruption": [
         commonOptions.castTime,
         {
-            key: "threshold",
+            key: "resource",
             displayName: "Insanity Threshold",
             type: "number",
             whatIs: whatIs.voidformThreshold
@@ -179,6 +187,10 @@ export const abilityOptions = {
     "vampiric-touch": [
         commonOptions.castTime,
         commonOptions.resourceCast
+    ],
+    "devouring-plague": [
+        commonOptions.cooldown,
+        commonOptions.cost
     ]
 }
 
@@ -279,5 +291,8 @@ export const auraOptions = {
         commonOptions.auraDuration,
         commonOptions.auraTicks,
         commonOptions.auraResource
+    ],
+    "devouring-plague": [
+        commonOptions.auraDuration
     ]
 }

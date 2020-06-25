@@ -31,6 +31,12 @@ const defaultAuraSettings = {
         baseDuration: 21000,
         ticks: 7,
         resource: 0
+    },
+    "devouring-plague": {
+        displayName: "Devouring Plague",
+        baseDuration: 12000,
+        ticks: 4,
+        resource: 0
     }
 }
 

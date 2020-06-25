@@ -70,6 +70,14 @@ const defaultAbilities = {
             keybindText: "8"
         },
         icon: "images/vampiric-touch.jpg"
+    },
+    "devouring-plague": {
+        displayName: "Devouring Plague",
+        keybind: {
+            key: "9",
+            keybindText: "9"
+        },
+        icon: "images/devouring-plague.jpg"
     }
 }
 

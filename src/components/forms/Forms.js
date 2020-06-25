@@ -10,8 +10,6 @@ const Forms = () => {
     const [showBugReport, setShowBugReport] = useState(false)
     const [showFeatureRequest, setShowFeatureRequest] = useState(false)
 
-
-
     return (
         <div className="forms-container">
             <div>
