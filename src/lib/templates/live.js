@@ -72,6 +72,11 @@ export default {
             resource: 50,
             costsResource: true,
             type: "instant"
+        },
+        "shadowfiend": {
+            cooldown: 180000,
+            resource: 3,
+            type: "instant"
         }
     },
     auraSettings: {
@@ -113,6 +118,12 @@ export default {
             baseDuration: 12000,
             ticks: 4,
             resource: 0
+        },
+        "shadowfiend": {
+            displayName: "Shadowfiend",
+            baseDuration: 15000,
+            ticks: 10,
+            resource: 3
         }
     },
     abilities: {
@@ -125,6 +136,7 @@ export default {
         "void-torrent": { disabled: true },
         "shadow-word-pain": {},
         "vampiric-touch": {},
-        "devouring-plague": { disabled: true }
+        "devouring-plague": { disabled: true },
+        "shadowfiend": {}
     }
 }
