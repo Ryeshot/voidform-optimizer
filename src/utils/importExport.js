@@ -9,14 +9,7 @@ const parseAbility = (ability, key) => {
         //might want to look at options
         let setting = abilitySetting[k]
 
-        // console.log(key)
-        // console.log(k)
-
         if(userSetting === null || userSetting === undefined) throw new Error("Missing ability setting in input " + k)
-
-        // console.log(key)
-        // console.log(userSetting)
-        // console.log(setting.value)
 
         if(typeof userSetting !== typeof setting) throw new Error("Ability setting has invalid format")
         
@@ -31,11 +24,8 @@ const parseAbility = (ability, key) => {
 const parseAbilitySettings = (abilities) => {
     let result = {}
 
-    console.log(abilities)
-
     Object.keys(abilitySettings).forEach(a => {
         let ability = abilities[a]
-        //either default or throw
 
         if(!ability) throw new Error("Missing ability in input")
 
@@ -81,8 +71,6 @@ export const importSettings = (settings, includeKeybinds) => {
     try {
         let parsedSettings = JSON.parse(Base64.decode(settings))
 
-        console.log(parsedSettings)
-
         let parsedAbilitySettings = parseAbilitySettings(parsedSettings.abilitySettings)
         let parsedAuraSettings = parseAuraSettings(parsedSettings.auraSettings)
         let abilityConfig = formatAbilityConfig(parsedSettings.abilityConfig, includeKeybinds)
@@ -124,7 +112,7 @@ const formatAbilityConfig = (settings, includeKeybinds) => {
         let {keybind, disabled} = settings[k]
 
         result[k] = {disabled: !!disabled}
-        if(includeKeybinds) result[k].keybind = keybind
+        if(includeKeybinds && keybind) result[k].keybind = keybind
         
         return result
     }, {})
@@ -133,6 +121,9 @@ const formatAbilityConfig = (settings, includeKeybinds) => {
 }
 
 export const exportSettings = (currentSettings) => {
+
+    console.log(currentSettings)
+
     let formattedAbilitySettings = formatAbilitySettingsForExport(currentSettings.abilitySettings)
     let formattedAbilityConfig = formatAbilityConfig(currentSettings.abilities, true)
 
@@ -141,8 +132,6 @@ export const exportSettings = (currentSettings) => {
         auraSettings: currentSettings.auraSettings,
         abilityConfig: formattedAbilityConfig
     }
-
-    console.log(combined)
 
     let result = Base64.encode(JSON.stringify(combined))
 

@@ -221,3 +221,10 @@
     font-size: 15px;
     white-space: pre-line; 
 }
+
+.panel-dropdown {
+    color: white;
+    background-color: black;
+    width: 100%;
+    border-radius: 3px;
+}
