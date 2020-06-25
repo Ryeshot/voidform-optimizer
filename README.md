@@ -1,5 +1,10 @@
 # Voidform Optimizer Changelog
 
+## 0.4.0 - 2020-06-25
+
+### Added
+ * Premade templates Live and Alpha for importing data
+
 ## 0.3.1 - 2020-06-25
 
 ### Fixed
