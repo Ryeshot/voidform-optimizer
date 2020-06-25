@@ -1,5 +1,10 @@
 # Voidform Optimizer Changelog
 
+## 0.1.5 - 2020-06-24
+
+### Added
+ * Mind Sear ability to test area of effect rotation
+
 ## 0.1.4 - 2020-06-24
 
 ### Fixed
