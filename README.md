@@ -1,5 +1,10 @@
 # Voidform Optimizer Changelog
 
+## 0.5.0 - 2020-06-25
+
+### Added
+ * Shadowfiend ability due to community request
+
 ## 0.4.0 - 2020-06-25
 
 ### Added
