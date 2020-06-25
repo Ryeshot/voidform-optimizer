@@ -70,6 +70,11 @@ const defaultAbilitySettings = {
         resource: 50,
         costsResource: true,
         type: "instant"
+    },
+    "shadowfiend": {
+        cooldown: 180000,
+        resource: 3,
+        type: "instant"
     }
 }
 

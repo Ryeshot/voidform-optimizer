@@ -191,6 +191,10 @@ export const abilityOptions = {
     "devouring-plague": [
         commonOptions.cooldown,
         commonOptions.cost
+    ],
+    "shadowfiend": [
+        commonOptions.cooldown,
+        commonOptions.resourceCast
     ]
 }
 
@@ -294,5 +298,8 @@ export const auraOptions = {
     ],
     "devouring-plague": [
         commonOptions.auraDuration
+    ],
+    "shadowfiend": [
+        commonOptions.auraResource
     ]
 }

@@ -227,7 +227,10 @@ const AbilityBar = (props) => {
 
         clearTimeout(spellQueueTimer.current)
 
-        spellQueueTimer.current = setTimeout(execute, remaining)
+        spellQueueTimer.current = setTimeout(() => {
+            if(!observersRef.current.find(o => o.source === name)) return
+            execute()
+        }, remaining)
     }
 
     return (
