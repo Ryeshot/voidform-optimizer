@@ -1,5 +1,10 @@
 # Voidform Optimizer Changelog
 
+## 0.3.1 - 2020-06-25
+
+### Fixed
+ * Default Voidform drain rate not being same as live
+
 ## 0.3.0 - 2020-06-25
 
 ### Added
