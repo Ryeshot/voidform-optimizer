@@ -1,6 +1,12 @@
 # Voidform Optimizer Changelog
 
-## 0.1.5 - 2020-06-24
+## 0.3.0 - 2020-06-25
+
+### Added
+ * What's New dialogue for new additions to the application
+ * Shadowlands Alpha Devouring Plague ability
+
+## 0.2.0 - 2020-06-24
 
 ### Added
  * Mind Sear ability to test area of effect rotation
