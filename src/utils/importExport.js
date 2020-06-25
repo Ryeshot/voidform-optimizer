@@ -24,8 +24,6 @@ const parseAbility = (ability, key) => {
 const parseAbilitySettings = (abilities) => {
     let result = {}
 
-    console.log(abilities)
-
     Object.keys(abilitySettings).forEach(a => {
         let ability = abilities[a]
 
@@ -123,6 +121,9 @@ const formatAbilityConfig = (settings, includeKeybinds) => {
 }
 
 export const exportSettings = (currentSettings) => {
+
+    console.log(currentSettings)
+
     let formattedAbilitySettings = formatAbilitySettingsForExport(currentSettings.abilitySettings)
     let formattedAbilityConfig = formatAbilityConfig(currentSettings.abilities, true)
 

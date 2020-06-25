@@ -1,4 +1,5 @@
 export default {
+    displayName: "Shadowlands Alpha",
     abilitySettings: {
         "mind-flay": {
             cooldown: 0,
@@ -114,7 +115,7 @@ export default {
             resource: 0
         }
     },
-    abilityConfig: {
+    abilities: {
         "mind-flay": {},
         "mind-sear": {},
         "void-bolt": {},

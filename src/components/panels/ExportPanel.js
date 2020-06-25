@@ -1,8 +1,23 @@
 import React, {useState, useEffect, useReducer, useRef} from 'react';
 import Panel from "./Panel"
 import { exportSettings, importSettings } from "../../utils/importExport"
-
+import templates from "../../lib/templates"
 import "./Panel.css"
+
+const Templates = (props) => {
+
+    const {onChange} = props
+
+    return (
+        <div style={{width: "60%"}}>
+            <select className="panel-dropdown" onChange={onChange}>
+                <option disabled selected>Choose a template...</option>
+                {Object.keys(templates).map(t => <option key={t} value={t}>{templates[t].displayName}</option>)}
+                <option key={"custom"} value={"custom"}>Custom</option>
+            </select>
+        </div>
+    )
+}
 
 const ExportPanel = (props) => {
 
@@ -11,7 +26,7 @@ const ExportPanel = (props) => {
     const panel = "export"
     const header = "Import/Export Settings"
     const panelClass = "left-panel"
-    const placeholderText = "Import custom settings here..."
+    const placeholderText = "Import settings here..."
     const exportTextAreaId = "export-content"
     const rows = 20
     const cols = 25
@@ -30,6 +45,21 @@ const ExportPanel = (props) => {
         const data = exportSettings(settings)
 
         setExportData(data)
+    }
+
+    const handleTemplateChange = (e) => {
+        const key = e.target.value
+
+        if(key === "custom") {
+            setInputData("")
+            return
+        }
+
+        const {displayName, ...template} = templates[key]
+
+        const data = exportSettings({...template})
+
+        setInputData(data)
     }
 
     const copyToClipBoard = () => {
@@ -63,6 +93,7 @@ const ExportPanel = (props) => {
             <div className="vertical-panel-content">
                 <div className="panel-content-container">
                     <div className="panel-content-header">Import Settings</div>
+                    <Templates onChange={handleTemplateChange} />
                     <textarea className="panel-text-area" rows={rows} cols={cols} placeholder={placeholderText} value={inputData} onChange={handleInputChange}></textarea>
                     <div className="panel-info-text-container">
                         <label>Include keybinds</label>
