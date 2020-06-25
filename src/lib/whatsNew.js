@@ -1,5 +1,9 @@
 export default [
     {
+        header: "Shadowfiend",
+        description: "Customizable Shadowfiend ability has been added!"
+    },
+    {
         header: "Templates",
         description: "Premade templates may now be selected on import panel!"
     },
