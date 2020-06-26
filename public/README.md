@@ -1,5 +1,10 @@
 # Voidform Optimizer Changelog
 
+## 0.6.2 - 2020-06-25
+
+### Fixed
+ * And issue causing Void Torrent to not prevent Voidform's drain rate from increasing
+
 ## 0.6.1 - 2020-06-25
 
 ### Fixed

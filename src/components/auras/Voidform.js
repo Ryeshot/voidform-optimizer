@@ -28,19 +28,20 @@ const Voidform = (props) => {
         })
 
         const timer = setInterval(() => {
-
             let sec = interval / 1000
             let drain = (drainStart + drainRate * n) * sec
 
-            if (!pausedRef.current)
+            i++
+
+            if (!pausedRef.current) {
                 n += sec
-                i++
                 triggerEvent({
                     type: "RESOURCE_UPDATE",
                     payload: {
                         resource: drain * -1
                     }
                 })
+            }
 
             if (i % frequency === 0 && (!maxStacks || i / frequency < maxStacks)) {
                 //gain a stack of vf
