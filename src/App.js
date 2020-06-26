@@ -92,7 +92,6 @@ const App = () => {
         return {...defaultState, auras: state.auras}
       case "RESET_AURAS":
         const n = {...newState, auras: {...defaultState.auras, stats: state.auras.stats} }
-        console.log(n)
         return {...newState, auras: {...defaultState.auras, stats: state.auras.stats} }
       case "HASTE_SET":
         var {source, haste} = action.payload

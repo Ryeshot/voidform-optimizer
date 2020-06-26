@@ -35,8 +35,8 @@ export default {
             costsResource: true
         },
         "mind-blast": {
-            cooldown: 7500,
-            resource: 12,
+            cooldown: 9000,
+            resource: 15,
             hasted: true,
             type: "cast",
             casttime: 1500,
