@@ -32,6 +32,7 @@ export default {
             resource: 30,
             type: "channel",
             casttime: 4000,
+            staticCastTime: true,
             ticks: 10,
         },
         "shadowfiend": {
