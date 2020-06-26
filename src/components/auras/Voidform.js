@@ -32,10 +32,9 @@ const Voidform = (props) => {
             let sec = interval / 1000
             let drain = (drainStart + drainRate * n) * sec
 
-            n += sec
-            i++
-
             if (!pausedRef.current)
+                n += sec
+                i++
                 triggerEvent({
                     type: "RESOURCE_UPDATE",
                     payload: {
