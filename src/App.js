@@ -41,21 +41,16 @@ const App = () => {
         haste: 0
       },
       "shadow-word-pain": {
-        active: false,
-        //TODO: Look at max duration being hard coded and not passed from custom settings
-        maxDuration: 16000
+        active: false
       },
       "vampiric-touch": {
-        active: false,
-        maxDuration: 24000
+        active: false
       },
       "devouring-plague": {
-        active: false,
-        maxDuration: 12000
+        active: false
       },
       "shadowfiend": {
-        active: false,
-        maxDuration: 15000
+        active: false
       }
     },
     abilities: {
