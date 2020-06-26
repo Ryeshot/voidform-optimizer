@@ -52,7 +52,8 @@ const defaultAbilitySettings = {
         resource: 30,
         type: "channel",
         casttime: 4000,
-        ticks: 10,
+        staticCastTime: true,
+        ticks: 10
     },
     "shadow-word-pain": {
         cooldown: 0,

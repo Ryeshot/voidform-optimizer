@@ -1,23 +1,10 @@
+import defaultAbilitySettings from "../abilitySettings"
+import defaultAuraSettings from "../auraSettings"
+
 export default {
     displayName: "Shadowlands Alpha",
     abilitySettings: {
-        "mind-flay": {
-            cooldown: 0,
-            resource: 12,
-            hasted: true,
-            casttime: 3000,
-            ticks: 4,
-            type: "channel",
-        },
-        "mind-sear": {
-            cooldown: 0,
-            resource: 5,
-            hasted: true,
-            casttime: 3000,
-            ticks: 4,
-            targetCount: 1,
-            type: "channel",
-        },
+        ...defaultAbilitySettings,
         "void-bolt": {
             cooldown: 4500,
             resource: 20,
@@ -49,81 +36,20 @@ export default {
             type: "instant",
             charges: 1,
         },
-        "void-torrent": {
-            cooldown: 45000,
-            resource: 30,
-            type: "channel",
-            casttime: 4000,
-            ticks: 10,
-        },
-        "shadow-word-pain": {
-            cooldown: 0,
-            resource: 4,
-            type: "instant"
-        },
-        "vampiric-touch": {
-            cooldown: 0,
-            resource: 6,
-            type: "cast",
-            casttime: 1500
-        },
         "devouring-plague": {
             cooldown: 0,
             resource: 50,
             costsResource: true,
             type: "instant"
-        },
-        "shadowfiend": {
-            cooldown: 180000,
-            resource: 3,
-            type: "instant"
         }
     },
     auraSettings: {
-        stats: {
-            displayName: "Stats",
-            haste: 0
-        },
-        voidform: {
-            displayName: "Voidform",
-            drainStart: 6,
-            drainRate: .72,
-            hasteStart: 0,
-            hasteStack: .005,
-            maxStacks: 0
-        },
-        lingeringInsanity: {
-            displayName: "Lingering Insanity",
-            type: "decay",
-            duration: 60000,
-            afterVoidformEntry: false,
-            hasteRetention: 1,
-            decayRate: 3000,
-            hasteDecay: .01
-        },
-        "shadow-word-pain": {
-            displayName: "Shadow Word: Pain",
-            baseDuration: 16000,
-            ticks: 8,
-            resource: 0
-        },
-        "vampiric-touch": {
-            displayName: "Vampiric Touch",
-            baseDuration: 21000,
-            ticks: 7,
-            resource: 0
-        },
+        ...defaultAuraSettings,
         "devouring-plague": {
             displayName: "Devouring Plague",
             baseDuration: 12000,
             ticks: 4,
             resource: 0
-        },
-        "shadowfiend": {
-            displayName: "Shadowfiend",
-            baseDuration: 15000,
-            ticks: 10,
-            resource: 3
         }
     },
     abilities: {
