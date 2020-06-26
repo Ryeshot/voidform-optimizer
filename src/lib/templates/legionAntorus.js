@@ -26,6 +26,7 @@ export default {
             resource: 0,
             type: "channel",
             casttime: 4000,
+            staticCastTime: true,
             ticks: 10,
         },
         "shadowfiend": {
@@ -36,6 +37,10 @@ export default {
     },
     auraSettings: {
         ...defaultAuraSettings,
+        stats: {
+            displayName: "Stats",
+            haste: .4
+        },
         voidform: {
             displayName: "Voidform",
             drainStart: 6,

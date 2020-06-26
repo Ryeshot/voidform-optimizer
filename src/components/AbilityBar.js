@@ -138,12 +138,10 @@ const AbilityBar = (props) => {
                 if(newState.casting && name === newState.casting.name) delete newState.casting
                 break
             case "GLOBAL_COOLDOWN_START":
-                console.log("Starting gcd...")
                 newState.globalCooldown = payload.gcd
                 newState.globalCooldownStartTime = payload.time
                 break
             case "GLOBAL_COOLDOWN_END":
-                console.log("Ending gcd...")
                 newState.globalCooldown = 0
                 newState.globalCooldownStartTime = 0
                 break
@@ -223,6 +221,13 @@ const AbilityBar = (props) => {
         return ability.hasted ? calculateCooldown(cooldown) : cooldown
     }
 
+    const getAbilityCastTime = (k) => {
+        const ability = abilitySettings[k]
+        const casttime = ability.casttime
+
+        return ability.staticCastTime ? casttime : calculateCooldown(casttime)
+    }
+
     const queueAbility = (name, execute, remaining) => {
 
         clearTimeout(spellQueueTimer.current)
@@ -253,7 +258,7 @@ const AbilityBar = (props) => {
                     cooldown={getAbilityCooldown(k)}
                     globalCooldown={state.globalCooldown}
                     globalCooldownStartTime={state.globalCooldownStartTime}
-                    casttime={calculateCooldown(abilitySettings[k].casttime)}
+                    casttime={getAbilityCastTime(k)}
                     casting={state.casting && state.casting.time && state.casting.direction}
                     subscribe={subscribe}
                     unsubscribe={unsubscribe}
