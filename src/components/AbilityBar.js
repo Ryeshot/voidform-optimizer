@@ -177,6 +177,18 @@ const AbilityBar = (props) => {
         })
     }
 
+    const handleClick = (name, getRemainingCooldown, execute) => {
+        const now = Date.now()
+
+        const abilityCooldownRemaining = getRemainingCooldown()
+        const globalCooldownRemaining = globalCooldownRef.current ? globalCooldownRef.current - (now - globalCooldownStartTimeRef.current) : 0
+        const remaining = Math.max(abilityCooldownRemaining, globalCooldownRemaining)
+
+        if(remaining > spellQueueWindow) return
+
+        queueAbility(name, execute, remaining + 15)
+    }
+
     const calculateCooldown = (cooldown) => {
         return cooldown/hasteRef.current
     }
@@ -264,6 +276,7 @@ const AbilityBar = (props) => {
                     unsubscribe={unsubscribe}
                     onExecute={triggerGlobalCooldown}
                     onAbilityUpdate={triggerCooldown}
+                    onClick={handleClick}
                     triggerEvent={triggerEvent}
                     reset={reset}
                 />
