@@ -6,7 +6,7 @@ const defaultAuraSettings = {
     voidform: {
         displayName: "Voidform",
         drainStart: 6,
-        drainRate: .72,
+        drainRate: .68,
         hasteStart: 0,
         hasteStack: .005,
         maxStacks: 0

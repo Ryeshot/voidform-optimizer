@@ -1,5 +1,31 @@
 # Voidform Optimizer Changelog
 
+## 0.5.0 - 2020-06-25
+
+### Added
+ * Shadowfiend ability due to community request
+
+## 0.4.0 - 2020-06-25
+
+### Added
+ * Premade templates Live and Alpha for importing data
+
+## 0.3.1 - 2020-06-25
+
+### Fixed
+ * Default Voidform drain rate not being same as live
+
+## 0.3.0 - 2020-06-25
+
+### Added
+ * What's New dialogue for new additions to the application
+ * Shadowlands Alpha Devouring Plague ability
+
+## 0.2.0 - 2020-06-24
+
+### Added
+ * Mind Sear ability to test area of effect rotation
+
 ## 0.1.4 - 2020-06-24
 
 ### Fixed
