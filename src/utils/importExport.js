@@ -121,9 +121,6 @@ const formatAbilityConfig = (settings, includeKeybinds) => {
 }
 
 export const exportSettings = (currentSettings) => {
-
-    console.log(currentSettings)
-
     let formattedAbilitySettings = formatAbilitySettingsForExport(currentSettings.abilitySettings)
     let formattedAbilityConfig = formatAbilityConfig(currentSettings.abilities, true)
 

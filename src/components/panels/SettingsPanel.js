@@ -6,7 +6,7 @@ import "./Panel.css"
 
 const SettingsPanel = (props) => {
 
-    const {settings, currentPanel, onAbilitySet, onAuraSet, onClick, closePanel} = props
+    const {settings, currentPanel, didReset, onAbilitySet, onAuraSet, onClick, closePanel} = props
 
     const {abilities, auras} = settings
 
@@ -27,6 +27,10 @@ Click the button below to apply your changes`
     const [activeAuraSection, setActiveAuraSection] = useState(Object.keys(auras)[0])
     const [abilityChangesPending, setAbilityChangesPending] = useState(false)
     const [auraChangesPending, setAuraChangesPending] = useState(false)
+
+    useEffect(() => {
+        reset()
+    }, [didReset])
 
     const handleAbilitySettingChange = (setting, key) => {
         const newAbilities = {...currentAbilities, [key]: setting}

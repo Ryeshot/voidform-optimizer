@@ -131,7 +131,6 @@ const App = () => {
         break;
       case "RESOURCE_UPDATE":
         var {name, resource, costsResource} = action.payload
-        console.log(costsResource)
         let targetCount = name === "mind-sear" ? abilitySettings[name].targetCount : 1
         resource = Math.max(Math.min(newState.resource + (resource * (costsResource && -1 || 1)) * targetCount, 100), 0)
         newState.resource = resource
@@ -285,8 +284,8 @@ const App = () => {
   }
 
   const handleAuraSet = (auraSettings) => {
-    handleAuraReset()
     setAuraSettings(auraSettings)
+    handleAuraReset()
     const haste = auraSettings.stats.haste
     updateState({
       type: "HASTE_SET",
@@ -295,15 +294,15 @@ const App = () => {
         haste
       }
     })
+    handleReset()
   }
 
   const handleAbilitySet = (abilitySettings) => {
-    handleAbilityReset()
     setAbilitySettings(abilitySettings)
+    handleReset()
   }
 
   const handleAbilityReset = () => {
-    setReset(!reset)
     updateState({
       type: "RESET_ABILITIES"
     })
@@ -328,8 +327,9 @@ const App = () => {
   }
 
   const handleReset = () => {
-    handleAbilityReset()
     handleAuraReset()
+    handleAbilityReset()
+    setReset(!reset)
   }
 
   return (
@@ -341,7 +341,7 @@ const App = () => {
           </div>
         </div>
         <div className="panel-container">
-          <SettingsPanel settings={{abilities: abilitySettingsWithDisplayName(), auras: auraSettings}} onAbilitySet={handleAbilitySet} onAuraSet={handleAuraSet} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
+          <SettingsPanel settings={{abilities: abilitySettingsWithDisplayName(), auras: auraSettings}} didReset={reset} onAbilitySet={handleAbilitySet} onAuraSet={handleAuraSet} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
           <AbilityKeybindsPanel abilities={abilities} currentPanel={panel} onKeybind={setKeyBind} onToggle={handleAbilityToggle} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
           <ExportPanel settings={{abilitySettings, auraSettings, abilities}} onImport={handleImport} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
           <AboutPanel currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
