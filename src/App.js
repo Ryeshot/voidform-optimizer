@@ -91,7 +91,6 @@ const App = () => {
       case "RESET_ABILITIES":
         return {...defaultState, auras: state.auras}
       case "RESET_AURAS":
-        const n = {...newState, auras: {...defaultState.auras, stats: state.auras.stats} }
         return {...newState, auras: {...defaultState.auras, stats: state.auras.stats} }
       case "HASTE_SET":
         var {source, haste} = action.payload
@@ -325,6 +324,12 @@ const App = () => {
     updateState({
       type: "RESET_AURAS"
     })
+
+    setTimeout(() => {
+      updateState({
+        type: "LINGERING_INSANITY_END"
+      })
+    }, 0)
   }
 
   const handleReset = () => {

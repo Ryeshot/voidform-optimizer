@@ -18,6 +18,11 @@ export default {
             type: "channel",
             casttime: 4000,
             ticks: 10,
+        },
+        "shadowfiend": {
+            cooldown: 180000,
+            resource: 0,
+            type: "instant"
         }
     },
     auraSettings: {
