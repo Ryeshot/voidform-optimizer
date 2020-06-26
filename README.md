@@ -1,5 +1,10 @@
 # Voidform Optimizer Changelog
 
+## 0.6.3 - 2020-06-25
+
+### Changed
+* Re-enable clicking abilities 
+
 ## 0.6.2 - 2020-06-25
 
 ### Fixed
