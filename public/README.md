@@ -1,5 +1,15 @@
 # Voidform Optimizer Changelog
 
+## 0.6.0 - 2020-06-25
+
+### Added
+ * Two Legion templates, EN + Void Lord and Antorus
+
+## 0.5.1 - 2020-06-25
+
+### Fixed
+ * And issue causing static Lingering Insanity not falling off when reset
+
 ## 0.5.0 - 2020-06-25
 
 ### Added

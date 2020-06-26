@@ -1,5 +1,9 @@
 export default [
     {
+        header: "Legion Templates!",
+        description: "New templates to satiate your Legion nostalgia. More to come in the future."
+    },
+    {
         header: "Shadowfiend",
         description: "Customizable Shadowfiend ability has been added!"
     },
