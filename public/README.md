@@ -1,5 +1,11 @@
 # Voidform Optimizer Changelog
 
+## 0.6.1 - 2020-06-25
+
+### Fixed
+ * An issue causing Void Torrent's channel time to be affected by haste
+ * An issue causing imported settings to not be reflected immediately in settings panel
+
 ## 0.6.0 - 2020-06-25
 
 ### Added
