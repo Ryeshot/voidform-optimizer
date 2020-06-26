@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "a59e720d3a20a24974e56c186d0040b3",
+    "revision": "9972a756747fcfb64882aeb80d4be3e5",
     "url": "/voidform-optimizer/index.html"
   },
   {
-    "revision": "0dd741f4d2a252a95b49",
+    "revision": "7b148dd079c3a9ad833f",
     "url": "/voidform-optimizer/static/css/main.49c3dff7.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/voidform-optimizer/static/js/2.9715e3f3.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "0dd741f4d2a252a95b49",
-    "url": "/voidform-optimizer/static/js/main.1d4e3a6d.chunk.js"
+    "revision": "7b148dd079c3a9ad833f",
+    "url": "/voidform-optimizer/static/js/main.6256a55b.chunk.js"
   },
   {
     "revision": "464bd867bf5da7b2678c",
