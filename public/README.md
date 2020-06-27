@@ -1,5 +1,12 @@
 # Voidform Optimizer Changelog
 
+## 0.7.1 - 2020-06-27
+
+### Fixed
+ * Import/export panel not has a vertical scroll if content does not fit window
+ * Mind Sear is no longer part of the Legion: Antorus template
+ * Template dropdown is reset when panel closes
+
 ## 0.7.0 - 2020-06-27
 
 ### Added
