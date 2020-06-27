@@ -1,5 +1,10 @@
 # Voidform Optimizer Changelog
 
+## 0.7.2 - 2020-06-27
+
+### Added
+ * Spacebar keybind text
+
 ## 0.7.1 - 2020-06-27
 
 ### Fixed
