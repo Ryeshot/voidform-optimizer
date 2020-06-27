@@ -1,8 +1,6 @@
 const GlobalCooldown = {
 
     start: (duration, triggerEvent) => {
-        console.log("End time for gcd: " + (Date.now() + duration))
-
         triggerEvent({
             type: "GLOBAL_COOLDOWN_START",
             payload: {

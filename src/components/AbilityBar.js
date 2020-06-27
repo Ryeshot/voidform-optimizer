@@ -31,7 +31,6 @@ const AbilityBar = (props) => {
     }
 
     const [observers, setObservers] = useState([])
-    const [voidformEntered, setVoidformEntered] = useState(false)
 
     const observersRef = useRef(observers)
     observersRef.current = observers
@@ -47,6 +46,14 @@ const AbilityBar = (props) => {
             type: "RESET"
         })
     }, [reset])
+
+    useEffect(() => {
+        const name = "mind-blast"
+        const ability = abilitySettings[name]
+        const cdr = ability.cdr * (inVoidform && -1 || 1)
+        ability.cooldown += cdr
+
+    }, [inVoidform])
 
     useEffect(() => {
         document.addEventListener("keypress", handleKeyPress)
@@ -213,22 +220,7 @@ const AbilityBar = (props) => {
 
     const getAbilityCooldown = (k) => {
         const ability = abilitySettings[k]
-        let cooldown = ability.cooldown
-
-        if(inVoidformRef.current && k === "mind-blast") {
-            let cdr = ability.cdr 
-            if(!voidformEntered) {
-                setVoidformEntered(true)
-                const now = Date.now()
-                const startTime = state.cooldowns[k].startTime
-                const remaining = startTime ? now - startTime : cooldown
-                cdr *= remaining/cooldown
-            }
-            cooldown -= cdr
-        }
-
-        if(!inVoidformRef.current && voidformEntered)
-            setVoidformEntered(false)
+        const cooldown = ability.cooldown
 
         return ability.hasted ? calculateCooldown(cooldown) : cooldown
     }
