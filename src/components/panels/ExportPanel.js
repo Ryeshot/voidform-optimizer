@@ -6,12 +6,12 @@ import "./Panel.css"
 
 const Templates = (props) => {
 
-    const {onChange} = props
+    const {onChange, selected} = props
 
     return (
         <div style={{width: "60%"}}>
-            <select className="panel-dropdown" onChange={onChange}>
-                <option disabled selected>Choose a template...</option>
+            <select className="panel-dropdown" value={selected} onChange={onChange}>
+                <option value={"default"} disabled>Choose a template...</option>
                 {Object.keys(templates).map(t => <option key={t} value={t}>{templates[t].displayName}</option>)}
                 <option key={"custom"} value={"custom"}>Custom</option>
             </select>
@@ -28,12 +28,14 @@ const ExportPanel = (props) => {
     const panelClass = "left-panel"
     const placeholderText = "Import settings here..."
     const exportTextAreaId = "export-content"
+    const defaultSelected = "default"
     const rows = 20
     const cols = 25
 
     const [exportData, setExportData] = useState("")
     const [inputData, setInputData] = useState("")
     const [includeKeybinds, setIncludeKeybinds] = useState(false)
+    const [selectedTemplate, setSelectedTemplate] = useState(defaultSelected)
 
     const handleImport = () => {
         const settings = importSettings(inputData, includeKeybinds)
@@ -49,6 +51,8 @@ const ExportPanel = (props) => {
 
     const handleTemplateChange = (e) => {
         const key = e.target.value
+
+        setSelectedTemplate(key)
 
         if(key === "custom") {
             setInputData("")
@@ -86,6 +90,7 @@ const ExportPanel = (props) => {
         setExportData("")
         setInputData("")
         setIncludeKeybinds(false)
+        setSelectedTemplate(defaultSelected)
     }
 
     return (
@@ -93,7 +98,7 @@ const ExportPanel = (props) => {
             <div className="vertical-panel-content">
                 <div className="panel-content-container">
                     <div className="panel-content-header">Import Settings</div>
-                    <Templates onChange={handleTemplateChange} />
+                    <Templates selected={selectedTemplate} onChange={handleTemplateChange} />
                     <textarea className="panel-text-area" rows={rows} cols={cols} placeholder={placeholderText} value={inputData} onChange={handleInputChange}></textarea>
                     <div className="panel-info-text-container">
                         <label>Include keybinds</label>
