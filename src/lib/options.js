@@ -5,6 +5,7 @@ const whatIs = {
     resourceCast: "The amount of resource an ability will generate upon a successful cast.",
     resourceChannel: "The amount of resource an ability will generate over its complete channel period.",
     resourceAura: "The amount of resource an aura will generate every time its effect triggers.",
+    resourceGeneration: "Increases the amount of resource generated from abilities while an aura is active.",
     cost: "The amount of resource required to cast an ability. Casting the ability will spend the resource cost.",
     castTime: "The amount of time, in seconds, it takes for an ability to be executed.",
     channelTime: "The amount of time, in seconds, it takes for an ability's channel to complete.",
@@ -195,6 +196,9 @@ export const abilityOptions = {
     "shadowfiend": [
         commonOptions.cooldown,
         commonOptions.resourceCast
+    ],
+    "power-infusion": [
+        commonOptions.cooldown
     ]
 }
 
@@ -301,5 +305,14 @@ export const auraOptions = {
     ],
     "shadowfiend": [
         commonOptions.auraResource
+    ],
+    "power-infusion": [
+        commonOptions.auraDuration,
+        {
+            key: "resourceGen",
+            displayName: "Resource Generation",
+            type: "percent",
+            whatIs: whatIs.resourceGeneration
+        }
     ]
 }

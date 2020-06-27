@@ -13,6 +13,50 @@ import defaultAbilitySettings from "./lib/abilitySettings"
 import defaultAuraSettings from "./lib/auraSettings"
 import Forms from "./components/forms/Forms"
 
+const defaultState = {
+  resource: 0,
+  auras: {
+    stats: {
+      haste: 0
+    },
+    voidform: {
+      active: false,
+      stacks: 0,
+      haste: 0,
+      paused: false,
+    },
+    lingeringInsanity: {
+      active: false,
+      stacks: 0,
+      haste: 0
+    },
+    "shadow-word-pain": {
+      active: false
+    },
+    "vampiric-touch": {
+      active: false
+    },
+    "devouring-plague": {
+      active: false
+    },
+    "shadowfiend": {
+      active: false
+    },
+    "power-infusion": {
+      active: false,
+      haste: 0
+    }
+  },
+  abilities: {
+    "void-eruption": {
+      unusable: true
+    },
+    "devouring-plague": {
+      unusable: true
+    }
+  }
+}
+
 const App = () => {
 
   const [panel, setPanel] = useState()
@@ -22,46 +66,6 @@ const App = () => {
   const [keyEventsPaused, setKeyEventsPaused] = useState(false)
   const [reset, setReset] = useState(false)
   const [haste, setHaste] = useState(0)
-
-  const defaultState = {
-    resource: 0,
-    auras: {
-      stats: {
-        haste
-      },
-      voidform: {
-        active: false,
-        stacks: 0,
-        haste: 0,
-        paused: false,
-      },
-      lingeringInsanity: {
-        active: false,
-        stacks: 0,
-        haste: 0
-      },
-      "shadow-word-pain": {
-        active: false
-      },
-      "vampiric-touch": {
-        active: false
-      },
-      "devouring-plague": {
-        active: false
-      },
-      "shadowfiend": {
-        active: false
-      }
-    },
-    abilities: {
-      "void-eruption": {
-        unusable: true
-      },
-      "devouring-plague": {
-        unusable: true
-      }
-    }
-  }
 
   const handleAuraPandemic = (aura, baseDuration, now) => {
     const endTime = aura.startTime + aura.maxDuration
@@ -79,6 +83,7 @@ const App = () => {
 
     const voidform = newState.auras.voidform
     const lingeringInsanity = newState.auras.lingeringInsanity
+    const powerInfusion = newState.auras["power-infusion"]
 
     switch(event) {
       case "RESET":
@@ -94,6 +99,10 @@ const App = () => {
       case "HASTE_UPDATE":
         var {source, haste} = action.payload
         newState.auras[source].haste += haste
+        break
+      case "HASTE_RESET":
+        var {source} = action.payload
+        newState.auras[source].haste = 0
         break
       case "VOIDFORM_UPDATE":
         voidform.stacks++
@@ -132,7 +141,15 @@ const App = () => {
       case "RESOURCE_UPDATE":
         var {name, resource, costsResource} = action.payload
         let targetCount = name === "mind-sear" ? abilitySettings[name].targetCount : 1
-        resource = Math.max(Math.min(newState.resource + (resource * (costsResource && -1 || 1)) * targetCount, 100), 0)
+
+        resource = (resource * (costsResource && -1 || 1)) * targetCount
+
+        console.log(powerInfusion)
+
+        if(powerInfusion.active && resource > 0)
+          resource += (resource * auraSettings["power-infusion"].resourceGen)
+
+        resource = Math.max(Math.min(newState.resource + resource, 100), 0)
         newState.resource = resource
         if(resource <= 0 && voidform.active) {
           voidform.active = false
@@ -191,7 +208,8 @@ const App = () => {
     setHaste(calculateHaste)
   }, [state.auras.stats.haste,
     state.auras.voidform.haste,
-    state.auras.lingeringInsanity.haste])
+    state.auras.lingeringInsanity.haste,
+    state.auras["power-infusion"].haste])
 
   const enterVoidform = () => {
     updateState({

@@ -25,9 +25,6 @@ const DamageOverTime = (props) => {
     }
 
     useEffect(() => {
-        // console.log("Inside use effect for: " + name)
-        // console.log("Resource: " + resource)
-        // console.log("Haste: " + haste)
         let start = Date.now()
         let tickTime = calculateNextTickTime(start)
 

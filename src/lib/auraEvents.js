@@ -32,5 +32,13 @@ const auraEvents = {
             "AURA_TIME_UPDATE": [],
             "AURA_END": []
         }
+    },
+    "power-infusion": {
+        onEvent: {
+            "AURA_START": ["AURA_BEGIN", "HASTE_UPDATE"],
+            "AURA_END": ["AURA_END", "HASTE_RESET"]
+        }
     }
 }
+
+export default auraEvents

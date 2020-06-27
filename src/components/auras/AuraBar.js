@@ -2,6 +2,7 @@ import React, {useState, useEffect, useReducer, useRef} from 'react';
 import LingeringInsanity from "./LingeringInsanity"
 import Voidform from "./Voidform"
 import DamageOverTime from './DamageOverTime';
+import Buff from "./Buff"
 import { auraOptions } from '../../lib/options';
 
 const dots = [
@@ -24,6 +25,14 @@ const dots = [
     name: "shadowfiend",
     icon: "images/shadowfiend.jpg",
     displayName: "Shadowfiend"
+  }
+]
+
+const buffs = [
+  {
+    name: "power-infusion",
+    icon: "images/power-infusion.jpg",
+    displayName: "Power Infusion"
   }
 ]
 
@@ -58,6 +67,16 @@ const AuraBar = (props) => {
                 {...auras[dot.name]}
                 {...settings[dot.name]}
                 haste={haste}
+                triggerEvent={triggerEvent} 
+              />
+            : null
+          )}
+          {buffs.map(buff => 
+            auras[buff.name].active
+            ? <Buff
+                {...buff}
+                {...auras[buff.name]}
+                setting={settings[buff.name]}
                 triggerEvent={triggerEvent} 
               />
             : null

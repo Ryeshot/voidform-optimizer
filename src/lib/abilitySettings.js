@@ -76,6 +76,10 @@ const defaultAbilitySettings = {
         cooldown: 180000,
         resource: 3,
         type: "instant"
+    },
+    "power-infusion": {
+        cooldown: 120000,
+        type: "instant"
     }
 }
 

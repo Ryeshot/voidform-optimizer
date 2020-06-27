@@ -86,6 +86,14 @@ const defaultAbilities = {
             keybindText: "0"
         },
         icon: "images/shadowfiend.jpg"
+    },
+    "power-infusion": {
+        displayName: "Power Infusion",
+        keybind: {
+            key: "-",
+            keybindText: "-"
+        },
+        icon: "images/power-infusion.jpg"
     }
 }
 

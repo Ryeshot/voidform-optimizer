@@ -11,7 +11,6 @@ const GlobalCooldown = {
         })
 
         setTimeout(() => {
-            console.log("Gcd ended")
             triggerEvent({
                 type: "GLOBAL_COOLDOWN_END"
             })    

@@ -21,10 +21,14 @@ const events = {
         "LINGERING_INSANITY_UPDATE",
         "LINGERING_INSANITY_END",
         "AURA_START",
+        "AURA_BEGIN",
         "AURA_END",
         "DOT_EXTEND"
     ],
-    "STAT": ["HASTE_UPDATE"]
+    "STAT": [
+        "HASTE_UPDATE", 
+        "HASTE_RESET"
+    ]
 }
 
 export default events

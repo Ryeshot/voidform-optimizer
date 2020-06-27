@@ -43,6 +43,12 @@ const defaultAuraSettings = {
         baseDuration: 15000,
         ticks: 10,
         resource: 3
+    },
+    "power-infusion": {
+        displayName: "Power Infusion",
+        baseDuration: 20000,
+        haste: .25,
+        resourceGen: 0
     }
 }
 
