@@ -144,8 +144,6 @@ const App = () => {
 
         resource = (resource * (costsResource && -1 || 1)) * targetCount
 
-        console.log(powerInfusion)
-
         if(powerInfusion.active && resource > 0)
           resource += (resource * auraSettings["power-infusion"].resourceGen)
 

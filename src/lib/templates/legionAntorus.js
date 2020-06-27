@@ -67,7 +67,7 @@ export default {
     },
     abilities: {
         "mind-flay": {},
-        "mind-sear": {},
+        "mind-sear": { disabled: true },
         "void-bolt": {},
         "void-eruption": {},
         "mind-blast": {},
@@ -75,7 +75,8 @@ export default {
         "void-torrent": {},
         "shadow-word-pain": {},
         "vampiric-touch": {},
-        "devouring-plague": { disabled: true }
+        "devouring-plague": { disabled: true },
+        "power-infusion": { disabled: true }
     }
 
 }
