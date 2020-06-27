@@ -1,5 +1,11 @@
 export default [
     {
+        header: "Power Infusion!",
+        description: "Customizable Power Infusion ability has been added! The ability's cooldown may be changed \
+        and the aura's duration and resource generation can be changed. If desired, you can create alpha StM, Lucid, \
+        and Legion Power Infusion from these settings."
+    },
+    {
         header: "Legion Templates!",
         description: "New templates to satiate your Legion nostalgia. More to come in the future."
     },
