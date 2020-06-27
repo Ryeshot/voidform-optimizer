@@ -156,6 +156,8 @@ class Ability {
             let previousChannelFrequency = (baseDuration/currentTicks)        
             pandemicTime = Math.min(previousChannelRemaining, baseDuration * .3)
             let remainingTicks = Math.floor(pandemicTime/previousChannelFrequency)
+            //console.log(remainingTicks)
+            //console.log(pandemicTime/previousChannelFrequency)
             currentTicks += remainingTicks
         }
 
@@ -237,7 +239,7 @@ class Ability {
 class InstantAbility extends Ability {
 
     execute() {
-        if(this.state.unusable) return
+        if(this.state.unusable.current) return
         if(this.state.cast.casting.current) return
         let state = this.getCurrentState()
         const {name, resource, costsResource} = state
@@ -265,7 +267,7 @@ class InstantAbility extends Ability {
 class CastAbility extends Ability {
 
     execute() {
-        if(this.state.unusable) return
+        if(this.state.unusable.current) return
         if(this.state.cast.casting.current) return
         let state = this.getCurrentState()
         const {startTime} = state.cast
@@ -280,7 +282,7 @@ class CastAbility extends Ability {
 class ChannelAbility extends Ability {
 
     execute() {
-        if(this.state.unusable) return
+        if(this.state.unusable.current) return
         if(this.state.cast.casting.current) return
         let state = this.getCurrentState()
         const {duration, startTime} = state.cooldown

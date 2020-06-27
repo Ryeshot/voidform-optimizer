@@ -49,6 +49,10 @@ const ProgressAbility = (props) => {
     globalCooldownRef.current = globalCooldown
     globalCooldownStartTimeRef.current = globalCooldownStartTime
 
+    //other states
+    const unusableRef = useRef(unusable)
+    unusableRef.current = unusable
+
     const ability = useRef()
 
     useEffect(() => {
@@ -66,7 +70,7 @@ const ProgressAbility = (props) => {
             displayName,
             resource,
             costsResource,
-            unusable,
+            unusable: unusableRef,
             cooldown: {
                 duration: cooldownRef,
                 startTime: startTimeRef
@@ -105,7 +109,7 @@ const ProgressAbility = (props) => {
             ability.current.remove()
             unsubscribe(name)
         }
-    }, [unusable, key, reset])
+    }, [key, reset])
 
     const handleClick = () => {
         onClick(name, () => ability.current.getRemainingCooldown(), () => ability.current.execute())
