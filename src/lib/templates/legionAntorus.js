@@ -28,6 +28,7 @@ export default {
             casttime: 4000,
             staticCastTime: true,
             ticks: 10,
+            requireVoidform: true
         },
         "shadowfiend": {
             cooldown: 60000,

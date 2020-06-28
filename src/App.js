@@ -53,6 +53,9 @@ const defaultState = {
     },
     "devouring-plague": {
       unusable: true
+    },
+    "void-torrent": {
+      unusable: defaultAbilitySettings["void-torrent"].requireVoidform
     }
   }
 }
@@ -92,6 +95,9 @@ const App = () => {
         return {...defaultState, auras: state.auras}
       case "RESET_AURAS":
         return {...newState, auras: {...defaultState.auras, stats: state.auras.stats} }
+      case "UPDATE_ABILITY_STATE":
+        newState.abilities["void-torrent"].unusable = abilitySettings["void-torrent"].requireVoidform
+        break
       case "HASTE_SET":
         var {source, haste} = action.payload
         newState.auras[source].haste = haste
@@ -111,6 +117,9 @@ const App = () => {
       case "VOIDFORM_START":
         voidform.active = true
         voidform.stacks = 1
+        var voidTorrent = abilitySettings["void-torrent"]
+        if(voidTorrent.requireVoidform)
+          newState.abilities["void-torrent"].unusable = false
         break;
       case "VOIDFORM_END":
         var {time, startingHaste} = action.payload
@@ -121,6 +130,7 @@ const App = () => {
         voidform.stacks = 0
         voidform.haste = 0
         newState.abilities["void-eruption"].unusable = true
+        newState.abilities["void-torrent"].unusable = abilitySettings["void-torrent"].requireVoidform
         break;
       case "LINGERING_INSANITY_START":
         var {haste, stacks} = action.payload
@@ -327,6 +337,10 @@ const App = () => {
       payload: {
         resource: 0
       }
+    })
+
+    updateState({
+      type: "UPDATE_ABILITY_STATE"
     })
   }
 

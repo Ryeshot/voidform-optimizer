@@ -15,6 +15,7 @@ const whatIs = {
     voidBoltExtension: "The amount of time, in seconds, that Shadow Word: Pain and Vampiric Touch are extended when Void Bolt is cast.",
     voidformThreshold: "The amount of Insanity that is required to cast Void Eruption out of Voidform.",
     voidformCooldownReduction: "The amount of time, in seconds, that Mind Blast's cooldown is reduced while in Voidform.",
+    requireVoidform: "Must be in Voidform in order to cast the ability.",
     haste: "Increases the rate at which spells cast and the global cooldown, and certain spell cooldowns, regenerate.",
     voidformStartingDrain: "The starting amount of Insanity being drained every second while in Voidform.",
     voidformDrainRate: "The amount of increasing Insanity drained every second while in Voidform.",
@@ -180,7 +181,13 @@ export const abilityOptions = {
         commonOptions.cooldown,
         commonOptions.channelTime,
         commonOptions.resourceChannel,
-        commonOptions.ticks
+        commonOptions.ticks,
+        {
+            key: "requireVoidform",
+            displayName: "Require Voidform",
+            type: "boolean",
+            whatIs: whatIs.requireVoidform
+        }
     ],
     "shadow-word-pain": [
         commonOptions.resourceCast
