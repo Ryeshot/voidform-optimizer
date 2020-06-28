@@ -31,8 +31,6 @@ Click the button below to apply your changes`
     useEffect(() => {
         setCurrentAuras(auras)
         setCurrentAbilities(abilities)
-        setAbilityChangesPending(false)
-        setAuraChangesPending(false)
     }, [didReset])
 
     const handleAbilitySettingChange = (setting, key) => {
