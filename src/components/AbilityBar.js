@@ -41,17 +41,39 @@ const AbilityBar = (props) => {
         status: {}
     }
 
+    const [hasReset, setHasReset] = useState(reset)
+
     useEffect(() => {
         triggerCooldown({
             type: "RESET"
         })
+
+        return () => setHasReset(reset)
     }, [reset])
 
     useEffect(() => {
+        if(hasReset === reset) return
         const name = "mind-blast"
         const ability = abilitySettings[name]
-        const cdr = ability.cdr * (inVoidform && -1 || 1)
+        const duration = getAbilityCooldown(name)
+        let cdr = ability.cdr * (inVoidform && -1 || 1)
         ability.cooldown += cdr
+
+        const startTime = state.cooldowns[name].startTime
+        if(!startTime) return
+        cdr = getAbilityCooldown(name) - duration
+        const now = Date.now()
+        const remaining = (startTime + duration) - now
+        const remainingPercent = remaining/duration
+        const remainingCdr = remainingPercent * cdr
+
+        triggerCooldown({
+            type: "ABILITY_COOLDOWN_START",
+            payload: {
+                name,
+                time: startTime + remainingCdr - cdr
+            }
+        })
 
     }, [inVoidform])
 
@@ -117,10 +139,17 @@ const AbilityBar = (props) => {
                 }
                 break
             case "ABILITY_CHANNEL_START":
-                var {name, displayName, time, duration, baseChannelTime} = payload
-                newState.cooldowns[name].castStartTime = time
-                newState.cooldowns[name].castEndTime = time + duration
-                newState.cooldowns[name].baseChannelTime = baseChannelTime
+                var {name, displayName, time, duration, baseChannelTime, currentTicks} = payload
+                var ability = newState.cooldowns[name]
+
+                newState.cooldowns[name] = {
+                    ...ability,
+                    castStartTime: time,
+                    castEndTime: time + duration,
+                    baseChannelTime,
+                    currentTicks
+                }
+
                 if(newState.casting && name !== newState.casting.name) {
                     newState.cooldowns[newState.casting.name].castStartTime = 0
                     newState.cooldowns[newState.casting.name].castEndTime = 0
@@ -135,13 +164,18 @@ const AbilityBar = (props) => {
                 break
             case "ABILITY_CHANNEL_UPDATE":
                 var {name} = payload
-                newState.cooldowns[name].ticks--
+                newState.cooldowns[name].currentTicks--
                 break
             case "ABILITY_CHANNEL_END":
                 var {name} = payload
-                newState.cooldowns[name].castStartTime = 0
-                newState.cooldowns[name].castEndTime = 0
-                newState.cooldowns[name].ticks = 0
+                var ability = newState.cooldowns[name]
+
+                newState.cooldowns[name] = {
+                    ...ability,
+                    castStartTime: 0,
+                    castEndTime: 0,
+                    currentTicks: 0
+                }
                 if(newState.casting && name === newState.casting.name) delete newState.casting
                 break
             case "GLOBAL_COOLDOWN_START":
@@ -149,7 +183,6 @@ const AbilityBar = (props) => {
                 newState.globalCooldownStartTime = payload.time
                 break
             case "GLOBAL_COOLDOWN_END":
-                newState.globalCooldown = 0
                 newState.globalCooldownStartTime = 0
                 break
             default:
@@ -242,20 +275,38 @@ const AbilityBar = (props) => {
         }, remaining)
     }
 
+    const makeGroupChunks = (size) => (chunks, curr, i) => {
+        const index = Math.floor(i/size)
+        chunks[index] = [...chunks[index] || [], curr]
+        return chunks
+    }
+
+    const disabledAbilities = (k) => {
+        if(abilities[k].disabled) return false
+        if(k === "void-bolt" && !inVoidformRef.current) return false
+        if(k === "void-eruption" && inVoidformRef.current) return false
+
+        return true
+    }
+
+    const buildAbilityBar = (abilities) => {
+        return Object.keys(abilities)
+            .filter(disabledAbilities)
+            //.reduce(makeGroupChunks(8), [])
+    }
+
     return (
-        <div className="ability-bar-container">
+    <div className="ability-bar-container">
         <div className="progress-bar-container">
             {state.casting ? <CastBar {...state.casting}/> : null}
         </div>
+
         <div className="ability-bar">
-            {Object.keys(abilities)
-            .map((k,i) => {
-                if(abilities[k].disabled) return
-                if(k === "void-bolt" && !inVoidformRef.current) return
-                if(k === "void-eruption" && inVoidformRef.current) return
+            {buildAbilityBar(abilities)
+            .map(k => {
                 return <ProgressAbility
                     name={k}
-                    key={i}
+                    key={`ability-${k}`}
                     {...abilities[k]}
                     {...state.cooldowns[k]}
                     settings={abilitySettings[k]}
@@ -271,10 +322,10 @@ const AbilityBar = (props) => {
                     onClick={handleClick}
                     triggerEvent={triggerEvent}
                     reset={reset}
-                />
-            })}
-            </div>        
-        </div>
+                    />
+                })}
+        </div>        
+    </div>
     )
 }
 
