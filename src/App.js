@@ -284,6 +284,7 @@ const App = () => {
     setAllAbilities(settings.abilityConfig)
     handleAbilitySet(settings.abilitySettings)
     handleAuraSet(settings.auraSettings)
+    handleReset()
   }
 
   const setAllAbilities = (importedAbilities) => {
@@ -320,12 +321,10 @@ const App = () => {
         haste
       }
     })
-    handleReset()
   }
 
   const handleAbilitySet = (abilitySettings) => {
     setAbilitySettings(abilitySettings)
-    handleReset()
   }
 
   const handleAbilityReset = () => {
