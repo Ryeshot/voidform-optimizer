@@ -11,7 +11,7 @@ const abilityEvents = {
             "COOLDOWN_START": [],
             "COOLDOWN_END": [],
             "CHANNEL_START": ["ABILITY_CHANNEL_START"],
-            "CHANNEL_UPDATE": ["RESOURCE_UPDATE"],
+            "CHANNEL_UPDATE": ["ABILITY_CHANNEL_UPDATE", "RESOURCE_UPDATE"],
             "CHANNEL_END": ["ABILITY_CHANNEL_END"]
         }
     },
@@ -20,7 +20,7 @@ const abilityEvents = {
             "COOLDOWN_START": [],
             "COOLDOWN_END": [],
             "CHANNEL_START": ["ABILITY_CHANNEL_START"],
-            "CHANNEL_UPDATE": ["RESOURCE_UPDATE"],
+            "CHANNEL_UPDATE": ["ABILITY_CHANNEL_UPDATE", "RESOURCE_UPDATE"],
             "CHANNEL_END": ["ABILITY_CHANNEL_END"]
         }
     },

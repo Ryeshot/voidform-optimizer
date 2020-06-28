@@ -72,7 +72,7 @@ class Ability {
             let charges = this.state.charges.current.current
             let remaining = (startTime + duration) - now
 
-            if(remaining <= interval + lag) {
+            if(remaining <= interval) {
                 this.updateState(state => {
                     return {...state, charges: charges+1}
                 })
@@ -142,22 +142,22 @@ class Ability {
     startChannel() {
         let state = this.getCurrentState()
         const {startTime, endTime, duration} = state.cast
-        const {baseDuration, ticks} = state.channel
+        const {baseDuration, baseTicks, ticks} = state.channel
         const {name, displayName, resource} = state
 
         let now = Date.now()
         let pandemicTime = 0
-        let currentTicks = ticks
+        let currentTicks = baseTicks
 
         if(startTime) {
             clearInterval(this.channelTimer)
-            let previousChannelTime = endTime - startTime
-            let previousChannelRemaining = previousChannelTime - (now - startTime)
-            let previousChannelFrequency = (baseDuration/currentTicks)        
+            const previousChannelTime = endTime - startTime
+            const previousChannelRemaining = previousChannelTime - (now - startTime)
+            const maximumTicks = Math.floor(baseTicks * ((baseDuration - 1500)/baseDuration))      
             pandemicTime = Math.min(previousChannelRemaining, baseDuration * .3)
-            let remainingTicks = Math.floor(pandemicTime/previousChannelFrequency)
-            //console.log(remainingTicks)
-            //console.log(pandemicTime/previousChannelFrequency)
+
+            const remainingTicks = Math.min(ticks, maximumTicks)
+
             currentTicks += remainingTicks
         }
 
@@ -167,6 +167,8 @@ class Ability {
 
             let now = Date.now()
             let endTime = this.state.cast.endTime.current
+            let lastTick = this.state.channel.ticks.current === 1
+            let tickResourceModifier = lastTick ? (pandemicTime && .3 || 1) : 1
 
             //another cast has stopped this channel, don't update
             if(!endTime) {
@@ -179,7 +181,7 @@ class Ability {
             }
 
             this.eventHandler.handleEvent("CHANNEL_UPDATE", {
-                resource: resource/ticks,
+                resource: (resource/baseTicks) * tickResourceModifier,
                 name
             })
 
@@ -199,7 +201,8 @@ class Ability {
             displayName,
             duration: duration + pandemicTime,
             time: now,
-            baseChannelTime: duration
+            baseChannelTime: duration,
+            currentTicks
         })
     }
 

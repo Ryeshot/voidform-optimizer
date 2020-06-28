@@ -5,7 +5,7 @@ import Ability from "../utils/ability"
 
 const ProgressAbility = (props) => {
 
-    const {name, displayName, settings, cooldown, globalCooldown, globalCooldownStartTime, unusable, startTime, casttime, castStartTime, castEndTime, icon, baseChannelTime, keybind, casting, subscribe, unsubscribe, onExecute, onAbilityUpdate, onClick, triggerEvent, reset} = props
+    const {name, displayName, settings, cooldown, globalCooldown, globalCooldownStartTime, unusable, startTime, casttime, castStartTime, castEndTime, icon, baseChannelTime, currentTicks, keybind, casting, subscribe, unsubscribe, onExecute, onAbilityUpdate, onClick, triggerEvent, reset} = props
 
     const size = 50
 
@@ -34,8 +34,10 @@ const ProgressAbility = (props) => {
 
     //channel states
     const baseChannelTimeRef = useRef(baseChannelTime)
+    const ticksRef = useRef(currentTicks)
 
     baseChannelTimeRef.current = baseChannelTime
+    ticksRef.current = currentTicks
 
     //charge states
     const chargesRef = useRef(charges || 1)
@@ -83,7 +85,8 @@ const ProgressAbility = (props) => {
             },
             channel: {
                 baseDuration: baseChannelTimeRef,
-                ticks
+                baseTicks: ticks,
+                ticks: ticksRef
             },
             charges: {
                 maxCharges: charges,
