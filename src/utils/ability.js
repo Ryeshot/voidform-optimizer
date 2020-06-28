@@ -144,6 +144,7 @@ class Ability {
         const {startTime, endTime, duration} = state.cast
         const {baseDuration, baseTicks, ticks} = state.channel
         const {name, displayName, resource} = state
+        const gcd = state.globalCooldown.duration
 
         let now = Date.now()
         let pandemicTime = 0
@@ -153,7 +154,7 @@ class Ability {
             clearInterval(this.channelTimer)
             const previousChannelTime = endTime - startTime
             const previousChannelRemaining = previousChannelTime - (now - startTime)
-            const maximumTicks = Math.floor(baseTicks * ((baseDuration - 1500)/baseDuration))      
+            const maximumTicks = Math.floor(baseTicks * ((baseDuration - gcd)/baseDuration))      
             pandemicTime = Math.min(previousChannelRemaining, baseDuration * .3)
 
             const remainingTicks = Math.min(ticks, maximumTicks)
@@ -220,6 +221,9 @@ class Ability {
             let remaining = (startTime + duration) - now
             if(remaining <= interval) {
                 clearInterval(this.globalCooldownTimer)
+                this.updateState(state => {
+                    return {...state, progress: 0}
+                })
                              
                 return
             }
