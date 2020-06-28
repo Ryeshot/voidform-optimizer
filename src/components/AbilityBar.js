@@ -300,31 +300,31 @@ const AbilityBar = (props) => {
         <div className="progress-bar-container">
             {state.casting ? <CastBar {...state.casting}/> : null}
         </div>
-
-        <div className="ability-bar">
-            {buildAbilityBar(abilities)
-            .map(k => {
-                return <ProgressAbility
-                    name={k}
-                    key={`ability-${k}`}
-                    {...abilities[k]}
-                    {...state.cooldowns[k]}
-                    settings={abilitySettings[k]}
-                    cooldown={getAbilityCooldown(k)}
-                    globalCooldown={state.globalCooldown}
-                    globalCooldownStartTime={state.globalCooldownStartTime}
-                    casttime={getAbilityCastTime(k)}
-                    casting={state.casting && state.casting.time && state.casting.direction}
-                    subscribe={subscribe}
-                    unsubscribe={unsubscribe}
-                    onExecute={triggerGlobalCooldown}
-                    onAbilityUpdate={triggerCooldown}
-                    onClick={handleClick}
-                    triggerEvent={triggerEvent}
-                    reset={reset}
-                    />
-                })}
-        </div>        
+        {buildAbilityBar(abilities).map((group, groupI) =>
+            <div className="ability-bar" key={`abilitybar-${groupI}`}>
+                {group.map(k => {
+            return <ProgressAbility
+                name={k}
+                key={`ability-${k}`}
+                {...abilities[k]}
+                {...state.cooldowns[k]}
+                settings={abilitySettings[k]}
+                cooldown={getAbilityCooldown(k)}
+                globalCooldown={state.globalCooldown}
+                globalCooldownStartTime={state.globalCooldownStartTime}
+                casttime={getAbilityCastTime(k)}
+                casting={state.casting && state.casting.time && state.casting.direction}
+                subscribe={subscribe}
+                unsubscribe={unsubscribe}
+                onExecute={triggerGlobalCooldown}
+                onAbilityUpdate={triggerCooldown}
+                onClick={handleClick}
+                triggerEvent={triggerEvent}
+                reset={reset}
+                />
+            })}
+            </div>
+        )}      
     </div>
     )
 }
