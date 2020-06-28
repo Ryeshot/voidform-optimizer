@@ -1,5 +1,10 @@
 # Voidform Optimizer Changelog
 
+### 0.7.4 - 2020-06-28
+
+### Fixed
+ * Settings panel pending changes clearing when updating opposite setting
+
 ### 0.7.3 - 2020-06-28
 
 ### Added
@@ -7,7 +12,7 @@
 
 ### Fixed
  * An issue causing pandemic channel ticks to not occur
- * An issue causing pending changes text to disappear when setting opposite setting
+ * An issue causing pending changes text to disappear when updating opposite setting
  * An issue causing Mind Blast's cooldown reduction in Voidform to be greater than expect
 
 ## 0.7.2 - 2020-06-27
