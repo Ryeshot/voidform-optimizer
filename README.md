@@ -1,5 +1,10 @@
 # Voidform Optimizer Changelog
 
+### 0.8.0 -2020-06-29
+
+### Added
+ * Spell ordering option in the keybinds panel
+
 ### 0.7.4 - 2020-06-28
 
 ### Fixed
