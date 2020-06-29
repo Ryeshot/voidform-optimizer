@@ -122,7 +122,7 @@ const ProgressAbility = (props) => {
         <div className="progress-ability-container">
         <div className="progress-ability" onClick={handleClick}>
             <img
-                className={!unusable && ((state.charges > 0 && charges) || (!startTimeRef.current)) ? "colored" : "desaturated"}
+                className={!unusable && ((state.charges > 0 && charges) || (!startTimeRef.current)) ? "hover-pointer colored" : "hover-pointer desaturated"}
                 src={icon}
                 width={size}
                 height={size}

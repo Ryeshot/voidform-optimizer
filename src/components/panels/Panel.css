@@ -108,7 +108,7 @@
     height: 100%
 }
 
-.hover-pointer:hover {
+.hover-pointer {
     cursor: pointer;
 }
 

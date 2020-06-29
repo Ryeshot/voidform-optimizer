@@ -4,9 +4,26 @@ import {keybinds} from "../../lib/constants"
 import "./Panel.css"
 import "./Tooltip.css"
 
+const AbilityIndex = (props) => {
+
+    const {name, count, onChange, value} = props
+
+    const handleChange = (e) => {
+        onChange(parseInt(e.target.value), name)
+    }
+
+    return (
+        <div>
+            <select className="panel-dropdown" value={value} onChange={handleChange}>
+                {[...Array(count).keys()].map(i => <option key={`${name}-index-${i}`} value={i+1}>{i+1}</option>)}
+            </select>
+        </div>
+    )
+}
+
 const AbilityKeybindsPanel = (props) => {
 
-    const {abilities, currentPanel, onKeybind, onToggle, onClick, onPause, closePanel} = props
+    const {abilities, currentPanel, onKeybind, setOrder, onToggle, onClick, closePanel} = props
 
     const panel = "abilitykeybinds"
     const header = "Ability and Keybinds"
@@ -21,6 +38,7 @@ const AbilityKeybindsPanel = (props) => {
     const [tooltip, setTooltip] = useState(defaultState.tooltip)
     const [keybindText, setKeybindText] = useState(defaultState.keybindText)
     const [currentAbility, setCurrentAbility] = useState(defaultState.currentAbility)
+    const [abilityCount] = useState(Object.keys(abilities).length-1)
 
     const handleClose = () => {
         setTooltip(defaultState.tooltip)
@@ -98,7 +116,8 @@ const AbilityKeybindsPanel = (props) => {
                                 height={50}
                                 width={50}
                             />
-                        <button className="panel-button" onClick={() => onToggle(k)}>{abilities[k].disabled ? "Enable" : "Disable"}</button>
+                            <button className="panel-button" onClick={() => onToggle(k)}>{abilities[k].disabled ? "Enable" : "Disable"}</button>
+                            <AbilityIndex name={k} count={abilityCount} value={abilities[k].index} onChange={setOrder} />
                         </div>
                 })}
                 </div>

@@ -1,6 +1,7 @@
 const defaultAbilities = {
     "mind-flay": {
         displayName: "Mind Flay",
+        index: 1,
         keybind: {
             key: "1",
             keybindText: "1"
@@ -9,6 +10,7 @@ const defaultAbilities = {
     },
     "mind-sear": {
         displayName: "Mind Sear",
+        index: 2,
         keybind: {
             key: "2",
             keybindText: "2"
@@ -17,6 +19,7 @@ const defaultAbilities = {
     },
     "mind-blast": {
         displayName: "Mind Blast",
+        index: 3,
         keybind: {
             key: "3",
             keybindText: "3"
@@ -25,6 +28,7 @@ const defaultAbilities = {
     },
     "void-bolt": {
         displayName: "Void Bolt",
+        index: 4,
         keybind: {
             key: "4",
             keybindText: "4"
@@ -33,6 +37,7 @@ const defaultAbilities = {
     },
     "void-eruption": {
         displayName: "Void Eruption",
+        index: 4,
         keybind: {
             key: "4",
             keybindText: "4"
@@ -41,6 +46,7 @@ const defaultAbilities = {
     },
     "shadow-word-death": {
         displayName: "Shadow Word: Death",
+        index: 5,
         keybind: {
             key: "5",
             keybindText: "5"
@@ -49,6 +55,7 @@ const defaultAbilities = {
     },
     "void-torrent": {
         displayName: "Void Torrent",
+        index: 6,
         keybind: {
             key: "6",
             keybindText: "6"
@@ -57,6 +64,7 @@ const defaultAbilities = {
     },
     "shadow-word-pain": {
         displayName: "Shadow Word: Pain",
+        index: 7,
         keybind: {
             key: "7",
             keybindText: "7"
@@ -65,6 +73,7 @@ const defaultAbilities = {
     },
     "vampiric-touch": {
         displayName: "Vampiric Touch",
+        index: 8,
         keybind: {
             key: "8",
             keybindText: "8"
@@ -73,6 +82,7 @@ const defaultAbilities = {
     },
     "devouring-plague": {
         displayName: "Devouring Plague",
+        index: 9,
         keybind: {
             key: "9",
             keybindText: "9"
@@ -81,6 +91,7 @@ const defaultAbilities = {
     },
     "shadowfiend": {
         displayName: "Shadowfiend",
+        index: 10,
         keybind: {
             key: "0",
             keybindText: "0"
@@ -89,6 +100,7 @@ const defaultAbilities = {
     },
     "power-infusion": {
         displayName: "Power Infusion",
+        index: 11,
         keybind: {
             key: "-",
             keybindText: "-"

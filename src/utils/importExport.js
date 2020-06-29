@@ -66,14 +66,14 @@ const parseAuraSettings = (auras) => {
     return result
 }
 
-export const importSettings = (settings, includeKeybinds) => {
+export const importSettings = (settings, includeKeybinds, includeSpellOrder) => {
 
     try {
         let parsedSettings = JSON.parse(Base64.decode(settings))
 
         let parsedAbilitySettings = parseAbilitySettings(parsedSettings.abilitySettings)
         let parsedAuraSettings = parseAuraSettings(parsedSettings.auraSettings)
-        let abilityConfig = formatAbilityConfig(parsedSettings.abilityConfig, includeKeybinds)
+        let abilityConfig = formatAbilityConfig(parsedSettings.abilityConfig, includeKeybinds, includeSpellOrder)
 
         return {
             abilitySettings: parsedAbilitySettings, 
@@ -107,12 +107,13 @@ const formatAbilitySettingsForExport = (settings) => {
     return result
 }
 
-const formatAbilityConfig = (settings, includeKeybinds) => {
+const formatAbilityConfig = (settings, includeKeybinds, includeSpellOrder) => {
     let result = Object.keys(settings).reduce((result, k) => {
-        let {keybind, disabled} = settings[k]
+        let {keybind, disabled, index} = settings[k]
 
         result[k] = {disabled: !!disabled}
         if(includeKeybinds && keybind) result[k].keybind = keybind
+        if(includeSpellOrder && index) result[k].index = index
         
         return result
     }, {})
@@ -122,7 +123,7 @@ const formatAbilityConfig = (settings, includeKeybinds) => {
 
 export const exportSettings = (currentSettings) => {
     let formattedAbilitySettings = formatAbilitySettingsForExport(currentSettings.abilitySettings)
-    let formattedAbilityConfig = formatAbilityConfig(currentSettings.abilities, true)
+    let formattedAbilityConfig = formatAbilityConfig(currentSettings.abilities, true, true)
 
     let combined =  {
         abilitySettings: formattedAbilitySettings,

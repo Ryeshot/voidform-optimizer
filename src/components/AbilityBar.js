@@ -292,6 +292,7 @@ const AbilityBar = (props) => {
     const buildAbilityBar = (abilities) => {
         return Object.keys(abilities)
             .filter(disabledAbilities)
+            .sort((k1, k2) => abilities[k1].index - abilities[k2].index)
             //.reduce(makeGroupChunks(8), [])
     }
 

@@ -35,10 +35,11 @@ const ExportPanel = (props) => {
     const [exportData, setExportData] = useState("")
     const [inputData, setInputData] = useState("")
     const [includeKeybinds, setIncludeKeybinds] = useState(false)
+    const [includeSpellOrder, setIncludeSpellOrder] = useState(false)
     const [selectedTemplate, setSelectedTemplate] = useState(defaultSelected)
 
     const handleImport = () => {
-        const settings = importSettings(inputData, includeKeybinds)
+        const settings = importSettings(inputData, includeKeybinds, includeSpellOrder)
         onImport(settings)
         setInputData("")
     }
@@ -90,6 +91,7 @@ const ExportPanel = (props) => {
         setExportData("")
         setInputData("")
         setIncludeKeybinds(false)
+        setIncludeSpellOrder(false)
         setSelectedTemplate(defaultSelected)
     }
 
@@ -103,6 +105,10 @@ const ExportPanel = (props) => {
                     <div className="panel-info-text-container">
                         <label>Include keybinds</label>
                         <input type="checkbox" onChange={() => setIncludeKeybinds(!includeKeybinds)} checked={includeKeybinds} />
+                    </div>
+                    <div className="panel-info-text-container">
+                        <label>Include spell order</label>
+                        <input type="checkbox" onChange={() => setIncludeSpellOrder(!includeSpellOrder)} checked={includeSpellOrder} />
                     </div>
                     <div className="panel-button-container">
                         <button className="panel-button panel-input-button" onClick={handleImport} disabled={!inputData}>Import</button>

@@ -278,6 +278,32 @@ const App = () => {
     setAbilities(state)
   }
 
+  const setAbilityOrder = (index, name) => {
+    const state = JSON.parse(JSON.stringify(abilities))
+    const ability = state[name]
+    const abilityIndex = ability.index
+    const shift = index < abilityIndex ? "right" : "left"
+
+    let voidBoltOrEruption = name === "void-bolt" || name === "void-eruption"
+
+    Object.keys(state).forEach(k => {
+      const currentIndex = state[k].index
+
+      if(shift === "right" && (currentIndex >= index && currentIndex < abilityIndex)) state[k].index++
+      if(shift === "left" && (currentIndex <= index && currentIndex > abilityIndex)) state[k].index--
+    })
+    
+    if(voidBoltOrEruption) {
+      state["void-bolt"].index = index
+      state["void-eruption"].index = index
+    }
+    else {
+      ability.index = index
+    }
+
+    setAbilities(state)
+  }
+
   const handleImport = (settings) => {
     setAllAbilities(settings.abilityConfig)
     handleAbilitySet(settings.abilitySettings)
@@ -370,7 +396,7 @@ const App = () => {
         </div>
         <div className="panel-container">
           <SettingsPanel settings={{abilities: abilitySettingsWithDisplayName(), auras: auraSettings}} didReset={reset} onAbilitySet={handleAbilitySet} onAuraSet={handleAuraSet} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
-          <AbilityKeybindsPanel abilities={abilities} currentPanel={panel} onKeybind={setKeyBind} onToggle={handleAbilityToggle} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
+          <AbilityKeybindsPanel abilities={abilities} currentPanel={panel} onKeybind={setKeyBind} setOrder={setAbilityOrder} onToggle={handleAbilityToggle} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
           <ExportPanel settings={{abilitySettings, auraSettings, abilities}} onImport={handleImport} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
           <AboutPanel currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
           <WhatsNewPanel />
