@@ -68,6 +68,7 @@ const App = () => {
   const [auraSettings, setAuraSettings] = useState(defaultAuraSettings)
   const [keyEventsPaused, setKeyEventsPaused] = useState(false)
   const [reset, setReset] = useState(false)
+  const [abilityReset, setAbilityReset] = useState(false)
   const [haste, setHaste] = useState(0)
 
   const handleAuraPandemic = (aura, baseDuration, now) => {
@@ -168,9 +169,6 @@ const App = () => {
           if(!ability.costsResource) return
           newState.abilities[k].unusable = resource < ability.resource
         })
-        // if(!voidform.active && resource >= abilitySettings["void-eruption"].threshold) {
-        //   newState.abilities["void-eruption"].unusable = false
-        // }
         break;
       case "INSANITY_DRAIN_PAUSE_START":
         voidform.paused = true
@@ -325,6 +323,7 @@ const App = () => {
 
   const handleAbilitySet = (abilitySettings) => {
     setAbilitySettings(abilitySettings)
+    handleAbilityReset()
   }
 
   const handleAbilityReset = () => {
@@ -337,10 +336,10 @@ const App = () => {
         resource: 0
       }
     })
-
     updateState({
       type: "UPDATE_ABILITY_STATE"
     })
+    setAbilityReset(!abilityReset)
   }
 
   const handleAuraReset = () => {
@@ -381,7 +380,7 @@ const App = () => {
       <div className="App-content">
         <AuraBar auras={state.auras} settings={auraSettings} haste={haste} triggerEvent={updateState} />
         <ResourceBar current={state.resource} max={100}/>
-        <AbilityBar abilitySettings={abilitySettings} abilities={mergeAbilities()} haste={haste} inVoidform={state.auras.voidform.active} triggerEvent={updateState} keyEventsPaused={keyEventsPaused} reset={reset} />
+        <AbilityBar abilitySettings={abilitySettings} abilities={mergeAbilities()} haste={haste} inVoidform={state.auras.voidform.active} triggerEvent={updateState} keyEventsPaused={keyEventsPaused} reset={abilityReset} />
         <button className="panel-button" onClick={handleReset}>Reset</button>
       </div>
     </div>
