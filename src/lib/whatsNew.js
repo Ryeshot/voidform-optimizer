@@ -1,5 +1,10 @@
 export default [
     {
+        header: "Spell Ordering!",
+        description: "You can now manually set the order of spells shown through the keybinds panel. You can also preserve these changes \
+        by toggling include spell order while importing a template."
+    },
+    {
         header: "Power Infusion!",
         description: "Customizable Power Infusion ability has been added! The ability's cooldown may be changed \
         and the aura's duration and resource generation can be changed. If desired, you can create alpha StM, Lucid, \
