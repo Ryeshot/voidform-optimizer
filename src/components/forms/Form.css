@@ -50,8 +50,12 @@
     height: 25%
 } */
 
-.form-input-field {
+.form-input-container {
     width: 100%;
+}
+
+.form-input {
+    flex-grow: 1;
 }
 
 .form-text-field {
@@ -67,8 +71,3 @@
 .form-title {
     padding-bottom: 10px;
 }
-
-/* .form-input-container {
-    width: 100%;
-    flex-shrink: 1;
-} */

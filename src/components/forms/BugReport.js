@@ -28,6 +28,11 @@ const titleField = {
     label: "Title"
 }
 
+const contactField = {
+    id: "contact",
+    label: "Contact (Optional)"
+}
+
 const formTitle = "Bug Report"
 
 const submitPending = "Submitting"
@@ -69,8 +74,9 @@ const BugReport = (props) => {
                 {formTitle}
             </div>
             <form className="form" onSubmit={onSubmit}>
-                <FormTextField value={data.title} {...titleField} onChange={onChange} />
+                <FormTextField value={data.title} {...titleField} required={true} onChange={onChange} />
                 {fields.map(f => <FormTextAreaField key={f.id} value={data[f.id]} {...f} onChange={onChange} />)}
+                <FormTextField value={data.contact} {...contactField} required={false} onChange={onChange} />
                 <div>
                     <input className="panel-button" type="submit" value="Submit" disabled={!canSubmit} />
                 </div>

@@ -401,7 +401,7 @@ const App = () => {
           <AboutPanel currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
           <WhatsNewPanel />
         </div>
-        <Forms />
+        <Forms pauseKeyEvents={setKeyEventsPaused} />
       </header>
       <div className="App-content">
         <AuraBar auras={state.auras} settings={auraSettings} haste={haste} triggerEvent={updateState} />

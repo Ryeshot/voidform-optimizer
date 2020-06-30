@@ -6,10 +6,12 @@ const formatBugReportContent = (body) => {
     //const reproductionHeader = "### How can this issue be reproduced?"
     const expectedBehaviorHeader = "<h3>What is the expected behavior?</h3>"
     const actualBehaviorHeader = "<h3>What is the actual behavior?</h3>"
+    const contactHeader = "<h3>Contact Information</h3>"
 
-    const headers = [descriptionHeader, expectedBehaviorHeader, actualBehaviorHeader]
+    const headers = [descriptionHeader, expectedBehaviorHeader, actualBehaviorHeader, contactHeader]
 
     const userContent = Object.keys(body).reduce((content, key, i) => {
+        if(!body[key]) return content
         return content.concat([headers[i], body[key]])
     }, []).join("\n")
 
@@ -36,8 +38,10 @@ export const submitBugReport = async (data, onSuccess, onFail) => {
 
     const content = formatBugReportContent(body)
 
+    console.log(content)
+
     try {
-        await sendBugReport(`[BUG] ${title}`, content)
+        //await sendBugReport(`[BUG] ${title}`, content)
         onSuccess()
     }
     catch(err){
