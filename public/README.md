@@ -1,5 +1,10 @@
 # Voidform Optimizer Changelog
 
+### 0.8.4 - 2020-06-30
+
+### Added
+ * Optional contact field to bug report form
+
 ### 0.8.3 - 2020-06-30
 
 ### Added
