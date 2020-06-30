@@ -1,7 +1,7 @@
 {
   "name": "voidform-optimizer",
   "homepage": "https://ryeshot.github.io/voidform-optimizer",
-  "version": "0.7.4",
+  "version": "0.8.1",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",

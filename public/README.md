@@ -1,5 +1,15 @@
 # Voidform Optimizer Changelog
 
+### 0.8.1 - 2020-06-30
+
+### Fixed
+ * About panel positioning on larger view ports
+
+### 0.8.0 - 2020-06-29
+
+### Added
+ * Spell ordering option in the keybinds panel
+
 ### 0.7.4 - 2020-06-28
 
 ### Fixed
@@ -13,7 +23,7 @@
 ### Fixed
  * An issue causing pandemic channel ticks to not occur
  * An issue causing pending changes text to disappear when updating opposite setting
- * An issue causing Mind Blast's cooldown reduction in Voidform to be greater than expect
+ * An issue causing Mind Blast's cooldown reduction in Voidform to be greater than expected
 
 ## 0.7.2 - 2020-06-27
 
@@ -23,7 +33,7 @@
 ## 0.7.1 - 2020-06-27
 
 ### Fixed
- * Import/export panel not has a vertical scroll if content does not fit window
+ * Import/export panel now has a vertical scroll if content does not fit window
  * Mind Sear is no longer part of the Legion: Antorus template
  * Template dropdown is reset when panel closes
 
@@ -35,7 +45,7 @@
 ## 0.6.4 - 2020-06-27
 
 ### Fixed
- * An ssue causing spells that become usable during the gcd to not reset the gcd
+ * An issue causing spells that become usable during the gcd to not reset the gcd
 
 ## 0.6.3 - 2020-06-25
 
