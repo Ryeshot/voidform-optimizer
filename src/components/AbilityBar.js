@@ -78,9 +78,11 @@ const AbilityBar = (props) => {
     }, [inVoidform])
 
     useEffect(() => {
+        document.addEventListener("keydown", handleKeyPress)
         document.addEventListener("keypress", handleKeyPress)
 
         return () => {
+            document.removeEventListener("keydown", handleKeyPress)
             document.removeEventListener("keypress", handleKeyPress)
         }
     }, [keyEventsPaused])
@@ -201,11 +203,12 @@ const AbilityBar = (props) => {
 
     const handleKeyPress = (e) => {
         if(keyEventsPaused) return
-        
+
         const now = Date.now()
 
         observersRef.current.forEach(o => {
             if(o.keybind === e.key) {
+                e.preventDefault()
                 const abilityCooldownRemaining = o.getRemainingCooldown()
                 const globalCooldownRemaining = globalCooldownRef.current ? globalCooldownRef.current - (now - globalCooldownStartTimeRef.current) : 0
                 const remaining = Math.max(abilityCooldownRemaining, globalCooldownRemaining)

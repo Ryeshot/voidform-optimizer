@@ -65,26 +65,47 @@ const AbilityKeybindsPanel = (props) => {
 
         setKeybindText(`Press any key to bind to ${abilities[ability].displayName}`)
 
-        document.addEventListener("keypress", bindAbility, {once: true})
-    //     document.addEventListener("keydown", bindAbilityFunction, {once: true})
+        document.addEventListener("keydown", handleKeyDown, {once: true})
+        document.addEventListener("keypress", handleKeyPress, {once: true})
     }
 
-    // const bindAbilityFunction = (event) => {
-    //     event.preventDefault()
-    //     console.log(event.key)
-    // }
+    const handleKeyDown = (event) => {
+        //check to see if we prevent default or not
+        const {key} = event
 
-    const bindAbility = (event) => {
-        document.removeEventListener("keypress", bindAbility)
-        //document.removeEventListener("keydown", bindAbilityFunction)
-        let keybind = {
-            key: event.key,
-            keybindText: event.key
-        }
+        if(!isKeydownKey(key)) return
 
-        if(keybinds[keybind.key]) keybind.keybindText = keybinds[keybind.key]
-        if(keybind.key.match(/[a-z]/)) keybind.keybindText = keybind.key.toUpperCase()
-        if(keybind.key.match(/[A-Z]/)) keybind.keybindText = "S-" + keybind.key
+        event.preventDefault()
+        bindAbility(key)
+
+        //if keybind was found, prevent default and bind ability
+
+        //if keybind was not found, return
+    }
+
+    const handleKeyPress = (e) => bindAbility(e.key)
+
+    const isKeydownKey = (key) => {     
+        if(key.match(/F[1-9]{1,2}/)) return true
+
+        return false
+    }
+
+    const formKeybindFromKey = (key) => {
+        if(keybinds[key]) 
+            return {key, keybindText: keybinds[key]}
+        if(key.match(/^[a-z]$/)) 
+            return {key, keybindText: key.toUpperCase() }
+        if(key.match(/^[A-Z]$/)) 
+            return {key, keybindText: "S-" + key }
+        
+        return {key, keybindText: key}
+    }
+
+    const bindAbility = (key) => {
+        document.removeEventListener("keypress", handleKeyPress)
+        
+        const keybind = formKeybindFromKey(key)
         
         let ability = currentAbilityRef.current 
 
@@ -93,7 +114,8 @@ const AbilityKeybindsPanel = (props) => {
     }
 
     const reset = () => {
-        document.removeEventListener("keypress", bindAbility)
+        document.removeEventListener("keydown", handleKeyDown)
+        document.removeEventListener("keypress", handleKeyPress)
         setTooltip(defaultState.tooltip)
         setKeybindText(defaultState.keybindText)
         setCurrentAbility(defaultState.currentAbility)
