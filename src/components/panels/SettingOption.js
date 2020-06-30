@@ -15,8 +15,6 @@ const SettingOption = (props) => {
             x: e.target.offsetLeft,
             y: e.target.offsetTop
         }
-        //console.log(e.target.offsetLeft)
-        //console.log(e.target.offsetTop)
         onHelp(displayName, whatIs, pos)
     }
 
@@ -28,7 +26,6 @@ const SettingOption = (props) => {
             <div className="setting-option-header">{displayName}</div>
             {Option(type, value, handleInputChange, parentKey + "-input", name, rest)}
         </div>
-
     )
 }
 

@@ -44,6 +44,7 @@ const defaultAbilitySettings = {
     "shadow-word-death": {
         cooldown: 9000,
         resource: 15,
+        hasted: false,
         type: "instant",
         charges: 1,
     },
