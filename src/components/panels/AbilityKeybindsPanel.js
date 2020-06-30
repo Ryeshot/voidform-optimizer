@@ -66,10 +66,17 @@ const AbilityKeybindsPanel = (props) => {
         setKeybindText(`Press any key to bind to ${abilities[ability].displayName}`)
 
         document.addEventListener("keypress", bindAbility, {once: true})
+    //     document.addEventListener("keydown", bindAbilityFunction, {once: true})
     }
+
+    // const bindAbilityFunction = (event) => {
+    //     event.preventDefault()
+    //     console.log(event.key)
+    // }
 
     const bindAbility = (event) => {
         document.removeEventListener("keypress", bindAbility)
+        //document.removeEventListener("keydown", bindAbilityFunction)
         let keybind = {
             key: event.key,
             keybindText: event.key
