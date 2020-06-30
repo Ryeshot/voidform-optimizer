@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/voidform-optimizer/static/css/main.a5059b67.chunk.css",
-    "main.js": "/voidform-optimizer/static/js/main.26f0b09f.chunk.js",
-    "main.js.map": "/voidform-optimizer/static/js/main.26f0b09f.chunk.js.map",
+    "main.js": "/voidform-optimizer/static/js/main.a8c5e6ec.chunk.js",
+    "main.js.map": "/voidform-optimizer/static/js/main.a8c5e6ec.chunk.js.map",
     "runtime-main.js": "/voidform-optimizer/static/js/runtime-main.65aba562.js",
     "runtime-main.js.map": "/voidform-optimizer/static/js/runtime-main.65aba562.js.map",
     "static/js/2.3778e74f.chunk.js": "/voidform-optimizer/static/js/2.3778e74f.chunk.js",
     "static/js/2.3778e74f.chunk.js.map": "/voidform-optimizer/static/js/2.3778e74f.chunk.js.map",
     "index.html": "/voidform-optimizer/index.html",
-    "precache-manifest.0532ca96f5bc2f687aeec6a2575c218d.js": "/voidform-optimizer/precache-manifest.0532ca96f5bc2f687aeec6a2575c218d.js",
+    "precache-manifest.37532d7939800c5e003182021075db17.js": "/voidform-optimizer/precache-manifest.37532d7939800c5e003182021075db17.js",
     "service-worker.js": "/voidform-optimizer/service-worker.js",
     "static/css/main.a5059b67.chunk.css.map": "/voidform-optimizer/static/css/main.a5059b67.chunk.css.map",
     "static/js/2.3778e74f.chunk.js.LICENSE.txt": "/voidform-optimizer/static/js/2.3778e74f.chunk.js.LICENSE.txt",
@@ -19,6 +19,6 @@
     "static/js/runtime-main.65aba562.js",
     "static/js/2.3778e74f.chunk.js",
     "static/css/main.a5059b67.chunk.css",
-    "static/js/main.26f0b09f.chunk.js"
+    "static/js/main.a8c5e6ec.chunk.js"
   ]
 }
