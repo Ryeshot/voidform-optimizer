@@ -6,13 +6,8 @@ export default {
     abilitySettings: {
         ...defaultAbilitySettings,
         "void-bolt": {
-            cooldown: 4500,
-            resource: 20,
-            hasted: true,
-            rankTwo: true,
-            type: "instant",
-            charges: 1,
-            extension: 3000
+            ...defaultAbilitySettings["void-bolt"],
+            rankTwo: true
         },
         "void-eruption": {
             cooldown: 0,
@@ -31,16 +26,10 @@ export default {
             cdr: 1500
         },
         "shadow-word-death": {
+            ...defaultAbilitySettings["shadow-word-death"],
             cooldown: 20000,
             resource: 0,
-            type: "instant",
-            charges: 1,
-        },
-        "devouring-plague": {
-            cooldown: 0,
-            resource: 50,
-            costsResource: true,
-            type: "instant"
+            hasted: true,
         }
     },
     auraSettings: {
