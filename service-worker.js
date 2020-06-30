@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/voidform-optimizer/precache-manifest.3edb3bcefefd8f384b0b926992d9174a.js"
+  "/voidform-optimizer/precache-manifest.c239e52e79d46cecbe4d15b05c9acb19.js"
 );
 
 self.addEventListener('message', (event) => {
