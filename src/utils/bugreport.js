@@ -38,10 +38,8 @@ export const submitBugReport = async (data, onSuccess, onFail) => {
 
     const content = formatBugReportContent(body)
 
-    console.log(content)
-
     try {
-        //await sendBugReport(`[BUG] ${title}`, content)
+        await sendBugReport(`[BUG] ${title}`, content)
         onSuccess()
     }
     catch(err){
