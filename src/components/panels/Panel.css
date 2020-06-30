@@ -14,11 +14,11 @@
     background-color: #404040;
     border-radius: 4px;
     color: white;
+    cursor: pointer;
 }
 
 .panel-button:hover {
     background-color: #202020;
-    cursor: pointer;
 }
 
 .panel-exit-button {
