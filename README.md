@@ -1,5 +1,10 @@
 # Voidform Optimizer Changelog
 
+### 0.8.3 - 2020-06-30
+
+### Added
+ * Function keys as keybind option
+
 ### 0.8.2 - 2020-06-30
 
 ### Fixed
