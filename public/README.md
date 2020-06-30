@@ -1,5 +1,11 @@
 # Voidform Optimizer Changelog
 
+### 0.8.2 - 2020-06-30
+
+### Fixed
+ * An issue causing some setting inputs to fail
+ * An issue causing Shadow Word: Death hasted setting to not carry over from templates
+
 ### 0.8.1 - 2020-06-30
 
 ### Fixed
