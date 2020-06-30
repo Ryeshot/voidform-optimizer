@@ -1,5 +1,10 @@
 export default [
     {
+        header: "Function Key Binding",
+        description: "Due to popular demand, function keys are now a valid keybind option. Just make sure to unbind should you wish to \
+        perform any browser function key events (such as refreshing the page), since the settings will override that default behavior."
+    },
+    {
         header: "Spell Ordering!",
         description: "You can now manually set the order of spells shown through the keybinds panel. You can also preserve these changes \
         by toggling include spell order while importing a template."
