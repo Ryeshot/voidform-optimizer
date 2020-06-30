@@ -101,25 +101,30 @@ const AbilityKeybindsPanel = (props) => {
                         {tooltip}
                     </span>
                 </div>
-                <div className="panel-abilities-container">
-                    {Object.keys(abilities).map(k => {
-                        if(k === "void-eruption") return
-                        return <div className="panel-ability-container" key={k}>
-                            <img  
-                                className="hover-pointer" 
-                                alt={abilities[k].displayName}
-                                ability={k} 
-                                onMouseOver={showToolTip}
-                                onMouseOut={hideToolTip}
-                                onClick={prepareToBindAbility}
-                                src={abilities[k].icon}
-                                height={50}
-                                width={50}
-                            />
-                            <button className="panel-button" onClick={() => onToggle(k)}>{abilities[k].disabled ? "Enable" : "Disable"}</button>
-                            <AbilityIndex name={k} count={abilityCount} value={abilities[k].index} onChange={setOrder} />
-                        </div>
-                })}
+                <div className="panel-abilities-content">
+                    <div className="panel-abilities-header">
+                        Spell Order
+                    </div>
+                    <div className="panel-abilities-container">
+                        {Object.keys(abilities).map(k => {
+                            if(k === "void-eruption") return
+                            return <div className="panel-ability-container" key={k}>
+                                <img  
+                                    className="hover-pointer" 
+                                    alt={abilities[k].displayName}
+                                    ability={k} 
+                                    onMouseOver={showToolTip}
+                                    onMouseOut={hideToolTip}
+                                    onClick={prepareToBindAbility}
+                                    src={abilities[k].icon}
+                                    height={50}
+                                    width={50}
+                                />
+                                <button className={`${abilities[k].disabled ? "panel-button-secondary" : "panel-button"}`} onClick={() => onToggle(k)}>{abilities[k].disabled ? "Enable" : "Disable"}</button>
+                                <AbilityIndex name={k} count={abilityCount} value={abilities[k].index} onChange={setOrder} />
+                            </div>
+                    })}
+                    </div>
                 </div>
                 <div>{keybindText ? keybindText : null}</div>
             </div>
