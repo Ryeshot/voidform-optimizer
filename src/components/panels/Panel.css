@@ -27,6 +27,7 @@
     border-color: rgb(118, 118, 118);
     border-style: outset;
     color: white;
+    cursor: pointer;
 }
 
 .panel-button:hover,.panel-button-secondary:hover {
