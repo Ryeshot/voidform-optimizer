@@ -51,7 +51,7 @@ const BooleanOption = (props) => {
         onChange(e.target.checked)
     }
 
-    return <input type="checkbox" defaultChecked={value} onChange={handleChange} />
+    return <input type="checkbox" checked={value} onChange={handleChange} />
 }
 
 const SelectOption = (props) => {
@@ -64,7 +64,7 @@ const SelectOption = (props) => {
     return (
         options.map(o => (
             <div>
-                <input type="radio" id={o.value} name={name} value={o.value} defaultChecked={o.value === value} onChange={handleChange} />
+                <input type="radio" id={o.value} name={name} value={o.value} checked={o.value === value} onChange={handleChange} />
                 <label htmlFor={o.value}>{o.displayName}</label>
             </div>
         ))
