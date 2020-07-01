@@ -1,5 +1,10 @@
 # Voidform Optimizer Changelog
 
+### 0.9.1 - 2020-06-30
+
+### Fixed
+ * An issue causing abilities on cooldown to sometimes display global cooldown sweep
+
 ### 0.9.0 - 2020-06-30
 
 ### Changed
