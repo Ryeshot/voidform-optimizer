@@ -1,5 +1,9 @@
 export default [
     {
+        header: "New Domain!",
+        description: "Voidform Optimizer is now registered at voidform-optimizer.com."
+    },
+    {
         header: "Function Key Binding",
         description: "Due to popular demand, function keys are now a valid keybind option. Just make sure to unbind should you wish to \
         perform any browser function key events (such as refreshing the page), since the settings will override that default behavior."
