@@ -120,12 +120,12 @@ export const abilityOptions = {
         commonOptions.hasted,
         commonOptions.charges,
         commonOptions.resourceCast,
-        {
-            key: "rankTwo",
-            displayName: "Rank 2",
-            type: "boolean",
-            whatIs: whatIs.voidBoltRankTwo
-        },
+        // {
+        //     key: "rankTwo",
+        //     displayName: "Rank 2",
+        //     type: "boolean",
+        //     whatIs: whatIs.voidBoltRankTwo
+        // },
         {
             key: "extension",
             displayName: "DoT Extension",

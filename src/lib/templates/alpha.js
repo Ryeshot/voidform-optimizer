@@ -5,10 +5,6 @@ export default {
     displayName: "Shadowlands Alpha",
     abilitySettings: {
         ...defaultAbilitySettings,
-        "void-bolt": {
-            ...defaultAbilitySettings["void-bolt"],
-            rankTwo: true
-        },
         "void-eruption": {
             cooldown: 0,
             type: "cast",

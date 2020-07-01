@@ -1,5 +1,10 @@
 export default [
     {
+        header: "Void Bolt Rank Two Removed!",
+        description: "Void Bolt rank two has been removed from the alpha, and therefore is no longer part of the alpha template or a \
+        customizable option for Void Bolt. Good riddance."
+    },
+    {
         header: "New Domain!",
         description: "Voidform Optimizer is now registered at voidform-optimizer.com."
     },
