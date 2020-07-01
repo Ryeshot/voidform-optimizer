@@ -1,5 +1,10 @@
 # Voidform Optimizer Changelog
 
+### 0.9.0 - 2020-06-30
+
+### Changed
+ * Domain for the app to voidform-optimizer.com
+
 ### 0.8.4 - 2020-06-30
 
 ### Added
