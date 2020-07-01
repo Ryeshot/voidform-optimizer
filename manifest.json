@@ -1,6 +1,5 @@
 {
   "name": "Voidform Optimizer",
-  "start_url": "https://voidform-optimizer.com",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
