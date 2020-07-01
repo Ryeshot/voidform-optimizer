@@ -1,5 +1,10 @@
 # Voidform Optimizer Changelog
 
+### 0.9.2 - 2020-07-01
+
+### Removed
+ * Void Bolt rank two from Alpha template and as custom option
+
 ### 0.9.1 - 2020-06-30
 
 ### Fixed
