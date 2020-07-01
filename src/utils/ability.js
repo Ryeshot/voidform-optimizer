@@ -210,8 +210,10 @@ class Ability {
     beginGlobalCooldown() {
         let state = this.getCurrentState()
         const {duration, startTime} = state.globalCooldown
+        const {current, maxCharges} = state.charges
 
         if(state.cooldown.startTime) {
+            if(maxCharges && current < maxCharges - 1) return
             let remaining = (state.cooldown.startTime + state.cooldown.duration) - startTime
             if(remaining > duration) return
         }
