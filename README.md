@@ -1,5 +1,14 @@
 # Voidform Optimizer Changelog
 
+### 0.9.4 - 2020-07-02
+
+### Fixed
+ * Temporary issue causing Mind Blast cooldown reduction to be applied more often than normal
+
+### Added
+ * New template Ryeshot's Shadowlands, reflecting my ideal changes for Shadow for the next expansion
+ * Notification to update browser to latest version on bug report
+
 ### 0.9.3 - 2020-07-02
 
 ### Added
