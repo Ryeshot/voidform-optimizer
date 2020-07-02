@@ -1,7 +1,8 @@
 const whatIs = {
     cooldown: "The amount of time, in seconds, it takes for an ability to be able to be recast.",
     charges: "The number of times an ability may be cast while it is on cooldown.",
-    hasted: "An ability that is hasted has its cooldown reduced by haste.",
+    abilityHasted: "An ability that is hasted has its cooldown reduced by haste.",
+    auraHasted: "An aura that is hasted has its period reduced by haste.",
     resourceCast: "The amount of resource an ability will generate upon a successful cast.",
     resourceChannel: "The amount of resource an ability will generate over its complete channel period.",
     resourceAura: "The amount of resource an aura will generate every time its effect triggers.",
@@ -50,7 +51,7 @@ const commonOptions = {
         key: "hasted",
         displayName: "Hasted",
         type: "boolean",
-        whatIs: whatIs.hasted
+        whatIs: whatIs.abilityHasted
     },
     resourceCast: {
         key: "resource",
@@ -308,7 +309,15 @@ export const auraOptions = {
         commonOptions.auraResource
     ],
     "devouring-plague": [
-        commonOptions.auraDuration
+        commonOptions.auraDuration,
+        commonOptions.auraTicks,
+        commonOptions.auraResource,
+        {
+            key: "hasted",
+            displayName: "Hasted",
+            type: "boolean",
+            whatIs: whatIs.auraHasted
+        }
     ],
     "shadowfiend": [
         commonOptions.auraResource

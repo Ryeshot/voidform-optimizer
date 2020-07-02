@@ -24,19 +24,22 @@ const defaultAuraSettings = {
         displayName: "Shadow Word: Pain",
         baseDuration: 16000,
         ticks: 8,
-        resource: 0
+        resource: 0,
+        hasted: true
     },
     "vampiric-touch": {
         displayName: "Vampiric Touch",
         baseDuration: 21000,
         ticks: 7,
-        resource: 0
+        resource: 0,
+        hasted: true
     },
     "devouring-plague": {
         displayName: "Devouring Plague",
         baseDuration: 12000,
         ticks: 4,
-        resource: 0
+        resource: 0,
+        hasted: true
     },
     "shadowfiend": {
         displayName: "Shadowfiend",
