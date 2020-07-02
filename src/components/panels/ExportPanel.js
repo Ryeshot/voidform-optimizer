@@ -39,8 +39,13 @@ const ExportPanel = (props) => {
     const [selectedTemplate, setSelectedTemplate] = useState(defaultSelected)
 
     const handleImport = () => {
-        const settings = importSettings(inputData, includeKeybinds, includeSpellOrder)
-        onImport(settings)
+        try {
+            const settings = importSettings(inputData, includeKeybinds, includeSpellOrder)
+            onImport(settings)
+        } catch (error) {
+            console.error(error)
+        }
+
         setInputData("")
     }
 

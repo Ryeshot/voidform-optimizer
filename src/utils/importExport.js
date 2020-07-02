@@ -43,7 +43,7 @@ const parseAura = (aura, key) => {
         let setting = auraSetting[k]
 
         if(userSetting === null || auraSetting === undefined) throw new Error("Missing aura setting in input " + k)
-        if(typeof userSetting !== typeof setting) throw new Error("Aura setting has invalid format")
+        if(typeof userSetting !== typeof setting) throw new Error(`Aura setting has invalid format`)
 
         obj[k] = userSetting
 
