@@ -1,5 +1,10 @@
 export default [
     {
+        header: "New Template: Ryeshot's Shadowlands",
+        description: "This template reflects what I think the healthiest version of baseline Shadow looks like going into Shadowlands. \
+        It will be updated regularly as I refine my beliefs on what is best for the spec."
+    },
+    {
         header: "Void Bolt Rank Two Removed!",
         description: "Void Bolt rank two has been removed from the alpha, and therefore is no longer part of the alpha template or a \
         customizable option for Void Bolt. Good riddance."
