@@ -1,5 +1,13 @@
 # Voidform Optimizer Changelog
 
+### 0.9.3 - 2020-07-02
+
+### Added
+ * Hasted option for Devouring Plague
+
+### Changed
+ * Lingering Insanity stacks are now calculated from haste retention
+
 ### 0.9.2 - 2020-07-01
 
 ### Removed
