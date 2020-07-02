@@ -23,8 +23,8 @@ Click the button below to apply your changes`
 
     const [currentAbilities, setCurrentAbilities] = useState(abilities)
     const [currentAuras, setCurrentAuras] = useState(auras)
-    const [activeAbilitySection, setActiveAbilitySection] = useState(Object.keys(abilities)[0])
-    const [activeAuraSection, setActiveAuraSection] = useState(Object.keys(auras)[0])
+    const [activeAbilitySection, setActiveAbilitySection] = useState(null)
+    const [activeAuraSection, setActiveAuraSection] = useState(null)
     const [abilityChangesPending, setAbilityChangesPending] = useState(false)
     const [auraChangesPending, setAuraChangesPending] = useState(false)
 
@@ -32,6 +32,12 @@ Click the button below to apply your changes`
         setCurrentAuras(auras)
         setCurrentAbilities(abilities)
     }, [didReset])
+
+    useEffect(() => {
+        if(currentPanel !== panel) return
+        setActiveAbilitySection(Object.keys(abilities)[0])
+        setActiveAuraSection(Object.keys(auras)[0])
+    }, [currentPanel])
 
     const handleAbilitySettingChange = (setting, key) => {
         const newAbilities = {...currentAbilities, [key]: setting}
@@ -66,12 +72,14 @@ Click the button below to apply your changes`
     }
 
     const reset = () => {
-        setActiveAbilitySection(Object.keys(abilities)[0])
-        setActiveAuraSection(Object.keys(auras)[0])
         setCurrentAuras(auras)
         setCurrentAbilities(abilities)
         setAbilityChangesPending(false)
         setAuraChangesPending(false)
+        setTimeout(() => {
+            setActiveAbilitySection(null)
+            setActiveAuraSection(null)
+        }, 500)
     }
 
     return (
