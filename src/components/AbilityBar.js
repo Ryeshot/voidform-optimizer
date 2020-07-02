@@ -52,7 +52,6 @@ const AbilityBar = (props) => {
     }, [reset])
 
     useEffect(() => {
-        if(hasReset === reset) return
         const name = "mind-blast"
         const ability = abilitySettings[name]
         const duration = getAbilityCooldown(name)
@@ -60,7 +59,7 @@ const AbilityBar = (props) => {
         ability.cooldown += cdr
 
         const startTime = state.cooldowns[name].startTime
-        if(!startTime) return
+        if(!startTime || hasReset === reset) return
         cdr = getAbilityCooldown(name) - duration
         const now = Date.now()
         const remaining = (startTime + duration) - now
