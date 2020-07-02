@@ -30,7 +30,8 @@ const whatIs = {
     lingeringInsanityDecayRate: "An option for type 'Decay'. The amount of time, in seconds it takes for one stack of the aura to be lost.",
     lingeringInsanityHasteDecay: "An option for type 'Decay'. The amount of haste, in percent, that is removed every time the aura loses a stack.",
     auraDuration: "The amount of time, in seconds, that an aura's effect will last.",
-    auraTicks: "The number of times an aura will trigger its effect over its duration."
+    auraTicks: "The number of times an aura will trigger its effect over its duration.",
+    auraHaste: "The amount of haste, in percent, that is granted while an aura is active"
 }
 
 const commonOptions = {
@@ -324,6 +325,12 @@ export const auraOptions = {
     ],
     "power-infusion": [
         commonOptions.auraDuration,
+        {
+            key: "haste",
+            displayName: "Haste",
+            type: "percent",
+            whatIs: whatIs.auraHaste
+        },
         {
             key: "resourceGen",
             displayName: "Resource Generation",
