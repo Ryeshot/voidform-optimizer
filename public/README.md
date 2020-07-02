@@ -1,5 +1,13 @@
 # Voidform Optimizer Changelog
 
+### 0.9.5 - 2020-07-02
+
+### Added
+ * Haste option for aura Power Infusion
+
+### Fixed
+ * An issue causing the first setting displayed in settings panel to not update on import
+
 ### 0.9.4 - 2020-07-02
 
 ### Fixed
