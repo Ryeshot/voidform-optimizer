@@ -35,6 +35,9 @@ const contactField = {
 
 const formTitle = "Bug Report"
 
+const formInfo = "If the issue is UI related, please update your browser \
+to the latest version before submitting."
+
 const submitPending = "Submitting"
 const submitSuccess = "Bug report successfully submitted!"
 const submitFail = "Failed to submit bug report"
@@ -74,6 +77,9 @@ const BugReport = (props) => {
                 {formTitle}
             </div>
             <form className="form" onSubmit={onSubmit}>
+                <div className="form-info">
+                    {formInfo}
+                </div>
                 <FormTextField value={data.title} {...titleField} required={true} onChange={onChange} />
                 {fields.map(f => <FormTextAreaField key={f.id} value={data[f.id]} {...f} onChange={onChange} />)}
                 <FormTextField value={data.contact} {...contactField} required={false} onChange={onChange} />

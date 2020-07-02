@@ -7,7 +7,7 @@ const FormTextField = (props) => {
     const handleChange = (e) => onChange(id, e.target.value)
 
     return (
-        <div className="form-text-field form-title form-input-container">
+        <div className="form-field">
             <label className="form-input-title" htmlFor={id}>{label}</label>
             <input className="panel-text-area form-input" type="text" id={id} value={value} placeholder={placeHolder} required={required} onChange={handleChange} />
         </div>
