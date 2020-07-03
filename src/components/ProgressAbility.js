@@ -12,7 +12,7 @@ const ProgressAbility = (props) => {
     const [state, setState] = useState({})
 
     const {key, keybindText} = keybind
-    const {type, resource, costsResource, charges, ticks} = settings
+    const {type, resource, costsResource, charges, ticks, ignoreGcd} = settings
 
     //cooldown states
     const startTimeRef = useRef(startTime)
@@ -73,6 +73,7 @@ const ProgressAbility = (props) => {
             resource,
             costsResource,
             unusable: unusableRef,
+            ignoreGcd,
             cooldown: {
                 duration: cooldownRef,
                 startTime: startTimeRef
@@ -105,7 +106,8 @@ const ProgressAbility = (props) => {
             keybind: key,
             execute: () => ability.current.execute(),
             notify: () => ability.current.beginGlobalCooldown(),
-            getRemainingCooldown: () => ability.current.getRemainingCooldown()
+            getRemainingCooldown: () => ability.current.getRemainingCooldown(),
+            ignoresGcd: !!ignoreGcd
         })
 
         return () => {
@@ -115,7 +117,7 @@ const ProgressAbility = (props) => {
     }, [key, reset])
 
     const handleClick = () => {
-        onClick(name, () => ability.current.getRemainingCooldown(), () => ability.current.execute())
+        onClick(name, () => ability.current.getRemainingCooldown(), () => ability.current.execute(), !!ignoreGcd)
     }
 
     return (

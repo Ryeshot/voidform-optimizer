@@ -6,7 +6,7 @@ class Ability {
     constructor(initialState, updateFn, onExecute, eventHandler) {
         this.state = initialState
         this.updateState = updateFn
-        this.onExecute = onExecute
+        this.onExecute = initialState.ignoreGcd ? () => {} : onExecute
         this.eventHandler = eventHandler
         this.updateState({
             progress: 0,
@@ -211,6 +211,8 @@ class Ability {
         let state = this.getCurrentState()
         const {duration, startTime} = state.globalCooldown
         const {current, maxCharges} = state.charges
+
+        if(state.ignoreGcd) return
 
         if(state.cooldown.startTime) {
             if(maxCharges && current < maxCharges - 1) return

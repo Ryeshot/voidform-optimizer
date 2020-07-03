@@ -38,6 +38,12 @@ const auraEvents = {
             "AURA_START": ["AURA_BEGIN", "HASTE_UPDATE"],
             "AURA_END": ["AURA_END", "HASTE_RESET"]
         }
+    },
+    "bloodlust": {
+        onEvent: {
+            "AURA_START": ["AURA_BEGIN", "HASTE_UPDATE"],
+            "AURA_END": ["AURA_END", "HASTE_RESET"]
+        }
     }
 }
 

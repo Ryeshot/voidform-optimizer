@@ -82,6 +82,11 @@ const defaultAbilitySettings = {
     "power-infusion": {
         cooldown: 120000,
         type: "instant"
+    },
+    "bloodlust": {
+        cooldown: 300000,
+        ignoreGcd: true,
+        type: "instant"
     }
 }
 

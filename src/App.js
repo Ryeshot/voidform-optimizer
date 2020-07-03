@@ -45,6 +45,10 @@ const defaultState = {
     "power-infusion": {
       active: false,
       haste: 0
+    },
+    "bloodlust": {
+      active: false,
+      haste: 0
     }
   },
   abilities: {
@@ -215,7 +219,8 @@ const App = () => {
   }, [state.auras.stats.haste,
     state.auras.voidform.haste,
     state.auras.lingeringInsanity.haste,
-    state.auras["power-infusion"].haste])
+    state.auras["power-infusion"].haste,
+    state.auras["bloodlust"].haste])
 
   const enterVoidform = () => {
     updateState({

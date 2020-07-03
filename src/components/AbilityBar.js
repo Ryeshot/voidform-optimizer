@@ -210,7 +210,7 @@ const AbilityBar = (props) => {
                 e.preventDefault()
                 const abilityCooldownRemaining = o.getRemainingCooldown()
                 const globalCooldownRemaining = globalCooldownRef.current ? globalCooldownRef.current - (now - globalCooldownStartTimeRef.current) : 0
-                const remaining = Math.max(abilityCooldownRemaining, globalCooldownRemaining)
+                const remaining = o.ignoresGcd ? 0 : Math.max(abilityCooldownRemaining, globalCooldownRemaining)
 
                 if(remaining > spellQueueWindow) return
 
@@ -219,12 +219,12 @@ const AbilityBar = (props) => {
         })
     }
 
-    const handleClick = (name, getRemainingCooldown, execute) => {
+    const handleClick = (name, getRemainingCooldown, execute, ignoresGcd) => {
         const now = Date.now()
 
         const abilityCooldownRemaining = getRemainingCooldown()
         const globalCooldownRemaining = globalCooldownRef.current ? globalCooldownRef.current - (now - globalCooldownStartTimeRef.current) : 0
-        const remaining = Math.max(abilityCooldownRemaining, globalCooldownRemaining)
+        const remaining = ignoresGcd ? 0 : Math.max(abilityCooldownRemaining, globalCooldownRemaining)
 
         if(remaining > spellQueueWindow) return
 

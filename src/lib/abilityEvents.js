@@ -84,6 +84,13 @@ const abilityEvents = {
             "COOLDOWN_END": ["ABILITY_COOLDOWN_END"],
             "CAST_SUCCESS": ["ABILITY_CAST_SUCCESS", "AURA_START"]
         }
+    },
+    "bloodlust": {
+        onEvent: {
+            "COOLDOWN_START": ["ABILITY_COOLDOWN_START"],
+            "COOLDOWN_END": ["ABILITY_COOLDOWN_END"],
+            "CAST_SUCCESS": ["ABILITY_CAST_SUCCESS", "AURA_START"]
+        }
     }
 }
 

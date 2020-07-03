@@ -106,6 +106,15 @@ const defaultAbilities = {
             keybindText: "-"
         },
         icon: "images/power-infusion.jpg"
+    },
+    "bloodlust": {
+        displayName: "Bloodlust",
+        index: 12,
+        keybind: {
+            key: "=",
+            keybindText: "="
+        },
+        icon: "images/bloodlust.jpg"
     }
 }
 

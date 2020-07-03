@@ -52,6 +52,11 @@ const defaultAuraSettings = {
         baseDuration: 20000,
         haste: .25,
         resourceGen: 0
+    },
+    "bloodlust": {
+        displayName: "Bloodlust",
+        baseDuration: 40000,
+        haste: .3
     }
 }
 

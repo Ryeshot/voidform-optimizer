@@ -33,6 +33,11 @@ const buffs = [
     name: "power-infusion",
     icon: "images/power-infusion.jpg",
     displayName: "Power Infusion"
+  },
+  {
+    name: "bloodlust",
+    icon: "images/bloodlust.jpg",
+    displayName: "Bloodlust"
   }
 ]
 
