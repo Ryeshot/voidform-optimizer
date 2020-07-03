@@ -1,5 +1,10 @@
 # Voidform Optimizer Changelog
 
+### 0.10.0 -2020-07-02
+
+### Added
+ * New ability Bloodlust
+
 ### 0.9.5 - 2020-07-02
 
 ### Added
