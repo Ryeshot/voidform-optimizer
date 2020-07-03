@@ -35,14 +35,15 @@ export default {
         },
         voidform: {
             ...defaultAuraSettings.voidform,
-            drainRate: .7,
+            drainRate: .66,
             hasteStart: .2,
             hasteStack: .01
         },
         lingeringInsanity: {
             ...defaultAuraSettings.lingeringInsanity,
-            type: "static",
-            duration: 0
+            type: "decay",
+            decayRate: 1000,
+            hasteDecay: .02
         },
         "devouring-plague": {
             ...defaultAuraSettings["devouring-plague"],
