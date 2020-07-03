@@ -88,7 +88,9 @@ Click the button below to apply your changes`
                 <div className="panel-content-container">
                     <div className="panel-content-header">Customize Abilities</div>
                     <div className="settings-header-container">
-                        {Object.keys(abilities).map(k => 
+                        {Object.keys(abilities)
+                        .filter(k => abilityOptions[k])
+                        .map(k => 
                             <div key={k} className={activeAbilitySection === k ? "settings-header-active" : "settings-header"} setting={k} onClick={showAbilityOptions}>{abilities[k].displayName}</div>    
                         )}
                     </div>
@@ -105,7 +107,9 @@ Click the button below to apply your changes`
                 <div className="panel-content-container">
                     <div className="panel-content-header">Customize Auras</div>
                         <div className="settings-header-container">
-                            {Object.keys(auras).map(k => 
+                            {Object.keys(auras)
+                            .filter(k => auraOptions[k])
+                            .map(k => 
                                 <div key={k} className={activeAuraSection === k ? "settings-header-active" : "settings-header"} setting={k} onClick={showAuraOptions}>{auras[k].displayName}</div>    
                             )}
                         </div>
