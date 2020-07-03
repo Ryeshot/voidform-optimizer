@@ -41,9 +41,8 @@ export default {
         },
         lingeringInsanity: {
             ...defaultAuraSettings.lingeringInsanity,
-            type: "decay",
-            decayRate: 1000,
-            hasteDecay: .02
+            type: "static",
+            duration: 0
         },
         "devouring-plague": {
             ...defaultAuraSettings["devouring-plague"],
