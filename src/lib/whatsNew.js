@@ -1,5 +1,10 @@
 export default [
     {
+        header: "New Ability: Bloodlust!",
+        description: "Let's be honest, it's hard to determine how Shadow truly feels until you feel it under lust. Luckily, Bloodlust has now \
+        been added so you can have the true Shadow experience. The ability works the same way on live (without the debuff), and is not customizable."
+    },
+    {
         header: "New Template: Ryeshot's Shadowlands",
         description: "This template reflects what I think the healthiest version of baseline Shadow looks like going into Shadowlands. \
         It will be updated regularly as I refine my beliefs on what is best for the spec."
