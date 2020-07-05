@@ -5,21 +5,9 @@ export default {
     displayName: "Shadowlands Alpha",
     abilitySettings: {
         ...defaultAbilitySettings,
-        "void-eruption": {
-            cooldown: 0,
-            type: "cast",
-            casttime: 2000,
-            resource: 90,
-            costsResource: true
-        },
         "mind-blast": {
-            cooldown: 8000,
-            resource: 12,
-            hasted: true,
-            type: "cast",
-            casttime: 1500,
-            charges: 1,
-            cdr: 1500
+            ...defaultAbilitySettings["mind-blast"],
+            cooldown: 8000
         },
         "shadow-word-death": {
             ...defaultAbilitySettings["shadow-word-death"],
@@ -29,13 +17,7 @@ export default {
         }
     },
     auraSettings: {
-        ...defaultAuraSettings,
-        "devouring-plague": {
-            displayName: "Devouring Plague",
-            baseDuration: 12000,
-            ticks: 4,
-            resource: 0
-        }
+        ...defaultAuraSettings
     },
     abilities: {
         "mind-flay": {},

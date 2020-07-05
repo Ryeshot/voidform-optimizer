@@ -6,39 +6,19 @@ export default {
     abilitySettings: {
         ...defaultAbilitySettings,
         "void-eruption": {
-            cooldown: 0,
-            type: "cast",
+            ...defaultAbilitySettings["void-eruption"],
             casttime: 1500,
-            resource: 90,
-            costsResource: true
+            resource: 60,
         },
         "mind-blast": {
+            ...defaultAbilitySettings["mind-blast"],
             cooldown: 9000,
             resource: 15,
-            hasted: true,
-            type: "cast",
-            casttime: 1500,
-            charges: 1,
-            cdr: 1500
+            charges: 2
         },
         "shadow-word-death": {
-            cooldown: 9000,
-            resource: 15,
-            type: "instant",
-            charges: 2,
-        },
-        "void-torrent": {
-            cooldown: 45000,
-            resource: 30,
-            type: "channel",
-            casttime: 4000,
-            staticCastTime: true,
-            ticks: 10,
-        },
-        "shadowfiend": {
-            cooldown: 180000,
-            resource: 3,
-            type: "instant"
+            ...defaultAbilitySettings["shadow-word-death"],
+            charges: 2
         }
     },
     auraSettings: {
