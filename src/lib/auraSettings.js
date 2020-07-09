@@ -9,7 +9,8 @@ const defaultAuraSettings = {
         drainRate: .68,
         hasteStart: 0,
         hasteStack: .005,
-        maxStacks: 0
+        maxStacks: 0,
+        gainInsanity: true
     },
     lingeringInsanity: {
         displayName: "Lingering Insanity",

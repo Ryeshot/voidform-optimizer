@@ -23,6 +23,7 @@ const whatIs = {
     voidformStartingHaste: "The amount of haste, in percent, that is granted at the start of Voidform.",
     voidformHasteStack: "The amount of haste, in percent, that every stack of Voidform grants.",
     voidformMaximumStacks: "The maximum number of Voidform stacks. Note that reaching the maximum does not stop drain from increasing.",
+    voidformGainInsanity: "While in Voidform, if enabled spells will generate insanity, otherwise they won't.",
     lingeringInsanityType: "Lingering Insanity has two types.\nStatic - The length of the aura and haste from stacks are constant.\nDecay - Haste stacks are lost over the aura's duration at a certain rate.",
     lingeringInsanityDuration: "An option for type 'Static'. This is the amount of time, in seconds, that the aura will last.",
     lingeringInsanityAfterVoidformEntry: "An option for type 'Static'. If enabled, then the duration for Lingering Insanity will only start after entering Voidform.",
@@ -252,6 +253,12 @@ export const auraOptions = {
             displayName: "Maximum Voidform Stacks",
             type: "number",
             whatIs: whatIs.voidformMaximumStacks
+        },
+        {
+            key: "gainInsanity",
+            displayName: "Gain Insanity",
+            type: "boolean",
+            whatIs: whatIs.voidformGainInsanity
         }
     ],
     "lingeringInsanity": [

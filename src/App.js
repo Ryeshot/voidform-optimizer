@@ -159,6 +159,9 @@ const App = () => {
 
         resource = (resource * (costsResource && -1 || 1)) * targetCount
 
+        if(voidform.active && !auraSettings.voidform.gainInsanity && resource > 0)
+          resource = 0
+
         if(powerInfusion.active && resource > 0)
           resource += (resource * auraSettings["power-infusion"].resourceGen)
 
