@@ -1,5 +1,10 @@
 export default [
     {
+        header: "New Template: Yvaelle's Shadowlands",
+        description: "Yvaelle had an interesting proposal for a static Voidform, so I decided to include support for it and created a template \
+        based on their proposal."
+    },
+    {
         header: "New Ability: Bloodlust!",
         description: "Let's be honest, it's hard to determine how Shadow truly feels until you feel it under lust. Luckily, Bloodlust has now \
         been added so you can have the true Shadow experience. The ability works the same way on live (without the debuff), and is not customizable."
