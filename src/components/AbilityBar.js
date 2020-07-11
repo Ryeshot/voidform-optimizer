@@ -285,6 +285,13 @@ const AbilityBar = (props) => {
 
     const disabledAbilities = (k) => {
         if(abilities[k].disabled) return false
+        // if(k === "void-bolt" && !inVoidformRef.current) return false
+        // if(k === "void-eruption" && inVoidformRef.current) return false
+
+        return true
+    }
+
+    const showAbility = (k) => {
         if(k === "void-bolt" && !inVoidformRef.current) return false
         if(k === "void-eruption" && inVoidformRef.current) return false
 
@@ -323,6 +330,7 @@ const AbilityBar = (props) => {
                     onAbilityUpdate={triggerCooldown}
                     onClick={handleClick}
                     triggerEvent={triggerEvent}
+                    show={showAbility(k)}
                     reset={reset}
                     />
                 })}

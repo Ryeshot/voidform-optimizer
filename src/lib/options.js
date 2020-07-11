@@ -137,6 +137,7 @@ export const abilityOptions = {
         }
     ],
     "void-eruption": [
+        commonOptions.cooldown,
         commonOptions.castTime,
         {
             key: "resource",

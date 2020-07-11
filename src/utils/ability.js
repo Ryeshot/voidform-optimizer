@@ -239,6 +239,14 @@ class Ability {
         }, interval)
     }
 
+    canExecute() {
+        if(this.state.disabled.current) return false
+        if(this.state.unusable.current) return false
+        if(this.state.cast.casting.current) return false
+
+        return true
+    }
+
     remove() {
         clearInterval(this.cooldownTimer)
         clearInterval(this.globalCooldownTimer)
@@ -250,8 +258,7 @@ class Ability {
 class InstantAbility extends Ability {
 
     execute() {
-        if(this.state.unusable.current) return
-        if(this.state.cast.casting.current) return
+        if(!this.canExecute()) return
         let state = this.getCurrentState()
         const {name, resource, costsResource} = state
         const {startTime} = state.cooldown
@@ -278,8 +285,7 @@ class InstantAbility extends Ability {
 class CastAbility extends Ability {
 
     execute() {
-        if(this.state.unusable.current) return
-        if(this.state.cast.casting.current) return
+        if(!this.canExecute()) return
         let state = this.getCurrentState()
         const {startTime} = state.cast
         const {current} = state.charges
@@ -293,8 +299,7 @@ class CastAbility extends Ability {
 class ChannelAbility extends Ability {
 
     execute() {
-        if(this.state.unusable.current) return
-        if(this.state.cast.casting.current) return
+        if(!this.canExecute()) return
         let state = this.getCurrentState()
         const {duration, startTime} = state.cooldown
 

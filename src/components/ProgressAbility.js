@@ -5,7 +5,7 @@ import Ability from "../utils/ability"
 
 const ProgressAbility = (props) => {
 
-    const {name, displayName, settings, cooldown, globalCooldown, globalCooldownStartTime, unusable, startTime, casttime, castStartTime, castEndTime, icon, baseChannelTime, currentTicks, keybind, casting, subscribe, unsubscribe, onExecute, onAbilityUpdate, onClick, triggerEvent, reset} = props
+    const {name, displayName, settings, cooldown, globalCooldown, globalCooldownStartTime, unusable, startTime, casttime, castStartTime, castEndTime, icon, baseChannelTime, currentTicks, keybind, casting, subscribe, unsubscribe, onExecute, onAbilityUpdate, onClick, triggerEvent, show, reset} = props
 
     const size = 50
 
@@ -55,6 +55,9 @@ const ProgressAbility = (props) => {
     const unusableRef = useRef(unusable)
     unusableRef.current = unusable
 
+    const disabledRef = useRef(!show)
+    disabledRef.current = !show
+
     const ability = useRef()
 
     useEffect(() => {
@@ -73,6 +76,7 @@ const ProgressAbility = (props) => {
             resource,
             costsResource,
             unusable: unusableRef,
+            disabled: disabledRef,
             ignoreGcd,
             cooldown: {
                 duration: cooldownRef,
@@ -121,21 +125,22 @@ const ProgressAbility = (props) => {
     }
 
     return (
-        <div className="progress-ability-container">
-        <div className="progress-ability hover-pointer" onClick={handleClick}>
-            <img
-                className={!unusable && ((state.charges > 0 && charges) || (!startTimeRef.current)) ? "colored" : "desaturated"}
-                src={icon}
-                width={size}
-                height={size}
-            />
-            <div className="charge-text">{charges > 1 ? state.charges : ""}</div>
-            {startTimeRef.current || globalCooldownRef.current ? 
-            <CooldownSweep size={size} progress={state.progress}/>
-            : null}
+        show ? <div className="progress-ability-container">
+            <div className="progress-ability hover-pointer" onClick={handleClick}>
+                <img
+                    className={!unusable && ((state.charges > 0 && charges) || (!startTimeRef.current)) ? "colored" : "desaturated"}
+                    src={icon}
+                    width={size}
+                    height={size}
+                />
+                <div className="charge-text">{charges > 1 ? state.charges : ""}</div>
+                {startTimeRef.current || globalCooldownRef.current ? 
+                <CooldownSweep size={size} progress={state.progress}/>
+                : null}
+            </div>
+            <div>{keybindText}</div>
         </div>
-        <div>{keybindText}</div>
-        </div>
+        : null
     )
 }
 
