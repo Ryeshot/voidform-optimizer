@@ -167,7 +167,7 @@ const App = () => {
 
         resource = Math.max(Math.min(newState.resource + resource, 100), 0)
         newState.resource = resource
-        if(resource <= 0 && voidform.active) {
+        if(resource <= 0 && voidform.active && auraSettings.voidform.type === "insanity") {
           voidform.active = false
         }
         //whenever we get resource need to calculate if an ability is usable or not
