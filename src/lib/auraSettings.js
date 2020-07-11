@@ -5,12 +5,14 @@ const defaultAuraSettings = {
     },
     voidform: {
         displayName: "Voidform",
+        type: "insanity",
         drainStart: 6,
         drainRate: .68,
         hasteStart: 0,
         hasteStack: .005,
         maxStacks: 0,
-        gainInsanity: true
+        gainInsanity: true,
+        baseDuration: 0
     },
     lingeringInsanity: {
         displayName: "Lingering Insanity",

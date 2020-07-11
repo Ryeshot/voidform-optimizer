@@ -18,6 +18,7 @@ const whatIs = {
     voidformCooldownReduction: "The amount of time, in seconds, that Mind Blast's cooldown is reduced while in Voidform.",
     requireVoidform: "Must be in Voidform in order to cast the ability.",
     haste: "Increases the rate at which spells cast and the global cooldown, and certain spell cooldowns, regenerate.",
+    voidformType: "Voidform has two types.\nInsanity - Insanity will drain and the aura will end when insanity reaches zero.\nStatic - The aura has a fixed duration.",
     voidformStartingDrain: "The starting amount of Insanity being drained every second while in Voidform.",
     voidformDrainRate: "The amount of increasing Insanity drained every second while in Voidform.",
     voidformStartingHaste: "The amount of haste, in percent, that is granted at the start of Voidform.",
@@ -224,6 +225,19 @@ export const auraOptions = {
     ],
     "voidform": [
         {
+            key: "type",
+            displayName: "Aura Type",
+            type: "select",
+            options: [{
+                value: "insanity",
+                displayName: "Insanity"
+            },{
+                value: "static",
+                displayName: "Static"
+            }],
+            whatIs: whatIs.voidformType
+        },
+        {
             key: "drainStart",
             displayName: "Starting Insanity Drain",
             type: "float",
@@ -260,6 +274,10 @@ export const auraOptions = {
             displayName: "Gain Insanity",
             type: "boolean",
             whatIs: whatIs.voidformGainInsanity
+        },
+        {
+            ...commonOptions.auraDuration,
+            whatIs: `An option for type 'Static'. ${whatIs.auraDuration}`
         }
     ],
     "lingeringInsanity": [

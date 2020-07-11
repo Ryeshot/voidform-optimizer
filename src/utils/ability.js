@@ -131,12 +131,14 @@ class Ability {
 
         }, duration)
 
-        this.eventHandler.handleEvent("CAST_START", {
-            name,
-            displayName,
-            duration,
-            time: Date.now()
-        })
+        if(duration) {
+            this.eventHandler.handleEvent("CAST_START", {
+                name,
+                displayName,
+                duration,
+                time: Date.now()
+            })
+        }
     }
 
     startChannel() {
