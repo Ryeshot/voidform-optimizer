@@ -1,5 +1,10 @@
 # Voidform Optimizer Changelog
 
+### 0.11.1 - 2020-07-11
+
+### Added
+ * Cooldown option to Void Eruption
+
 ### 0.11.0 - 2020-07-08
 
 ### Added
