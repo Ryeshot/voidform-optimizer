@@ -111,6 +111,7 @@ const ProgressAbility = (props) => {
             execute: () => ability.current.execute(),
             notify: () => ability.current.beginGlobalCooldown(),
             getRemainingCooldown: () => ability.current.getRemainingCooldown(),
+            canExecute: () => ability.current.canExecute(),
             ignoresGcd: !!ignoreGcd
         })
 
@@ -121,7 +122,7 @@ const ProgressAbility = (props) => {
     }, [key, reset])
 
     const handleClick = () => {
-        onClick(name, () => ability.current.getRemainingCooldown(), () => ability.current.execute(), !!ignoreGcd)
+        onClick(name, () => ability.current.getRemainingCooldown(), () => ability.current.execute(), () => ability.current.canExecute(), !!ignoreGcd)
     }
 
     return (

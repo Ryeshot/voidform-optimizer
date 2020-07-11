@@ -213,13 +213,14 @@ const AbilityBar = (props) => {
                 const remaining = o.ignoresGcd ? 0 : Math.max(abilityCooldownRemaining, globalCooldownRemaining)
 
                 if(remaining > spellQueueWindow) return
+                if(!o.canExecute()) return
 
                 queueAbility(o.source, o.execute, remaining + 15)
             }
         })
     }
 
-    const handleClick = (name, getRemainingCooldown, execute, ignoresGcd) => {
+    const handleClick = (name, getRemainingCooldown, execute, canExecute, ignoresGcd) => {
         const now = Date.now()
 
         const abilityCooldownRemaining = getRemainingCooldown()
@@ -227,6 +228,7 @@ const AbilityBar = (props) => {
         const remaining = ignoresGcd ? 0 : Math.max(abilityCooldownRemaining, globalCooldownRemaining)
 
         if(remaining > spellQueueWindow) return
+        if(!canExecute()) return
 
         queueAbility(name, execute, remaining + 15)
     }
