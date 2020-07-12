@@ -154,13 +154,18 @@ const App = () => {
         lingeringInsanity.startTime = 0
         break;
       case "RESOURCE_UPDATE":
-        var {name, resource, costsResource} = action.payload
+        var {name, resource, costsResource, costType} = action.payload
         let targetCount = name === "mind-sear" ? abilitySettings[name].targetCount : 1
 
         resource = (resource * (costsResource && -1 || 1)) * targetCount
 
         if(voidform.active && !auraSettings.voidform.gainInsanity && resource > 0)
           resource = 0
+
+        if(costType && costType === "dump") {
+          resource = 0
+          newState.resource = 0
+        }
 
         if(powerInfusion.active && resource > 0)
           resource += (resource * auraSettings["power-infusion"].resourceGen)
@@ -174,7 +179,12 @@ const App = () => {
         Object.keys(abilitySettings).forEach(k => {
           const ability = abilitySettings[k]
           if(!ability.costsResource) return
-          newState.abilities[k].unusable = resource < ability.resource
+          if(ability.costType === "dump") 
+            newState.abilities[k].unusable = resource === 0
+          else {
+            newState.abilities[k].unusable = resource < ability.resource
+          }
+
         })
         break;
       case "INSANITY_DRAIN_PAUSE_START":

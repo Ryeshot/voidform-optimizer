@@ -106,7 +106,7 @@ class Ability {
 
     startCast() {
         let state = this.getCurrentState()
-        const {name, displayName, resource, costsResource} = state
+        const {name, displayName, resource, costsResource, costType} = state
         const {duration} = state.cast
 
         this.castTimer = setTimeout(() => {
@@ -114,6 +114,7 @@ class Ability {
                 name,
                 resource,
                 costsResource,
+                costType,
                 time: Date.now()
             })
 
