@@ -69,8 +69,6 @@ export const importSettings = (settings, includeKeybinds, includeSpellOrder) => 
     try {
         let parsedSettings = JSON.parse(Base64.decode(settings))
 
-        console.log(parsedSettings.auraSettings)
-
         let abilitySettings = parseAbilitySettings(parsedSettings.abilitySettings)
         let auraSettings = parseAuraSettings(parsedSettings.auraSettings)
         let abilityConfig = formatAbilityConfig(parsedSettings.abilityConfig, includeKeybinds, includeSpellOrder)

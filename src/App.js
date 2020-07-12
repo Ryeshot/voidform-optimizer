@@ -326,7 +326,6 @@ const App = () => {
     setAllAbilities(settings.abilityConfig)
     handleAbilitySet(settings.abilitySettings)
     handleAuraSet(settings.auraSettings)
-    console.log(settings.auraSettings)
     handleReset()
   }
 

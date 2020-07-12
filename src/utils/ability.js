@@ -260,7 +260,8 @@ class Ability {
 class InstantAbility extends Ability {
 
     execute() {
-        if(this.state.cast.casting.current) return false
+        if(!this.canExecute()) return
+        if(this.state.cast.casting.current) return
         let state = this.getCurrentState()
         const {name, resource, costsResource} = state
         const {startTime} = state.cooldown
@@ -287,12 +288,14 @@ class InstantAbility extends Ability {
 class CastAbility extends Ability {
 
     execute() {
-        if(this.state.cast.casting.current) return false
+        if(!this.canExecute()) return
+        if(this.state.cast.casting.current) return
         let state = this.getCurrentState()
         const {startTime} = state.cast
         const {current} = state.charges
 
         if(startTime || current === 0) return
+        console.log("Casting")
         this.startCast()
         this.onExecute()
     }
@@ -301,7 +304,8 @@ class CastAbility extends Ability {
 class ChannelAbility extends Ability {
 
     execute() {
-        if(this.state.cast.casting.current) return false
+        if(!this.canExecute()) return
+        if(this.state.cast.casting.current) return
         let state = this.getCurrentState()
         const {duration, startTime} = state.cooldown
 
