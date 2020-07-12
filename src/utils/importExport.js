@@ -13,7 +13,7 @@ const parseAbility = (ability, key) => {
 
         if(userSetting && typeof userSetting !== typeof setting) throw new Error("Ability setting has invalid format")
         
-        obj[k] = userSetting || setting
+        obj[k] = userSetting !== undefined ? userSetting : setting
 
         return obj
     }, {})
@@ -43,7 +43,7 @@ const parseAura = (aura, key) => {
         //if(userSetting === null || auraSetting === undefined) throw new Error("Missing aura setting in input " + k)
         if(userSetting && typeof userSetting !== typeof setting) throw new Error(`Aura setting has invalid format`)
 
-        obj[k] = userSetting || setting
+        obj[k] = userSetting !== undefined ? userSetting : setting
 
         return obj
     }, {})
