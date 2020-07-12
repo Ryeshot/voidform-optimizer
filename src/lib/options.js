@@ -8,6 +8,7 @@ const whatIs = {
     resourceAura: "The amount of resource an aura will generate every time its effect triggers.",
     resourceGeneration: "Increases the amount of resource generated from abilities while an aura is active.",
     cost: "The amount of resource required to cast an ability. Casting the ability will spend the resource cost.",
+    resourceCostType: "Resource cost has two types.\nStatic - A static amount of resource is required to cast the ability.\nDump - Casting the ability spends all resource up to the amount specified by its cost.",
     castTime: "The amount of time, in seconds, it takes for an ability to be executed.",
     channelTime: "The amount of time, in seconds, it takes for an ability's channel to complete.",
     ticks: "The number of times a channel generates resources over its duration.",
@@ -18,6 +19,7 @@ const whatIs = {
     voidformCooldownReduction: "The amount of time, in seconds, that Mind Blast's cooldown is reduced while in Voidform.",
     requireVoidform: "Must be in Voidform in order to cast the ability.",
     haste: "Increases the rate at which spells cast and the global cooldown, and certain spell cooldowns, regenerate.",
+    startingInsanity: "The amount of Insanity provided out of combat.",
     voidformType: "Voidform has two types.\nInsanity - Insanity will drain and the aura will end when insanity reaches zero.\nStatic - The aura has a fixed duration.",
     voidformStartingDrain: "The starting amount of Insanity being drained every second while in Voidform.",
     voidformDrainRate: "The amount of increasing Insanity drained every second while in Voidform.",
@@ -202,6 +204,19 @@ export const abilityOptions = {
         commonOptions.resourceCast
     ],
     "devouring-plague": [
+        {
+            key: "costType",
+            displayName: "Cost Type",
+            type: "select",
+            options: [{
+                value: "static",
+                displayName: "Static"
+            },{
+                value: "dump",
+                displayName: "Dump"
+            }],
+            whatIs: whatIs.resourceCostType
+        },
         commonOptions.cooldown,
         commonOptions.cost
     ],
@@ -221,6 +236,12 @@ export const auraOptions = {
             displayName: "Haste",
             type: "percent",
             whatIs: whatIs.haste
+        },
+        {
+            key: "startingInsanity",
+            displayName: "Starting Insanity",
+            type: "number",
+            whatIs: whatIs.startingInsanity
         }
     ],
     "voidform": [

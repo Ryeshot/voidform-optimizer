@@ -1,7 +1,8 @@
 const defaultAuraSettings = {
     stats: {
-        displayName: "Stats",
-        haste: 0
+        displayName: "Passive",
+        haste: 0,
+        startingInsanity: 0
     },
     voidform: {
         displayName: "Voidform",

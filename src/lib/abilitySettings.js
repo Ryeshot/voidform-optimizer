@@ -69,6 +69,7 @@ const defaultAbilitySettings = {
         casttime: 1500
     },
     "devouring-plague": {
+        costType: "static",
         cooldown: 0,
         resource: 50,
         costsResource: true,

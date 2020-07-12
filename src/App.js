@@ -95,11 +95,11 @@ const App = () => {
 
     switch(event) {
       case "RESET":
-        return defaultState
+        return {...defaultState, resource: auraSettings.stats.startingInsanity }
       case "RESET_ABILITIES":
-        return {...defaultState, auras: state.auras}
+        return {...defaultState, resource: auraSettings.stats.startingInsanity, auras: state.auras}
       case "RESET_AURAS":
-        return {...newState, auras: {...defaultState.auras, stats: state.auras.stats} }
+        return {...newState, resource: auraSettings.stats.startingInsanity, auras: {...defaultState.auras, stats: state.auras.stats} }
       case "UPDATE_ABILITY_STATE":
         newState.abilities["void-torrent"].unusable = abilitySettings["void-torrent"].requireVoidform
         break
@@ -316,6 +316,7 @@ const App = () => {
     setAllAbilities(settings.abilityConfig)
     handleAbilitySet(settings.abilitySettings)
     handleAuraSet(settings.auraSettings)
+    console.log(settings.auraSettings)
     handleReset()
   }
 
@@ -344,8 +345,9 @@ const App = () => {
 
   const handleAuraSet = (auraSettings) => {
     setAuraSettings(auraSettings)
-    handleAuraReset()
     const haste = auraSettings.stats.haste
+    const resource = auraSettings.stats.startingInsanity
+    handleAuraReset(resource)
     updateState({
       type: "HASTE_SET",
       payload: {
@@ -385,6 +387,12 @@ const App = () => {
       updateState({
         type: "LINGERING_INSANITY_END"
       })
+      // updateState({
+      //   type: "RESOURCE_UPDATE",
+      //   payload: {
+      //     resource
+      //   }
+      // })
     }, 0)
   }
 
