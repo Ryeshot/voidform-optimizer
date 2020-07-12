@@ -24,14 +24,16 @@ export default {
         },
         "devouring-plague": {
             ...defaultAbilitySettings["devouring-plague"],
-            resource: 30
+            costType: "dump",
+            resource: 100
         }
     },
     auraSettings: {
         ...defaultAuraSettings,
         stats: {
             ...defaultAuraSettings.stats,
-            haste: .15
+            haste: .15,
+            startingInsanity: 30
         },
         voidform: {
             ...defaultAuraSettings.voidform,
@@ -46,8 +48,9 @@ export default {
         },
         "devouring-plague": {
             ...defaultAuraSettings["devouring-plague"],
-            ticks: 12,
-            resource: 3,
+            baseDuration: 6000,
+            ticks: 6,
+            resource: 5,
             hasted: false
         }
     },
