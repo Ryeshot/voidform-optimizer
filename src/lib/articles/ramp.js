@@ -17,8 +17,8 @@ export default [{
     benefits of Voidform, Voidform stacks had significantly more power budget at the latest-most part of it. For this reason, \
     leaving Voidform early, by any means, lead to excessive punishment on the player. In Battle for Azeroth, Voidform stacks \
     had even more backloaded power because you needed to end Voidform in order to receive the benefit. So either you get too few stacks \
-    from Voidform and leave early, or you leave at the right time and are unable to benefit from the stacks you attained (due to not being). \
-    able to attack a target and maintain Voidform. Not only did both of these cause excessive punishment to the player, but the performance \
+    from Voidform and leave early, or you leave at the right time and are unable to benefit from the stacks you attained (due to not being \
+    able to attack a target and maintain Voidform). Not only did both of these cause excessive punishment to the player, but the performance \
     of a Voidform was dependent on the performance of the previous Voidform, due to benefits from Voidform lasting quite a long ways into the \
     next one. A term which I coin \"Voidform dependency\", and I believe this to be unhealthy for the spec to have.\
     \n\n\
