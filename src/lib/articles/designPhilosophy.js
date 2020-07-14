@@ -70,7 +70,7 @@ export default [{
     header: "Starting Insanity",
     content: "Now gain 30 Insanity while out of combat. This alleviates the pain point for having the first Voidform of \
     a fight take longer than every other one. It also provides quick options for using Insanity in content where casting \
-    Voidform is not the only option."
+    Void Eruption is not the only option."
 },
 {
     header: "Insanity Drain",
