@@ -1,5 +1,10 @@
 export default [
     {
+        header: "New Article: Ramp",
+        description: "Ramp is a buzz-word used to express very valid complaints regarding Voidform. In this article I discuss how ramp works, \
+        how it has worked in the past, and hopefully how it will work in the future."
+    },
+    {
         header: "New Article: Design Philosophy",
         description: "This is the first of articles I will be creating. The Design Philosophy article gives detailed reasoning behind \
         each of the decisions I made while designing the Ryeshot's Shadowlands template."
