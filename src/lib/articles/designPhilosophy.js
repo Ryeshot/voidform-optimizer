@@ -28,14 +28,14 @@ export default [{
     header: "Mind Blast",
     content: "Mind blast has two charges baseline. I think the reason is pretty self apparent, but for those who aren't \
     aware: Void Bolt and Mind Blast cause an effect call clashing, which means they come off cooldown at the same time. \
-    This causes the lower priority spell (in this case Mind Blast) to be off cooldown during the global the higher priority \
-    spell (Void Bolt) is cast. Adding a second charge to Mind Blast removes the clashing since Mind Blast will continue \
+    This causes the lower priority spell (in this case Mind Blast) to be off cooldown during the global of the higher priority \
+    spell (Void Bolt). Adding a second charge to Mind Blast removes this issue, since Mind Blast will continue \
     recharging when its cooldown clashes with Void Bolt.\
     \n\n\
     Mind Blast now generates 25 Insanity. This makes Shadowform's length shorter and makes less of a dependency of casting \
     Mind Flay to generate Insanity. You can now generate more Insanity while moving because your Insanity budget now \
     resides mostly in Void Bolt and Mind Blast (due to it recharging while moving).\
-    \n\
+    \n\n\
     Mind blast no longer has its cooldown reduced while in Voidform. There was no reason for this to exist so I removed it."
 },
 {
