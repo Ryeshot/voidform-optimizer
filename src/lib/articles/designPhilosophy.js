@@ -75,7 +75,7 @@ export default [{
 {
     header: "Insanity Drain",
     content: "Insanity drain was adjusted such that you can reach a soft cap of 25 stacks at entry-raid levels of haste. \
-    If you want to wish the exact numbers, Voidform starts at a drain of 6 Insanity per second, which increases at a rate of \
+    If you wish to know the exact numbers, Voidform starts at a drain of 6 Insanity per second, which increases at a rate of \
     .66 Insanity per stack."
 }
 ]
