@@ -1,5 +1,10 @@
 # Voidform Optimizer Changelog
 
+### 0.12.1 - 2020-07-14
+
+### Added
+ * New article Ramp
+
 ### 0.12.0 - 2020-07-13
 
 ### Added
