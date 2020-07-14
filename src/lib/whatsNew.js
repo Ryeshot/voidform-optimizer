@@ -1,5 +1,10 @@
 export default [
     {
+        header: "New Article: Design Philosophy",
+        description: "This is the first of articles I will be creating. The Design Philosophy article gives detailed reasoning behind \
+        each of the decisions I made while designing the Ryeshot's Shadowlands template."
+    },
+    {
         header: "New Template: Yvaelle's Shadowlands",
         description: "Yvaelle had an interesting proposal for a static Voidform, so I decided to include support for it and created a template \
         based on their proposal."

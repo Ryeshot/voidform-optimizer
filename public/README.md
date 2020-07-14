@@ -1,5 +1,26 @@
 # Voidform Optimizer Changelog
 
+### 0.12.0 - 2020-07-13
+
+### Added
+ * New article Design Philosophy
+
+### 0.11.3 - 2020-07-12
+
+### Added
+ * Resource dump option to Devouring Plague
+
+### 0.11.2 - 2020-07-11
+
+### Added
+ * Static Voidform duration option
+
+### Fixed
+ * An issue causing Void Eruption to sometimes cast another time upon entering Voidform
+
+### Changed
+ * User settings are now defaulted when missing, instead of erroring out
+
 ### 0.11.1 - 2020-07-11
 
 ### Added

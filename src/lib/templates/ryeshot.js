@@ -38,7 +38,7 @@ export default {
         voidform: {
             ...defaultAuraSettings.voidform,
             drainRate: .66,
-            hasteStart: .2,
+            hasteStart: .1,
             hasteStack: .01
         },
         lingeringInsanity: {
