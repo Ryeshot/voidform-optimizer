@@ -40,8 +40,9 @@ export default [{
     be, and should only be, losing Voidform. This is one reason Lingering Insanity was removed from my Shadowlands design.\
     \n\n\
     Correcting Voidform dependency is another easy one. If there exist any rewards after ending a Voidform, do not let them influence \
-    the next Voidform. In my Shadowlands design the only reward I have included baseline is Devouring Plague, whose quick Insanity \
-    generation prevents it from influencing the next Voidform.\
+    the next Voidform. In my Shadowlands design the only reward I have included baseline is Devouring Plague, should one use it in while \
+    in Voidform. Used this way, Devouring Plague's quick Insanity generation lends to reaching the next Voidform faster while preventing \
+    it from influencing the performance of the next Voidform.\
     \n\n\
     Now let's discuss about how to balance this ideal ramp damage pattern. Again it's relatively simple, let us make the weakest state \
     not too weak, and the strongest state not too strong. Going into Shadowform from Voidform should give you a damage increase, but \
