@@ -425,14 +425,18 @@ const VoidformOptimizer = () => {
             Voidform Optimizer
           </div>
         </div>
-        <div className="panel-container">
-          <SettingsPanel settings={{abilities: abilitySettingsWithDisplayName(), auras: auraSettings}} didReset={reset} onAbilitySet={handleAbilitySet} onAuraSet={handleAuraSet} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
-          <AbilityKeybindsPanel abilities={abilities} currentPanel={panel} onKeybind={setKeyBind} setOrder={setAbilityOrder} onToggle={handleAbilityToggle} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
-          <ExportPanel settings={{abilitySettings, auraSettings, abilities}} onImport={handleImport} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
-          <AboutPanel currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
-          <WhatsNewPanel />
-          <DesignPhilosophy />
-          <Ramp />
+        <div className="header-container">
+          <div className="panel-container">
+            <SettingsPanel settings={{abilities: abilitySettingsWithDisplayName(), auras: auraSettings}} didReset={reset} onAbilitySet={handleAbilitySet} onAuraSet={handleAuraSet} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
+            <AbilityKeybindsPanel abilities={abilities} currentPanel={panel} onKeybind={setKeyBind} setOrder={setAbilityOrder} onToggle={handleAbilityToggle} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
+            <ExportPanel settings={{abilitySettings, auraSettings, abilities}} onImport={handleImport} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
+            <AboutPanel currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
+            <WhatsNewPanel />
+          </div>
+          <div className="panel-container">
+            <DesignPhilosophy />
+            <Ramp />
+          </div>
         </div>
         <Forms pauseKeyEvents={setKeyEventsPaused} />
       </header>

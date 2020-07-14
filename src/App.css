@@ -49,13 +49,18 @@
 
 }
 
-.panel-container {
+.header-container {
   position: fixed;
+  display: flex;
+  flex-direction: column;
+  top: 0px;  
+}
+
+.panel-container {
   display: flex;
   align-self: center;
   flex-direction: row;
   justify-content: space-between;
-  top: 0px;
   z-index: 2;
 }
 
