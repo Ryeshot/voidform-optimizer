@@ -15,7 +15,7 @@ export default [{
     Borrowed power, in the form of Mass Hysteria in Legion and Chorus of Insanity/Spiteful Apparitions in Battle for Azeroth, \
     has created unhealthy ramp patterns for spec. In Legion, because of how the benefits of borrowed power compound with the \
     benefits of Voidform, Voidform stacks had significantly more power budget at the latest-most part of it. For this reason, \
-    leaving Voidform early, by any means, lead to excessive punishment on the player. In Battle from Azeroth, Voidform stacks \
+    leaving Voidform early, by any means, lead to excessive punishment on the player. In Battle for Azeroth, Voidform stacks \
     had even more backloaded power because you needed to end Voidform in order to receive the benefit. So either you get too few stacks \
     from Voidform and leave early, or you leave at the right time and are unable to benefit from the stacks you attained (due to not being). \
     able to attack a target and maintain Voidform. Not only did both of these cause excessive punishment to the player, but the performance \
