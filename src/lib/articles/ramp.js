@@ -10,20 +10,20 @@ export default [{
 {
     header: "Past Ramp Designs",
     content: "I call this section past ramp designs, because this is the ramp we have experienced for the entirety of Voidform's \
-    existence, and for the fake of it and Shadow I pray we do not ramp in this form again.\
+    existence, and for the sake of it and Shadow I pray we do not experience ramp in this form again.\
     \n\n\
     Borrowed power, in the form of Mass Hysteria in Legion and Chorus of Insanity/Spiteful Apparitions in Battle for Azeroth, \
-    have created unhealthy ramp patterns for spec. In Legion, because of how the benefits of borrowed power compound with the \
-    benefits of Voidform, Voidform stacks had significantly more power budget at the latest-most part of it, which resulted in \
+    has created unhealthy ramp patterns for spec. In Legion, because of how the benefits of borrowed power compound with the \
+    benefits of Voidform, Voidform stacks had significantly more power budget at the latest-most part of it. For this reason, \
     leaving Voidform early, by any means, lead to excessive punishment on the player. In Battle from Azeroth, Voidform stacks \
-    had even more backloaded power because you needed to end Voidform in order to get the benefit. So either you get too few stacks \
-    from Voidform and leave early, or you leave at the right time and are unable to benefit from the stacks you attained. Not only \
-    did both of these cause excessive punishment to the player, but the performance of a Voidform dependent on the performance of \
-    the previous Voidform, due to lasting quite a long ways into the next Voidform. A term which I coin \"Voidform dependency\", \
-    and I believe it to be unhealthy for the spec to have.\
+    had even more backloaded power because you needed to end Voidform in order to receive the benefit. So either you get too few stacks \
+    from Voidform and leave early, or you leave at the right time and are unable to benefit from the stacks you attained (due to not being). \
+    able to attack a target and maintain Voidform. Not only did both of these cause excessive punishment to the player, but the performance \
+    of a Voidform was dependent on the performance of the previous Voidform, due to benefits from Voidform lasting quite a long ways into the \
+    next one. A term which I coin \"Voidform dependency\", and I believe this to be unhealthy for the spec to have.\
     \n\n\
     Lingering Insanity is also a major offender when it comes to ramp. Due to its implementation, except for 7.0 in Legion, Lingering \
-    Insanity has lasting effects into the next Voidform, which means you are first at your most powerful the second Voidform of any \
+    Insanity had lasting effects into the next Voidform, which means you were first at your most powerful the second Voidform of any \
     encounter. Lingering Insanity also adds more dependency to Voidform stacks, which means failing to attain stacks, or failing to \
     act while Lingering Insanity stacks are active, leads to excessive punishment."    
 },
