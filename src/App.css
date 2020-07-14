@@ -53,7 +53,8 @@
   position: fixed;
   display: flex;
   flex-direction: column;
-  top: 0px;  
+  top: 0px;
+  z-index: 2;  
 }
 
 .panel-container {
@@ -61,7 +62,6 @@
   align-self: center;
   flex-direction: row;
   justify-content: space-between;
-  z-index: 2;
 }
 
 .App-content {
