@@ -6,7 +6,8 @@ import {
     Link
   } from "react-router-dom";
 import VoidformOptimizer from "./VoidformOptimizer"
-import DesignPhilosophy from "./DesignPhilosophy"
+import DesignPhilosophy from "./components/articles/DesignPhilosophy"
+import Ramp from "./components/articles/Ramp"
 
 export default () => {
     return (
@@ -15,6 +16,9 @@ export default () => {
             <Switch>
                 <Route path="/articles/design-philosophy">
                   <DesignPhilosophy />
+                </Route>
+                <Route path="/articles/ramp">
+                  <Ramp />
                 </Route>
                 <Route path="/">
                     <VoidformOptimizer />

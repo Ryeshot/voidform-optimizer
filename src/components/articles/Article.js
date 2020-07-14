@@ -1,13 +1,14 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import sections from "./lib/articles/designPhilosophy"
-import "./Subpage.css"
+import "./Article.css"
 
-const title = "Design Philosophy"
 const homeUrl = "/"
 const home = "Voidform Optimizer"
 
-const DesignPhilosophy = () => {
+const Article = (props) => {
+
+    const {title, sections} = props
+
     return (
         <div className="sub-page">
             <header className="App-header header-panel">
@@ -33,4 +34,17 @@ const DesignPhilosophy = () => {
     )
 }
 
-export default DesignPhilosophy
+export const ArticleLink = (props) => {
+
+    const {title, url} = props
+
+    return (
+    <div>
+        <Link className="page-nav-link" to={url}>
+            <div className="panel-header hover-pointer">{title}</div>
+        </Link>
+    </div>
+    )
+}
+
+export default Article

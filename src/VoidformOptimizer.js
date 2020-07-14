@@ -13,9 +13,11 @@ import defaultAbilities from "./lib/abilities"
 import defaultAbilitySettings from "./lib/abilitySettings"
 import defaultAuraSettings from "./lib/auraSettings"
 import Forms from "./components/forms/Forms"
-import "./Subpage.css"
+import {DesignPhilosophyLink as DesignPhilosophy} from "./components/articles/DesignPhilosophy"
+import {RampLink as Ramp} from "./components/articles/Ramp"
 
 const designPhilosophyUrl = "/articles/design-philosophy"
+const rampUrl = "/articles/ramp"
 
 const defaultState = {
   resource: 0,
@@ -429,11 +431,8 @@ const VoidformOptimizer = () => {
           <ExportPanel settings={{abilitySettings, auraSettings, abilities}} onImport={handleImport} currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose}/>
           <AboutPanel currentPanel={panel} onClick={handlePanelHeaderClick} closePanel={handlePanelClose} />
           <WhatsNewPanel />
-          <div>
-            <Link className="page-nav-link" to={designPhilosophyUrl}>
-                <div className="panel-header hover-pointer">Design Philosophy</div>
-            </Link>
-          </div>
+          <DesignPhilosophy />
+          <Ramp />
         </div>
         <Forms pauseKeyEvents={setKeyEventsPaused} />
       </header>
