@@ -1,5 +1,13 @@
 # Voidform Optimizer Changelog
 
+### 0.12.2 - 2020-07-15
+
+### Added
+ * Option to Devouring Plague for requiring out of Voidform and resource gain on cast
+
+### Fixed
+ * An issue causing Devouring Plague to not go on cooldown properly
+
 ### 0.12.1 - 2020-07-14
 
 ### Added
