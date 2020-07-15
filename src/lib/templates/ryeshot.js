@@ -25,7 +25,7 @@ export default {
         "devouring-plague": {
             ...defaultAbilitySettings["devouring-plague"],
             costType: "dump",
-            resource: 100
+            resourceCost: 100
         }
     },
     auraSettings: {

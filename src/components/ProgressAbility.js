@@ -12,7 +12,7 @@ const ProgressAbility = (props) => {
     const [state, setState] = useState({})
 
     const {key, keybindText} = keybind
-    const {type, resource, costsResource, costType, charges, ticks, ignoreGcd} = settings
+    const {type, resource, resourceCost, costType, charges, ticks, ignoreGcd} = settings
 
     //cooldown states
     const startTimeRef = useRef(startTime)
@@ -74,7 +74,7 @@ const ProgressAbility = (props) => {
             name,
             displayName,
             resource,
-            costsResource,
+            resourceCost,
             costType,
             unusable: unusableRef,
             disabled: disabledRef,

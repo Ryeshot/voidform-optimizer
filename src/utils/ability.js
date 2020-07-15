@@ -106,14 +106,14 @@ class Ability {
 
     startCast() {
         let state = this.getCurrentState()
-        const {name, displayName, resource, costsResource, costType} = state
+        const {name, displayName, resource, resourceCost, costType} = state
         const {duration} = state.cast
 
         this.castTimer = setTimeout(() => {
             this.eventHandler.handleEvent("CAST_SUCCESS", {
                 name,
                 resource,
-                costsResource,
+                resourceCost,
                 costType,
                 time: Date.now()
             })
@@ -263,7 +263,7 @@ class InstantAbility extends Ability {
         if(!this.canExecute()) return
         if(this.state.cast.casting.current) return
         let state = this.getCurrentState()
-        const {name, resource, costsResource} = state
+        const {name, resource, resourceCost} = state
         const {startTime} = state.cooldown
         const {maxCharges, current} = state.charges
 
@@ -275,7 +275,7 @@ class InstantAbility extends Ability {
         this.eventHandler.handleEvent("CAST_SUCCESS", {
             name,
             resource,
-            costsResource,
+            resourceCost,
             time: Date.now()
         })
 

@@ -7,7 +7,7 @@ export default {
         ...defaultAbilitySettings,
         "void-eruption": {
             ...defaultAbilitySettings["void-eruption"],
-            resource: 0
+            resourceCost: 0
         },
         "mind-blast": {
             ...defaultAbilitySettings["mind-blast"],

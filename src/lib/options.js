@@ -18,6 +18,7 @@ const whatIs = {
     voidformThreshold: "The amount of Insanity that is required to cast Void Eruption out of Voidform.",
     voidformCooldownReduction: "The amount of time, in seconds, that Mind Blast's cooldown is reduced while in Voidform.",
     requireVoidform: "Must be in Voidform in order to cast the ability.",
+    requireNoVoidform: "Must be out of Voidform in order to cast the ability.",
     haste: "Increases the rate at which spells cast and the global cooldown, and certain spell cooldowns, regenerate.",
     startingInsanity: "The amount of Insanity provided out of combat.",
     voidformType: "Voidform has two types.\nInsanity - Insanity will drain and the aura will end when insanity reaches zero.\nStatic - The aura has a fixed duration.",
@@ -73,7 +74,7 @@ const commonOptions = {
         unit: "insanity"
     },
     cost: {
-        key: "resource",
+        key: "resourceCost",
         displayName: "Cost",
         type: "number",
         whatIs: whatIs.cost,
@@ -218,7 +219,14 @@ export const abilityOptions = {
             whatIs: whatIs.resourceCostType
         },
         commonOptions.cooldown,
-        commonOptions.cost
+        commonOptions.cost,
+        commonOptions.resourceCast,
+        {
+            key: "requireNoVoidform",
+            displayName: "Require No Voidform",
+            type: "boolean",
+            whatIs: whatIs.requireNoVoidform
+        }
     ],
     "shadowfiend": [
         commonOptions.cooldown,

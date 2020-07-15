@@ -6,11 +6,9 @@ export default {
     abilitySettings: {
         ...defaultAbilitySettings,
         "void-eruption": {
-            cooldown: 0,
-            type: "cast",
+            ...defaultAbilitySettings["void-eruption"],
             casttime: 2500,
-            resource: 90,
-            costsResource: true
+            resourceCost: 90,
         },
         "void-torrent": {
             cooldown: 60000,

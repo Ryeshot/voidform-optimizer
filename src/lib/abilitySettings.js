@@ -29,8 +29,7 @@ const defaultAbilitySettings = {
         cooldown: 0,
         type: "cast",
         casttime: 2000,
-        resource: 90,
-        costsResource: true
+        resourceCost: 90,
     },
     "mind-blast": {
         cooldown: 7500,
@@ -71,8 +70,9 @@ const defaultAbilitySettings = {
     "devouring-plague": {
         costType: "static",
         cooldown: 0,
-        resource: 50,
-        costsResource: true,
+        resource: 0,
+        resourceCost: 50,
+        requireNoVoidform: false,
         type: "instant"
     },
     "shadowfiend": {

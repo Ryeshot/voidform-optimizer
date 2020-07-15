@@ -8,7 +8,7 @@ export default {
         "void-eruption": {
             ...defaultAbilitySettings["void-eruption"],
             casttime: 1500,
-            resource: 60,
+            resourceCost: 60,
         },
         "mind-blast": {
             ...defaultAbilitySettings["mind-blast"],
