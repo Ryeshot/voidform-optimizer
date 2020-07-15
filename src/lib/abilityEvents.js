@@ -69,6 +69,8 @@ const abilityEvents = {
     },
     "devouring-plague": {
         onEvent: {
+            "COOLDOWN_START": ["ABILITY_COOLDOWN_START"],
+            "COOLDOWN_END": ["ABILITY_COOLDOWN_END"],
             "CAST_START": ["ABILITY_CAST_START"],
             "CAST_SUCCESS": ["ABILITY_CAST_SUCCESS", "AURA_START", "RESOURCE_UPDATE"]
         }
