@@ -144,7 +144,7 @@ export const abilityOptions = {
         commonOptions.cooldown,
         commonOptions.castTime,
         {
-            key: "resource",
+            key: "resourceCost",
             displayName: "Insanity Threshold",
             type: "number",
             whatIs: whatIs.voidformThreshold
