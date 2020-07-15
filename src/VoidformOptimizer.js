@@ -1,5 +1,4 @@
 import React, {useState, useEffect, useReducer} from 'react';
-import { Link } from "react-router-dom"
 import './App.css';
 import ResourceBar from "./components/ResourceBar"
 import AbilityBar from "./components/AbilityBar"
@@ -15,9 +14,6 @@ import defaultAuraSettings from "./lib/auraSettings"
 import Forms from "./components/forms/Forms"
 import {DesignPhilosophyLink as DesignPhilosophy} from "./components/articles/DesignPhilosophy"
 import {RampLink as Ramp} from "./components/articles/Ramp"
-
-const designPhilosophyUrl = "/articles/design-philosophy"
-const rampUrl = "/articles/ramp"
 
 const defaultState = {
   resource: 0,
@@ -98,6 +94,7 @@ const VoidformOptimizer = () => {
     const voidform = newState.auras.voidform
     const lingeringInsanity = newState.auras.lingeringInsanity
     const powerInfusion = newState.auras["power-infusion"]
+    const voidformAbilities = ["void-torrent", "devouring-plague"]
 
     switch(event) {
       case "RESET":
@@ -107,7 +104,10 @@ const VoidformOptimizer = () => {
       case "RESET_AURAS":
         return {...newState, resource: auraSettings.stats.startingInsanity, auras: {...defaultState.auras, stats: state.auras.stats} }
       case "UPDATE_ABILITY_STATE":
-        newState.abilities["void-torrent"].unusable = abilitySettings["void-torrent"].requireVoidform
+        // voidformAbilities.forEach(k => {
+        //   const setting = abilitySettings[k]
+        //   newState.abilities[k].unusable = !!setting.requireVoidform
+        // })
         break
       case "HASTE_SET":
         var {source, haste} = action.payload
@@ -128,9 +128,10 @@ const VoidformOptimizer = () => {
       case "VOIDFORM_START":
         voidform.active = true
         voidform.stacks = 1
-        var voidTorrent = abilitySettings["void-torrent"]
-        if(voidTorrent.requireVoidform)
-          newState.abilities["void-torrent"].unusable = false
+        voidformAbilities.forEach(k => {
+          const setting = abilitySettings[k]
+          newState.abilities[k].unusable = !!setting.requireNoVoidform
+        })
         break;
       case "VOIDFORM_END":
         var {time, startingHaste} = action.payload
@@ -141,7 +142,10 @@ const VoidformOptimizer = () => {
         voidform.stacks = 0
         voidform.haste = 0
         newState.abilities["void-eruption"].unusable = true
-        newState.abilities["void-torrent"].unusable = abilitySettings["void-torrent"].requireVoidform
+        voidformAbilities.forEach(k => {
+          const setting = abilitySettings[k]
+          newState.abilities[k].unusable = !setting.requireNoVoidform || !!setting.requireVoidform
+        })
         break;
       case "LINGERING_INSANITY_START":
         var {haste, stacks} = action.payload
@@ -160,10 +164,12 @@ const VoidformOptimizer = () => {
         lingeringInsanity.startTime = 0
         break;
       case "RESOURCE_UPDATE":
-        var {name, resource, costsResource, costType} = action.payload
+        var {name, resource, resourceCost, costType} = action.payload
         let targetCount = name === "mind-sear" ? abilitySettings[name].targetCount : 1
 
-        resource = (resource * (costsResource && -1 || 1)) * targetCount
+        resourceCost = resourceCost || 0
+
+        resource = (resource + (resourceCost * -1)) * targetCount
 
         if(voidform.active && !auraSettings.voidform.gainInsanity && resource > 0)
           resource = 0
@@ -183,14 +189,20 @@ const VoidformOptimizer = () => {
         }
         //whenever we get resource need to calculate if an ability is usable or not
         Object.keys(abilitySettings).forEach(k => {
-          const ability = abilitySettings[k]
-          if(!ability.costsResource) return
-          if(ability.costType === "dump") 
-            newState.abilities[k].unusable = resource === 0
-          else {
-            newState.abilities[k].unusable = resource < ability.resource
+          const setting = abilitySettings[k]
+          const ability = newState.abilities[k]
+          const unusable = (voidform.active && !!setting.requireNoVoidform) || (!voidform.active && !!setting.requireVoidform)
+          
+          if(!ability) return
+          if(!setting.resourceCost) {
+            ability.unusable = unusable
+            return
           }
-
+          if(setting.costType === "dump") 
+            ability.unusable = resource === 0 || unusable
+          else {
+            ability.unusable = resource < setting.resourceCost || unusable
+          }
         })
         break;
       case "INSANITY_DRAIN_PAUSE_START":
@@ -386,9 +398,6 @@ const VoidformOptimizer = () => {
       payload: {
         resource: 0
       }
-    })
-    updateState({
-      type: "UPDATE_ABILITY_STATE"
     })
     setAbilityReset(!abilityReset)
   }
