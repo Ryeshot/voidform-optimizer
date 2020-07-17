@@ -1,12 +1,14 @@
 const whatIs = {
     cooldown: "The amount of time, in seconds, it takes for an ability to be able to be recast.",
     charges: "The number of times an ability may be cast while it is on cooldown.",
-    hasted: "An ability that is hasted has its cooldown reduced by haste.",
+    abilityHasted: "An ability that is hasted has its cooldown reduced by haste.",
+    auraHasted: "An aura that is hasted has its period reduced by haste.",
     resourceCast: "The amount of resource an ability will generate upon a successful cast.",
     resourceChannel: "The amount of resource an ability will generate over its complete channel period.",
     resourceAura: "The amount of resource an aura will generate every time its effect triggers.",
     resourceGeneration: "Increases the amount of resource generated from abilities while an aura is active.",
     cost: "The amount of resource required to cast an ability. Casting the ability will spend the resource cost.",
+    resourceCostType: "Resource cost has two types.\nStatic - A static amount of resource is required to cast the ability.\nDump - Casting the ability spends all resource up to the amount specified by its cost.",
     castTime: "The amount of time, in seconds, it takes for an ability to be executed.",
     channelTime: "The amount of time, in seconds, it takes for an ability's channel to complete.",
     ticks: "The number of times a channel generates resources over its duration.",
@@ -16,12 +18,16 @@ const whatIs = {
     voidformThreshold: "The amount of Insanity that is required to cast Void Eruption out of Voidform.",
     voidformCooldownReduction: "The amount of time, in seconds, that Mind Blast's cooldown is reduced while in Voidform.",
     requireVoidform: "Must be in Voidform in order to cast the ability.",
+    requireNoVoidform: "Must be out of Voidform in order to cast the ability.",
     haste: "Increases the rate at which spells cast and the global cooldown, and certain spell cooldowns, regenerate.",
+    startingInsanity: "The amount of Insanity provided out of combat.",
+    voidformType: "Voidform has two types.\nInsanity - Insanity will drain and the aura will end when insanity reaches zero.\nStatic - The aura has a fixed duration.",
     voidformStartingDrain: "The starting amount of Insanity being drained every second while in Voidform.",
     voidformDrainRate: "The amount of increasing Insanity drained every second while in Voidform.",
     voidformStartingHaste: "The amount of haste, in percent, that is granted at the start of Voidform.",
     voidformHasteStack: "The amount of haste, in percent, that every stack of Voidform grants.",
     voidformMaximumStacks: "The maximum number of Voidform stacks. Note that reaching the maximum does not stop drain from increasing.",
+    voidformGainInsanity: "While in Voidform, if enabled spells will generate insanity, otherwise they won't.",
     lingeringInsanityType: "Lingering Insanity has two types.\nStatic - The length of the aura and haste from stacks are constant.\nDecay - Haste stacks are lost over the aura's duration at a certain rate.",
     lingeringInsanityDuration: "An option for type 'Static'. This is the amount of time, in seconds, that the aura will last.",
     lingeringInsanityAfterVoidformEntry: "An option for type 'Static'. If enabled, then the duration for Lingering Insanity will only start after entering Voidform.",
@@ -29,7 +35,8 @@ const whatIs = {
     lingeringInsanityDecayRate: "An option for type 'Decay'. The amount of time, in seconds it takes for one stack of the aura to be lost.",
     lingeringInsanityHasteDecay: "An option for type 'Decay'. The amount of haste, in percent, that is removed every time the aura loses a stack.",
     auraDuration: "The amount of time, in seconds, that an aura's effect will last.",
-    auraTicks: "The number of times an aura will trigger its effect over its duration."
+    auraTicks: "The number of times an aura will trigger its effect over its duration.",
+    auraHaste: "The amount of haste, in percent, that is granted while an aura is active"
 }
 
 const commonOptions = {
@@ -50,7 +57,7 @@ const commonOptions = {
         key: "hasted",
         displayName: "Hasted",
         type: "boolean",
-        whatIs: whatIs.hasted
+        whatIs: whatIs.abilityHasted
     },
     resourceCast: {
         key: "resource",
@@ -67,7 +74,7 @@ const commonOptions = {
         unit: "insanity"
     },
     cost: {
-        key: "resource",
+        key: "resourceCost",
         displayName: "Cost",
         type: "number",
         whatIs: whatIs.cost,
@@ -120,12 +127,12 @@ export const abilityOptions = {
         commonOptions.hasted,
         commonOptions.charges,
         commonOptions.resourceCast,
-        {
-            key: "rankTwo",
-            displayName: "Rank 2",
-            type: "boolean",
-            whatIs: whatIs.voidBoltRankTwo
-        },
+        // {
+        //     key: "rankTwo",
+        //     displayName: "Rank 2",
+        //     type: "boolean",
+        //     whatIs: whatIs.voidBoltRankTwo
+        // },
         {
             key: "extension",
             displayName: "DoT Extension",
@@ -134,9 +141,10 @@ export const abilityOptions = {
         }
     ],
     "void-eruption": [
+        commonOptions.cooldown,
         commonOptions.castTime,
         {
-            key: "resource",
+            key: "resourceCost",
             displayName: "Insanity Threshold",
             type: "number",
             whatIs: whatIs.voidformThreshold
@@ -197,8 +205,28 @@ export const abilityOptions = {
         commonOptions.resourceCast
     ],
     "devouring-plague": [
+        {
+            key: "costType",
+            displayName: "Cost Type",
+            type: "select",
+            options: [{
+                value: "static",
+                displayName: "Static"
+            },{
+                value: "dump",
+                displayName: "Dump"
+            }],
+            whatIs: whatIs.resourceCostType
+        },
         commonOptions.cooldown,
-        commonOptions.cost
+        commonOptions.cost,
+        commonOptions.resourceCast,
+        {
+            key: "requireNoVoidform",
+            displayName: "Require No Voidform",
+            type: "boolean",
+            whatIs: whatIs.requireNoVoidform
+        }
     ],
     "shadowfiend": [
         commonOptions.cooldown,
@@ -216,9 +244,28 @@ export const auraOptions = {
             displayName: "Haste",
             type: "percent",
             whatIs: whatIs.haste
+        },
+        {
+            key: "startingInsanity",
+            displayName: "Starting Insanity",
+            type: "number",
+            whatIs: whatIs.startingInsanity
         }
     ],
     "voidform": [
+        {
+            key: "type",
+            displayName: "Aura Type",
+            type: "select",
+            options: [{
+                value: "insanity",
+                displayName: "Insanity"
+            },{
+                value: "static",
+                displayName: "Static"
+            }],
+            whatIs: whatIs.voidformType
+        },
         {
             key: "drainStart",
             displayName: "Starting Insanity Drain",
@@ -250,6 +297,16 @@ export const auraOptions = {
             displayName: "Maximum Voidform Stacks",
             type: "number",
             whatIs: whatIs.voidformMaximumStacks
+        },
+        {
+            key: "gainInsanity",
+            displayName: "Gain Insanity",
+            type: "boolean",
+            whatIs: whatIs.voidformGainInsanity
+        },
+        {
+            ...commonOptions.auraDuration,
+            whatIs: `An option for type 'Static'. ${whatIs.auraDuration}`
         }
     ],
     "lingeringInsanity": [
@@ -308,13 +365,27 @@ export const auraOptions = {
         commonOptions.auraResource
     ],
     "devouring-plague": [
-        commonOptions.auraDuration
+        commonOptions.auraDuration,
+        commonOptions.auraTicks,
+        commonOptions.auraResource,
+        {
+            key: "hasted",
+            displayName: "Hasted",
+            type: "boolean",
+            whatIs: whatIs.auraHasted
+        }
     ],
     "shadowfiend": [
         commonOptions.auraResource
     ],
     "power-infusion": [
         commonOptions.auraDuration,
+        {
+            key: "haste",
+            displayName: "Haste",
+            type: "percent",
+            whatIs: whatIs.auraHaste
+        },
         {
             key: "resourceGen",
             displayName: "Resource Generation",

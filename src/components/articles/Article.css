@@ -1,0 +1,69 @@
+.sub-page {
+    display: flex;
+    flex-direction: column;
+
+    background-color: #080808;
+
+    height: 100vh;
+    overflow: auto;
+    color: white;
+}
+
+.sub-page-header {
+    position: absolute;
+    left: 0%;
+    height: 100%;
+    width: 600px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  
+    padding-left: 20px;
+    margin-left: -20px;
+    padding-top: 45px;
+    margin-top: -45px;
+    padding-bottom: 130px;
+    margin-bottom: -130px;
+  
+    background-image: url("../../assets/tentacle-heading.png");
+    background-repeat: no-repeat;
+    background-size: 95%;
+    background-position: 0px 0px;
+  }
+
+.sub-page-title {
+    text-align: center;
+    font-size: calc(10px + 2vmin)
+}
+
+.sub-page-content-container {
+    margin-top: 125px;
+    margin-left: 15px;
+    padding-bottom: 50px;
+    width: max(85vw);
+    white-space: pre-line;
+
+}
+
+.page-nav-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.page-nav-link {
+    text-decoration: none;
+    color: white;
+}
+
+.page-nav-text {
+    color: white;
+    font-size: 30px;
+}
+
+.sub-page-asset-container {
+    /* background-image: url("assets/tentacle-small.png");
+    width: 15vw;
+    height: 100vh; */
+}

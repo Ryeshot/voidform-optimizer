@@ -6,11 +6,9 @@ export default {
     abilitySettings: {
         ...defaultAbilitySettings,
         "void-eruption": {
-            cooldown: 0,
-            type: "cast",
+            ...defaultAbilitySettings["void-eruption"],
             casttime: 1500,
-            resource: 65,
-            costsResource: true
+            resourceCost: 65
         },
         "mind-blast": {
             cooldown: 7500,

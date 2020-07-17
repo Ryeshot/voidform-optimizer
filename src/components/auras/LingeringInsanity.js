@@ -36,7 +36,7 @@ const LingeringInsanity = (props) => {
             type: "LINGERING_INSANITY_START",
             payload: {
                 haste: hasteRef.current * hasteRetention,
-                stacks
+                stacks: Math.ceil(stacks * hasteRetention)
             }
         })
 
@@ -56,8 +56,6 @@ const LingeringInsanity = (props) => {
         const timer = setInterval(() => {
 
             const now = Date.now()
-
-            console.log("here")
 
             //just left voidform
             if(state.voidformEntered && !inVoidformRef.current) {

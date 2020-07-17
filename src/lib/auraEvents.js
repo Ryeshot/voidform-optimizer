@@ -1,12 +1,10 @@
 const auraEvents = {
     "voidform": {
         onEvent: {
-            "AURA_START": [
-                ""
-            ],
+            "AURA_START": ["AURA_BEGIN", "HASTE_UPDATE"],
             "AURA_UPDATE": [],
             "AURA_TIME_UPDATE": [],
-            "AURA_END": []
+            "AURA_END": ["AURA_END"]
         }
     },
     "lingeringInsanity": {
@@ -34,6 +32,12 @@ const auraEvents = {
         }
     },
     "power-infusion": {
+        onEvent: {
+            "AURA_START": ["AURA_BEGIN", "HASTE_UPDATE"],
+            "AURA_END": ["AURA_END", "HASTE_RESET"]
+        }
+    },
+    "bloodlust": {
         onEvent: {
             "AURA_START": ["AURA_BEGIN", "HASTE_UPDATE"],
             "AURA_END": ["AURA_END", "HASTE_RESET"]

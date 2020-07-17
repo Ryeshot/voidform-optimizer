@@ -29,8 +29,7 @@ const defaultAbilitySettings = {
         cooldown: 0,
         type: "cast",
         casttime: 2000,
-        resource: 90,
-        costsResource: true
+        resourceCost: 90,
     },
     "mind-blast": {
         cooldown: 7500,
@@ -44,6 +43,7 @@ const defaultAbilitySettings = {
     "shadow-word-death": {
         cooldown: 9000,
         resource: 15,
+        hasted: false,
         type: "instant",
         charges: 1,
     },
@@ -68,9 +68,11 @@ const defaultAbilitySettings = {
         casttime: 1500
     },
     "devouring-plague": {
+        costType: "static",
         cooldown: 0,
-        resource: 50,
-        costsResource: true,
+        resource: 0,
+        resourceCost: 50,
+        requireNoVoidform: false,
         type: "instant"
     },
     "shadowfiend": {
@@ -80,6 +82,11 @@ const defaultAbilitySettings = {
     },
     "power-infusion": {
         cooldown: 120000,
+        type: "instant"
+    },
+    "bloodlust": {
+        cooldown: 300000,
+        ignoreGcd: true,
         type: "instant"
     }
 }

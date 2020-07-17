@@ -1,5 +1,135 @@
 # Voidform Optimizer Changelog
 
+### 0.12.2 - 2020-07-15
+
+### Added
+ * Option to Devouring Plague for requiring out of Voidform and resource gain on cast
+
+### Fixed
+ * An issue causing Devouring Plague to not go on cooldown properly
+
+### 0.12.1 - 2020-07-14
+
+### Added
+ * New article Ramp
+
+### 0.12.0 - 2020-07-13
+
+### Added
+ * New article Design Philosophy
+
+### 0.11.3 - 2020-07-12
+
+### Added
+ * Resource dump option to Devouring Plague
+
+### 0.11.2 - 2020-07-11
+
+### Added
+ * Static Voidform duration option
+
+### Fixed
+ * An issue causing Void Eruption to sometimes cast another time upon entering Voidform
+
+### Changed
+ * User settings are now defaulted when missing, instead of erroring out
+
+### 0.11.1 - 2020-07-11
+
+### Added
+ * Cooldown option to Void Eruption
+
+### 0.11.0 - 2020-07-08
+
+### Added
+ * New template Yvaelle's Shadowlands, based on the proposal submitted by a user of the same name
+
+### 0.10.0 - 2020-07-02
+
+### Added
+ * New ability Bloodlust
+
+### 0.9.5 - 2020-07-02
+
+### Added
+ * Haste option for aura Power Infusion
+
+### Fixed
+ * An issue causing the first setting displayed in settings panel to not update on import
+
+### 0.9.4 - 2020-07-02
+
+### Fixed
+ * Temporary issue causing Mind Blast cooldown reduction to be applied more often than normal
+
+### Added
+ * New template Ryeshot's Shadowlands, reflecting my ideal changes for Shadow for the next expansion
+ * Notification to update browser to latest version on bug report
+
+### 0.9.3 - 2020-07-02
+
+### Added
+ * Hasted option for Devouring Plague
+
+### Changed
+ * Lingering Insanity stacks are now calculated from haste retention
+
+### 0.9.2 - 2020-07-01
+
+### Removed
+ * Void Bolt rank two from Alpha template and as custom option
+
+### 0.9.1 - 2020-06-30
+
+### Fixed
+ * An issue causing abilities on cooldown to sometimes display global cooldown sweep
+
+### 0.9.0 - 2020-06-30
+
+### Changed
+ * Domain for the app to voidform-optimizer.com
+
+### 0.8.4 - 2020-06-30
+
+### Added
+ * Optional contact field to bug report form
+
+### 0.8.3 - 2020-06-30
+
+### Added
+ * Function keys as keybind option
+
+### 0.8.2 - 2020-06-30
+
+### Fixed
+ * An issue causing some setting inputs to fail
+ * An issue causing Shadow Word: Death hasted setting to not carry over from templates
+
+### 0.8.1 - 2020-06-30
+
+### Fixed
+ * About panel positioning on larger view ports
+
+### 0.8.0 - 2020-06-29
+
+### Added
+ * Spell ordering option in the keybinds panel
+
+### 0.7.4 - 2020-06-28
+
+### Fixed
+ * Settings panel pending changes clearing when updating opposite setting
+
+### 0.7.3 - 2020-06-28
+
+### Added
+ * Require Voidform option for Void Torrent
+
+### Fixed
+ * An issue causing pandemic channel ticks to not occur
+ * An issue causing pending changes text to disappear when updating opposite setting
+ * An issue causing Mind Blast's cooldown reduction in Voidform to be greater than expected
+
 ## 0.7.2 - 2020-06-27
 
 ### Added
@@ -8,7 +138,7 @@
 ## 0.7.1 - 2020-06-27
 
 ### Fixed
- * Import/export panel not has a vertical scroll if content does not fit window
+ * Import/export panel now has a vertical scroll if content does not fit window
  * Mind Sear is no longer part of the Legion: Antorus template
  * Template dropdown is reset when panel closes
 
@@ -20,7 +150,7 @@
 ## 0.6.4 - 2020-06-27
 
 ### Fixed
- * An ssue causing spells that become usable during the gcd to not reset the gcd
+ * An issue causing spells that become usable during the gcd to not reset the gcd
 
 ## 0.6.3 - 2020-06-25
 

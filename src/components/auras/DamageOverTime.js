@@ -3,7 +3,7 @@ import Aura from "./Aura"
 
 const DamageOverTime = (props) => {
 
-    const {icon, name, displayName, startTime, baseDuration, maxDuration, ticks, resource, haste, triggerEvent} = props
+    const {icon, name, displayName, startTime, baseDuration, maxDuration, ticks, resource, haste, hasted, triggerEvent} = props
 
     const interval = 100
 
@@ -20,7 +20,7 @@ const DamageOverTime = (props) => {
 
     const calculateNextTickTime = (now) => {
         //console.log("Haste: " + hasteRef.current)
-        return (baseDuration/ticks)/hasteRef.current + now
+        return (baseDuration/ticks)/(hasted && hasteRef.current || 1) + now
 
     }
 

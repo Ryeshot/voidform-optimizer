@@ -1,17 +1,24 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Aura from "./Aura"
+import {startBuff} from "./Buff"
+import {auraEventHandler} from "../../utils/eventHandler"
 
 const Voidform = (props) => {
 
-    const { drainRate, drainStart, hasteStack, hasteStart, maxStacks, paused, active, triggerEvent } = props
+    const { type, startTime, drainRate, drainStart, hasteStack, hasteStart, maxStacks, baseDuration, paused, active, triggerEvent } = props
     const interval = 100
     const displayName = "Voidform"
+    const name = "voidform"
     const icon = "images/voidform.jpg"
 
-    const [stacks, setStacks] = useState(1)
+    const [stacks, setStacks] = useState(type === "insanity" ? 1 : 0)
+    const [duration, setDuration] = useState(0)
 
     const pausedRef = useRef(paused)
     pausedRef.current = paused
+
+    const startTimeRef = useRef(startTime)
+    startTimeRef.current = startTime
 
     const start = () => {
         let n = 0
@@ -22,7 +29,7 @@ const Voidform = (props) => {
         triggerEvent({
             type: "HASTE_UPDATE",
             payload: {
-                source: "voidform",
+                source: name,
                 haste: hasteStart + hasteStack
             }
         })
@@ -58,7 +65,27 @@ const Voidform = (props) => {
     }
 
     useEffect(() => {
-        let timer = start()
+        let timer
+
+        switch(type) {
+            case "insanity":
+                timer = start()
+                break
+            case "static":
+                const time = Date.now()
+                const eventHandler = auraEventHandler(name, triggerEvent)
+
+                eventHandler.handleEvent("AURA_START", {
+                    name,
+                    source: name,
+                    duration: baseDuration,
+                    time,
+                    haste: hasteStart
+                })
+
+                timer = startBuff(setDuration, startTimeRef, baseDuration, eventHandler, {name})
+            default:
+        }
 
         return () => {
             clearInterval(timer)
@@ -70,10 +97,17 @@ const Voidform = (props) => {
                     startingHaste: hasteStart
                 }
             })
+
+            triggerEvent({
+                type: "RESOURCE_UPDATE",
+                payload: {
+                    resource: 0
+                }
+            })
         }
     }, [active])
 
-    return <Aura icon={icon} displayName={displayName} stacks={stacks} />
+    return <Aura icon={icon} displayName={displayName} stacks={stacks} duration={duration} maxDuration={baseDuration} />
 }
 
 export default Voidform

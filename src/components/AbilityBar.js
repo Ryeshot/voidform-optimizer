@@ -52,7 +52,6 @@ const AbilityBar = (props) => {
     }, [reset])
 
     useEffect(() => {
-        if(hasReset === reset) return
         const name = "mind-blast"
         const ability = abilitySettings[name]
         const duration = getAbilityCooldown(name)
@@ -60,7 +59,7 @@ const AbilityBar = (props) => {
         ability.cooldown += cdr
 
         const startTime = state.cooldowns[name].startTime
-        if(!startTime) return
+        if(!startTime || hasReset === reset) return
         cdr = getAbilityCooldown(name) - duration
         const now = Date.now()
         const remaining = (startTime + duration) - now
@@ -78,9 +77,11 @@ const AbilityBar = (props) => {
     }, [inVoidform])
 
     useEffect(() => {
+        document.addEventListener("keydown", handleKeyPress)
         document.addEventListener("keypress", handleKeyPress)
 
         return () => {
+            document.removeEventListener("keydown", handleKeyPress)
             document.removeEventListener("keypress", handleKeyPress)
         }
     }, [keyEventsPaused])
@@ -201,30 +202,33 @@ const AbilityBar = (props) => {
 
     const handleKeyPress = (e) => {
         if(keyEventsPaused) return
-        
+
         const now = Date.now()
 
         observersRef.current.forEach(o => {
             if(o.keybind === e.key) {
+                e.preventDefault()
                 const abilityCooldownRemaining = o.getRemainingCooldown()
                 const globalCooldownRemaining = globalCooldownRef.current ? globalCooldownRef.current - (now - globalCooldownStartTimeRef.current) : 0
-                const remaining = Math.max(abilityCooldownRemaining, globalCooldownRemaining)
+                const remaining = o.ignoresGcd ? 0 : Math.max(abilityCooldownRemaining, globalCooldownRemaining)
 
                 if(remaining > spellQueueWindow) return
+                if(!o.canExecute()) return
 
                 queueAbility(o.source, o.execute, remaining + 15)
             }
         })
     }
 
-    const handleClick = (name, getRemainingCooldown, execute) => {
+    const handleClick = (name, getRemainingCooldown, execute, canExecute, ignoresGcd) => {
         const now = Date.now()
 
         const abilityCooldownRemaining = getRemainingCooldown()
         const globalCooldownRemaining = globalCooldownRef.current ? globalCooldownRef.current - (now - globalCooldownStartTimeRef.current) : 0
-        const remaining = Math.max(abilityCooldownRemaining, globalCooldownRemaining)
+        const remaining = ignoresGcd ? 0 : Math.max(abilityCooldownRemaining, globalCooldownRemaining)
 
         if(remaining > spellQueueWindow) return
+        if(!canExecute()) return
 
         queueAbility(name, execute, remaining + 15)
     }
@@ -283,6 +287,13 @@ const AbilityBar = (props) => {
 
     const disabledAbilities = (k) => {
         if(abilities[k].disabled) return false
+        // if(k === "void-bolt" && !inVoidformRef.current) return false
+        // if(k === "void-eruption" && inVoidformRef.current) return false
+
+        return true
+    }
+
+    const showAbility = (k) => {
         if(k === "void-bolt" && !inVoidformRef.current) return false
         if(k === "void-eruption" && inVoidformRef.current) return false
 
@@ -292,6 +303,7 @@ const AbilityBar = (props) => {
     const buildAbilityBar = (abilities) => {
         return Object.keys(abilities)
             .filter(disabledAbilities)
+            .sort((k1, k2) => abilities[k1].index - abilities[k2].index)
             //.reduce(makeGroupChunks(8), [])
     }
 
@@ -300,31 +312,31 @@ const AbilityBar = (props) => {
         <div className="progress-bar-container">
             {state.casting ? <CastBar {...state.casting}/> : null}
         </div>
-        {buildAbilityBar(abilities).map((group, groupI) =>
-            <div className="ability-bar" key={`abilitybar-${groupI}`}>
-                {group.map(k => {
-            return <ProgressAbility
-                name={k}
-                key={`ability-${k}`}
-                {...abilities[k]}
-                {...state.cooldowns[k]}
-                settings={abilitySettings[k]}
-                cooldown={getAbilityCooldown(k)}
-                globalCooldown={state.globalCooldown}
-                globalCooldownStartTime={state.globalCooldownStartTime}
-                casttime={getAbilityCastTime(k)}
-                casting={state.casting && state.casting.time && state.casting.direction}
-                subscribe={subscribe}
-                unsubscribe={unsubscribe}
-                onExecute={triggerGlobalCooldown}
-                onAbilityUpdate={triggerCooldown}
-                onClick={handleClick}
-                triggerEvent={triggerEvent}
-                reset={reset}
-                />
-            })}
-            </div>
-        )}      
+        <div className="ability-bar">
+            {buildAbilityBar(abilities)
+            .map(k => {
+                return <ProgressAbility
+                    name={k}
+                    key={`ability-${k}`}
+                    {...abilities[k]}
+                    {...state.cooldowns[k]}
+                    settings={abilitySettings[k]}
+                    cooldown={getAbilityCooldown(k)}
+                    globalCooldown={state.globalCooldown}
+                    globalCooldownStartTime={state.globalCooldownStartTime}
+                    casttime={getAbilityCastTime(k)}
+                    casting={state.casting && state.casting.time && state.casting.direction}
+                    subscribe={subscribe}
+                    unsubscribe={unsubscribe}
+                    onExecute={triggerGlobalCooldown}
+                    onAbilityUpdate={triggerCooldown}
+                    onClick={handleClick}
+                    triggerEvent={triggerEvent}
+                    show={showAbility(k)}
+                    reset={reset}
+                    />
+                })}
+        </div>        
     </div>
     )
 }

@@ -6,7 +6,7 @@ class Ability {
     constructor(initialState, updateFn, onExecute, eventHandler) {
         this.state = initialState
         this.updateState = updateFn
-        this.onExecute = onExecute
+        this.onExecute = initialState.ignoreGcd ? () => {} : onExecute
         this.eventHandler = eventHandler
         this.updateState({
             progress: 0,
@@ -106,14 +106,15 @@ class Ability {
 
     startCast() {
         let state = this.getCurrentState()
-        const {name, displayName, resource, costsResource} = state
+        const {name, displayName, resource, resourceCost, costType} = state
         const {duration} = state.cast
 
         this.castTimer = setTimeout(() => {
             this.eventHandler.handleEvent("CAST_SUCCESS", {
                 name,
                 resource,
-                costsResource,
+                resourceCost,
+                costType,
                 time: Date.now()
             })
 
@@ -131,12 +132,14 @@ class Ability {
 
         }, duration)
 
-        this.eventHandler.handleEvent("CAST_START", {
-            name,
-            displayName,
-            duration,
-            time: Date.now()
-        })
+        if(duration) {
+            this.eventHandler.handleEvent("CAST_START", {
+                name,
+                displayName,
+                duration,
+                time: Date.now()
+            })
+        }
     }
 
     startChannel() {
@@ -210,8 +213,12 @@ class Ability {
     beginGlobalCooldown() {
         let state = this.getCurrentState()
         const {duration, startTime} = state.globalCooldown
+        const {current, maxCharges} = state.charges
+
+        if(state.ignoreGcd) return
 
         if(state.cooldown.startTime) {
+            if(maxCharges && current < maxCharges - 1) return
             let remaining = (state.cooldown.startTime + state.cooldown.duration) - startTime
             if(remaining > duration) return
         }
@@ -235,6 +242,13 @@ class Ability {
         }, interval)
     }
 
+    canExecute() {
+        if(this.state.disabled.current) return false
+        if(this.state.unusable.current) return false
+
+        return true
+    }
+
     remove() {
         clearInterval(this.cooldownTimer)
         clearInterval(this.globalCooldownTimer)
@@ -246,10 +260,10 @@ class Ability {
 class InstantAbility extends Ability {
 
     execute() {
-        if(this.state.unusable.current) return
+        if(!this.canExecute()) return
         if(this.state.cast.casting.current) return
         let state = this.getCurrentState()
-        const {name, resource, costsResource} = state
+        const {name, resource, resourceCost} = state
         const {startTime} = state.cooldown
         const {maxCharges, current} = state.charges
 
@@ -261,7 +275,7 @@ class InstantAbility extends Ability {
         this.eventHandler.handleEvent("CAST_SUCCESS", {
             name,
             resource,
-            costsResource,
+            resourceCost,
             time: Date.now()
         })
 
@@ -274,13 +288,14 @@ class InstantAbility extends Ability {
 class CastAbility extends Ability {
 
     execute() {
-        if(this.state.unusable.current) return
+        if(!this.canExecute()) return
         if(this.state.cast.casting.current) return
         let state = this.getCurrentState()
         const {startTime} = state.cast
         const {current} = state.charges
 
         if(startTime || current === 0) return
+        console.log("Casting")
         this.startCast()
         this.onExecute()
     }
@@ -289,7 +304,7 @@ class CastAbility extends Ability {
 class ChannelAbility extends Ability {
 
     execute() {
-        if(this.state.unusable.current) return
+        if(!this.canExecute()) return
         if(this.state.cast.casting.current) return
         let state = this.getCurrentState()
         const {duration, startTime} = state.cooldown

@@ -9,8 +9,8 @@ const FormTextAreaField = (props) => {
     return (
         <div className={`form-field ${className}`}>
             <label htmlFor={id}>{label}</label>
-            <div className={"form-input-container"}>
-                <textarea className="panel-text-area form-input-field" id={id} value={value} placeholder={placeHolder} required={true} onChange={handleChange} />
+            <div>
+                <textarea className="panel-text-area form-input-container" id={id} value={value} placeholder={placeHolder} required={true} onChange={handleChange} />
             </div>
         </div>
     )

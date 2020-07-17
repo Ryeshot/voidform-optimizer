@@ -9,11 +9,11 @@ const parseAbility = (ability, key) => {
         //might want to look at options
         let setting = abilitySetting[k]
 
-        if(userSetting === null || userSetting === undefined) throw new Error("Missing ability setting in input " + k)
+        //if(userSetting === null || userSetting === undefined) throw new Error("Missing ability setting in input " + k)
 
-        if(typeof userSetting !== typeof setting) throw new Error("Ability setting has invalid format")
+        if(userSetting && typeof userSetting !== typeof setting) throw new Error("Ability setting has invalid format")
         
-        obj[k] = userSetting
+        obj[k] = userSetting !== undefined ? userSetting : setting
 
         return obj
     }, {})
@@ -25,9 +25,7 @@ const parseAbilitySettings = (abilities) => {
     let result = {}
 
     Object.keys(abilitySettings).forEach(a => {
-        let ability = abilities[a]
-
-        if(!ability) throw new Error("Missing ability in input")
+        let ability = abilities[a] || abilitySettings[a]
 
         result[a] = parseAbility(ability, a)
     })
@@ -42,10 +40,10 @@ const parseAura = (aura, key) => {
         let userSetting = aura[k]
         let setting = auraSetting[k]
 
-        if(userSetting === null || auraSetting === undefined) throw new Error("Missing aura setting in input " + k)
-        if(typeof userSetting !== typeof setting) throw new Error("Aura setting has invalid format")
+        //if(userSetting === null || auraSetting === undefined) throw new Error("Missing aura setting in input " + k)
+        if(userSetting && typeof userSetting !== typeof setting) throw new Error(`Aura setting has invalid format`)
 
-        obj[k] = userSetting
+        obj[k] = userSetting !== undefined ? userSetting : setting
 
         return obj
     }, {})
@@ -56,9 +54,9 @@ const parseAura = (aura, key) => {
 const parseAuraSettings = (auras) => {
     let result = {}
     Object.keys(auraSettings).forEach(a => {
-        let aura = auras[a]
+        let aura = auras[a] || auraSettings[a]
 
-        if(!aura) throw new Error("Missing aura in input")
+        //if(!aura) throw new Error("Missing aura in input")
 
         result[a] = parseAura(aura, a)
     })
@@ -66,18 +64,18 @@ const parseAuraSettings = (auras) => {
     return result
 }
 
-export const importSettings = (settings, includeKeybinds) => {
+export const importSettings = (settings, includeKeybinds, includeSpellOrder) => {
 
     try {
         let parsedSettings = JSON.parse(Base64.decode(settings))
 
-        let parsedAbilitySettings = parseAbilitySettings(parsedSettings.abilitySettings)
-        let parsedAuraSettings = parseAuraSettings(parsedSettings.auraSettings)
-        let abilityConfig = formatAbilityConfig(parsedSettings.abilityConfig, includeKeybinds)
+        let abilitySettings = parseAbilitySettings(parsedSettings.abilitySettings)
+        let auraSettings = parseAuraSettings(parsedSettings.auraSettings)
+        let abilityConfig = formatAbilityConfig(parsedSettings.abilityConfig, includeKeybinds, includeSpellOrder)
 
         return {
-            abilitySettings: parsedAbilitySettings, 
-            auraSettings: parsedAuraSettings,
+            abilitySettings,
+            auraSettings,
             abilityConfig
         }
     }
@@ -107,12 +105,13 @@ const formatAbilitySettingsForExport = (settings) => {
     return result
 }
 
-const formatAbilityConfig = (settings, includeKeybinds) => {
+const formatAbilityConfig = (settings, includeKeybinds, includeSpellOrder) => {
     let result = Object.keys(settings).reduce((result, k) => {
-        let {keybind, disabled} = settings[k]
+        let {keybind, disabled, index} = settings[k]
 
         result[k] = {disabled: !!disabled}
         if(includeKeybinds && keybind) result[k].keybind = keybind
+        if(includeSpellOrder && index) result[k].index = index
         
         return result
     }, {})
@@ -122,7 +121,7 @@ const formatAbilityConfig = (settings, includeKeybinds) => {
 
 export const exportSettings = (currentSettings) => {
     let formattedAbilitySettings = formatAbilitySettingsForExport(currentSettings.abilitySettings)
-    let formattedAbilityConfig = formatAbilityConfig(currentSettings.abilities, true)
+    let formattedAbilityConfig = formatAbilityConfig(currentSettings.abilities, true, true)
 
     let combined =  {
         abilitySettings: formattedAbilitySettings,

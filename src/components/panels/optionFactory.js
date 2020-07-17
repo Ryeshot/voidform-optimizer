@@ -3,19 +3,22 @@ import React, { useState } from "react"
 const TimeTextOption = (props) => {
     const {value, onChange} = props
 
+    const [displayValue, setDisplayValue] = useState(value/1000)
+
     const handleChange = (e) => {
-        if(!e.target.value || parseFloat(e.target.value) < 0) return
+        if(!e.target.value) return
         onChange(parseFloat(e.target.value)*1000)
+        setDisplayValue(e.target.value)
     }
     
-    return <span><input className="setting-option-input" type="number" value={value/1000} min="0" step=".1" onChange={handleChange} />sec</span>
+    return <span><input className="setting-option-input" type="number" value={displayValue} min="0" step=".1" onChange={handleChange} />sec</span>
 }
 
 const NumberTextOption = (props) => {
     const {value, onChange, unit} = props
 
     const handleChange = (e) => {
-        if(!e.target.value || parseFloat(e.target.value) < 0) return
+        if(!e.target.value) return
         onChange(parseInt(e.target.value))
     }
     
@@ -26,7 +29,7 @@ const FloatTextOption = (props) => {
     const {value, onChange, unit} = props
 
     const handleChange = (e) => {
-        if(!e.target.value || parseFloat(e.target.value) < 0) return
+        if(!e.target.value) return
         onChange(parseFloat(e.target.value))
     }
     
@@ -36,12 +39,15 @@ const FloatTextOption = (props) => {
 const PercentTextOption = (props) => {
     const {value, onChange} = props
 
+    const [displayValue, setDisplayValue] = useState(value*100)
+
     const handleChange = (e) => {
-        if(!e.target.value || parseFloat(e.target.value) < 0) return
+        if(!e.target.value) return
         onChange(parseFloat(e.target.value)/100)
+        setDisplayValue(e.target.value)
     }
 
-    return <span><input className="setting-option-input" type="number" value={value*100} min="0" step=".5" onChange={handleChange} />%</span>
+    return <span><input className="setting-option-input" type="number" value={displayValue} min="0" step=".5" onChange={handleChange} />%</span>
 }
 
 const BooleanOption = (props) => {

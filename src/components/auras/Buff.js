@@ -1,15 +1,39 @@
-import React, {useState, useEffect, useReducer, useRef} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import Aura from "./Aura"
 import {auraEventHandler} from "../../utils/eventHandler"
 
 //import 
 
+const interval = 100
+
+const startBuff = (setDuration, startTimeRef, baseDuration, eventHandler, payload) => {
+    const {name} = payload
+    const timer = setInterval(() => {
+
+        const now = Date.now()
+
+        if(now >= startTimeRef.current + baseDuration) {
+            clearInterval(timer)
+
+            eventHandler.handleEvent("AURA_END", {
+                name,
+                source: name
+            })
+
+            return
+        }
+
+        setDuration(_ => now - startTimeRef.current)
+
+    }, interval)
+
+    return timer
+}
+
 const Buff = (props) => {
 
     const {icon, name, displayName, startTime, setting, triggerEvent} = props
     const {baseDuration} = setting
-
-    const interval = 100
 
     const [duration, setDuration] = useState(0)
 
@@ -28,24 +52,7 @@ const Buff = (props) => {
             ...setting
         })
 
-        const timer = setInterval(() => {
-
-            const now = Date.now()
-
-            if(now >= startTimeRef.current + baseDuration) {
-                clearInterval(timer)
-
-                eventHandler.handleEvent("AURA_END", {
-                    name,
-                    source: name
-                })
-
-                return
-            }
-
-            setDuration(duration => now - startTimeRef.current)
-
-        }, interval)
+        const timer = startBuff(setDuration, startTimeRef, baseDuration, eventHandler, {name})
 
         return () => clearInterval(timer)
     }, [])
@@ -54,3 +61,4 @@ const Buff = (props) => {
 }
 
 export default Buff
+export {startBuff}
