@@ -12,7 +12,6 @@ export default (state, action) => {
             break
         case "ABILITY_CAST_SUCCESS":
             var {name} = payload
-
             newState.cooldowns[name].castStartTime = 0
             newState.cooldowns[name].castEndTime = 0
 

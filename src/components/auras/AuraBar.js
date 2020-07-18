@@ -43,12 +43,8 @@ const buffs = [
 
 const AuraBar = (props) => {
 
-    const {auras, triggerEvent, settings, haste} = props
+    const {auras, triggerEvent, settings, effectHandler, haste} = props
     const {lingeringInsanity, voidform} = settings 
-
-    const [state, triggerAuraEvent] = useReducer((state, action) => {
-
-    })
 
     return (
         <div className="aura-container">
@@ -56,14 +52,16 @@ const AuraBar = (props) => {
           ? <Voidform 
             {...voidform}
             {...auras.voidform}
-            triggerEvent={triggerEvent}/> 
+            triggerEvent={triggerEvent}
+            effectHandler={effectHandler} /> 
           : null}
           {auras.lingeringInsanity.active
           ? <LingeringInsanity 
             {...lingeringInsanity}
             {...auras.lingeringInsanity} 
             inVoidform={auras.voidform.active} 
-            triggerEvent={triggerEvent}/>
+            triggerEvent={triggerEvent}
+            effectHandler={effectHandler} />
           : null}
           {dots.map(dot => 
             auras[dot.name].active
@@ -72,8 +70,8 @@ const AuraBar = (props) => {
                 {...auras[dot.name]}
                 {...settings[dot.name]}
                 haste={haste}
-                triggerEvent={triggerEvent} 
-              />
+                triggerEvent={triggerEvent}
+                effectHandler={effectHandler} />
             : null
           )}
           {buffs.map(buff => 
@@ -82,8 +80,8 @@ const AuraBar = (props) => {
                 {...buff}
                 {...auras[buff.name]}
                 setting={settings[buff.name]}
-                triggerEvent={triggerEvent} 
-              />
+                triggerEvent={triggerEvent}
+                effectHandler={effectHandler} />
             : null
           )}
         </div>       

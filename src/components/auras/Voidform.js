@@ -5,7 +5,7 @@ import {auraEventHandler} from "../../utils/eventHandler"
 
 const Voidform = (props) => {
 
-    const { type, startTime, drainRate, drainStart, hasteStack, hasteStart, maxStacks, baseDuration, paused, active, triggerEvent } = props
+    const { type, startTime, drainRate, drainStart, hasteStack, hasteStart, maxStacks, baseDuration, paused, active, triggerEvent, effectHandler } = props
     const interval = 100
     const displayName = "Voidform"
     const name = "voidform"
@@ -73,7 +73,7 @@ const Voidform = (props) => {
                 break
             case "static":
                 const time = Date.now()
-                const eventHandler = auraEventHandler(name, triggerEvent)
+                const eventHandler = auraEventHandler(name, triggerEvent, effectHandler)
 
                 eventHandler.handleEvent("AURA_START", {
                     name,

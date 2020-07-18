@@ -8,7 +8,7 @@ import "./AbilityBar.css"
 const AbilityBar = (props) => {
 
     const gcdLength = 1500
-    const {state, abilitySettings, abilities, haste, inVoidform, dispatch, keyEventsPaused, reset} = props
+    const {state, abilitySettings, abilities, effectHandler, haste, inVoidform, dispatch, keyEventsPaused, reset} = props
 
     const hasteRef = useRef(haste)
     hasteRef.current = haste
@@ -205,7 +205,8 @@ const AbilityBar = (props) => {
                     onExecute={triggerGlobalCooldown}
                     onAbilityUpdate={dispatch}
                     onClick={handleClick}
-                    triggerEvent={dispatch}
+                    dispatch={dispatch}
+                    effectHandler={effectHandler}
                     show={showAbility(k)}
                     reset={reset}
                     />

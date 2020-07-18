@@ -5,7 +5,7 @@ import Ability from "../utils/ability"
 
 const ProgressAbility = (props) => {
 
-    const {name, displayName, settings, cooldown, globalCooldown, globalCooldownStartTime, unusable, startTime, casttime, castStartTime, castEndTime, icon, baseChannelTime, currentTicks, keybind, casting, subscribe, unsubscribe, onExecute, onAbilityUpdate, onClick, triggerEvent, show, reset} = props
+    const {name, displayName, settings, cooldown, globalCooldown, globalCooldownStartTime, unusable, startTime, casttime, castStartTime, castEndTime, icon, baseChannelTime, currentTicks, keybind, casting, subscribe, unsubscribe, onExecute, onClick, dispatch, effectHandler, show, reset} = props
 
     const size = 50
 
@@ -61,15 +61,6 @@ const ProgressAbility = (props) => {
     const ability = useRef()
 
     useEffect(() => {
-        const triggers = [{
-            eventTypes: ["CAST"],
-            trigger: onAbilityUpdate 
-        },
-        {
-            eventTypes: ["RESOURCE", "AURA", "STAT"],
-            trigger: triggerEvent
-        }]
-
         const initialState = {
             name,
             displayName,
@@ -104,7 +95,7 @@ const ProgressAbility = (props) => {
             }
         }
 
-        ability.current = Ability.create(type, initialState, setState, onExecute, triggers)
+        ability.current = Ability.create(type, initialState, setState, onExecute, dispatch, effectHandler)
         
         subscribe({
             source: name,

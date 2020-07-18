@@ -15,6 +15,7 @@ import Forms from "./components/forms/Forms"
 import {DesignPhilosophyLink as DesignPhilosophy} from "./components/articles/DesignPhilosophy"
 import {RampLink as Ramp} from "./components/articles/Ramp"
 import rootReducer from "./utils/reducers"
+import EffectHandler from "./utils/effectHandler"
 
 const VoidformOptimizer = () => {
 
@@ -28,6 +29,8 @@ const VoidformOptimizer = () => {
   const [haste, setHaste] = useState(0)
 
   const [state, updateState] = useReducer(...rootReducer(auraSettings))
+  const [abilityEffectHandler] = useState(EffectHandler.forAbility(state))
+  const [auraEffectHandler] = useState(EffectHandler.forAura(state))
 
   useEffect(() => {
     setHaste(calculateHaste)
@@ -206,9 +209,9 @@ const VoidformOptimizer = () => {
         <Forms pauseKeyEvents={setKeyEventsPaused} />
       </header>
       <div className="App-content">
-        <AuraBar auras={state.auras} settings={auraSettings} haste={haste} triggerEvent={updateState} />
+        <AuraBar auras={state.auras} settings={auraSettings} effectHandler={auraEffectHandler} haste={haste} triggerEvent={updateState} />
         <ResourceBar current={state.resource} max={100}/>
-        <AbilityBar state={state.abilities} abilitySettings={abilitySettings} abilities={abilities} haste={haste} inVoidform={state.auras.voidform.active} dispatch={updateState} keyEventsPaused={keyEventsPaused} reset={abilityReset} />
+        <AbilityBar state={state.abilities} abilitySettings={abilitySettings} abilities={abilities} effectHandler={abilityEffectHandler} haste={haste} inVoidform={state.auras.voidform.active} dispatch={updateState} keyEventsPaused={keyEventsPaused} reset={abilityReset} />
         <button className="panel-button" onClick={handleReset}>Reset</button>
       </div>
     </div>

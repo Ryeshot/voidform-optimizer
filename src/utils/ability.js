@@ -14,8 +14,8 @@ class Ability {
         })       
     }
 
-    static create(type, initialState, updateFn, onExecute, triggers) {
-        const eventHandler = constructEventHandler(initialState.name, triggers)
+    static create(type, initialState, updateFn, onExecute, trigger, effectHandler) {
+        const eventHandler = constructEventHandler(initialState.name, trigger, effectHandler)
         switch(type) {
             case "instant":
                 return new InstantAbility(initialState, updateFn, onExecute, eventHandler)

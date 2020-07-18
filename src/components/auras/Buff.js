@@ -32,7 +32,7 @@ const startBuff = (setDuration, startTimeRef, baseDuration, eventHandler, payloa
 
 const Buff = (props) => {
 
-    const {icon, name, displayName, startTime, setting, triggerEvent} = props
+    const {icon, name, displayName, startTime, setting, triggerEvent, effectHandler} = props
     const {baseDuration} = setting
 
     const [duration, setDuration] = useState(0)
@@ -41,7 +41,7 @@ const Buff = (props) => {
     startTimeRef.current = startTime
 
     useEffect(() => {
-        const eventHandler = auraEventHandler(name, triggerEvent)
+        const eventHandler = auraEventHandler(name, triggerEvent, effectHandler)
         const start = Date.now()
 
         eventHandler.handleEvent("AURA_START", {
