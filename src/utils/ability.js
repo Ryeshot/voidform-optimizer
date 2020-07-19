@@ -295,7 +295,6 @@ class CastAbility extends Ability {
         const {current} = state.charges
 
         if(startTime || current === 0) return
-        console.log("Casting")
         this.startCast()
         this.onExecute()
     }

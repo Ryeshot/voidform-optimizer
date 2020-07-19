@@ -29,6 +29,7 @@ const DamageOverTime = (props) => {
         let tickTime = calculateNextTickTime(start)
 
         triggerEvent({
+            category: "AURA",
             type: "AURA_BEGIN",
             payload: {
                 name,
@@ -50,6 +51,7 @@ const DamageOverTime = (props) => {
                     }
                 })
                 triggerEvent({
+                    category: "AURA",
                     type: "AURA_END",
                     payload: {
                         name
@@ -59,7 +61,6 @@ const DamageOverTime = (props) => {
             }
 
             if(now >= tickTime) {
-                //console.log("Tick!")
                 triggerEvent({
                     type: "RESOURCE_UPDATE",
                     payload: {

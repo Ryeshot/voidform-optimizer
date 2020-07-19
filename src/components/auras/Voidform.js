@@ -53,6 +53,7 @@ const Voidform = (props) => {
             if (i % frequency === 0 && (!maxStacks || i / frequency < maxStacks)) {
                 //gain a stack of vf
                 triggerEvent({
+                    category: "AURA",
                     type: "VOIDFORM_UPDATE",
                     payload: hasteStack
                 })

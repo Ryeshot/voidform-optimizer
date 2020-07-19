@@ -1,4 +1,6 @@
 export default (state, action) => {
+    if(!action.category === "SPELL") return state
+    
     const newState = JSON.parse(JSON.stringify(state))
     const payload = action.payload
 

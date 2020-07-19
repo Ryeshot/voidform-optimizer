@@ -4,6 +4,8 @@ import auraEvents from "../lib/auraEvents"
 
 class EventHandler {
 
+    //add event prefixes
+
     constructor(eventTrigger, events, name, effectHandler) {
         this.eventTrigger = eventTrigger
         this.events = events
@@ -15,13 +17,21 @@ class EventHandler {
         return events.map(e => ({type: e, payload}))
     }
 
+    addEventCategory(type){
+        for(let category in events){
+            if(events[category].includes(type)) return category
+        }
+        return ""
+    }
+
     handleEvent(event, payload) {
         if(!this.events[event]) return
 
         let events = this.prepareEvents(this.events[event], payload)
         events = this.effectHandler.transformEvents(this.source, event, {events, payload})
-        console.log(events)
-        events.forEach(e => this.eventTrigger(e))
+        // console.log(this.source, event)
+        // console.log(events)
+        events.forEach(e => this.eventTrigger({category: this.addEventCategory(e.type), ...e}))
     }
 }
 
