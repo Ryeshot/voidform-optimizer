@@ -14,6 +14,7 @@ import defaultAuraSettings from "./lib/auraSettings"
 import Forms from "./components/forms/Forms"
 import {DesignPhilosophyLink as DesignPhilosophy} from "./components/articles/DesignPhilosophy"
 import {RampLink as Ramp} from "./components/articles/Ramp"
+import templates from "./lib/templates"
 
 const defaultState = {
   resource: 0,
@@ -252,6 +253,15 @@ const VoidformOptimizer = () => {
     state.auras.lingeringInsanity.haste,
     state.auras["power-infusion"].haste,
     state.auras["bloodlust"].haste])
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search)
+    const template = queryParams.get("template")
+    if(!template || !templates[template]) return
+    const templateSettings = {...templates[template], abilityConfig: templates[template].abilities}
+    delete templateSettings.abilities
+    handleImport(templateSettings)
+  }, [])
 
   const enterVoidform = () => {
     updateState({

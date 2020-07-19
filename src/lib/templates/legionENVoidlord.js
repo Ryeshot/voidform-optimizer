@@ -61,7 +61,8 @@ export default {
         "void-torrent": {},
         "shadow-word-pain": {},
         "vampiric-touch": {},
-        "devouring-plague": { disabled: true }
+        "devouring-plague": { disabled: true },
+        "power-infusion": { disabled: true }
     }
 
 }

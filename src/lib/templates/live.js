@@ -35,6 +35,7 @@ export default {
         "shadow-word-pain": {},
         "vampiric-touch": {},
         "devouring-plague": { disabled: true },
-        "shadowfiend": {}
+        "shadowfiend": {},
+        "power-infusion": { disabled: true }
     }
 }

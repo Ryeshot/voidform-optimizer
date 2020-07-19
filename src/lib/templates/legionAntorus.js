@@ -37,6 +37,7 @@ export default {
     auraSettings: {
         ...defaultAuraSettings,
         stats: {
+            ...defaultAuraSettings.stats,
             displayName: "Stats",
             haste: .4
         },

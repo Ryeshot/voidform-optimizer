@@ -4,6 +4,12 @@ import { exportSettings, importSettings } from "../../utils/importExport"
 import templates from "../../lib/templates"
 import "./Panel.css"
 
+const addTemplateToQueryString = (template) => {
+    const queryParams = new URLSearchParams()
+    queryParams.set("template", template)
+    window.history.replaceState(null, window.document.title, `?${queryParams.toString()}`)
+}
+
 const Templates = (props) => {
 
     const {onChange, selected} = props
@@ -41,6 +47,7 @@ const ExportPanel = (props) => {
     const handleImport = () => {
         try {
             const settings = importSettings(inputData, includeKeybinds, includeSpellOrder)
+            if(selectedTemplate) addTemplateToQueryString(selectedTemplate)
             onImport(settings)
         } catch (error) {
             console.error(error)
