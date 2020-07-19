@@ -45,7 +45,6 @@ export default (state, action) => {
       lingeringInsanity.startTime = time
       voidform.stacks = 0
       voidform.haste = 0
-      //newState.abilities["void-eruption"].unusable = true
       break;
     case "LINGERING_INSANITY_START":
       var {haste, stacks} = payload

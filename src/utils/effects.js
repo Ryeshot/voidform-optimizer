@@ -81,9 +81,6 @@ export default {
             const {effectTime} = effectSettings[name]
 
             if(!effects[name].active) return events
-            //if(!auras["fae-blessings"].active) return events
-
-            console.log("Inside effect: " + name)
 
             const type = "ABILITY_COOLDOWN_START"
             const effectEvents = targets.map(name => {
@@ -124,6 +121,12 @@ export default {
             }
 
             return [...events, effectEvent]
+        }
+    },
+    "calculate-resource": {
+        trigger: ({events, state}) => {
+            console.log("Calculating resource!")
+            return events
         }
     }
 }
