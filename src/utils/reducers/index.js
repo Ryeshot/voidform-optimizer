@@ -2,9 +2,26 @@ import abilitiesReducer from "./abilitiesReducer"
 import aurasReducer from "./aurasReducer"
 import defaultState from "./defaultState"
 
-export default (auraSettings) => [(state, action) => {
+const updateAbilitiesAfterResourceChange = (abilitySettings, abilities, resource, voidform) => {
+    Object.keys(abilitySettings).forEach(k => {
+        const setting = abilitySettings[k]
+        const ability = abilities[k]
+        const unusable = (voidform.active && !!setting.requireNoVoidform) || (!voidform.active && !!setting.requireVoidform)
+        if(!ability) return
+        if(!setting.resourceCost) {
+          ability.unusable = unusable
+          return
+        }
+        if(setting.costType === "dump") 
+          ability.unusable = resource === 0 || unusable
+        else {
+          ability.unusable = resource < setting.resourceCost || unusable
+        }
+    })
+}
 
-    const {abilities, auras} = state
+export default (auraSettings, abilitySettings, abilities) => [(state, action) => {
+    const {auras} = state
     const payload = action.payload
 
     switch(action.type) {
@@ -17,28 +34,20 @@ export default (auraSettings) => [(state, action) => {
         case "RESOURCE_UPDATE":
             var {name, resource, resourceCost} = payload
             resourceCost = resourceCost || 0
-    
-            resource = (resource + (resourceCost * -1))
-    
+            resource = (resource + (resourceCost * -1))   
             resource = Math.max(Math.min(state.resource + resource, 100), 0)
+
+            updateAbilitiesAfterResourceChange(abilitySettings, abilities, resource, auras.voidform)
+
             return {...state, resource}
-            // //whenever we get resource need to calculate if an ability is usable or not
-            // Object.keys(abilitySettings).forEach(k => {
-            //   const setting = abilitySettings[k]
-            //   const ability = newState.abilities[k]
-            //   const unusable = (voidform.active && !!setting.requireNoVoidform) || (!voidform.active && !!setting.requireVoidform)
-              
-            //   if(!ability) return
-            //   if(!setting.resourceCost) {
-            //     ability.unusable = unusable
-            //     return
-            //   }
-            //   if(setting.costType === "dump") 
-            //     ability.unusable = resource === 0 || unusable
-            //   else {
-            //     ability.unusable = resource < setting.resourceCost || unusable
-            //   }
-            // })
+        case "ABILITY_ACTIVATE":
+            var {name} = payload
+            abilities[name].unusable = false
+            return state
+        case "ABILITY_DEACTIVATE":
+            var {name} = payload
+            abilities[name].unusable = true
+            return state
     }
     return {
         resource: state.resource,

@@ -1,10 +1,16 @@
 import defaultAbilities from "../../lib/abilities"
+import defaultEffects from "../../lib/effects"
 
 const inactiveAbilities = ["void-eruption", "devouring-plague"]
 const cooldowns = Object.keys(defaultAbilities).reduce((obj, a) => {
-    obj[a] = { unusable: inactiveAbilities.includes(a)}
+    obj[a] = {}
     return obj
 }, {})
+
+const effects = Object.keys(defaultEffects).reduce((obj, e) => {
+  obj[e] = {}
+  return obj
+})
 
 export default {
     resource: 0,
@@ -47,5 +53,6 @@ export default {
     abilities: {
       cooldowns,
       globalCooldown: 0
-    }
+    },
+    effects
   }

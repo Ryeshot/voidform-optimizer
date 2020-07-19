@@ -28,7 +28,7 @@ const VoidformOptimizer = () => {
   const [abilityReset, setAbilityReset] = useState(false)
   const [haste, setHaste] = useState(0)
 
-  const [state, updateState] = useReducer(...rootReducer(auraSettings))
+  const [state, updateState] = useReducer(...rootReducer(auraSettings, abilitySettings, abilities))
   const [abilityEffectHandler] = useState(EffectHandler.forAbility(state))
   const [auraEffectHandler] = useState(EffectHandler.forAura(state))
 

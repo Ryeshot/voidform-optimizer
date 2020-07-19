@@ -10,6 +10,16 @@ const abilityEffects = {
                 ]
             }]
         }
+    },
+    "void-eruption": {
+        onEvent: {
+            "CAST_SUCCESS": [{
+                type: "TRIGGER",
+                effects: [
+                    "voidform-deactivate-void-eruption"
+                ]
+            }]
+        }
     }
 }
 

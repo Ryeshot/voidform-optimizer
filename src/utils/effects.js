@@ -10,6 +10,7 @@ export default {
     "void-bolt-cooldown-reset": {
         trigger: ({events, state}) => {
             const {effects, effectSettings} = state
+            if(!effectSettings) return events
             const name = "void-bolt-cooldown-reset"
             const targets = effectTargets[name]
             const {chance} = effectSettings[name]
@@ -32,6 +33,7 @@ export default {
     "void-bolt-cooldown-reduce-fae-blessings": {
         trigger: ({events, state}) => {
             const {effects, effectSettings, auras, abilities} = state
+            if(!effectSettings) return events
             const name = "void-bolt-cooldown-reduce-fae-blessing"
             const targets = effectTargets[name]
             const {chance, effectTime} = effectSettings[name]
@@ -63,6 +65,7 @@ export default {
     "void-bolt-cooldown-reduce-shadowfiend": {
         trigger: ({events, state}) => {
             const {effects, effectSettings, auras, abilities} = state
+            if(!effectSettings) return events
             const name = "void-bolt-cooldown-reduce-shadowfiend"
             const targets = effectTargets[name]
             const {effectTime} = effectSettings[name]
@@ -84,6 +87,21 @@ export default {
             })
 
             return [...events, effectEvents]
+        }
+    },
+    "voidform-deactivate-void-eruption": {
+        trigger: ({events, state}) => {
+            const name = "voidform-deactivate-void-eruption"
+            const type = "ABILITY_DEACTIVATE"
+
+            const effectEvent = {
+                type,
+                payload: {
+                    name: "void-eruption"
+                }
+            }
+
+            return [...events, effectEvent]
         }
     }
 }
