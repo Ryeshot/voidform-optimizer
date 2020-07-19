@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useReducer} from 'react';
+import React, {useState, useEffect, useReducer, useRef} from 'react';
 import './App.css';
 import ResourceBar from "./components/ResourceBar"
 import AbilityBar from "./components/AbilityBar"
@@ -11,6 +11,8 @@ import WhatsNewPanel from "./components/panels/WhatsNewPanel"
 import defaultAbilities from "./lib/abilities"
 import defaultAbilitySettings from "./lib/abilitySettings"
 import defaultAuraSettings from "./lib/auraSettings"
+import defaultEffectSettings from "./lib/effectSettings"
+import defaultEffects from "./lib/effects"
 import Forms from "./components/forms/Forms"
 import {DesignPhilosophyLink as DesignPhilosophy} from "./components/articles/DesignPhilosophy"
 import {RampLink as Ramp} from "./components/articles/Ramp"
@@ -23,14 +25,18 @@ const VoidformOptimizer = () => {
   const [abilitySettings, setAbilitySettings] = useState(defaultAbilitySettings)
   const [abilities, setAbilities] = useState(defaultAbilities)
   const [auraSettings, setAuraSettings] = useState(defaultAuraSettings)
+  const [effectSettings, setEffectSettings] = useState(defaultEffectSettings)
+  //const [effects, setEffects] = useState(defaultEffects)
   const [keyEventsPaused, setKeyEventsPaused] = useState(false)
   const [reset, setReset] = useState(false)
   const [abilityReset, setAbilityReset] = useState(false)
   const [haste, setHaste] = useState(0)
 
   const [state, updateState] = useReducer(...rootReducer(auraSettings, abilitySettings, abilities))
-  const [abilityEffectHandler] = useState(EffectHandler.forAbility(state))
-  const [auraEffectHandler] = useState(EffectHandler.forAura(state))
+  const stateRef = useRef()
+  stateRef.current = {...state, abilitySettings, auraSettings, effectSettings}
+  const [abilityEffectHandler] = useState(EffectHandler.forAbility(stateRef))
+  const [auraEffectHandler] = useState(EffectHandler.forAura(stateRef))
 
   useEffect(() => {
     setHaste(calculateHaste)
@@ -116,7 +122,8 @@ const VoidformOptimizer = () => {
     setAllAbilities(settings.abilityConfig)
     handleAbilitySet(settings.abilitySettings)
     handleAuraSet(settings.auraSettings)
-    handleReset()
+    handleEffectSet(settings.effectSettings)
+    //handleReset()
   }
 
   const setAllAbilities = (importedAbilities) => {
@@ -141,6 +148,7 @@ const VoidformOptimizer = () => {
     const resource = auraSettings.stats.startingInsanity
     handleAuraReset(resource)
     updateState({
+      category: "STAT",
       type: "HASTE_SET",
       payload: {
         source: "stats",
@@ -152,6 +160,11 @@ const VoidformOptimizer = () => {
   const handleAbilitySet = (abilitySettings) => {
     setAbilitySettings(abilitySettings)
     handleAbilityReset()
+  }
+
+  const handleEffectSet = (effectSettings) => {
+    setEffectSettings(effectSettings)
+    handleEffectReset()
   }
 
   const handleAbilityReset = () => {
@@ -174,14 +187,22 @@ const VoidformOptimizer = () => {
 
     setTimeout(() => {
       updateState({
+        category: "AURA",
         type: "LINGERING_INSANITY_END"
       })
     }, 0)
   }
 
+  const handleEffectReset = () => {
+    updateState({
+      type: "RESET_EFFECTS"
+    })
+  }
+
   const handleReset = () => {
     handleAuraReset()
     handleAbilityReset()
+    handleEffectReset()
     setReset(!reset)
   }
 

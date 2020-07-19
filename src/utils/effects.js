@@ -10,8 +10,11 @@ export default {
     "void-bolt-cooldown-reset": {
         trigger: ({events, state}) => {
             const {effects, effectSettings} = state
-            if(!effectSettings) return events
             const name = "void-bolt-cooldown-reset"
+            if(!effectSettings) return events
+            if(!effectSettings[name]) return events
+            if(!effects[name]) return events
+
             const targets = effectTargets[name]
             const {chance} = effectSettings[name]
 
@@ -33,8 +36,11 @@ export default {
     "void-bolt-cooldown-reduce-fae-blessings": {
         trigger: ({events, state}) => {
             const {effects, effectSettings, auras, abilities} = state
-            if(!effectSettings) return events
             const name = "void-bolt-cooldown-reduce-fae-blessing"
+            if(!effectSettings) return events
+            if(!effectSettings[name]) return events
+            if(!effects[name]) return events
+
             const targets = effectTargets[name]
             const {chance, effectTime} = effectSettings[name]
 
@@ -58,20 +64,26 @@ export default {
                 }
             })
 
-            return [...events, effectEvents]
+            return [...events, ...effectEvents]
             
         }
     },
     "void-bolt-cooldown-reduce-shadowfiend": {
         trigger: ({events, state}) => {
+            console.log(state) 
             const {effects, effectSettings, auras, abilities} = state
-            if(!effectSettings) return events
             const name = "void-bolt-cooldown-reduce-shadowfiend"
+            if(!effectSettings) return events
+            if(!effectSettings[name]) return events
+            if(!effects[name]) return events
+
             const targets = effectTargets[name]
             const {effectTime} = effectSettings[name]
 
             if(!effects[name].active) return events
-            if(!auras["fae-blessings"].active) return events
+            //if(!auras["fae-blessings"].active) return events
+
+            console.log("Inside effect: " + name)
 
             const type = "ABILITY_COOLDOWN_START"
             const effectEvents = targets.map(name => {
@@ -86,11 +98,21 @@ export default {
                 }
             })
 
-            return [...events, effectEvents]
+            const stackEvent = {
+                type: "AURA_STACK_UPDATE",
+                payload: {
+                    name: "fae-blessings",
+                    stack: -1
+                }
+            }
+
+            //console.log([...events, effectEvents])
+
+            return [...events, ...effectEvents, stackEvent]
         }
     },
     "voidform-deactivate-void-eruption": {
-        trigger: ({events, state}) => {
+        trigger: ({events}) => {
             const name = "voidform-deactivate-void-eruption"
             const type = "ABILITY_DEACTIVATE"
 

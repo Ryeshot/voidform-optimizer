@@ -1,7 +1,6 @@
 import abilityEffects from "../lib/abilityEffects"
 import auraEffects from "../lib/auraEffects"
 import effects from "./effects"
-import events from "../lib/events"
 
 class EffectHandler {
     constructor(state, effects){
@@ -17,14 +16,12 @@ class EffectHandler {
     }
 
     transformEvents(source, event, data){
-        const effects = this.effects[source]
         let {events} = data
+        const effects = this.effects[source]
         if(!effects) return events
 
         const eventEffects = effects.onEvent[event]
         if(!eventEffects) return events
-
-        data = {...data, state: this.state}
 
         eventEffects.forEach(({type, effects}) => {
             switch(type){
@@ -46,8 +43,10 @@ class EffectHandler {
     }
     
     handleEffectTrigger(effectNames, data){
+        console.log("Inside effect trigger")
         effectNames.forEach(name => {
-            data.events = effects[name].trigger(data)
+            console.log("Triggering effect: " + name)
+            data.events = effects[name].trigger({...data, state: this.state.current})
         })
     }
 
@@ -63,7 +62,7 @@ class EffectHandler {
             events = [...events, event]
         })
 
-        return events
+        data.events = events
     }
 
     handleEffectDeactivate(effects, data){
@@ -78,7 +77,7 @@ class EffectHandler {
             events = [...events, event]
         })
 
-        return events
+        data.events = events
     }
 }
 

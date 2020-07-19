@@ -1,6 +1,7 @@
 import {Base64} from "js-base64"
 import abilitySettings from "../lib/abilitySettings"
 import auraSettings from "../lib/auraSettings"
+import effectSettings from "../lib/effectSettings"
 
 const parseAbility = (ability, key) => {
     let abilitySetting = abilitySettings[key]
@@ -76,7 +77,8 @@ export const importSettings = (settings, includeKeybinds, includeSpellOrder) => 
         return {
             abilitySettings,
             auraSettings,
-            abilityConfig
+            abilityConfig,
+            effectSettings: parsedSettings.effectSettings || {}
         }
     }
 
@@ -126,7 +128,8 @@ export const exportSettings = (currentSettings) => {
     let combined =  {
         abilitySettings: formattedAbilitySettings,
         auraSettings: currentSettings.auraSettings,
-        abilityConfig: formattedAbilityConfig
+        abilityConfig: formattedAbilityConfig,
+        effectSettings: currentSettings.effectSettings
     }
 
     let result = Base64.encode(JSON.stringify(combined))
