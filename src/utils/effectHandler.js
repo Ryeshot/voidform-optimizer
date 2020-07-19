@@ -1,5 +1,4 @@
-import abilityEffects from "../lib/abilityEffects"
-import auraEffects from "../lib/auraEffects"
+import {globalEffects, auraEffects, abilityEffects} from "../lib/eventEffects"
 import effects from "./effects"
 
 class EffectHandler {
@@ -15,13 +14,29 @@ class EffectHandler {
         return new EffectHandler(state, auraEffects)
     }
 
-    transformEvents(source, event, data){
-        let {events} = data
-        const effects = this.effects[source]
-        if(!effects) return events
+    getGlobalEffects(events){
+        return Object.keys(globalEffects).reduce((effects, k) => {
+            if(events.find(e => e.type === k))
+                effects = [...effects, ...globalEffects[k]]
+            return effects
+        }, [])
+    }
 
-        const eventEffects = effects.onEvent[event]
-        if(!eventEffects) return events
+    addEventEffects(source, event, effects){
+        const sourceEffects = this.effects[source]
+        if(!sourceEffects) return effects
+        const eventEffects = sourceEffects.onEvent[event] || []
+        return [...effects, ...eventEffects]
+    }
+
+    transformEvents(source, event, data){
+        const {events} = data
+
+        let eventEffects = this.getGlobalEffects(events)
+        console.log(eventEffects)
+        eventEffects = this.addEventEffects(source, event, eventEffects)
+        if(eventEffects.length === 0) return events
+        console.log(eventEffects)
 
         eventEffects.forEach(({type, effects}) => {
             switch(type){
