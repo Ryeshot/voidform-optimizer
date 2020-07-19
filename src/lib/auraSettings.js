@@ -11,7 +11,7 @@ const defaultAuraSettings = {
         drainRate: .68,
         hasteStart: 0,
         hasteStack: .005,
-        maxStacks: 0,
+        maxStacks: 100,
         gainInsanity: true,
         baseDuration: 0
     },
@@ -56,6 +56,11 @@ const defaultAuraSettings = {
         baseDuration: 20000,
         haste: .25,
         resourceGen: 0
+    },
+    "fae-blessings": {
+        displayName: "Fae Blessings",
+        baseDuration: 60000,
+        maxStacks: 10
     },
     "bloodlust": {
         displayName: "Bloodlust",

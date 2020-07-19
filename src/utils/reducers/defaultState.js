@@ -7,10 +7,12 @@ const cooldowns = Object.keys(defaultAbilities).reduce((obj, a) => {
     return obj
 }, {})
 
-const effects = Object.keys(defaultEffects).reduce((obj, e) => {
-  obj[e] = {}
-  return obj
-})
+// const effects = Object.keys(defaultEffects).reduce((obj, e) => {
+//   obj[e] = {
+//     active: false
+//   }
+//   return obj
+// })
 
 export default {
     resource: 0,
@@ -45,6 +47,9 @@ export default {
         active: false,
         haste: 0
       },
+      "fae-blessings": {
+        active: false
+      },
       "bloodlust": {
         active: false,
         haste: 0
@@ -54,5 +59,5 @@ export default {
       cooldowns,
       globalCooldown: 0
     },
-    effects
+    effects: defaultEffects
   }

@@ -1,4 +1,4 @@
-const defaultAbilities = {
+export default {
     "mind-flay": {
         displayName: "Mind Flay",
         index: 1,
@@ -42,7 +42,8 @@ const defaultAbilities = {
             key: "4",
             keybindText: "4"
         },
-        icon: "images/void-eruption.jpg"
+        icon: "images/void-eruption.jpg",
+        unusable: true
     },
     "shadow-word-death": {
         displayName: "Shadow Word: Death",
@@ -87,7 +88,8 @@ const defaultAbilities = {
             key: "9",
             keybindText: "9"
         },
-        icon: "images/devouring-plague.jpg"
+        icon: "images/devouring-plague.jpg",
+        unusable: true
     },
     "shadowfiend": {
         displayName: "Shadowfiend",
@@ -107,15 +109,22 @@ const defaultAbilities = {
         },
         icon: "images/power-infusion.jpg"
     },
-    "bloodlust": {
-        displayName: "Bloodlust",
+    "fae-blessings": {
+        displayName: "Fae Blessings",
         index: 12,
         keybind: {
             key: "=",
             keybindText: "="
         },
+        icon: "images/fae-blessings.jpg"
+    },
+    "bloodlust": {
+        displayName: "Bloodlust",
+        index: 13,
+        keybind: {
+            key: "!",
+            keybindText: "S-1"
+        },
         icon: "images/bloodlust.jpg"
     }
 }
-
-export default defaultAbilities

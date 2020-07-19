@@ -35,6 +35,11 @@ const buffs = [
     displayName: "Power Infusion"
   },
   {
+    name: "fae-blessings",
+    icon: "images/fae-blessings.jpg",
+    displayName: "Fae Blessings"
+  },
+  {
     name: "bloodlust",
     icon: "images/bloodlust.jpg",
     displayName: "Bloodlust"
@@ -66,6 +71,7 @@ const AuraBar = (props) => {
           {dots.map(dot => 
             auras[dot.name].active
             ? <DamageOverTime
+                key={`dot-${dot.name}`}
                 {...dot}
                 {...auras[dot.name]}
                 {...settings[dot.name]}
@@ -77,6 +83,7 @@ const AuraBar = (props) => {
           {buffs.map(buff => 
             auras[buff.name].active
             ? <Buff
+                key={`buff-${buff.name}`}
                 {...buff}
                 {...auras[buff.name]}
                 setting={settings[buff.name]}
