@@ -1,5 +1,10 @@
 # Voidform Optimizer Changelog
 
+### 0.13.0 - 2020-07-19
+
+### Added
+ * Importing templates from url querystring
+
 ### 0.12.2 - 2020-07-15
 
 ### Added
