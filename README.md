@@ -1,5 +1,10 @@
 # Voidform Optimizer Changelog
 
+### 0.13.1 - 2020-07-21
+
+### Added
+ * Google Analytics tracking
+
 ### 0.13.0 - 2020-07-19
 
 ### Added
