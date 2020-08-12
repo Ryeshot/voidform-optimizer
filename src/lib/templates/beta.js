@@ -5,9 +5,29 @@ export default {
     displayName: "Shadowlands Alpha",
     abilitySettings: {
         ...defaultAbilitySettings,
+        "vampiric-touch": {
+            ...defaultAbilitySettings["vampiric-touch"],
+            resource: 5
+        },
+        "void-bolt": {
+            ...defaultAbilitySettings["void-bolt"],
+            resource: 15
+        },
+        "mind-flay": {
+            ...defaultAbilitySettings["mind-flay"],
+            casttime: 4500,
+            ticks: 6
+
+        },
+        "mind-sear": {
+            ...defaultAbilitySettings["mind-sear"],
+            casttime: 4500,
+            ticks: 6
+        },
         "mind-blast": {
             ...defaultAbilitySettings["mind-blast"],
-            cooldown: 8000
+            cooldown: 7500,
+            resource: 8
         },
         "shadow-word-death": {
             ...defaultAbilitySettings["shadow-word-death"],
@@ -17,7 +37,13 @@ export default {
         }
     },
     auraSettings: {
-        ...defaultAuraSettings
+        ...defaultAuraSettings,
+        "devouring-plague": {
+            ...defaultAuraSettings["devouring-plague"],
+            displayName: "Devouring Plague",
+            baseDuration: 6000,
+            ticks: 2
+        }
     },
     abilities: {
         "mind-flay": {},

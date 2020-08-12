@@ -5,6 +5,7 @@ import legionAntorus from "./legionAntorus"
 import ryeshot from "./ryeshot"
 import yvaelle from "./yvaelle"
 import memebender from "./memebender"
+import mindBlastBarrage from "./mindBlastBarrage"
 
 export default {
     live,
@@ -13,5 +14,6 @@ export default {
     legionAntorus,
     ryeshot,
     yvaelle,
-    memebender
+    memebender,
+    mindBlastBarrage
 }
