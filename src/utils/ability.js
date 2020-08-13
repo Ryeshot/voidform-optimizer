@@ -73,11 +73,12 @@ class Ability {
             let remaining = (startTime + duration) - now
 
             if(remaining <= interval) {
-                this.eventHandler.handleEvent("CHARGES_UPDATE", {
-                    name,
-                    charges: charges + 1
-                })
-
+                if(maxCharges) {
+                    this.eventHandler.handleEvent("CHARGES_UPDATE", {
+                        name,
+                        charges: charges + 1
+                    })
+                }
                 clearInterval(this.cooldownTimer)
 
                 if(maxCharges && charges < maxCharges - 1) {
