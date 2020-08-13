@@ -125,7 +125,40 @@ export default {
     },
     "calculate-resource": {
         trigger: ({events, state}) => {
-            console.log("Calculating resource!")
+            //console.log("Calculating resource!")
+            return events
+        }
+    },
+    "dark-thoughts": {
+        trigger: ({events, state}) => {
+            const {effects, effectSettings, auras, abilitySettings, abilities} = state
+            const name = "dark-thoughts"
+            if(!effectSettings) return events
+            if(!effectSettings[name]) return events
+            if(!effects[name]) return events
+
+            const {effectTime, effectChance} = effectSettings[name]
+            const dots = ["shadow-word-pain", "vampiric-touch", "devouring-plague"]
+
+            const currentChance = dots.reduce((sum, dot) => {
+                if(auras[dot] && auras[dot].active) sum += effectChance
+                return sum
+            }, 0)
+
+            if(effectTriggered(currentChance)) {
+                const abilityName = "mind-blast"
+                const mindblast = abilitySettings[abilityName]
+                const charges = abilities.cooldowns[abilityName].currentCharges
+                mindblast.casttime = 0
+                events.push({
+                    type: "ABILITY_CHARGE_UPDATE",
+                    payload: {
+                        name: abilityName,
+                        charges: (charges < 5 && charges + 1) || charges
+                    }
+                })
+            }
+            
             return events
         }
     }

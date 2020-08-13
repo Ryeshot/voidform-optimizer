@@ -16,13 +16,14 @@ export default {
         "mind-flay": {
             ...defaultAbilitySettings["mind-flay"],
             casttime: 4500,
-            ticks: 6
-
+            ticks: 6,
+            resource: 18
         },
         "mind-sear": {
             ...defaultAbilitySettings["mind-sear"],
             casttime: 4500,
-            ticks: 6
+            ticks: 6,
+            resource: 7.5
         },
         "mind-blast": {
             ...defaultAbilitySettings["mind-blast"],

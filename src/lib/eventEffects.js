@@ -50,5 +50,25 @@ export const abilityEffects = {
                 ]
             }]
         }
+    },
+    "mind-flay": {
+        onEvent: {
+            "CHANNEL_UPDATE": [{
+                type: "TRIGGER",
+                effects: [
+                    "dark-thoughts"
+                ]
+            }]
+        }
+    },
+    "mind-sear": {
+        onEvent: {
+            "CHANNEL_UPDATE": [{
+                type: "TRIGGER",
+                effects: [
+                    "dark-thoughts"
+                ]
+            }]
+        }
     }
 }

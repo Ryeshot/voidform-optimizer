@@ -10,7 +10,12 @@ export default {
         "fae-blessings": { disabled: true }
     },
     effectSettings: {
+        "dark-thoughts": {
+            effectTime: 15000,
+            effectChance: .1
+        }
     },
     effects: {
+        "dark-thoughts": { active: true }
     }
 }
