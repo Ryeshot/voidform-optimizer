@@ -6,7 +6,8 @@ const events = {
         "ABILITY_CAST_START",
         "ABILITY_CHANNEL_START",
         "ABILITY_CHANNEL_UPDATE",
-        "ABILITY_CHANNEL_END"
+        "ABILITY_CHANNEL_END",
+        "ABILITY_CHARGE_UPDATE"
     ],
     "RESOURCE": [
         "RESOURCE_UPDATE"

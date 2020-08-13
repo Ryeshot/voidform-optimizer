@@ -192,8 +192,8 @@ const AbilityBar = (props) => {
                 return <ProgressAbility
                     name={k}
                     key={`ability-${k}`}
-                    {...abilities[k]}
-                    {...state.cooldowns[k]}
+                    abilityState={abilities[k]}
+                    cooldownState={state.cooldowns[k]}
                     settings={abilitySettings[k]}
                     cooldown={getAbilityCooldown(k)}
                     globalCooldown={state.globalCooldown}

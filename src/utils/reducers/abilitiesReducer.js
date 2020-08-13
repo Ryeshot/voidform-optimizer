@@ -31,6 +31,10 @@ export default (state, action) => {
             var {name} = payload
             newState.cooldowns[name].startTime = 0
             break
+        case "ABILITY_CHARGE_UPDATE":
+            var {name, charges} = payload
+            newState.cooldowns[name].currentCharges = charges
+            break
         case "ABILITY_CAST_START":
             var {name, displayName, time, duration} = payload
             newState.cooldowns[name].castStartTime = time

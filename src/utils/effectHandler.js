@@ -33,10 +33,10 @@ class EffectHandler {
         const {events} = data
 
         let eventEffects = this.getGlobalEffects(events)
-        console.log(eventEffects)
+        //console.log(eventEffects)
         eventEffects = this.addEventEffects(source, event, eventEffects)
         if(eventEffects.length === 0) return events
-        console.log(eventEffects)
+        //console.log(eventEffects)
 
         eventEffects.forEach(({type, effects}) => {
             switch(type){
@@ -58,9 +58,9 @@ class EffectHandler {
     }
     
     handleEffectTrigger(effectNames, data){
-        console.log("Inside effect trigger")
+        //console.log("Inside effect trigger")
         effectNames.forEach(name => {
-            console.log("Triggering effect: " + name)
+            //console.log("Triggering effect: " + name)
             data.events = effects[name].trigger({...data, state: this.state.current})
         })
     }

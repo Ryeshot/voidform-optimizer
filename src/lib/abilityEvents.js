@@ -3,7 +3,8 @@ const abilityEvents = {
         onEvent: {
             "COOLDOWN_START": ["ABILITY_COOLDOWN_START"],
             "COOLDOWN_END": ["ABILITY_COOLDOWN_END"],
-            "CAST_SUCCESS": ["ABILITY_CAST_SUCCESS", "RESOURCE_UPDATE", "DOT_EXTEND"]
+            "CAST_SUCCESS": ["ABILITY_CAST_SUCCESS", "RESOURCE_UPDATE", "DOT_EXTEND"],
+            "CHARGE_UPDATE": ["ABILITY_CHARGE_UPDATE"]
         }
     },
     "mind-flay": {
@@ -28,6 +29,7 @@ const abilityEvents = {
         onEvent: {
             "CAST_START": ["ABILITY_CAST_START"],
             "CAST_SUCCESS": ["ABILITY_CAST_SUCCESS", "VOIDFORM_START"],
+            "CHARGES_UPDATE": ["ABILITY_CHARGE_UPDATE"],
             "COOLDOWN_START": ["ABILITY_COOLDOWN_START"],
             "COOLDOWN_END": ["ABILITY_COOLDOWN_END"]
         }
@@ -36,6 +38,7 @@ const abilityEvents = {
         onEvent: {
             "CAST_START": ["ABILITY_CAST_START"],
             "CAST_SUCCESS": ["ABILITY_CAST_SUCCESS", "RESOURCE_UPDATE"],
+            "CHARGES_UPDATE": ["ABILITY_CHARGE_UPDATE"],
             "COOLDOWN_START": ["ABILITY_COOLDOWN_START"],
             "COOLDOWN_END": ["ABILITY_COOLDOWN_END"]
         }
@@ -44,12 +47,14 @@ const abilityEvents = {
         onEvent: {
             "COOLDOWN_START": ["ABILITY_COOLDOWN_START"],
             "COOLDOWN_END": ["ABILITY_COOLDOWN_END"],
-            "CAST_SUCCESS": ["ABILITY_CAST_SUCCESS", "RESOURCE_UPDATE"]
+            "CAST_SUCCESS": ["ABILITY_CAST_SUCCESS", "RESOURCE_UPDATE"],
+            "CHARGES_UPDATE": ["ABILITY_CHARGE_UPDATE"]
         }
     },
     "void-torrent": {
         onEvent: {
             "COOLDOWN_START": ["ABILITY_COOLDOWN_START"],
+            "CHARGES_UPDATE": ["ABILITY_CHARGE_UPDATE"],
             "COOLDOWN_END": ["ABILITY_COOLDOWN_END"],
             "CHANNEL_START": ["ABILITY_CHANNEL_START", "INSANITY_DRAIN_PAUSE_START"],
             "CHANNEL_UPDATE": ["RESOURCE_UPDATE"],
@@ -70,6 +75,7 @@ const abilityEvents = {
     "devouring-plague": {
         onEvent: {
             "COOLDOWN_START": ["ABILITY_COOLDOWN_START"],
+            "CHARGES_UPDATE": ["ABILITY_CHARGE_UPDATE"],
             "COOLDOWN_END": ["ABILITY_COOLDOWN_END"],
             "CAST_START": ["ABILITY_CAST_START"],
             "CAST_SUCCESS": ["ABILITY_CAST_SUCCESS", "AURA_START", "RESOURCE_UPDATE"]
@@ -79,28 +85,32 @@ const abilityEvents = {
         onEvent: {
             "COOLDOWN_START": ["ABILITY_COOLDOWN_START"],
             "COOLDOWN_END": ["ABILITY_COOLDOWN_END"],
-            "CAST_SUCCESS": ["ABILITY_CAST_SUCCESS", "AURA_START", "RESOURCE_UPDATE"]
+            "CAST_SUCCESS": ["ABILITY_CAST_SUCCESS", "AURA_START", "RESOURCE_UPDATE"],
+            "CHARGES_UPDATE": ["ABILITY_CHARGE_UPDATE"]
         }
     },
     "power-infusion": {
         onEvent: {
             "COOLDOWN_START": ["ABILITY_COOLDOWN_START"],
             "COOLDOWN_END": ["ABILITY_COOLDOWN_END"],
-            "CAST_SUCCESS": ["ABILITY_CAST_SUCCESS", "AURA_START"]
+            "CAST_SUCCESS": ["ABILITY_CAST_SUCCESS", "AURA_START"],
+            "CHARGES_UPDATE": ["ABILITY_CHARGE_UPDATE"]
         }
     },
     "fae-blessings": {
         onEvent: {
             "COOLDOWN_START": ["ABILITY_COOLDOWN_START"],
             "COOLDOWN_END": ["ABILITY_COOLDOWN_END"],
-            "CAST_SUCCESS": ["ABILITY_CAST_SUCCESS", "AURA_START"]
+            "CAST_SUCCESS": ["ABILITY_CAST_SUCCESS", "AURA_START"],
+            "CHARGES_UPDATE": ["ABILITY_CHARGE_UPDATE"]
         }
     },
     "bloodlust": {
         onEvent: {
             "COOLDOWN_START": ["ABILITY_COOLDOWN_START"],
             "COOLDOWN_END": ["ABILITY_COOLDOWN_END"],
-            "CAST_SUCCESS": ["ABILITY_CAST_SUCCESS", "AURA_START"]
+            "CAST_SUCCESS": ["ABILITY_CAST_SUCCESS", "AURA_START"],
+            "CHARGES_UPDATE": ["ABILITY_CHARGE_UPDATE"]
         }
     }
 }

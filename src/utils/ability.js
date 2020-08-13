@@ -73,8 +73,9 @@ class Ability {
             let remaining = (startTime + duration) - now
 
             if(remaining <= interval) {
-                this.updateState(state => {
-                    return {...state, charges: charges+1}
+                this.eventHandler.handleEvent("CHARGES_UPDATE", {
+                    name,
+                    charges: charges + 1
                 })
 
                 clearInterval(this.cooldownTimer)
@@ -123,8 +124,9 @@ class Ability {
             let charges = this.state.charges.current.current
 
             if(cooldown) {
-                this.updateState(state => {
-                    return {...state, charges: charges-1}
+                this.eventHandler.handleEvent("CHARGES_UPDATE", {
+                    name,
+                    charges: charges-1
                 })
                 if(currentlyOnCooldown) return               
                 this.startCooldown()
@@ -293,7 +295,6 @@ class CastAbility extends Ability {
         let state = this.getCurrentState()
         const {startTime} = state.cast
         const {current} = state.charges
-
         if(startTime || current === 0) return
         this.startCast()
         this.onExecute()
