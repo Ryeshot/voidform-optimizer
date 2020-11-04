@@ -16,6 +16,24 @@ import {DesignPhilosophyLink as DesignPhilosophy} from "./components/articles/De
 import {RampLink as Ramp} from "./components/articles/Ramp"
 import templates from "./lib/templates"
 
+const handleDotRefresh = {
+  pandemic: (aura, { baseDuration }, { time }) => {
+    const now = time
+    const endTime = aura.startTime + aura.maxDuration
+    const remaining = endTime - now
+    const pandemicDuration = Math.min(.3 * baseDuration, remaining)
+
+    aura.maxDuration = baseDuration + pandemicDuration
+    aura.startTime = now
+  },
+  rolling: (aura, { baseDuration }, { time }) => {
+    const now = time
+    const timeToNextTick = aura.tickTime - now
+    aura.maxDuration = baseDuration + timeToNextTick
+    aura.startTime = now
+  }
+}
+
 const defaultState = {
   resource: 0,
   auras: {
@@ -77,15 +95,6 @@ const VoidformOptimizer = () => {
   const [reset, setReset] = useState(false)
   const [abilityReset, setAbilityReset] = useState(false)
   const [haste, setHaste] = useState(0)
-
-  const handleAuraPandemic = (aura, baseDuration, now) => {
-    const endTime = aura.startTime + aura.maxDuration
-    const remaining = endTime - now
-    const pandemicDuration = Math.min(.3 * baseDuration, remaining)
-
-    aura.maxDuration = baseDuration + pandemicDuration
-    aura.startTime = now
-  }
 
   const [state, updateState] = useReducer((state, action) => {
 
@@ -216,16 +225,23 @@ const VoidformOptimizer = () => {
         var {name, time} = action.payload
         var aura = newState.auras[name]
 
-        aura.active ? handleAuraPandemic(aura, auraSettings[name].baseDuration, time) : aura.active = true
+        const type = auraSettings[name].type;
+        //handle pandemic or rolling
+        (aura.active && type) ? handleDotRefresh[type](aura, auraSettings[name], action.payload) : aura.active = true
         break
       case "AURA_BEGIN":
-        var {name, time, duration} = action.payload
+        var {name, time, duration, tickTime} = action.payload
         newState.auras[name].startTime = time
         newState.auras[name].maxDuration = duration
+        newState.auras[name].tickTime = tickTime
         break
       case "AURA_REFRESH":
         var {name, time} = action.payload
         newState.auras[name].startTime = time
+        break
+      case "AURA_TICK":
+        var {name, tickTime} = action.payload
+        newState.auras[name].tickTime = tickTime
         break
       case "AURA_END":
         var {name} = action.payload
