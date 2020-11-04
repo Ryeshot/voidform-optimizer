@@ -1,5 +1,13 @@
 # Voidform Optimizer Changelog
 
+### 0.13.2 - 2020-11-03
+
+### Updated
+ * Beta and live templates
+
+### Added
+ * Rolling behavior to Devouring Plague
+
 ### 0.13.1 - 2020-07-21
 
 ### Added
