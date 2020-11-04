@@ -1,5 +1,5 @@
 import live from "./live"
-import alpha from "./alpha"
+import beta from "./beta"
 import legionENVoidlord from "./legionENVoidlord"
 import legionAntorus from "./legionAntorus"
 import ryeshot from "./ryeshot"
@@ -7,7 +7,7 @@ import yvaelle from "./yvaelle"
 
 export default {
     live,
-    alpha,
+    beta,
     legionENVoidlord,
     legionAntorus,
     ryeshot,

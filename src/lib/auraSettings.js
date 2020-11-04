@@ -6,19 +6,19 @@ const defaultAuraSettings = {
     },
     voidform: {
         displayName: "Voidform",
-        type: "insanity",
-        drainStart: 6,
-        drainRate: .68,
+        type: "static",
+        drainStart: 0,
+        drainRate: 0,
         hasteStart: 0,
-        hasteStack: .005,
+        hasteStack: 0,
         maxStacks: 0,
         gainInsanity: true,
-        baseDuration: 0
+        baseDuration: 15000
     },
     lingeringInsanity: {
         displayName: "Lingering Insanity",
-        type: "decay",
-        duration: 60000,
+        type: "static",
+        duration: 0,
         afterVoidformEntry: false,
         hasteRetention: 1,
         decayRate: 3000,
@@ -29,21 +29,24 @@ const defaultAuraSettings = {
         baseDuration: 16000,
         ticks: 8,
         resource: 0,
-        hasted: true
+        hasted: true,
+        type: "pandemic"
     },
     "vampiric-touch": {
         displayName: "Vampiric Touch",
         baseDuration: 21000,
         ticks: 7,
         resource: 0,
-        hasted: true
+        hasted: true,
+        type: "pandemic"
     },
     "devouring-plague": {
         displayName: "Devouring Plague",
-        baseDuration: 12000,
-        ticks: 4,
+        baseDuration: 6000,
+        ticks: 2,
         resource: 0,
-        hasted: true
+        hasted: true,
+        type: "rolling"
     },
     "shadowfiend": {
         displayName: "Shadowfiend",
