@@ -43,6 +43,7 @@ const DamageOverTime = (props) => {
             const now = Date.now()
 
             if(now >= startTimeRef.current + maxDurationRef.current) {
+                //console.log("Partial tick!")
                 clearInterval(timer)
                 triggerEvent({
                     type: "RESOURCE_UPDATE",
@@ -62,7 +63,8 @@ const DamageOverTime = (props) => {
             if(now >= tickTime) {
                 //console.log("Tick!")
                 const endTime = startTimeRef.current + maxDurationRef.current
-                tickTime = Math.min(calculateNextTickTime(now), endTime)
+                //console.log("Remaining: " + (endTime - now))
+                tickTime = calculateNextTickTime(now)
 
                 triggerEvent({
                     type: "RESOURCE_UPDATE",
@@ -74,7 +76,7 @@ const DamageOverTime = (props) => {
                     type: "AURA_TICK",
                     payload: {
                         name,
-                        tickTime
+                        tickTime: Math.min(tickTime, endTime)
                     }
                 })
             }
