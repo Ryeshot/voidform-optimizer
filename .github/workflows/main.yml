@@ -11,10 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build
-        run: echo "Build step started"
-        run: npm run predeploy
-        run: echo "Build step finished"
+        run: |
+        echo "Build step started"
+        npm run predeploy
+        echo "Build step finished"
       - name: Deploy
-        run: echo "Deployment started"
-        run: npm run build
-        run: echo "Deployment finished"
+        run: |
+        echo "Deployment started"
+        npm run build
+        echo "Deployment finished"
