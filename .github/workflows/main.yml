@@ -10,10 +10,6 @@ jobs:
   Deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Set Identity
-        run: |
-          git config --global user.email "ryeshot@users.noreply.github.com"
-          git config --global user.name "Ryeshot"
       - name: Checkout Code
         uses: actions/checkout@master
         with:
