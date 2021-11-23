@@ -16,10 +16,4 @@ jobs:
           ref: ${{ github.ref }}
       - name: Build and Deploy
         run: |
-          echo "Deployment started"
-          echo "Base directory"
-          dir
-          echo "Parent directory"
-          cd ..
-          dir
-          echo "Deployment finished"
+          node ./scripts.js
