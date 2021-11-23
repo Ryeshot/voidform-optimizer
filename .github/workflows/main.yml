@@ -16,4 +16,4 @@ jobs:
           ref: ${{ github.ref }}
       - name: Build and Deploy
         run: |
-          node ./scripts.js
+          node ./script.js
