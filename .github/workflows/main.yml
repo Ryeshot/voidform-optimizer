@@ -13,5 +13,7 @@ jobs:
       - name: Build and Deploy
         run: |
           echo "Deployment started"
-          node ./script.js
+          dir
+          cd ..
+          dir
           echo "Deployment finished"
