@@ -21,3 +21,5 @@ jobs:
           echo "Deployment started"
           npm run deploy
           echo "Deployment finished"
+        env:
+          CI: false
