@@ -20,10 +20,12 @@ jobs:
           ref: ${{ github.ref }}
       - name: Install Dependencies
         run: npm i
-      - name: Build and Deploy
-        run: |
-          echo "Deployment started"
-          npm run deploy
-          echo "Deployment finished"
+      - name: Build
+        run: npm run predeploy
+      - name: Deploy
+          uses: peaceiris/actions-gh-pages@v3
+            with:
+              github_token: ${{ secrets.GITHUB_TOKEN }}
+              publish_dir: ./public
         env:
           CI: false
