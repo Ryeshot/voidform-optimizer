@@ -16,4 +16,6 @@ jobs:
           ref: ${{ github.ref }}
       - name: Build and Deploy
         run: |
-          node ./script.js
+          echo "Deployment started"
+          npm run deploy
+          echo "Deployment finished"
