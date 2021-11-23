@@ -1,0 +1,20 @@
+name: Deployment
+on: 
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build
+        run: echo "Build step started"
+        run: npm run predeploy
+        run: echo "Build step finished"
+      - name: Deploy
+        run: echo "Deployment started"
+        run: npm run build
+        run: echo "Deployment finished"
