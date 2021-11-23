@@ -457,7 +457,7 @@ const VoidformOptimizer = () => {
       <header className="App-header header-panel">
         <div className="App-title">
           <div className="App-title-text">
-            Voidform Optimizer
+            Voidform Optimizer 2.0
           </div>
         </div>
         <div className="header-container">
