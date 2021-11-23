@@ -22,7 +22,8 @@ const defaultAuraSettings = {
         afterVoidformEntry: false,
         hasteRetention: 1,
         decayRate: 3000,
-        hasteDecay: .01
+        hasteDecay: .01,
+        enbaled: false
     },
     "shadow-word-pain": {
         displayName: "Shadow Word: Pain",
