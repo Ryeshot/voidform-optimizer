@@ -15,7 +15,7 @@ jobs:
         with:
           ref: ${{ github.ref }}
       - name: Install Dependencies
-        run: npm run ci
+        run: npm i
       - name: Build and Deploy
         run: |
           echo "Deployment started"
