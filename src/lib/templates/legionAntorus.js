@@ -78,5 +78,4 @@ export default {
         "devouring-plague": { disabled: true },
         "power-infusion": { disabled: true }
     }
-
 }

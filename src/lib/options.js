@@ -36,7 +36,8 @@ const whatIs = {
     lingeringInsanityHasteDecay: "An option for type 'Decay'. The amount of haste, in percent, that is removed every time the aura loses a stack.",
     auraDuration: "The amount of time, in seconds, that an aura's effect will last.",
     auraTicks: "The number of times an aura will trigger its effect over its duration.",
-    auraHaste: "The amount of haste, in percent, that is granted while an aura is active"
+    auraHaste: "The amount of haste, in percent, that is granted while an aura is active",
+    darkThoughtsMaxStacks: "The maximum number of Dark Thoughts stacks.",
 }
 
 const commonOptions = {
@@ -127,12 +128,6 @@ export const abilityOptions = {
         commonOptions.hasted,
         commonOptions.charges,
         commonOptions.resourceCast,
-        // {
-        //     key: "rankTwo",
-        //     displayName: "Rank 2",
-        //     type: "boolean",
-        //     whatIs: whatIs.voidBoltRankTwo
-        // },
         {
             key: "extension",
             displayName: "DoT Extension",
@@ -391,6 +386,16 @@ export const auraOptions = {
             displayName: "Resource Generation",
             type: "percent",
             whatIs: whatIs.resourceGeneration
+        }
+    ],
+    "dark-thoughts": [
+        commonOptions.auraDuration,
+        {
+            key: "maxStacks",
+            displayName: "Maximum Dark Thoughts Stacks",
+            type: "number",
+            whatIs: whatIs.darkThoughtsMaxStacks
+
         }
     ]
 }

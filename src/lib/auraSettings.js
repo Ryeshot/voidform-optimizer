@@ -65,6 +65,11 @@ const defaultAuraSettings = {
         displayName: "Bloodlust",
         baseDuration: 40000,
         haste: .3
+    },
+    "dark-thoughts": {
+        displayName: "Dark Thoughts",
+        baseDuration: 15000,
+        maxStacks: 1
     }
 }
 

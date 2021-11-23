@@ -287,9 +287,6 @@ const AbilityBar = (props) => {
 
     const disabledAbilities = (k) => {
         if(abilities[k].disabled) return false
-        // if(k === "void-bolt" && !inVoidformRef.current) return false
-        // if(k === "void-eruption" && inVoidformRef.current) return false
-
         return true
     }
 

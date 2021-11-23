@@ -113,12 +113,6 @@ const VoidformOptimizer = () => {
         return {...defaultState, resource: auraSettings.stats.startingInsanity, auras: state.auras}
       case "RESET_AURAS":
         return {...newState, resource: auraSettings.stats.startingInsanity, auras: {...defaultState.auras, stats: state.auras.stats} }
-      case "UPDATE_ABILITY_STATE":
-        // voidformAbilities.forEach(k => {
-        //   const setting = abilitySettings[k]
-        //   newState.abilities[k].unusable = !!setting.requireVoidform
-        // })
-        break
       case "HASTE_SET":
         var {source, haste} = action.payload
         newState.auras[source].haste = haste
