@@ -9,6 +9,11 @@ export default {
             ...defaultAbilitySettings["void-bolt"],
             resource: 15
         },
+        "void-eruption": {
+            ...defaultAbilitySettings["void-eruption"],
+            cooldown: 0,
+            resourceCost: 90,
+        },
         "mind-blast": {
             ...defaultAbilitySettings["mind-blast"],
             cooldown: 7500,
@@ -21,6 +26,10 @@ export default {
             cooldown: 20000,
             resource: 0,
             hasted: true
+        },
+        "vampiric-touch": {
+            ...defaultAbilitySettings["vampiric-touch"],
+            resource: 6
         },
         "devouring-plague": {
             ...defaultAbilitySettings["devouring-plague"],
@@ -37,6 +46,8 @@ export default {
         },
         voidform: {
             ...defaultAuraSettings.voidform,
+            type: "insanity",
+            drainStart: 6,
             drainRate: .66,
             hasteStart: .1,
             hasteStack: .01
