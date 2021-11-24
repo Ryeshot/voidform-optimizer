@@ -33,6 +33,7 @@ const LingeringInsanity = (props) => {
         setMaxDuration(maxDuration => currentMaxDuration)
 
         triggerEvent({
+            category: "AURA",
             type: "LINGERING_INSANITY_START",
             payload: {
                 haste: hasteRef.current * hasteRetention,
@@ -68,6 +69,7 @@ const LingeringInsanity = (props) => {
             if(now >= startTimeRef.current + state.currentMaxDuration) {
                 clearInterval(timer)
                 triggerEvent({
+                    category: "AURA",
                     type: "LINGERING_INSANITY_END"
                 })
 
@@ -80,6 +82,7 @@ const LingeringInsanity = (props) => {
 
                 if(afterVoidformEntry) {
                     triggerEvent({
+                        category: "AURA",
                         type: "AURA_REFRESH",
                         payload: {
                             name,
@@ -128,6 +131,7 @@ const LingeringInsanity = (props) => {
             if(stacksRef.current <= 0) {
                 clearInterval(timer)
                 triggerEvent({
+                    category: "AURA",
                     type: "LINGERING_INSANITY_END"
                 })
 
@@ -137,6 +141,7 @@ const LingeringInsanity = (props) => {
             //lose stack
             if(i % decayRate === 0) {
                 triggerEvent({
+                    category: "AURA",
                     type: "LINGERING_INSANITY_UPDATE",
                     payload: hasteDecay * -1
                 })

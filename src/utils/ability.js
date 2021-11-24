@@ -2,7 +2,6 @@ import {constructEventHandler} from "./eventHandler"
 import {interval, lag} from "../lib/constants"
 
 class Ability {
-
     constructor(initialState, updateFn, onExecute, eventHandler) {
         this.state = initialState
         this.updateState = updateFn
@@ -14,8 +13,8 @@ class Ability {
         })       
     }
 
-    static create(type, initialState, updateFn, onExecute, triggers) {
-        const eventHandler = constructEventHandler(initialState.name, triggers)
+    static create(type, initialState, updateFn, onExecute, trigger, effectHandler) {
+        const eventHandler = constructEventHandler(initialState.name, trigger, effectHandler)
         switch(type) {
             case "instant":
                 return new InstantAbility(initialState, updateFn, onExecute, eventHandler)
@@ -50,33 +49,35 @@ class Ability {
     }
 
     getRemainingCooldown() {
+        const name = this.state.name
         const now = Date.now()
         const startTime = this.state.cooldown.startTime.current
         const duration = startTime ? this.state.cooldown.duration.current : 0
         const charges = this.state.charges.current.current
-        const remaining = charges === 0 ? ((startTime || now) + duration) - now : 0
-
+        const remaining = charges == 0 ? ((startTime || now) + duration) - now : 0
         return remaining
     }
 
     startCooldown() {
         let state = this.getCurrentState()
         const {name} = state
-        const {maxCharges} = state.charges
 
         this.cooldownTimer = setInterval(() => {
             let now = Date.now()
-
             let duration = this.state.cooldown.duration.current
             let startTime = this.state.cooldown.startTime.current || now
             let charges = this.state.charges.current.current
+            let maxCharges = this.state.charges.maxCharges.current
             let remaining = (startTime + duration) - now
+            console.log(maxCharges)
 
             if(remaining <= interval) {
-                this.updateState(state => {
-                    return {...state, charges: charges+1}
-                })
-
+                if(maxCharges) {
+                    this.eventHandler.handleEvent("CHARGES_UPDATE", {
+                        name,
+                        charges: Math.min(charges + 1, maxCharges)
+                    })
+                }
                 clearInterval(this.cooldownTimer)
 
                 if(maxCharges && charges < maxCharges - 1) {
@@ -104,33 +105,36 @@ class Ability {
         })
     }
 
+    cast() {
+        let state = this.getCurrentState()
+        const {name, resource, resourceCost, costType} = state
+
+        this.eventHandler.handleEvent("CAST_SUCCESS", {
+            name,
+            resource,
+            resourceCost,
+            costType,
+            time: Date.now()
+        })
+
+        let cooldown = this.state.cooldown.duration.current
+        let currentlyOnCooldown = this.state.cooldown.startTime.current
+        let charges = this.state.charges.current.current
+
+        if(cooldown) {
+            this.eventHandler.handleEvent("CHARGES_UPDATE", {
+                name,
+                charges: charges-1
+            })
+            if(currentlyOnCooldown) return               
+            this.startCooldown()
+        }
+    }
+
     startCast() {
         let state = this.getCurrentState()
-        const {name, displayName, resource, resourceCost, costType} = state
+        const {name, displayName} = state
         const {duration} = state.cast
-
-        this.castTimer = setTimeout(() => {
-            this.eventHandler.handleEvent("CAST_SUCCESS", {
-                name,
-                resource,
-                resourceCost,
-                costType,
-                time: Date.now()
-            })
-
-            let cooldown = this.state.cooldown.duration.current
-            let currentlyOnCooldown = this.state.cooldown.startTime.current
-            let charges = this.state.charges.current.current
-
-            if(cooldown) {
-                this.updateState(state => {
-                    return {...state, charges: charges-1}
-                })
-                if(currentlyOnCooldown) return               
-                this.startCooldown()
-            }
-
-        }, duration)
 
         if(duration) {
             this.eventHandler.handleEvent("CAST_START", {
@@ -140,6 +144,8 @@ class Ability {
                 time: Date.now()
             })
         }
+
+        this.castTimer = setTimeout(() => this.cast(), duration)
     }
 
     startChannel() {
@@ -245,7 +251,6 @@ class Ability {
     canExecute() {
         if(this.state.disabled.current) return false
         if(this.state.unusable.current) return false
-
         return true
     }
 
@@ -268,20 +273,11 @@ class InstantAbility extends Ability {
         const {maxCharges, current} = state.charges
 
         if(startTime && current === 0) return      
-        this.updateState(state => {
-            return {...state, charges: current-1}
-        })
-
-        this.eventHandler.handleEvent("CAST_SUCCESS", {
-            name,
-            resource,
-            resourceCost,
-            time: Date.now()
-        })
 
         this.onExecute()
-        if(maxCharges && current < maxCharges) return
-        this.startCooldown()
+        this.cast()
+        //if(maxCharges && current < maxCharges) return
+        //this.startCooldown()
     }
 }
 
@@ -293,9 +289,7 @@ class CastAbility extends Ability {
         let state = this.getCurrentState()
         const {startTime} = state.cast
         const {current} = state.charges
-
         if(startTime || current === 0) return
-        console.log("Casting")
         this.startCast()
         this.onExecute()
     }

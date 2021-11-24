@@ -1,4 +1,4 @@
-const defaultAbilitySettings = {
+export default {
     "mind-flay": {
         cooldown: 0,
         resource: 18,
@@ -48,7 +48,7 @@ const defaultAbilitySettings = {
         charges: 1,
     },
     "void-torrent": {
-        cooldown: 30,
+        cooldown: 30000,
         resource: 60,
         type: "channel",
         casttime: 3000,
@@ -84,11 +84,13 @@ const defaultAbilitySettings = {
         cooldown: 120000,
         type: "instant"
     },
+    "fae-blessings": {
+        cooldown: 90000,
+        type: "instant"
+    },
     "bloodlust": {
         cooldown: 300000,
         ignoreGcd: true,
         type: "instant"
     }
 }
-
-export default defaultAbilitySettings

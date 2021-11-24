@@ -1,5 +1,6 @@
 import defaultAbilitySettings from "../abilitySettings"
 import defaultAuraSettings from "../auraSettings"
+import defaultEffectSettings from "../effectSettings"
 
 export default {
     displayName: "Shadowlands",
@@ -7,7 +8,15 @@ export default {
         ...defaultAbilitySettings,
     },
     auraSettings: {
-        ...defaultAuraSettings
+        ...defaultAuraSettings,
+        "dark-thoughts": {
+            displayName: "Dark Thoughts",
+            baseDuration: 15000,
+            maxStacks: 5
+        }
+    },
+    effectSettings: {
+        ...defaultEffectSettings
     },
     abilities: {
         "mind-flay": {},

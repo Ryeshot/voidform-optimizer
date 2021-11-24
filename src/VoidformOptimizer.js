@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useReducer} from 'react';
+import React, {useState, useEffect, useReducer, useRef} from 'react';
 import './App.css';
 import ResourceBar from "./components/ResourceBar"
 import AbilityBar from "./components/AbilityBar"
@@ -11,250 +11,42 @@ import WhatsNewPanel from "./components/panels/WhatsNewPanel"
 import defaultAbilities from "./lib/abilities"
 import defaultAbilitySettings from "./lib/abilitySettings"
 import defaultAuraSettings from "./lib/auraSettings"
+import defaultEffectSettings from "./lib/effectSettings"
+import defaultEffects from "./lib/effects"
 import Forms from "./components/forms/Forms"
 import {DesignPhilosophyLink as DesignPhilosophy} from "./components/articles/DesignPhilosophy"
 import {RampLink as Ramp} from "./components/articles/Ramp"
 import templates from "./lib/templates"
+import rootReducer from "./utils/reducers"
+import EffectHandler from "./utils/effectHandler"
+import toggle from "./utils/featureToggle"
+import abilities from './lib/abilities';
 
-const handleDotRefresh = {
-  pandemic: (aura, { baseDuration }, { time }) => {
-    const now = time
-    const endTime = aura.startTime + aura.maxDuration
-    const remaining = endTime - now
-    const pandemicDuration = Math.min(.3 * baseDuration, remaining)
-
-    aura.maxDuration = baseDuration + pandemicDuration
-    aura.startTime = now
-  },
-  rolling: (aura, { baseDuration }, { time }) => {
-    const now = time
-    const timeToNextTick = aura.tickTime - now
-    aura.maxDuration = baseDuration + timeToNextTick
-    aura.startTime = now
+const toggledAbilities = (abilities) => Object.keys(abilities).reduce((toggled, name) => {
+  if(!toggle.isAbilityEnabled(name)) return toggled
+  return {
+    ...toggled,
+    [name]: abilities[name]
   }
-}
-
-const defaultState = {
-  resource: 0,
-  auras: {
-    stats: {
-      haste: 0
-    },
-    voidform: {
-      active: false,
-      stacks: 0,
-      haste: 0,
-      paused: false,
-    },
-    lingeringInsanity: {
-      active: false,
-      stacks: 0,
-      haste: 0
-    },
-    "shadow-word-pain": {
-      active: false
-    },
-    "vampiric-touch": {
-      active: false
-    },
-    "devouring-plague": {
-      active: false
-    },
-    "shadowfiend": {
-      active: false
-    },
-    "power-infusion": {
-      active: false,
-      haste: 0
-    },
-    "bloodlust": {
-      active: false,
-      haste: 0
-    }
-  },
-  abilities: {
-    "void-eruption": {
-      unusable: true
-    },
-    "devouring-plague": {
-      unusable: true
-    },
-    "void-torrent": {
-      unusable: defaultAbilitySettings["void-torrent"].requireVoidform
-    }
-  }
-}
+}, {})
 
 const VoidformOptimizer = () => {
 
   const [panel, setPanel] = useState()
   const [abilitySettings, setAbilitySettings] = useState(defaultAbilitySettings)
-  const [abilities, setAbilities] = useState(defaultAbilities)
+  const [abilities, setAbilities] = useState(toggledAbilities(defaultAbilities))
   const [auraSettings, setAuraSettings] = useState(defaultAuraSettings)
+  const [effectSettings, setEffectSettings] = useState(defaultEffectSettings)
+  //const [effects, setEffects] = useState(defaultEffects)
   const [keyEventsPaused, setKeyEventsPaused] = useState(false)
   const [reset, setReset] = useState(false)
   const [abilityReset, setAbilityReset] = useState(false)
   const [haste, setHaste] = useState(0)
-
-  const [state, updateState] = useReducer((state, action) => {
-
-    let event = action.type
-    let newState = JSON.parse(JSON.stringify(state))
-
-    const voidform = newState.auras.voidform
-    const lingeringInsanity = newState.auras.lingeringInsanity
-    const powerInfusion = newState.auras["power-infusion"]
-    const voidformAbilities = ["void-torrent", "devouring-plague"]
-
-    switch(event) {
-      case "RESET":
-        return {...defaultState, resource: auraSettings.stats.startingInsanity }
-      case "RESET_ABILITIES":
-        return {...defaultState, resource: auraSettings.stats.startingInsanity, auras: state.auras}
-      case "RESET_AURAS":
-        return {...newState, resource: auraSettings.stats.startingInsanity, auras: {...defaultState.auras, stats: state.auras.stats} }
-      case "HASTE_SET":
-        var {source, haste} = action.payload
-        newState.auras[source].haste = haste
-        break
-      case "HASTE_UPDATE":
-        var {source, haste} = action.payload
-        newState.auras[source].haste += haste
-        break
-      case "HASTE_RESET":
-        var {source} = action.payload
-        newState.auras[source].haste = 0
-        break
-      case "VOIDFORM_UPDATE":
-        voidform.stacks++
-        voidform.haste += action.payload
-        break;
-      case "VOIDFORM_START":
-        voidform.active = true
-        voidform.stacks = 1
-        voidformAbilities.forEach(k => {
-          const setting = abilitySettings[k]
-          newState.abilities[k].unusable = !!setting.requireNoVoidform
-        })
-        break;
-      case "VOIDFORM_END":
-        var {time, startingHaste} = action.payload
-        lingeringInsanity.active = true
-        lingeringInsanity.stacks = voidform.stacks
-        lingeringInsanity.haste = Math.round((voidform.haste - startingHaste)*1000)/1000
-        lingeringInsanity.startTime = time
-        voidform.stacks = 0
-        voidform.haste = 0
-        newState.abilities["void-eruption"].unusable = true
-        voidformAbilities.forEach(k => {
-          const setting = abilitySettings[k]
-          newState.abilities[k].unusable = !setting.requireNoVoidform || !!setting.requireVoidform
-        })
-        break;
-      case "LINGERING_INSANITY_START":
-        var {haste, stacks} = action.payload
-        lingeringInsanity.haste = haste
-        lingeringInsanity.stacks = stacks
-        break;
-      case "LINGERING_INSANITY_UPDATE":
-        lingeringInsanity.haste += action.payload
-        lingeringInsanity.stacks--
-        if(lingeringInsanity.haste <= 0) lingeringInsanity.haste = 0
-        break;
-      case "LINGERING_INSANITY_END":
-        lingeringInsanity.active = false
-        lingeringInsanity.stacks = 0
-        lingeringInsanity.haste = 0
-        lingeringInsanity.startTime = 0
-        break;
-      case "RESOURCE_UPDATE":
-        var {name, resource, resourceCost, costType} = action.payload
-        let targetCount = name === "mind-sear" ? abilitySettings[name].targetCount : 1
-
-        resourceCost = resourceCost || 0
-
-        resource = (resource + (resourceCost * -1)) * targetCount
-
-        if(voidform.active && !auraSettings.voidform.gainInsanity && resource > 0)
-          resource = 0
-
-        if(costType && costType === "dump") {
-          resource = 0
-          newState.resource = 0
-        }
-
-        if(powerInfusion.active && resource > 0)
-          resource += (resource * auraSettings["power-infusion"].resourceGen)
-
-        resource = Math.max(Math.min(newState.resource + resource, 100), 0)
-        newState.resource = resource
-        if(resource <= 0 && voidform.active && auraSettings.voidform.type === "insanity") {
-          voidform.active = false
-        }
-        //whenever we get resource need to calculate if an ability is usable or not
-        Object.keys(abilitySettings).forEach(k => {
-          const setting = abilitySettings[k]
-          const ability = newState.abilities[k]
-          const unusable = (voidform.active && !!setting.requireNoVoidform) || (!voidform.active && !!setting.requireVoidform)
-          
-          if(!ability) return
-          if(!setting.resourceCost) {
-            ability.unusable = unusable
-            return
-          }
-          if(setting.costType === "dump") 
-            ability.unusable = resource === 0 || unusable
-          else {
-            ability.unusable = resource < setting.resourceCost || unusable
-          }
-        })
-        break;
-      case "INSANITY_DRAIN_PAUSE_START":
-        voidform.paused = true
-        break
-      case "INSANITY_DRAIN_PAUSE_END":
-        voidform.paused = false
-        break
-      case "AURA_START":
-        var {name, time} = action.payload
-        var aura = newState.auras[name]
-
-        const type = auraSettings[name].type;
-        //handle pandemic or rolling
-        (aura.active && type) ? handleDotRefresh[type](aura, auraSettings[name], action.payload) : aura.active = true
-        break
-      case "AURA_BEGIN":
-        var {name, time, duration, tickTime} = action.payload
-        newState.auras[name].startTime = time
-        newState.auras[name].maxDuration = duration
-        newState.auras[name].tickTime = tickTime
-        break
-      case "AURA_REFRESH":
-        var {name, time} = action.payload
-        newState.auras[name].startTime = time
-        break
-      case "AURA_TICK":
-        var {name, tickTime} = action.payload
-        newState.auras[name].tickTime = tickTime
-        break
-      case "AURA_END":
-        var {name} = action.payload
-        newState.auras[name].active = false
-        newState.auras[name].startTime = 0
-        break
-      case "DOT_EXTEND":
-        const extension = abilitySettings["void-bolt"].extension
-        const dots = ["shadow-word-pain", "vampiric-touch"]
-        dots.forEach(d => {
-          const dot = newState.auras[d]
-          if(!dot.active) return
-          dot.maxDuration += extension
-        })
-        break
-    }
-
-    return newState
-  }, defaultState)
+  const [state, updateState] = useReducer(...rootReducer(auraSettings, abilitySettings, abilities))
+  const stateRef = useRef()
+  stateRef.current = {...state, abilitySettings, auraSettings, effectSettings}
+  const [abilityEffectHandler] = useState(EffectHandler.forAbility(stateRef))
+  const [auraEffectHandler] = useState(EffectHandler.forAura(stateRef))
 
   useEffect(() => {
     setHaste(calculateHaste)
@@ -272,21 +64,6 @@ const VoidformOptimizer = () => {
     delete templateSettings.abilities
     handleImport(templateSettings)
   }, [])
-
-  const enterVoidform = () => {
-    updateState({
-      type: "VOIDFORM_START"
-    })
-  }
-
-  const gainInsanity = () => {
-    updateState({
-      type: "RESOURCE_UPDATE",
-      payload: {
-        resource: 10
-      }
-    })
-  }
 
   const calculateHaste = () => {
     const auras = state.auras
@@ -364,7 +141,7 @@ const VoidformOptimizer = () => {
     setAllAbilities(settings.abilityConfig)
     handleAbilitySet(settings.abilitySettings)
     handleAuraSet(settings.auraSettings)
-    handleReset()
+    handleEffectSet(settings.effectSettings)
   }
 
   const setAllAbilities = (importedAbilities) => {
@@ -374,13 +151,6 @@ const VoidformOptimizer = () => {
     }, {})
 
     setAbilities(state)
-  }
-
-  const mergeAbilities = () => {
-    return Object.keys(abilities).reduce((merged, a) => {
-      merged[a] = {...abilities[a], ...state.abilities[a]}
-      return merged
-    }, {})
   }
 
   const abilitySettingsWithDisplayName = () => {
@@ -396,6 +166,7 @@ const VoidformOptimizer = () => {
     const resource = auraSettings.stats.startingInsanity
     handleAuraReset(resource)
     updateState({
+      category: "STAT",
       type: "HASTE_SET",
       payload: {
         source: "stats",
@@ -407,6 +178,11 @@ const VoidformOptimizer = () => {
   const handleAbilitySet = (abilitySettings) => {
     setAbilitySettings(abilitySettings)
     handleAbilityReset()
+  }
+
+  const handleEffectSet = (effectSettings) => {
+    setEffectSettings(effectSettings)
+    handleEffectReset()
   }
 
   const handleAbilityReset = () => {
@@ -429,20 +205,22 @@ const VoidformOptimizer = () => {
 
     setTimeout(() => {
       updateState({
+        category: "AURA",
         type: "LINGERING_INSANITY_END"
       })
-      // updateState({
-      //   type: "RESOURCE_UPDATE",
-      //   payload: {
-      //     resource
-      //   }
-      // })
     }, 0)
+  }
+
+  const handleEffectReset = () => {
+    updateState({
+      type: "RESET_EFFECTS"
+    })
   }
 
   const handleReset = () => {
     handleAuraReset()
     handleAbilityReset()
+    handleEffectReset()
     setReset(!reset)
   }
 
@@ -470,9 +248,9 @@ const VoidformOptimizer = () => {
         <Forms pauseKeyEvents={setKeyEventsPaused} />
       </header>
       <div className="App-content">
-        <AuraBar auras={state.auras} settings={auraSettings} haste={haste} triggerEvent={updateState} />
+        <AuraBar auras={state.auras} settings={auraSettings} effectHandler={auraEffectHandler} haste={haste} triggerEvent={updateState} />
         <ResourceBar current={state.resource} max={100}/>
-        <AbilityBar abilitySettings={abilitySettings} abilities={mergeAbilities()} haste={haste} inVoidform={state.auras.voidform.active} triggerEvent={updateState} keyEventsPaused={keyEventsPaused} reset={abilityReset} />
+        <AbilityBar state={state.abilities} abilitySettings={abilitySettings} abilities={abilities} effectHandler={abilityEffectHandler} haste={haste} inVoidform={state.auras.voidform.active} dispatch={updateState} keyEventsPaused={keyEventsPaused} reset={abilityReset} />
         <button className="panel-button" onClick={handleReset}>Reset</button>
       </div>
     </div>

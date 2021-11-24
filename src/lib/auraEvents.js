@@ -37,12 +37,24 @@ const auraEvents = {
             "AURA_END": ["AURA_END", "HASTE_RESET"]
         }
     },
+    "fae-blessings": {
+        onEvent: {
+            "AURA_START": ["AURA_BEGIN"],
+            "AURA_END": ["AURA_END"]   
+        }
+    },
     "bloodlust": {
         onEvent: {
             "AURA_START": ["AURA_BEGIN", "HASTE_UPDATE"],
             "AURA_END": ["AURA_END", "HASTE_RESET"]
         }
-    }
+    },
+    "dark-thoughts": {
+        onEvent: {
+            "AURA_START": ["AURA_BEGIN"],
+            "AURA_END": ["AURA_END"]
+        }
+    },
 }
 
 export default auraEvents

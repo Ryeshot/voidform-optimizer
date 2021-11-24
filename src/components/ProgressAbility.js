@@ -5,14 +5,17 @@ import Ability from "../utils/ability"
 
 const ProgressAbility = (props) => {
 
-    const {name, displayName, settings, cooldown, globalCooldown, globalCooldownStartTime, unusable, startTime, casttime, castStartTime, castEndTime, icon, baseChannelTime, currentTicks, keybind, casting, subscribe, unsubscribe, onExecute, onAbilityUpdate, onClick, triggerEvent, show, reset} = props
+    const {name, abilityState, cooldownState, settings, cooldown, globalCooldown, globalCooldownStartTime, 
+        casttime, casting, subscribe, unsubscribe, onExecute, onClick, dispatch, effectHandler, show, reset} = props
 
     const size = 50
 
     const [state, setState] = useState({})
 
-    const {key, keybindText} = keybind
     const {type, resource, resourceCost, costType, charges, ticks, ignoreGcd} = settings
+    const {startTime, castStartTime, castEndTime, baseChannelTime, currentTicks, currentCharges} = cooldownState
+    const {unusable, displayName, icon, keybind} = abilityState
+    const {key, keybindText} = keybind
 
     //cooldown states
     const startTimeRef = useRef(startTime)
@@ -41,8 +44,9 @@ const ProgressAbility = (props) => {
 
     //charge states
     const chargesRef = useRef(charges || 1)
-
-    chargesRef.current = state.charges
+    const maxChargesRef = useRef(charges || 1)
+    chargesRef.current = currentCharges !== undefined ? currentCharges : charges
+    maxChargesRef.current = charges
 
     //gcd states
     const globalCooldownRef = useRef(globalCooldown)
@@ -61,15 +65,6 @@ const ProgressAbility = (props) => {
     const ability = useRef()
 
     useEffect(() => {
-        const triggers = [{
-            eventTypes: ["CAST"],
-            trigger: onAbilityUpdate 
-        },
-        {
-            eventTypes: ["RESOURCE", "AURA", "STAT"],
-            trigger: triggerEvent
-        }]
-
         const initialState = {
             name,
             displayName,
@@ -95,7 +90,7 @@ const ProgressAbility = (props) => {
                 ticks: ticksRef
             },
             charges: {
-                maxCharges: charges,
+                maxCharges: maxChargesRef,
                 current: chargesRef
             },
             globalCooldown: {
@@ -104,7 +99,7 @@ const ProgressAbility = (props) => {
             }
         }
 
-        ability.current = Ability.create(type, initialState, setState, onExecute, triggers)
+        ability.current = Ability.create(type, initialState, setState, onExecute, dispatch, effectHandler)
         
         subscribe({
             source: name,
@@ -130,12 +125,12 @@ const ProgressAbility = (props) => {
         show ? <div className="progress-ability-container">
             <div className="progress-ability hover-pointer" onClick={handleClick}>
                 <img
-                    className={!unusable && ((state.charges > 0 && charges) || (!startTimeRef.current)) ? "colored" : "desaturated"}
+                    className={!unusable && ((chargesRef.current > 0 && charges) || (!startTimeRef.current)) ? "colored" : "desaturated"}
                     src={icon}
                     width={size}
                     height={size}
                 />
-                <div className="charge-text">{charges > 1 ? state.charges : ""}</div>
+                <div className="charge-text">{chargesRef.current > 1 ? chargesRef.current : ""}</div>
                 {startTimeRef.current || globalCooldownRef.current ? 
                 <CooldownSweep size={size} progress={state.progress}/>
                 : null}

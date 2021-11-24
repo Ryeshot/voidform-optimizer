@@ -61,6 +61,11 @@ const defaultAuraSettings = {
         haste: .25,
         resourceGen: 0
     },
+    "fae-blessings": {
+        displayName: "Fae Blessings",
+        baseDuration: 60000,
+        maxStacks: 10
+    },
     "bloodlust": {
         displayName: "Bloodlust",
         baseDuration: 40000,
@@ -69,7 +74,7 @@ const defaultAuraSettings = {
     "dark-thoughts": {
         displayName: "Dark Thoughts",
         baseDuration: 15000,
-        maxStacks: 1
+        maxStacks: 5
     }
 }
 

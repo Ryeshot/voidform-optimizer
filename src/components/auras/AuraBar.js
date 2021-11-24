@@ -35,20 +35,25 @@ const buffs = [
     displayName: "Power Infusion"
   },
   {
+    name: "fae-blessings",
+    icon: "images/fae-blessings.jpg",
+    displayName: "Fae Blessings"
+  },
+  {
     name: "bloodlust",
     icon: "images/bloodlust.jpg",
     displayName: "Bloodlust"
+  },
+  {
+    name: "dark-thoughts",
+    icon: "images/dark-thoughts.jpg",
+    displayName: "Dark Thoughts"
   }
 ]
 
 const AuraBar = (props) => {
-
-    const {auras, triggerEvent, settings, haste} = props
+    const {auras, triggerEvent, settings, effectHandler, haste} = props
     const {lingeringInsanity, voidform} = settings 
-
-    const [state, triggerAuraEvent] = useReducer((state, action) => {
-
-    })
 
     return (
         <div className="aura-container">
@@ -56,34 +61,38 @@ const AuraBar = (props) => {
           ? <Voidform 
             {...voidform}
             {...auras.voidform}
-            triggerEvent={triggerEvent}/> 
+            triggerEvent={triggerEvent}
+            effectHandler={effectHandler} /> 
           : null}
           {auras.lingeringInsanity.active
           ? <LingeringInsanity 
             {...lingeringInsanity}
             {...auras.lingeringInsanity} 
             inVoidform={auras.voidform.active} 
-            triggerEvent={triggerEvent}/>
+            triggerEvent={triggerEvent}
+            effectHandler={effectHandler} />
           : null}
           {dots.map(dot => 
             auras[dot.name].active
             ? <DamageOverTime
+                key={`dot-${dot.name}`}
                 {...dot}
                 {...auras[dot.name]}
                 {...settings[dot.name]}
                 haste={haste}
-                triggerEvent={triggerEvent} 
-              />
+                triggerEvent={triggerEvent}
+                effectHandler={effectHandler} />
             : null
           )}
           {buffs.map(buff => 
             auras[buff.name].active
             ? <Buff
+                key={`buff-${buff.name}`}
                 {...buff}
                 {...auras[buff.name]}
                 setting={settings[buff.name]}
-                triggerEvent={triggerEvent} 
-              />
+                triggerEvent={triggerEvent}
+                effectHandler={effectHandler} />
             : null
           )}
         </div>       

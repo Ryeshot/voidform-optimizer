@@ -5,7 +5,7 @@ import {auraEventHandler} from "../../utils/eventHandler"
 
 const Voidform = (props) => {
 
-    const { type, startTime, drainRate, drainStart, hasteStack, hasteStart, maxStacks, baseDuration, paused, active, triggerEvent } = props
+    const { type, startTime, drainRate, drainStart, hasteStack, hasteStart, maxStacks, baseDuration, paused, active, triggerEvent, effectHandler } = props
     const interval = 100
     const displayName = "Voidform"
     const name = "voidform"
@@ -53,6 +53,7 @@ const Voidform = (props) => {
             if (i % frequency === 0 && (!maxStacks || i / frequency < maxStacks)) {
                 //gain a stack of vf
                 triggerEvent({
+                    category: "AURA",
                     type: "VOIDFORM_UPDATE",
                     payload: hasteStack
                 })
@@ -73,7 +74,7 @@ const Voidform = (props) => {
                 break
             case "static":
                 const time = Date.now()
-                const eventHandler = auraEventHandler(name, triggerEvent)
+                const eventHandler = auraEventHandler(name, triggerEvent, effectHandler)
 
                 eventHandler.handleEvent("AURA_START", {
                     name,
@@ -83,7 +84,7 @@ const Voidform = (props) => {
                     haste: hasteStart
                 })
 
-                timer = startBuff(setDuration, startTimeRef, baseDuration, eventHandler, {name})
+                timer = startBuff(setDuration, startTimeRef, baseDuration, 0, eventHandler, {name})
             default:
         }
 
