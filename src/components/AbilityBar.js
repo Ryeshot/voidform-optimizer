@@ -4,6 +4,7 @@ import GlobalCooldown from "./GlobalCooldown"
 import CastBar from "./CastBar"
 import {spellQueueWindow} from "../lib/constants"
 import "./AbilityBar.css"
+import useObserver from '../utils/hooks/useObserver';
 
 const AbilityBar = (props) => {
 
@@ -18,10 +19,7 @@ const AbilityBar = (props) => {
 
     const spellQueueTimer = useRef()
 
-    const [observers, setObservers] = useState([])
-
-    const observersRef = useRef(observers)
-    observersRef.current = observers
+    const [observers, subscribe, unsubscribe] = useObserver()
 
     const [hasReset, setHasReset] = useState(reset)
 
@@ -79,7 +77,7 @@ const AbilityBar = (props) => {
 
         const now = Date.now()
 
-        observersRef.current.forEach(o => {
+        observers.forEach(o => {
             if(o.keybind === e.key) {
                 e.preventDefault()
                 const abilityCooldownRemaining = o.getRemainingCooldown()
@@ -115,16 +113,8 @@ const AbilityBar = (props) => {
         GlobalCooldown.start(gcd, dispatch)
 
         setTimeout(() => {
-            observersRef.current.forEach(o => o.notify())
+            observers.forEach(o => o.notify())
         }, 0)
-    }
-
-    const subscribe = (observer) => {
-        setObservers(o => [...o, observer])
-    }
-
-    const unsubscribe = (source) => {
-        setObservers(obs => obs.filter(o => o.source !== source))
     }
 
     const getAbilityCooldown = (k) => {
@@ -146,7 +136,7 @@ const AbilityBar = (props) => {
         clearTimeout(spellQueueTimer.current)
 
         spellQueueTimer.current = setTimeout(() => {
-            if(!observersRef.current.find(o => o.source === name)) return
+            if(!observers.find(o => o.source === name)) return
             execute()
         }, remaining)
     }
