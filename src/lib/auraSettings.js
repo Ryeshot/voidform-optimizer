@@ -53,7 +53,7 @@ const defaultAuraSettings = {
         displayName: "Shadowfiend",
         baseDuration: 15000,
         ticks: 10,
-        resource: 3
+        resource: 0
     },
     "power-infusion": {
         displayName: "Power Infusion",

@@ -21,6 +21,16 @@ const updateAbilitiesAfterResourceChange = (abilitySettings, abilities, resource
     })
 }
 
+const updateAurasAfterResourceChange = (auraSettings, auras, resource) => {
+    if(!auraSettings.voidform.type === 'insanity') return
+    if(resource > 0) return
+    auras.voidform.active = false
+    auras.voidform.startTime = 0
+    auras.voidform.stacks = 0
+}
+
+const getAuraFromState = (name, auras) => ({ ...auras[name] })
+
 export default (auraSettings, abilitySettings, abilities) => [(state, action) => {
     const {auras} = state
     const payload = action.payload
@@ -40,6 +50,7 @@ export default (auraSettings, abilitySettings, abilities) => [(state, action) =>
                 resource = Math.max(Math.min(state.resource + resource, 100), 0)
 
                 updateAbilitiesAfterResourceChange(abilitySettings, abilities, resource, auras.voidform)
+                updateAurasAfterResourceChange(auraSettings, auras, resource)
 
                 return {...state, resource}
             case "ABILITY_ACTIVATE":
@@ -50,6 +61,17 @@ export default (auraSettings, abilitySettings, abilities) => [(state, action) =>
                 var {name} = payload
                 abilities[name].unusable = true
                 return state
+            case "DOT_EXTEND":
+                const dotsToExtend = ["shadow-word-pain", "vampiric-touch"]
+                const extension = abilitySettings['void-bolt'].extension || 0
+                const updatedAuras = dotsToExtend.reduce((prev, name) => {
+                    const aura = getAuraFromState(name, state.auras)
+                    if(!aura.active) return prev;
+                    aura.maxDuration += extension
+                    return {...prev, [name]: aura}
+                }, {})
+                return {...state, auras: {...state.auras, ...updatedAuras }
+            }
         }
         
     return {

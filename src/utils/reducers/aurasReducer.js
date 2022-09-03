@@ -30,7 +30,7 @@ export default (state, action) => {
       break
     case "VOIDFORM_UPDATE":
       voidform.stacks++
-      voidform.haste += payload
+      voidform.haste += payload.hasteStack
       break;
     case "VOIDFORM_START":
       voidform.active = true

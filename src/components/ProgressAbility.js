@@ -100,7 +100,6 @@ const ProgressAbility = (props) => {
         }
 
         ability.current = Ability.create(type, initialState, setState, onExecute, dispatch, effectHandler)
-        
         subscribe({
             source: name,
             keybind: key,

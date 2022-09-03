@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Aura from "./Aura"
-import {startBuff} from "./Buff"
+import Aura, { createAuraTimer } from "./Aura"
 import {auraEventHandler} from "../../utils/eventHandler"
 
 const Voidform = (props) => {
@@ -55,7 +54,7 @@ const Voidform = (props) => {
                 triggerEvent({
                     category: "AURA",
                     type: "VOIDFORM_UPDATE",
-                    payload: hasteStack
+                    payload: { hasteStack }
                 })
                 setStacks(stacks => stacks + 1)
             }
@@ -76,22 +75,29 @@ const Voidform = (props) => {
                 const time = Date.now()
                 const eventHandler = auraEventHandler(name, triggerEvent, effectHandler)
 
-                eventHandler.handleEvent("AURA_START", {
-                    name,
+                const startingEventPayload = { 
                     source: name,
                     duration: baseDuration,
                     time,
                     haste: hasteStart
-                })
+                }
 
-                timer = startBuff(setDuration, startTimeRef, baseDuration, 0, eventHandler, {name})
+                const auraBuilder = 
+                    createAuraTimer(name, eventHandler)
+                    .setStartingEvent("AURA_START", () => startingEventPayload)
+                if(hasteStack) 
+                    auraBuilder.addUpdateEvent("AURA_UPDATE", () => {
+                        setStacks(stacks => stacks + 1)
+                        return { hasteStack }
+                    }, { interval: 1000 })
+                timer = auraBuilder.start(setDuration, startTimeRef, baseDuration)
             default:
         }
 
         return () => {
             clearInterval(timer)
-
             triggerEvent({
+                category: "AURA",
                 type: "VOIDFORM_END",
                 payload: {
                     time: Date.now(),

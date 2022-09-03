@@ -53,8 +53,8 @@ class Ability {
         const now = Date.now()
         const startTime = this.state.cooldown.startTime.current
         const duration = startTime ? this.state.cooldown.duration.current : 0
-        const charges = this.state.charges.current.current
-        const remaining = charges == 0 ? ((startTime || now) + duration) - now : 0
+        const charges = this.state.charges.current.current || 0
+        const remaining = charges === 0 ? ((startTime || now) + duration) - now : 0
         return remaining
     }
 
@@ -69,7 +69,6 @@ class Ability {
             let charges = this.state.charges.current.current
             let maxCharges = this.state.charges.maxCharges.current
             let remaining = (startTime + duration) - now
-            console.log(maxCharges)
 
             if(remaining <= interval) {
                 if(maxCharges) {

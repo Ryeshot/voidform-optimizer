@@ -2,7 +2,7 @@ const auraEvents = {
     "voidform": {
         onEvent: {
             "AURA_START": ["AURA_BEGIN", "HASTE_UPDATE"],
-            "AURA_UPDATE": [],
+            "AURA_UPDATE": ["VOIDFORM_UPDATE"],
             "AURA_TIME_UPDATE": [],
             "AURA_END": ["AURA_END"]
         }

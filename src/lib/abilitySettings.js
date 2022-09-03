@@ -77,12 +77,13 @@ export default {
     },
     "shadowfiend": {
         cooldown: 180000,
-        resource: 3,
+        resource: 0,
         type: "instant"
     },
     "power-infusion": {
         cooldown: 120000,
-        type: "instant"
+        type: "instant",
+        ignoreGcd: true
     },
     "fae-blessings": {
         cooldown: 90000,
